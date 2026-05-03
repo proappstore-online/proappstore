@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProAppStore — Premium Web Apps</title>
+  <meta name="description" content="Advanced web apps with premium features. Cloud sync, AI, collaboration, and more. The paid counterpart to FreeAppStore." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fafaf9;
+      --surface: #ffffff;
+      --ink: #1a1a1a;
+      --muted: #6b6b6b;
+      --pro: #7c3aed;
+      --pro-soft: #f5f3ff;
+      --free: #2563eb;
+      --free-soft: #eff6ff;
+      --border: #e5e5e5;
+      --radius: 1.25rem;
+      --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 4px 20px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.06);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f0f0f;
+        --surface: #1a1a1a;
+        --ink: #f0f0f0;
+        --muted: #999;
+        --pro: #a78bfa;
+        --pro-soft: #1e1b2e;
+        --free: #60a5fa;
+        --free-soft: #1e293b;
+        --border: #2a2a2a;
+        --shadow: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.3);
+        --shadow-lg: 0 4px 20px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.4);
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    header {
+      padding: 2rem 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .logo span { color: var(--pro); }
+
+    .header-links a {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 1.5rem;
+    }
+
+    .header-links a:hover { color: var(--ink); }
+    .header-links .free-link { color: var(--free); }
+
+    .hero {
+      text-align: center;
+      padding: 4rem 0 3rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--pro);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .coming-soon {
+      background: var(--pro-soft);
+      border: 1px solid var(--pro);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      margin: 2rem auto 4rem;
+      max-width: 600px;
+    }
+
+    .coming-soon h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--pro);
+      margin-bottom: 0.5rem;
+    }
+
+    .coming-soon p {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .what-section {
+      padding: 2rem 0 4rem;
+    }
+
+    .what-section h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .feature h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .feature p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .relationship {
+      padding: 3rem 0 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .relationship h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .relationship > p {
+      color: var(--muted);
+      max-width: 650px;
+      margin-bottom: 2rem;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      max-width: 700px;
+    }
+
+    @media (max-width: 600px) {
+      .comparison { grid-template-columns: 1fr; }
+    }
+
+    .comparison-col {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .comparison-col h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .comparison-col.free h4 { color: var(--free); }
+    .comparison-col.pro h4 { color: var(--pro); }
+
+    .comparison-col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .comparison-col li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      padding: 0.3rem 0;
+    }
+
+    .transparency {
+      padding: 3rem 0 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .transparency h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .transparency p {
+      color: var(--muted);
+      max-width: 650px;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--free);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">Pro<span>App</span>Store</div>
+      <nav class="header-links">
+        <a href="#what">What's Pro</a>
+        <a href="#relationship">Free vs Pro</a>
+        <a href="https://freeappstore.online" class="free-link">Free</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>More power.<br><em>Worth paying for.</em></h1>
+      <p>Advanced web apps with premium features. Cloud sync, AI assistance, collaboration, and more. The paid counterpart to FreeAppStore.</p>
+    </section>
+
+    <div class="coming-soon">
+      <h2>Coming soon</h2>
+      <p>Pro apps are currently in development. In the meantime, check out our free apps at <a href="https://freeappstore.online" style="color:var(--free);text-decoration:none;font-weight:600;">FreeAppStore.online</a> — they're fully usable today.</p>
+    </div>
+
+    <section class="what-section" id="what">
+      <h2>What makes an app "Pro"</h2>
+      <div class="features">
+        <div class="feature">
+          <h3>Cloud sync</h3>
+          <p>Your progress syncs across all your devices. Start on your phone, continue on desktop.</p>
+        </div>
+        <div class="feature">
+          <h3>AI-powered</h3>
+          <p>Smart features that adapt to you — personalized learning paths, intelligent recommendations, and AI assistance.</p>
+        </div>
+        <div class="feature">
+          <h3>Advanced features</h3>
+          <p>Deeper functionality, more content, and tools designed for power users who want to go further.</p>
+        </div>
+        <div class="feature">
+          <h3>Collaboration</h3>
+          <p>Share progress, compete with friends, or work together. Social features that enhance the experience.</p>
+        </div>
+        <div class="feature">
+          <h3>Priority updates</h3>
+          <p>New features ship to Pro first. You're directly funding the development of the apps you use.</p>
+        </div>
+        <div class="feature">
+          <h3>Support development</h3>
+          <p>Your payment keeps both the free and pro ecosystem alive. A sustainable model for sustainable apps.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="relationship" id="relationship">
+      <h2>Free and Pro — one ecosystem</h2>
+      <p>FreeAppStore and ProAppStore are two sides of the same platform. They're designed to work together. Switching between them is seamless — no lock-in, no data loss.</p>
+
+      <div class="comparison">
+        <div class="comparison-col free">
+          <h4>FreeAppStore.online</h4>
+          <ul>
+            <li>Always 100% free</li>
+            <li>Will never charge you</li>
+            <li>Core features, well-built</li>
+            <li>Local storage only</li>
+            <li>No account needed</li>
+            <li>Open source</li>
+          </ul>
+        </div>
+        <div class="comparison-col pro">
+          <h4>ProAppStore.online</h4>
+          <ul>
+            <li>Always paid, always transparent</li>
+            <li>Advanced features and content</li>
+            <li>Cloud sync across devices</li>
+            <li>AI and collaboration tools</li>
+            <li>Account required</li>
+            <li>Funds the entire ecosystem</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="transparency">
+      <h2>Our promise</h2>
+      <p>We're transparent about what costs money and why. Pro apps exist because some features genuinely require infrastructure — servers, AI APIs, cloud storage. That costs money to run.</p>
+      <p>We will never move free features behind a paywall. The free apps will always be complete, useful tools. Pro simply offers <em>more</em> for those who want it.</p>
+      <p>If you're happy with the free version — stay there. It's not a trial. It's not limited. It's the real thing.</p>
+    </section>
+
+    <footer>
+      <p>ProAppStore.online &mdash; premium apps, transparent pricing.</p>
+      <p style="margin-top:0.5rem;">Want the free versions? Visit <a href="https://freeappstore.online">FreeAppStore.online</a></p>
+    </footer>
+  </div>
+</body>
+</html>
