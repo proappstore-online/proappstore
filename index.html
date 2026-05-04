@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProAppStore — Premium Web Apps</title>
-  <meta name="description" content="Advanced web apps with premium features. Cloud sync, AI, collaboration, and more. The paid counterpart to FreeAppStore." />
+  <title>ProAppStore — The Fair App Platform</title>
+  <meta name="description" content="The app marketplace that takes only 10%. One account, secure API key vault, transparent token pricing. Developers keep 90% of revenue." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -15,8 +17,11 @@
       --muted: #6b6b6b;
       --pro: #7c3aed;
       --pro-soft: #f5f3ff;
+      --pro-glow: rgba(124, 58, 237, 0.1);
       --free: #2563eb;
       --free-soft: #eff6ff;
+      --green: #059669;
+      --green-soft: #ecfdf5;
       --border: #e5e5e5;
       --radius: 1.25rem;
       --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.06);
@@ -31,8 +36,11 @@
         --muted: #999;
         --pro: #a78bfa;
         --pro-soft: #1e1b2e;
+        --pro-glow: rgba(167, 139, 250, 0.08);
         --free: #60a5fa;
         --free-soft: #1e293b;
+        --green: #34d399;
+        --green-soft: #064e3b;
         --border: #2a2a2a;
         --shadow: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.3);
         --shadow-lg: 0 4px 20px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.4);
@@ -79,9 +87,10 @@
     .header-links a:hover { color: var(--ink); }
     .header-links .free-link { color: var(--free); }
 
+    /* Hero */
     .hero {
       text-align: center;
-      padding: 4rem 0 3rem;
+      padding: 5rem 0 4rem;
     }
 
     .hero h1 {
@@ -97,146 +106,237 @@
       color: var(--pro);
     }
 
-    .hero p {
-      font-size: 1.2rem;
+    .hero .subtitle {
+      font-size: 1.25rem;
       color: var(--muted);
-      max-width: 600px;
-      margin: 0 auto;
+      max-width: 640px;
+      margin: 0 auto 2rem;
     }
 
-    .coming-soon {
-      background: var(--pro-soft);
-      border: 1px solid var(--pro);
-      border-radius: var(--radius);
-      padding: 2rem;
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin-top: 2.5rem;
+    }
+
+    .hero-stat {
       text-align: center;
-      margin: 2rem auto 4rem;
-      max-width: 600px;
     }
 
-    .coming-soon h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
+    .hero-stat .number {
+      font-size: 2.5rem;
+      font-weight: 800;
       color: var(--pro);
-      margin-bottom: 0.5rem;
+      letter-spacing: -0.03em;
     }
 
-    .coming-soon p {
-      font-size: 0.95rem;
+    .hero-stat .label {
+      font-size: 0.85rem;
       color: var(--muted);
+      font-weight: 500;
     }
 
-    .what-section {
-      padding: 2rem 0 4rem;
+    /* Sections */
+    section {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border);
     }
 
-    .what-section h2 {
+    section h2 {
       font-size: 1.8rem;
       font-weight: 800;
       letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.75rem;
     }
 
-    .features {
+    section > .section-desc {
+      color: var(--muted);
+      max-width: 650px;
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+
+    /* How It Works */
+    .steps {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      counter-reset: step;
     }
 
-    .feature {
+    .step {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.5rem;
+      padding: 1.75rem 1.5rem;
+      counter-increment: step;
+      position: relative;
     }
 
-    .feature h3 {
+    .step::before {
+      content: counter(step);
+      display: block;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--pro);
+      opacity: 0.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .step h3 {
       font-size: 1rem;
       font-weight: 700;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.4rem;
     }
 
-    .feature p {
+    .step p {
       font-size: 0.88rem;
       color: var(--muted);
       line-height: 1.5;
     }
 
-    .relationship {
-      padding: 3rem 0 4rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .relationship h2 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
-    }
-
-    .relationship > p {
-      color: var(--muted);
-      max-width: 650px;
-      margin-bottom: 2rem;
-    }
-
-    .comparison {
+    /* For Developers */
+    .dev-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1.25rem;
-      max-width: 700px;
     }
 
-    @media (max-width: 600px) {
-      .comparison { grid-template-columns: 1fr; }
-    }
-
-    .comparison-col {
+    .dev-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1.5rem;
     }
 
-    .comparison-col h4 {
+    .dev-card h3 {
       font-size: 1rem;
       font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .dev-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Pricing */
+    .pricing-highlight {
+      background: var(--pro-soft);
+      border: 1px solid var(--pro);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      max-width: 700px;
+      margin-bottom: 2rem;
+    }
+
+    .pricing-highlight h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--pro);
       margin-bottom: 0.75rem;
     }
 
-    .comparison-col.free h4 { color: var(--free); }
-    .comparison-col.pro h4 { color: var(--pro); }
-
-    .comparison-col ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .comparison-col li {
-      font-size: 0.85rem;
+    .pricing-highlight p {
+      font-size: 0.95rem;
       color: var(--muted);
-      padding: 0.3rem 0;
+      margin-bottom: 0.5rem;
     }
 
-    .transparency {
-      padding: 3rem 0 4rem;
+    .pricing-comparison {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+      max-width: 700px;
+    }
+
+    .pricing-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .pricing-item .store-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.35rem;
+    }
+
+    .pricing-item .rate {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .pricing-item .rate-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .pricing-item.ours .rate { color: var(--green); }
+    .pricing-item.theirs .rate { color: var(--muted); opacity: 0.6; }
+
+    /* Security */
+    .security-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .security-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+    }
+
+    .security-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .security-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* FAQ */
+    .faq-list {
+      max-width: 700px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 0;
+    }
+
+    .faq-item:first-child {
       border-top: 1px solid var(--border);
     }
 
-    .transparency h2 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
+    .faq-item h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
     }
 
-    .transparency p {
+    .faq-item p {
+      font-size: 0.9rem;
       color: var(--muted);
-      max-width: 650px;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
+      line-height: 1.6;
     }
 
+    /* Footer */
     footer {
       padding: 3rem 0;
       border-top: 1px solid var(--border);
@@ -249,6 +349,15 @@
       color: var(--free);
       text-decoration: none;
     }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .hero-stats { gap: 2rem; }
+      .pricing-comparison { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -256,92 +365,173 @@
     <header>
       <div class="logo">Pro<span>App</span>Store</div>
       <nav class="header-links">
-        <a href="#what">What's Pro</a>
-        <a href="#relationship">Free vs Pro</a>
-        <a href="https://freeappstore.online" class="free-link">Free</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#developers">Developers</a>
+        <a href="#pricing">Pricing</a>
+        <a href="https://freeappstore.online" class="free-link">FreeAppStore</a>
       </nav>
     </header>
 
-    <section class="hero">
-      <h1>More power.<br><em>Worth paying for.</em></h1>
-      <p>Advanced web apps with premium features. Cloud sync, AI assistance, collaboration, and more. The paid counterpart to FreeAppStore.</p>
-    </section>
-
-    <div class="coming-soon">
-      <h2>Coming soon</h2>
-      <p>Pro apps are currently in development. In the meantime, check out our free apps at <a href="https://freeappstore.online" style="color:var(--free);text-decoration:none;font-weight:600;">FreeAppStore.online</a> — they're fully usable today.</p>
-    </div>
-
-    <section class="what-section" id="what">
-      <h2>What makes an app "Pro"</h2>
-      <div class="features">
-        <div class="feature">
-          <h3>Cloud sync</h3>
-          <p>Your progress syncs across all your devices. Start on your phone, continue on desktop.</p>
+    <!-- Hero -->
+    <section class="hero" style="border-top: none; padding-top: 5rem;">
+      <h1>The app platform that<br><em>takes only 10%.</em></h1>
+      <p class="subtitle">One account. One billing relationship. Secure API key vault. Developers keep 90% of every dollar. The fairest app marketplace ever built.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="number">10%</div>
+          <div class="label">Platform commission</div>
         </div>
-        <div class="feature">
-          <h3>AI-powered</h3>
-          <p>Smart features that adapt to you — personalized learning paths, intelligent recommendations, and AI assistance.</p>
+        <div class="hero-stat">
+          <div class="number">90%</div>
+          <div class="label">Goes to the developer</div>
         </div>
-        <div class="feature">
-          <h3>Advanced features</h3>
-          <p>Deeper functionality, more content, and tools designed for power users who want to go further.</p>
-        </div>
-        <div class="feature">
-          <h3>Collaboration</h3>
-          <p>Share progress, compete with friends, or work together. Social features that enhance the experience.</p>
-        </div>
-        <div class="feature">
-          <h3>Priority updates</h3>
-          <p>New features ship to Pro first. You're directly funding the development of the apps you use.</p>
-        </div>
-        <div class="feature">
-          <h3>Support development</h3>
-          <p>Your payment keeps both the free and pro ecosystem alive. A sustainable model for sustainable apps.</p>
+        <div class="hero-stat">
+          <div class="number">$0</div>
+          <div class="label">Markup on token costs</div>
         </div>
       </div>
     </section>
 
-    <section class="relationship" id="relationship">
-      <h2>Free and Pro — one ecosystem</h2>
-      <p>FreeAppStore and ProAppStore are two sides of the same platform. They're designed to work together. Switching between them is seamless — no lock-in, no data loss.</p>
-
-      <div class="comparison">
-        <div class="comparison-col free">
-          <h4>FreeAppStore.online</h4>
-          <ul>
-            <li>Always 100% free</li>
-            <li>Will never charge you</li>
-            <li>Core features, well-built</li>
-            <li>Local storage only</li>
-            <li>No account needed</li>
-            <li>Open source</li>
-          </ul>
+    <!-- How It Works (for users) -->
+    <section id="how-it-works">
+      <h2>How it works for users</h2>
+      <p class="section-desc">One account gives you access to every pro app. Subscribe only to the apps you use. Manage everything from a single dashboard.</p>
+      <div class="steps">
+        <div class="step">
+          <h3>Create one account</h3>
+          <p>A single ProAppStore account works across every app in the ecosystem. One login, everywhere.</p>
         </div>
-        <div class="comparison-col pro">
-          <h4>ProAppStore.online</h4>
-          <ul>
-            <li>Always paid, always transparent</li>
-            <li>Advanced features and content</li>
-            <li>Cloud sync across devices</li>
-            <li>AI and collaboration tools</li>
-            <li>Account required</li>
-            <li>Funds the entire ecosystem</li>
-          </ul>
+        <div class="step">
+          <h3>Subscribe to apps</h3>
+          <p>Choose the apps you want. Each has its own price set by the developer. Subscribe and cancel anytime.</p>
+        </div>
+        <div class="step">
+          <h3>Store your API keys</h3>
+          <p>Add your OpenAI, Anthropic, or other API keys once. Apps access them through our secure proxy — developers never see your keys.</p>
+        </div>
+        <div class="step">
+          <h3>Use and manage</h3>
+          <p>One dashboard for all subscriptions, token usage, and costs. Full transparency, no surprises.</p>
         </div>
       </div>
     </section>
 
-    <section class="transparency">
-      <h2>Our promise</h2>
-      <p>We're transparent about what costs money and why. Pro apps exist because some features genuinely require infrastructure — servers, AI APIs, cloud storage. That costs money to run.</p>
-      <p>We will never move free features behind a paywall. The free apps will always be complete, useful tools. Pro simply offers <em>more</em> for those who want it.</p>
-      <p>If you're happy with the free version — stay there. It's not a trial. It's not limited. It's the real thing.</p>
+    <!-- For Developers -->
+    <section id="developers">
+      <h2>For developers</h2>
+      <p class="section-desc">Build the app. Set your price. We handle everything else — billing, auth, key management, user accounts. You focus on your product.</p>
+      <div class="dev-grid">
+        <div class="dev-card">
+          <h3>No billing code</h3>
+          <p>We handle Stripe, invoices, refunds, and subscription management. You never touch payment infrastructure.</p>
+        </div>
+        <div class="dev-card">
+          <h3>No auth system</h3>
+          <p>Shared authentication across all pro apps. Users log in once — your app gets a verified identity.</p>
+        </div>
+        <div class="dev-card">
+          <h3>No key management</h3>
+          <p>Need AI API access? Users bring their own keys, stored in our vault. Call our proxy — we handle the rest.</p>
+        </div>
+        <div class="dev-card">
+          <h3>Keep 90% of revenue</h3>
+          <p>You set the subscription price. We take 10% for platform services. The rest is yours, paid out via Stripe Connect.</p>
+        </div>
+        <div class="dev-card">
+          <h3>Free counterpart included</h3>
+          <p>Every pro app has a free version on FreeAppStore. Users can always fall back — no lock-in builds trust.</p>
+        </div>
+        <div class="dev-card">
+          <h3>Focus on product</h3>
+          <p>Stop rebuilding infrastructure. We provide the platform layer so you can spend 100% of your time on what makes your app great.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing / Commission -->
+    <section id="pricing">
+      <h2>Pricing and commission</h2>
+      <p class="section-desc">The lowest commission in the industry. Token costs are passed through at cost with full transparency.</p>
+
+      <div class="pricing-highlight">
+        <h3>10% commission. That's it.</h3>
+        <p>Developer sets the subscription price. We handle billing, auth, key management, and user infrastructure. Developer gets 90% of every payment.</p>
+        <p>Token costs (AI/API usage) are billed separately to users at transparent per-model pricing with zero markup.</p>
+      </div>
+
+      <div class="pricing-comparison">
+        <div class="pricing-item ours">
+          <div class="store-name">ProAppStore</div>
+          <div class="rate">10%</div>
+          <div class="rate-label">commission</div>
+        </div>
+        <div class="pricing-item theirs">
+          <div class="store-name">Apple App Store</div>
+          <div class="rate">30%</div>
+          <div class="rate-label">commission</div>
+        </div>
+        <div class="pricing-item theirs">
+          <div class="store-name">Google Play</div>
+          <div class="rate">30%</div>
+          <div class="rate-label">commission</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security / API Vault -->
+    <section id="security">
+      <h2>Secure API key vault</h2>
+      <p class="section-desc">Your API keys are yours. Store them once on ProAppStore, use them across apps — without ever exposing them to developers.</p>
+      <div class="security-grid">
+        <div class="security-card">
+          <h3>Keys never leave the vault</h3>
+          <p>When an app needs to call an AI model, the request goes through our secure proxy. The app sends the prompt — we attach your key, make the call, and return the result. The developer never sees your API key.</p>
+        </div>
+        <div class="security-card">
+          <h3>Transparent token billing</h3>
+          <p>AI/API token usage is billed separately from app subscriptions. You see exactly which model was used, how many tokens, and what it cost. Per-model pricing, no markup.</p>
+        </div>
+        <div class="security-card">
+          <h3>One place to manage</h3>
+          <p>Add your OpenAI, Anthropic, or other keys once. Revoke access per-app anytime. Full audit log of which apps used your keys and when.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>What if I don't want to pay?</h3>
+          <p>Every pro app has a free counterpart on <a href="https://freeappstore.online" style="color:var(--free);text-decoration:none;font-weight:600;">FreeAppStore.online</a>. The free version is always available — it's not a trial, it's a full app. Pro adds cloud sync, AI features, and collaboration on top.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How does billing work?</h3>
+          <p>You subscribe to individual apps through ProAppStore. One payment method, one dashboard. App subscriptions are fixed monthly prices set by developers. Token costs (if you use AI features with your own keys) are billed separately based on actual usage.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Why do developers only pay 10%?</h3>
+          <p>We believe infrastructure shouldn't eat most of a developer's revenue. Our platform handles billing, auth, and key management efficiently. 10% covers our costs and lets developers keep what they earn.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Is my API key safe?</h3>
+          <p>Yes. Your keys are encrypted at rest and never exposed to app developers. Apps request AI completions through our proxy — they send prompts, we attach your key, make the API call, and return results. You can revoke access per-app at any time.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Can I cancel anytime?</h3>
+          <p>Yes. Cancel any subscription instantly from your dashboard. You keep access until the end of your billing period. No lock-in — you can always fall back to the free version of any app.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What's Stripe Connect?</h3>
+          <p>ProAppStore is the platform of record. Users subscribe through us, not through individual apps. This means one billing relationship for users and instant payouts for developers, all powered by Stripe Connect.</p>
+        </div>
+      </div>
     </section>
 
     <footer>
-      <p>ProAppStore.online &mdash; premium apps, transparent pricing.</p>
-      <p style="margin-top:0.5rem;">Want the free versions? Visit <a href="https://freeappstore.online">FreeAppStore.online</a></p>
+      <p>ProAppStore.online — the fair app platform. 10% commission. Developers keep 90%.</p>
+      <p style="margin-top:0.5rem;">Every pro app has a free version at <a href="https://freeappstore.online">FreeAppStore.online</a></p>
     </footer>
   </div>
 </body>
