@@ -1,0 +1,17 @@
+{
+  "apps": [
+    {
+      "id": "meetup",
+      "name": "Meetup",
+      "category": "social",
+      "icon": "&#128197;",
+      "iconBg": "#f5f3ff",
+      "description": "Create events, groups, and real-time chat. RSVP tracking, attendee counts, and community management.",
+      "appUrl": "https://meetup.proappstore.online",
+      "repo": "proappstore-online/meetup",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": ["Create events", "Event chat", "Manage groups"]
+    }
+  ]
+}
