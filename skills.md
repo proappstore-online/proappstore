@@ -86,6 +86,10 @@ const sub = await app.subscription.status()
 await app.subscription.openCheckout({ priceId, successUrl, cancelUrl })
 await app.subscription.openPortal(returnUrl)
 
+// Per-app SQL database (full D1 access)
+await app.db.execute('CREATE TABLE events (id TEXT PK, title TEXT, city TEXT)')
+const { rows } = await app.db.query('SELECT * FROM events WHERE city = ?', ['SF'])
+await app.db.execute('INSERT INTO events VALUES (?, ?, ?)', [id, 'Meetup', 'SF'])
 // License keys
 const license = await app.license.current()
 await app.license.validate('KEY-123')
@@ -99,6 +103,7 @@ await app.license.validate('KEY-123')
 |---------|-----------|-----------|
 | Auth + KV + Counters + Rooms + Proxy | Included | Included (same SDK) |
 | KV storage limit | 1MB/user | 10MB/user |
+| Per-app SQL database | No (use collections) | Yes (full D1, custom schema) |
 | Real-time rooms | 5 rooms, 50 user-hours/day | Uncapped |
 | Subscriptions (Stripe) | No | Yes |
 | License keys | No | Yes |
