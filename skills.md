@@ -11,25 +11,84 @@ See https://proappstore.online/skills.md for platform skills.
 
 ## What is ProAppStore?
 
-The paid counterpart to FreeAppStore. A marketplace for premium web apps with cloud sync, server-side AI, real-time collaboration, and Stripe-powered subscriptions. Developers set their own subscription prices; the platform takes a 10% commission.
+The paid counterpart to FreeAppStore. Premium web apps with subscriptions, real-time collaboration, AI features, and Stripe-powered billing. One SDK, one import — everything FreeAppStore has, plus subscription management and license keys.
 
 - **Store**: https://proappstore.online
-- **Free tier**: https://freeappstore.online (see its [skills.md](https://freeappstore.online/skills.md))
+- **Dashboard**: https://dashboard.proappstore.online
+- **API**: https://api.proappstore.online
+- **Free tier**: https://freeappstore.online
 - **GitHub org**: https://github.com/proappstore-online
 
 ---
 
-## Quick start — contribute to the platform
+## Per-repo CLAUDE.md convention
+
+Same as FAS. Keep it minimal — only what's unique to that repo:
+
+````markdown
+# <name>
+
+<one-line description>
+
+- Subdomain: `<name>.proappstore.online`
+- Dev:    `pnpm install && pnpm dev`
+- Build:  `pnpm build`
+- Deploy: `git push origin main` (auto-deploys via Cloudflare Pages)
+
+For platform conventions, read
+https://proappstore.online/skills.md
+before writing or changing anything.
+````
+
+---
+
+## SDK — one import, all features
 
 ```bash
-# Clone the platform monorepo
-gh repo clone proappstore-online/platform pas-platform
-cd pas-platform
+npm i @proappstore/sdk
+```
 
-# Install and run
-pnpm install
-pnpm build
-pnpm typecheck
+```ts
+import { initPro } from '@proappstore/sdk'
+
+const app = initPro({ appId: 'my-app' })
+
+// Auth (GitHub OAuth — shared identity with FreeAppStore)
+await app.auth.init()
+app.auth.onChange(user => { ... })
+app.auth.signIn()
+app.auth.signOut()
+
+// Per-user KV storage
+await app.kv.set('key', value)
+await app.kv.get('key')
+await app.kv.list({ prefix: 'note:' })
+await app.kv.getMany(keys)
+await app.kv.delete('key')
+
+// Shared counters (cross-user, atomic)
+await app.counters.increment('views')
+await app.counters.get('views')
+await app.counters.list()
+
+// Real-time rooms (WebSocket)
+const room = app.rooms.join('room-id')
+room.send(data)
+room.onMessage(cb)
+room.onPeers(cb)
+room.close()
+
+// Secret-injecting API proxy
+const res = await app.proxy.fetch('api.example.com/v1/data')
+
+// Subscription (Stripe)
+const sub = await app.subscription.status()
+await app.subscription.openCheckout({ priceId, successUrl, cancelUrl })
+await app.subscription.openPortal(returnUrl)
+
+// License keys
+const license = await app.license.current()
+await app.license.validate('KEY-123')
 ```
 
 ---
@@ -38,80 +97,70 @@ pnpm typecheck
 
 | Feature | Free (FAS) | Pro (PAS) |
 |---------|-----------|-----------|
-| Hosting | CF Pages (static) | CF Pages + Workers |
-| Auth | GitHub OAuth | GitHub OAuth + extended |
-| Storage | 1MB/user KV | 10MB/user KV, no user-count cap |
-| Real-time | 5 rooms × 25 connections, 50 user-hours/day | Uncapped |
-| AI | None | Server-side AI via API key vault |
-| Payments | None | Stripe Connect, developer-set pricing |
+| Auth + KV + Counters + Rooms + Proxy | Included | Included (same SDK) |
+| KV storage limit | 1MB/user | 10MB/user |
+| Real-time rooms | 5 rooms, 50 user-hours/day | Uncapped |
+| Subscriptions (Stripe) | No | Yes |
+| License keys | No | Yes |
 | Custom domain | No | Yes |
-| Cron/scheduled | No | Yes |
-| Email | No | Transactional email quota |
+| Server-side AI | No | Coming |
+| Cron/scheduled | No | Coming |
 
 ---
 
 ## Architecture
 
-Platform monorepo at `proappstore-online/platform`:
-
-| Package | Purpose |
-|---------|---------|
-| `packages/backend` | CF Worker — auth, KV, rooms, subscriptions, AI proxy |
-| `packages/cli` | `pas` CLI — scaffold, publish, manage pro apps |
-| `packages/sdk` | `@proappstore/sdk` — client library for pro features |
-
-App developers import both SDKs:
-
-```ts
-import { initApp } from '@freeappstore/sdk';   // free: auth, KV, rooms
-import { initPro } from '@proappstore/sdk';     // pro: subscriptions, AI, higher quotas
-
-const fas = initApp({ appId: 'bandmates' });
-const pas = initPro({ appId: 'bandmates' });
+```
+proappstore-online/platform     — monorepo (sdk, cli, backend)
+proappstore-online/proappstore  — store site (static HTML)
+proappstore-online/dashboard    — user account management
+proappstore-online/<app-name>   — individual app repos
 ```
 
----
+Platform monorepo packages:
 
-## IMPORTANT: What NOT to do
-
-- **Do NOT ask for API tokens, CF keys, or secrets.** All infra is automated.
-- **Do NOT provision manually.** No `wrangler` commands for setup.
-- **Do NOT deploy manually.** Push to main = auto-deploy.
-- **Do NOT handle Stripe keys directly.** The platform proxies all payment flows.
-- **Do NOT store user API keys client-side.** The API key vault handles server-side injection.
+| Package | npm | Purpose |
+|---------|-----|---------|
+| `packages/sdk` | `@proappstore/sdk` | Unified SDK (FAS + Pro) |
+| `packages/cli` | `@proappstore/cli` | CLI for publishing |
+| `packages/backend` | private | CF Worker — Stripe, subscriptions, licenses |
 
 ---
 
 ## Tech stack
 
-- TypeScript ^5.7, React ^19, Vite ^6, Tailwind CSS ^4.1, pnpm
-- Node >=22
+- TypeScript, React 19, Vite 8, Tailwind CSS 4, pnpm
+- Node >=22 (CI uses 24)
 - Backend: Cloudflare Workers + D1 + Durable Objects
-- Payments: Stripe Connect
-- AI proxy: Server-side key vault (users add keys once, apps call through proxy)
+- Payments: Stripe (checkout, portal, webhooks)
+- Publishing: OIDC trusted publishing (no stored npm tokens)
+
+---
+
+## IMPORTANT: What NOT to do
+
+- **Do NOT ask for API tokens or secrets.** All infra is automated.
+- **Do NOT deploy manually.** Push to main = auto-deploy.
+- **Do NOT scaffold from scratch.** Copy from templates.
+- **Do NOT import both SDKs.** `@proappstore/sdk` includes everything.
 
 ---
 
 ## Deployment
 
-```
-Push to main → GitHub Actions → auto-deploy
-```
-
-No manual deploy commands. Same trunk-based model as the free stores.
+Push to main → auto-deploy via CF Pages (apps) or GH Actions (backend/SDK).
 
 ---
 
-## Current status
+## Local folder structure
 
-**v0 skeleton.** Public API surfaces are defined; implementations are stubs. Production-ready modules landing iteratively.
-
----
-
-## Support
-
-| Need | Where |
-|------|-------|
-| Platform docs | This file |
-| GitHub org | https://github.com/proappstore-online |
-| Free tier guide | https://freeappstore.online/skills.md |
+```
+~/dev/stores/pas/
+├── platform/       → proappstore-online/platform
+├── proappstore/    → proappstore-online/proappstore (store site)
+├── dashboard/      → proappstore-online/dashboard
+├── apps/
+│   ├── meetup/     → proappstore-online/meetup
+│   └── ...
+└── templates/      → app scaffolding
+```
