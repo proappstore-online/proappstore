@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docs — ProAppStore</title>
+  <meta name="description" content="ProAppStore SDK documentation. Auth, database, storage, maps, subscriptions, real-time rooms, and React hooks." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Docs — ProAppStore" />
+  <meta property="og:description" content="SDK docs: auth, database, storage, maps, subscriptions, real-time rooms, hooks." />
+  <meta property="og:url" content="https://proappstore.online/docs" />
+  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="logo">Pro <span>Apps</span></a>
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/about">About</a>
+        <a href="/docs">Docs</a>
+        <a href="/roadmap">Roadmap</a>
+        <a href="/pricing">Pricing</a>
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="https://dashboard.proappstore.online">Account</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Documentation</h1>
+      <p>Everything you need to build a Pro app. One SDK, one import, full platform access.</p>
+    </div>
+
+    <div class="page-content">
+
+      <h2>Quick Start</h2>
+      <pre><code># Install the CLI
+npm i -g @proappstore/cli
+
+# Create a new app (scaffolds + provisions database)
+pas create my-app
+
+# Start developing
+cd my-app
+pnpm dev
+
+# Deploy (push to main = auto-deploy)
+git push origin main</code></pre>
+      <p>Your app is live at <code>my-app.proappstore.online</code> within minutes.</p>
+
+      <h2>Installation</h2>
+      <pre><code>npm i @proappstore/sdk
+# or
+pnpm add @proappstore/sdk</code></pre>
+
+      <h2>Initialize</h2>
+      <pre><code>import { initPro } from '@proappstore/sdk'
+
+const app = initPro({ appId: 'my-app' })</code></pre>
+      <table>
+        <thead><tr><th>Option</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>appId</code></td><td>(required)</td><td>Your app's unique identifier</td></tr>
+          <tr><td><code>fasApiBase</code></td><td><code>https://api.freeappstore.online</code></td><td>Auth API base URL</td></tr>
+          <tr><td><code>proApiBase</code></td><td><code>https://api.proappstore.online</code></td><td>Pro API base URL</td></tr>
+          <tr><td><code>dataApiBase</code></td><td><code>https://data-{appId}.proappstore.online</code></td><td>Per-app data worker URL</td></tr>
+        </tbody>
+      </table>
+
+      <h2>React Hooks (recommended)</h2>
+      <p>Hooks give you full control over your UI. Import from <code>@proappstore/sdk/hooks</code>.</p>
+
+      <h3>useProAuth</h3>
+      <p>Auth state and actions. The primary way to interact with platform identity.</p>
+      <pre><code>import { useProAuth } from '@proappstore/sdk/hooks'
+
+function App() {
+  const { user, loading, signIn, signOut, deleteAccount } = useProAuth(app)
+
+  if (loading) return &lt;p&gt;Loading...&lt;/p&gt;
+  if (!user) return &lt;button onClick={signIn}&gt;Sign in with GitHub&lt;/button&gt;
+  return &lt;p&gt;Welcome, {user.login}!&lt;/p&gt;
+}</code></pre>
+
+      <h3>useProSubscription</h3>
+      <p>Subscription state. Check if user is a paying subscriber.</p>
+      <pre><code>import { useProSubscription } from '@proappstore/sdk/hooks'
+
+function Billing() {
+  const { subscription, isPro, loading, upgrade, manageBilling } = useProSubscription(app)
+
+  if (!isPro) return &lt;button onClick={() =&gt; upgrade()}&gt;Upgrade&lt;/button&gt;
+  return &lt;button onClick={manageBilling}&gt;Manage billing&lt;/button&gt;
+}</code></pre>
+
+      <h3>useProGate</h3>
+      <p>Combined auth + subscription gate. Returns a single <code>gate</code> state.</p>
+      <pre><code>import { useProGate } from '@proappstore/sdk/hooks'
+
+function App() {
+  const { gate, user, signIn, upgrade } = useProGate(app, { allowFree: true })
+
+  if (gate === 'loading') return &lt;p&gt;Loading...&lt;/p&gt;
+  if (gate === 'signed-out') return &lt;button onClick={signIn}&gt;Sign in&lt;/button&gt;
+  if (gate === 'no-subscription') return &lt;button onClick={() =&gt; upgrade()}&gt;Upgrade&lt;/button&gt;
+  return &lt;p&gt;Welcome, {user?.login}!&lt;/p&gt;
+}</code></pre>
+      <p>Gate states: <code>'loading'</code> | <code>'signed-out'</code> | <code>'no-subscription'</code> | <code>'ready'</code></p>
+      <p>Pass <code>{ allowFree: true }</code> to skip the subscription check.</p>
+
+      <h2>Auth</h2>
+      <p>GitHub OAuth. Shared identity across all FreeAppStore and ProAppStore apps.</p>
+      <pre><code>await app.auth.init()          // Initialize, check for existing session
+app.auth.onChange(user =&gt; {})  // Listen for sign-in/out
+app.auth.signIn()              // Redirect to GitHub OAuth
+app.auth.signOut()             // Clear session
+app.auth.user                  // Current user (or null)
+app.auth.token                 // Session token (for API calls)</code></pre>
+
+      <h2>Database (Per-app SQL)</h2>
+      <p>Each Pro app gets its own Cloudflare D1 (SQLite) database. Custom schema, indexes, joins.</p>
+      <pre><code>// Create tables
+await app.db.execute(`
+  CREATE TABLE IF NOT EXISTS events (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    date TEXT,
+    city TEXT
+  )
+`)
+
+// Insert data
+const { meta } = await app.db.execute(
+  'INSERT INTO events (id, title, date, city) VALUES (?, ?, ?, ?)',
+  ['evt-1', 'Meetup', '2026-06-01', 'San Francisco']
+)
+
+// Query rows
+const { rows } = await app.db.query(
+  'SELECT * FROM events WHERE city = ?',
+  ['San Francisco']
+)
+
+// Batch (transactional)
+const results = await app.db.batch([
+  { sql: 'INSERT INTO events VALUES (?, ?, ?, ?)', params: ['evt-2', 'Demo', '2026-07-01', 'NYC'] },
+  { sql: 'UPDATE events SET title = ? WHERE id = ?', params: ['Updated', 'evt-1'] },
+])
+
+// List tables
+const tables = await app.db.tables()</code></pre>
+
+      <h2>Storage (File Upload)</h2>
+      <p>Upload images, videos, documents. Public files get direct URLs. Backed by Cloudflare R2.</p>
+      <pre><code>// Private upload (owner-only access)
+await app.storage.upload('docs/resume.pdf', file, 'application/pdf')
+
+// Public upload (anyone can view the URL)
+await app.storage.uploadPublic('avatar.jpg', file, 'image/jpeg')
+
+// Get public URL (no auth needed)
+const url = app.storage.publicUrl('avatar.jpg')  // use in &lt;img src&gt;
+
+// Download
+const response = await app.storage.download('docs/resume.pdf')
+
+// List files
+const files = await app.storage.list()
+
+// Delete
+await app.storage.delete('docs/resume.pdf')</code></pre>
+
+      <h2>KV (Per-user Key-Value)</h2>
+      <p>Simple per-user storage. Each user's data is isolated.</p>
+      <pre><code>await app.kv.set('profile', { name: 'Alice', theme: 'dark' })
+const profile = await app.kv.get('profile')
+const keys = await app.kv.list({ prefix: 'note:' })
+await app.kv.delete('profile')</code></pre>
+
+      <h2>Counters (Shared Atomic)</h2>
+      <p>Cross-user counters for votes, views, leaderboards.</p>
+      <pre><code>await app.counters.increment('page-views')
+await app.counters.decrement('likes')
+const count = await app.counters.get('page-views')
+const all = await app.counters.list()</code></pre>
+
+      <h2>Rooms (Real-time WebSocket)</h2>
+      <p>WebSocket rooms for chat, presence, multiplayer. Backed by Cloudflare Durable Objects.</p>
+      <pre><code>const room = app.rooms.join('lobby')
+
+room.send({ type: 'chat', text: 'hello' })
+room.onMessage(msg =&gt; console.log(msg))
+room.onPeers(peers =&gt; console.log(peers.length, 'online'))
+room.leave()</code></pre>
+
+      <h2>Maps + Geocoding</h2>
+      <p>Address-to-coordinates and map embeds. OpenStreetMap powered. No Google API keys.</p>
+      <pre><code>// Geocode an address
+const results = await app.maps.geocode('Times Square, New York')
+// [{lat: 40.758, lng: -73.985, displayName: "Times Square...", address: {...}}]
+
+// Reverse geocode
+const place = await app.maps.reverseGeocode(40.758, -73.985)
+
+// Embed map (for &lt;iframe&gt;)
+const mapUrl = app.maps.embedUrl(40.758, -73.985)
+
+// Static tile image (for &lt;img&gt;)
+const tileUrl = app.maps.staticUrl(40.758, -73.985)</code></pre>
+
+      <h2>Subscription (Stripe)</h2>
+      <pre><code>// Check subscription status
+const sub = await app.subscription.status()
+// Returns: { status, tier, priceId, currentPeriodEnd, cancelAtPeriodEnd } | null
+
+// Open Stripe checkout
+await app.subscription.openCheckout({
+  priceId: 'price_pro_monthly',
+  successUrl: location.href + '?upgraded=1',
+  cancelUrl: location.href,
+})
+
+// Open Stripe billing portal
+await app.subscription.openPortal(location.href)</code></pre>
+
+      <h2>License Keys</h2>
+      <pre><code>// Get current user's license
+const license = await app.license.current()
+// Returns: { key, appId, issuedAt, expiresAt } | null
+
+// Validate any key (no auth required)
+const valid = await app.license.validate('LIC-ABC-123')</code></pre>
+
+      <h2>Proxy (Secret-injecting API Proxy)</h2>
+      <p>Call third-party APIs without exposing keys to the client.</p>
+      <pre><code>const response = await app.proxy.fetch('/openai/chat/completions', {
+  method: 'POST',
+  body: JSON.stringify({ model: 'gpt-4', messages: [...] }),
+})</code></pre>
+
+      <h2>ProShell Component</h2>
+      <p>A convenience wrapper that handles auth gates, subscription checks, and renders a topbar. Use hooks for more control.</p>
+      <pre><code>import { initPro } from '@proappstore/sdk'
+import { ProShell } from '@proappstore/sdk/shell'
+
+const app = initPro({ appId: 'my-app' })
+
+export default function App() {
+  return (
+    &lt;ProShell app={app} appName="My App"&gt;
+      &lt;MyAppContent /&gt;
+    &lt;/ProShell&gt;
+  )
+}</code></pre>
+      <table>
+        <thead><tr><th>Prop</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>app</code></td><td><code>ProAppStore</code></td><td>SDK instance from <code>initPro()</code></td></tr>
+          <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>App content (rendered when gates pass)</td></tr>
+          <tr><td><code>appName</code></td><td><code>string?</code></td><td>Name shown in the topbar</td></tr>
+          <tr><td><code>allowFree</code></td><td><code>boolean?</code></td><td>Skip subscription gate (default: false)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Exports</h2>
+      <table>
+        <thead><tr><th>Import path</th><th>What you get</th></tr></thead>
+        <tbody>
+          <tr><td><code>@proappstore/sdk</code></td><td><code>initPro</code>, <code>ProAppStore</code>, types</td></tr>
+          <tr><td><code>@proappstore/sdk/hooks</code></td><td><code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code></td></tr>
+          <tr><td><code>@proappstore/sdk/shell</code></td><td><code>ProShell</code></td></tr>
+        </tbody>
+      </table>
+
+      <h2>AI Agent Integration</h2>
+      <p>Point your Claude Code, Codex, or other AI agent at the machine-readable guide:</p>
+      <pre><code># Add to your CLAUDE.md:
+See https://proappstore.online/skills.md for platform skills.</code></pre>
+      <p><a href="/skills.md">View skills.md</a> for the full agent-readable reference.</p>
+
+      <h2>Links</h2>
+      <ul>
+        <li><a href="https://www.npmjs.com/package/@proappstore/sdk">@proappstore/sdk on npm</a></li>
+        <li><a href="https://www.npmjs.com/package/@proappstore/cli">@proappstore/cli on npm</a></li>
+        <li><a href="https://github.com/proappstore-online/platform">Platform source code</a></li>
+        <li><a href="/skills.md">AI Agent Guide (skills.md)</a></li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium apps for serious creators.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/docs">Docs</a>
+        <a href="/roadmap">Roadmap</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="https://freeappstore.online">FreeAppStore</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
