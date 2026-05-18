@@ -14,7 +14,11 @@ See https://proappstore.online/skills.md for platform skills.
 The paid counterpart to FreeAppStore. Premium web apps with subscriptions, real-time collaboration, AI features, and Stripe-powered billing. One SDK, one import — everything FreeAppStore has, plus subscription management and license keys.
 
 - **Store**: https://proappstore.online
+- **Docs**: https://proappstore.online/docs
+- **Roadmap**: https://proappstore.online/roadmap
+- **Pricing**: https://proappstore.online/pricing
 - **Dashboard**: https://dashboard.proappstore.online
+- **Console**: https://console.proappstore.online
 - **API**: https://api.proappstore.online
 - **Free tier**: https://freeappstore.online
 - **GitHub org**: https://github.com/proappstore-online
@@ -107,6 +111,43 @@ const license = await app.license.current()
 await app.license.validate('KEY-123')
 ```
 
+### React Hooks (recommended)
+
+Hooks give apps full control over their UI. Import from `@proappstore/sdk/hooks`.
+
+```tsx
+import { initPro } from '@proappstore/sdk'
+import { useProAuth, useProSubscription, useProGate } from '@proappstore/sdk/hooks'
+
+const app = initPro({ appId: 'my-app' })
+
+// useProAuth — auth state + actions
+function App() {
+  const { user, loading, signIn, signOut, deleteAccount } = useProAuth(app)
+  if (loading) return <p>Loading...</p>
+  if (!user) return <button onClick={signIn}>Sign in</button>
+  return <p>Welcome, {user.login}!</p>
+}
+
+// useProSubscription — subscription state
+function Billing() {
+  const { isPro, upgrade, manageBilling } = useProSubscription(app)
+  if (!isPro) return <button onClick={() => upgrade()}>Upgrade</button>
+  return <button onClick={manageBilling}>Manage billing</button>
+}
+
+// useProGate — combined auth + subscription gate
+function GatedApp() {
+  const { gate, user, signIn, upgrade } = useProGate(app, { allowFree: true })
+  if (gate === 'loading') return <p>Loading...</p>
+  if (gate === 'signed-out') return <button onClick={signIn}>Sign in</button>
+  if (gate === 'no-subscription') return <button onClick={() => upgrade()}>Upgrade</button>
+  return <p>Welcome, {user?.login}!</p>
+}
+```
+
+Gate states: `'loading'` | `'signed-out'` | `'no-subscription'` | `'ready'`
+
 ### ProShell — platform UI component
 
 Wrap your app in `<ProShell>` for automatic auth gate, subscription wall, and topbar:
@@ -153,9 +194,10 @@ ProShell provides: sign-in screen, subscription upgrade wall, topbar with avatar
 ## Architecture
 
 ```
-proappstore-online/platform     — monorepo (sdk, cli, backend)
+proappstore-online/platform     — monorepo (sdk, cli, backend, data-worker)
 proappstore-online/proappstore  — store site (static HTML)
-proappstore-online/dashboard    — user account management
+proappstore-online/dashboard    — user account management (React)
+proappstore-online/console      — creator console (React)
 proappstore-online/<app-name>   — individual app repos
 ```
 
