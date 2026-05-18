@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build with AI — ProAppStore</title>
+  <meta name="description" content="Build a pro app on ProAppStore with Claude Code, Cursor, GitHub Copilot, Aider, Codex, Windsurf, or any AI coding tool. Database, auth, storage, maps out of the box." />
+  <meta property="og:title" content="Build with AI — ProAppStore" />
+  <meta property="og:description" content="Build a pro app with AI. Database, auth, storage, maps, payments — all included." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .ai-hero { padding: 2rem 0 1rem; }
+    .ai-hero h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .ai-lead { font-size: 1.15rem; color: var(--muted); line-height: 1.6; max-width: 720px; margin-bottom: 2rem; }
+    .ai-tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin: 1.5rem 0 3rem; }
+    .ai-tool { padding: 1.25rem; border: 1px solid var(--border); border-radius: 0.75rem; background: var(--surface); transition: border-color 0.15s; text-decoration: none; color: var(--ink); display: block; }
+    .ai-tool:hover { border-color: var(--accent); text-decoration: none; }
+    .ai-tool h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+    .ai-tool p { font-size: 0.9rem; color: var(--muted); }
+    .ai-tool .tag { display: inline-block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.5rem; }
+    .steps { counter-reset: step; list-style: none; padding: 0; }
+    .steps li { counter-increment: step; margin-bottom: 1.5rem; padding-left: 2.5rem; position: relative; }
+    .steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+    .cmd { background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.85rem 1.1rem; margin: 0.5rem 0; font-family: ui-monospace, SF Mono, Menlo, monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre-wrap; word-break: break-word; }
+    .callout { padding: 1.25rem 1.5rem; border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 0 0.75rem 0.75rem 0; margin: 1.5rem 0; }
+    .callout strong { color: var(--ink); }
+    .ai-prompt { background: var(--surface); border: 1px dashed var(--border); border-radius: 0.75rem; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 0.92rem; line-height: 1.55; color: var(--ink); }
+    .ai-prompt::before { content: 'Prompt'; display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="logo">Pro <span>Apps</span></a>
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/guidelines">Guidelines</a>
+        <a href="/docs">Developers</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="ai-hero">
+      <h1>Build a pro app with AI.</h1>
+      <p class="ai-lead">ProAppStore is AI-first. Drop our <a href="https://proappstore.online/skills.md">skills.md</a> into your AI tool of choice, and the agent already knows the SDK, the database API, the auth flow, and the deploy pipeline before it writes a line of code. Ship a real app with a database, file storage, maps, and payments in an afternoon.</p>
+    </div>
+
+    <h2>Pick your tool</h2>
+    <div class="ai-tools">
+      <div class="ai-tool">
+        <span class="tag">Terminal</span>
+        <h3>Claude Code</h3>
+        <p>Anthropic's official terminal CLI. Best fit if you live in a shell. Add <code>skills.md</code> URL to your CLAUDE.md.</p>
+      </div>
+      <div class="ai-tool">
+        <span class="tag">Editor</span>
+        <h3>Cursor</h3>
+        <p>AI-native fork of VS Code. Add the <code>skills.md</code> URL to <code>.cursorrules</code> in your project root.</p>
+      </div>
+      <div class="ai-tool">
+        <span class="tag">Editor</span>
+        <h3>GitHub Copilot</h3>
+        <p>Built into VS Code, JetBrains, and GitHub web UI. Add to <code>.github/copilot-instructions.md</code>.</p>
+      </div>
+      <div class="ai-tool">
+        <span class="tag">Terminal</span>
+        <h3>Aider</h3>
+        <p>Open-source AI pair programmer. Add the <code>skills.md</code> URL to <code>CONVENTIONS.md</code>.</p>
+      </div>
+      <div class="ai-tool">
+        <span class="tag">Terminal</span>
+        <h3>Codex CLI</h3>
+        <p>OpenAI's open-source terminal agent. Add to <code>AGENTS.md</code> or system prompt.</p>
+      </div>
+      <div class="ai-tool">
+        <span class="tag">Editor</span>
+        <h3>Windsurf</h3>
+        <p>Codeium's AI-native editor with Cascade. Add to <code>.windsurfrules</code> in your project root.</p>
+      </div>
+      <div class="ai-tool">
+        <span class="tag">Editor</span>
+        <h3>Zed</h3>
+        <p>Fast Rust-based editor with multi-model AI. Paste the URL into the assistant context.</p>
+      </div>
+      <div class="ai-tool">
+        <span class="tag">Editor</span>
+        <h3>Continue</h3>
+        <p>Open-source AI extension for VS Code and JetBrains. Add to <code>.continuerules</code>.</p>
+      </div>
+      <div class="ai-tool">
+        <span class="tag">Editor</span>
+        <h3>Cline</h3>
+        <p>Autonomous AI coding agent for VS Code. Add to the custom instructions field.</p>
+      </div>
+      <div class="ai-tool">
+        <span class="tag">Web</span>
+        <h3>ChatGPT (web)</h3>
+        <p>Build via the ChatGPT browser UI. Paste the skills.md content into the conversation.</p>
+      </div>
+    </div>
+
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><strong>Install the ProAppStore CLI:</strong> <div class="cmd">npm i -g @proappstore/cli</div></li>
+      <li><strong>Create your app:</strong> <div class="cmd">pas create my-app</div> This scaffolds a React + Vite + Tailwind project, provisions a database, deploys a data worker, and configures auth. All automatic.</li>
+      <li><strong>Tell your AI tool to read skills.md.</strong> Add this line to your project's instruction file:<div class="cmd">See https://proappstore.online/skills.md for platform conventions.</div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-top:0.5rem">The instruction file depends on your tool: <code>CLAUDE.md</code> (Claude Code), <code>.cursorrules</code> (Cursor), <code>.github/copilot-instructions.md</code> (Copilot), <code>CONVENTIONS.md</code> (Aider), <code>AGENTS.md</code> (Codex), or the system prompt field.</p>
+      </li>
+      <li><strong>Build.</strong> The agent edits <code>web/src/App.tsx</code> and supporting files. It knows the SDK, hooks, database API, storage, maps — everything from skills.md.</li>
+      <li><strong>Deploy.</strong> <div class="cmd">git push origin main</div> Auto-deploys to <code>my-app.proappstore.online</code> in ~30 seconds via Cloudflare Pages.</li>
+    </ol>
+
+    <div class="callout">
+      <strong>The platform context lives at:</strong>
+      <div class="cmd">https://proappstore.online/skills.md</div>
+      <p>Drop that URL in your tool's instruction file. The agent fetches it on demand and writes platform-aware code.</p>
+    </div>
+
+    <h2>What your AI agent gets from skills.md</h2>
+    <p>When an agent reads skills.md, it immediately knows:</p>
+    <ul style="line-height:1.8">
+      <li><strong>SDK API</strong> — <code>app.db.query()</code>, <code>app.storage.upload()</code>, <code>app.maps.geocode()</code>, <code>app.rooms.join()</code>, all with exact signatures</li>
+      <li><strong>React hooks</strong> — <code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code> for auth and subscription gating</li>
+      <li><strong>Project structure</strong> — pnpm workspace, <code>web/src/App.tsx</code> entry point, CSS variable tokens</li>
+      <li><strong>Deploy flow</strong> — push to main = auto-deploy, no CI config needed</li>
+      <li><strong>Privacy rules</strong> — no tracking, no analytics, no third-party scripts</li>
+      <li><strong>Brand</strong> — Manrope + Fraunces fonts, purple accent, dark mode via system preference</li>
+    </ul>
+
+    <h2>Example prompt</h2>
+    <div class="ai-prompt">Build a meetup app where users can create events with a title, date, city, and description. Store events in the database using app.db. Show events on a map using app.maps. Let users RSVP. Add real-time chat per event using app.rooms. Use useProGate for auth. Follow the platform conventions in skills.md.</div>
+
+    <h2>Workspace layout</h2>
+    <p>Keep all your Pro app repos under one folder:</p>
+    <div class="cmd">mkdir -p ~/dev/stores/pas/apps && cd ~/dev/stores/pas/apps</div>
+    <div class="cmd" style="color:var(--muted);font-size:0.82rem">~/dev/stores/pas/
+  apps/            ← your app repos
+    meetup/
+    my-app/
+  platform/        ← SDK, CLI, backend (maintainers only)
+  proappstore/     ← store site (maintainers only)</div>
+
+    <h2>What makes this different from FreeAppStore</h2>
+    <p>FreeAppStore apps use local storage only. ProAppStore apps get cloud infrastructure:</p>
+    <ul style="line-height:1.8">
+      <li><strong>Per-app SQL database</strong> — <code>app.db.query('SELECT * FROM events')</code></li>
+      <li><strong>File storage</strong> — <code>app.storage.upload('photo.jpg', file)</code></li>
+      <li><strong>Maps</strong> — <code>app.maps.geocode('Times Square')</code></li>
+      <li><strong>Uncapped real-time rooms</strong> — no connection limits</li>
+      <li><strong>Stripe subscriptions</strong> — built-in checkout and billing portal</li>
+    </ul>
+    <p>Same auth system, same deploy flow. The SDK is a superset — <code>@proappstore/sdk</code> includes everything from <code>@freeappstore/sdk</code> plus the Pro modules.</p>
+
+    <h2>Other reading</h2>
+    <ul>
+      <li><a href="/docs">Full SDK documentation</a></li>
+      <li><a href="/guidelines">Developer guidelines</a> — brand, design system, privacy rules</li>
+      <li><a href="/roadmap">Platform roadmap</a> — what's shipped and what's coming</li>
+      <li><a href="https://github.com/proappstore-online/platform">Platform source code</a></li>
+      <li><a href="https://freeappstore.online/build-with-ai">FreeAppStore's AI guide</a> — sister platform, same pattern</li>
+    </ul>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium web apps that work everywhere.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/roadmap">Roadmap</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/guidelines">Guidelines</a>
+        <a href="/docs">Docs</a>
+        <a href="/build-with-ai">Build with AI</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="https://freeappstore.online">FreeAppStore</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
