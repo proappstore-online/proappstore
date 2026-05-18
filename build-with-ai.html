@@ -4,31 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Build with AI — ProAppStore</title>
-  <meta name="description" content="Build a pro app on ProAppStore with Claude Code, Cursor, GitHub Copilot, Aider, Codex, Windsurf, or any AI coding tool. Database, auth, storage, maps out of the box." />
-  <meta property="og:title" content="Build with AI — ProAppStore" />
-  <meta property="og:description" content="Build a pro app with AI. Database, auth, storage, maps, payments — all included." />
-  <meta property="og:type" content="website" />
+  <meta name="description" content="Step-by-step guide to building a pro app with Claude Code, Cursor, Copilot, or any AI tool. From zero to deployed in 10 minutes." />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="stylesheet" href="/style.css" />
   <style>
     .ai-hero { padding: 2rem 0 1rem; }
-    .ai-hero h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1rem; }
-    .ai-lead { font-size: 1.15rem; color: var(--muted); line-height: 1.6; max-width: 720px; margin-bottom: 2rem; }
-    .ai-tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin: 1.5rem 0 3rem; }
-    .ai-tool { padding: 1.25rem; border: 1px solid var(--border); border-radius: 0.75rem; background: var(--surface); transition: border-color 0.15s; text-decoration: none; color: var(--ink); display: block; }
-    .ai-tool:hover { border-color: var(--accent); text-decoration: none; }
-    .ai-tool h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
-    .ai-tool p { font-size: 0.9rem; color: var(--muted); }
-    .ai-tool .tag { display: inline-block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.5rem; }
+    .ai-hero h1 { font-size: clamp(2rem, 5vw, 2.5rem); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .ai-lead { font-size: 1.05rem; color: var(--muted); line-height: 1.6; max-width: 700px; margin-bottom: 2rem; }
     .steps { counter-reset: step; list-style: none; padding: 0; }
-    .steps li { counter-increment: step; margin-bottom: 1.5rem; padding-left: 2.5rem; position: relative; }
-    .steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
-    .cmd { background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.85rem 1.1rem; margin: 0.5rem 0; font-family: ui-monospace, SF Mono, Menlo, monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre-wrap; word-break: break-word; }
-    .callout { padding: 1.25rem 1.5rem; border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 0 0.75rem 0.75rem 0; margin: 1.5rem 0; }
+    .steps > li { counter-increment: step; margin-bottom: 2.5rem; padding-left: 2.5rem; position: relative; }
+    .steps > li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+    .steps h3 { font-size: 1.1rem; font-weight: 800; margin: 0 0 0.5rem; }
+    .steps p { font-size: 0.92rem; color: var(--muted); margin: 0.35rem 0; }
+    .cmd { background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.85rem 1.1rem; margin: 0.75rem 0; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.85rem; overflow-x: auto; white-space: pre; line-height: 1.6; }
+    .cmd .comment { color: var(--muted); }
+    .cmd .output { color: var(--muted); font-style: italic; }
+    .callout { padding: 1.25rem 1.5rem; border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 0 0.75rem 0.75rem 0; margin: 1.5rem 0; font-size: 0.9rem; }
     .callout strong { color: var(--ink); }
-    .ai-prompt { background: var(--surface); border: 1px dashed var(--border); border-radius: 0.75rem; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 0.92rem; line-height: 1.55; color: var(--ink); }
-    .ai-prompt::before { content: 'Prompt'; display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; }
+    .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin: 1rem 0 2rem; }
+    .tool-card { padding: 1rem; border: 1px solid var(--border); border-radius: 0.75rem; background: var(--surface); }
+    .tool-card h4 { font-size: 0.95rem; margin: 0 0 0.25rem; }
+    .tool-card p { font-size: 0.8rem; color: var(--muted); margin: 0 0 0.35rem; }
+    .tool-card code { font-size: 0.75rem; background: var(--accent-soft); color: var(--accent); padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    .tag { display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.3rem; }
+    h2 { font-size: 1.4rem; font-weight: 800; margin: 3rem 0 1rem; letter-spacing: -0.01em; }
   </style>
 </head>
 <body>
@@ -49,122 +49,270 @@
 
     <div class="ai-hero">
       <h1>Build a pro app with AI.</h1>
-      <p class="ai-lead">ProAppStore is AI-first. Drop our <a href="https://proappstore.online/skills.md">skills.md</a> into your AI tool of choice, and the agent already knows the SDK, the database API, the auth flow, and the deploy pipeline before it writes a line of code. Ship a real app with a database, file storage, maps, and payments in an afternoon.</p>
+      <p class="ai-lead">Follow these steps from zero to a deployed app with a database, auth, file storage, and maps. Works with Claude Code, Cursor, Copilot, or any AI coding tool.</p>
     </div>
 
-    <h2>Pick your tool</h2>
-    <div class="ai-tools">
-      <div class="ai-tool">
-        <span class="tag">Terminal</span>
-        <h3>Claude Code</h3>
-        <p>Anthropic's official terminal CLI. Best fit if you live in a shell. Add <code>skills.md</code> URL to your CLAUDE.md.</p>
-      </div>
-      <div class="ai-tool">
-        <span class="tag">Editor</span>
-        <h3>Cursor</h3>
-        <p>AI-native fork of VS Code. Add the <code>skills.md</code> URL to <code>.cursorrules</code> in your project root.</p>
-      </div>
-      <div class="ai-tool">
-        <span class="tag">Editor</span>
-        <h3>GitHub Copilot</h3>
-        <p>Built into VS Code, JetBrains, and GitHub web UI. Add to <code>.github/copilot-instructions.md</code>.</p>
-      </div>
-      <div class="ai-tool">
-        <span class="tag">Terminal</span>
-        <h3>Aider</h3>
-        <p>Open-source AI pair programmer. Add the <code>skills.md</code> URL to <code>CONVENTIONS.md</code>.</p>
-      </div>
-      <div class="ai-tool">
-        <span class="tag">Terminal</span>
-        <h3>Codex CLI</h3>
-        <p>OpenAI's open-source terminal agent. Add to <code>AGENTS.md</code> or system prompt.</p>
-      </div>
-      <div class="ai-tool">
-        <span class="tag">Editor</span>
-        <h3>Windsurf</h3>
-        <p>Codeium's AI-native editor with Cascade. Add to <code>.windsurfrules</code> in your project root.</p>
-      </div>
-      <div class="ai-tool">
-        <span class="tag">Editor</span>
-        <h3>Zed</h3>
-        <p>Fast Rust-based editor with multi-model AI. Paste the URL into the assistant context.</p>
-      </div>
-      <div class="ai-tool">
-        <span class="tag">Editor</span>
-        <h3>Continue</h3>
-        <p>Open-source AI extension for VS Code and JetBrains. Add to <code>.continuerules</code>.</p>
-      </div>
-      <div class="ai-tool">
-        <span class="tag">Editor</span>
-        <h3>Cline</h3>
-        <p>Autonomous AI coding agent for VS Code. Add to the custom instructions field.</p>
-      </div>
-      <div class="ai-tool">
-        <span class="tag">Web</span>
-        <h3>ChatGPT (web)</h3>
-        <p>Build via the ChatGPT browser UI. Paste the skills.md content into the conversation.</p>
-      </div>
-    </div>
+    <!-- ==================== PREREQUISITES ==================== -->
+    <h2>Prerequisites</h2>
+    <p style="font-size:0.92rem;color:var(--muted);margin-bottom:1rem">You need Node.js and pnpm installed. If you already have them, skip to Step 1.</p>
 
-    <h2>How it works</h2>
+    <div class="cmd"><span class="comment"># Check if Node is installed (need v22+)</span>
+node --version
+<span class="output"># v22.x.x or higher? You're good. If not:</span>
+
+<span class="comment"># Install Node.js (macOS)</span>
+brew install node
+
+<span class="comment"># Install Node.js (Windows) — download from nodejs.org</span>
+<span class="comment"># Install Node.js (Linux)</span>
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs</div>
+
+    <div class="cmd"><span class="comment"># Install pnpm (the package manager)</span>
+npm install -g pnpm
+
+<span class="comment"># Verify</span>
+pnpm --version
+<span class="output"># Should print 10.x.x</span></div>
+
+    <!-- ==================== STEP BY STEP ==================== -->
+    <h2>Step-by-step: Claude Code (terminal)</h2>
+    <p style="font-size:0.92rem;color:var(--muted);margin-bottom:1.5rem">This is the full walkthrough using Claude Code. Other tools follow the same pattern — see the <a href="#other-tools">tool-specific instructions</a> below.</p>
+
     <ol class="steps">
-      <li><strong>Install the ProAppStore CLI:</strong> <div class="cmd">npm i -g @proappstore/cli</div></li>
-      <li><strong>Create your app:</strong> <div class="cmd">pas create my-app</div> This scaffolds a React + Vite + Tailwind project, provisions a database, deploys a data worker, and configures auth. All automatic.</li>
-      <li><strong>Tell your AI tool to read skills.md.</strong> Add this line to your project's instruction file:<div class="cmd">See https://proappstore.online/skills.md for platform conventions.</div>
-        <p style="font-size:0.85rem;color:var(--muted);margin-top:0.5rem">The instruction file depends on your tool: <code>CLAUDE.md</code> (Claude Code), <code>.cursorrules</code> (Cursor), <code>.github/copilot-instructions.md</code> (Copilot), <code>CONVENTIONS.md</code> (Aider), <code>AGENTS.md</code> (Codex), or the system prompt field.</p>
+      <li>
+        <h3>Install Claude Code and the ProAppStore CLI</h3>
+        <div class="cmd"><span class="comment"># Install Claude Code (Anthropic's terminal AI)</span>
+npm install -g @anthropic-ai/claude-code
+
+<span class="comment"># Install the ProAppStore CLI</span>
+npm install -g @proappstore/cli
+
+<span class="comment"># Verify both are installed</span>
+claude --version
+pas --version</div>
       </li>
-      <li><strong>Build.</strong> The agent edits <code>web/src/App.tsx</code> and supporting files. It knows the SDK, hooks, database API, storage, maps — everything from skills.md.</li>
-      <li><strong>Deploy.</strong> <div class="cmd">git push origin main</div> Auto-deploys to <code>my-app.proappstore.online</code> in ~30 seconds via Cloudflare Pages.</li>
+
+      <li>
+        <h3>Create your app</h3>
+        <p>This scaffolds a full project, provisions a database, and deploys a data worker. Takes about 30 seconds.</p>
+        <div class="cmd"><span class="comment"># Create a new Pro app called "my-app"</span>
+pas create my-app
+
+<span class="output"># Output:
+#   Creating My App...
+#
+#   [1/3] Scaffolding from template...
+#   [2/3] Installing dependencies...
+#   [3/3] Initializing git...
+#   [4/4] Provisioning platform resources...
+#     [+] create_d1: pas-data-my-app (abc123...)
+#     [+] deploy_worker: Deployed pas-data-my-app
+#     [+] record_app: creator: your-username
+#
+#   Done! Your app is ready.</span></div>
+      </li>
+
+      <li>
+        <h3>Open the project in Claude Code</h3>
+        <div class="cmd"><span class="comment"># Go into the project folder</span>
+cd my-app
+
+<span class="comment"># Start Claude Code</span>
+claude</div>
+        <p>Claude Code reads your project's <code>CLAUDE.md</code> file automatically. That file already contains:</p>
+        <div class="cmd" style="font-size:0.8rem"><span class="output">See https://proappstore.online/skills.md
+for platform conventions.</span></div>
+        <p>Claude now knows the entire SDK, the database API, the hooks, the design system — everything.</p>
+      </li>
+
+      <li>
+        <h3>Tell Claude what to build</h3>
+        <p>Type your prompt in the Claude Code terminal. Be specific about what features you want.</p>
+        <div class="cmd" style="border-style:dashed"><span class="comment"># Example prompts you can type:</span>
+
+Build a todo app. Store todos in the database using app.db.
+Use useProGate for auth. Let users create, complete, and
+delete todos. Show a count of completed todos.
+
+<span class="comment"># Or something more complex:</span>
+
+Build an event planner. Users create events with a title,
+date, city, and description. Store in the database. Show
+events on a map using app.maps.geocode(). Let users RSVP.
+Add real-time chat per event using app.rooms. Upload event
+photos with app.storage.uploadPublic().</div>
+        <p>Claude will edit <code>web/src/App.tsx</code> and create any additional files needed.</p>
+      </li>
+
+      <li>
+        <h3>Run it locally</h3>
+        <div class="cmd"><span class="comment"># Start the development server</span>
+pnpm dev
+
+<span class="output"># Output:
+#   VITE v8.x.x ready in 200ms
+#   ➜  Local:   http://localhost:5173/</span>
+
+<span class="comment"># Open http://localhost:5173 in your browser to see your app</span></div>
+      </li>
+
+      <li>
+        <h3>Deploy</h3>
+        <p>Push to GitHub. Cloudflare Pages auto-deploys in ~30 seconds.</p>
+        <div class="cmd"><span class="comment"># Push your code</span>
+git add -A
+git commit -m "Build my app"
+git push origin main
+
+<span class="output"># Your app is now live at:
+# https://my-app.proappstore.online</span></div>
+      </li>
     </ol>
 
     <div class="callout">
-      <strong>The platform context lives at:</strong>
-      <div class="cmd">https://proappstore.online/skills.md</div>
-      <p>Drop that URL in your tool's instruction file. The agent fetches it on demand and writes platform-aware code.</p>
+      <strong>That's it.</strong> Six steps from zero to a deployed app with a database, auth, file storage, and maps. The whole thing takes about 10 minutes.
     </div>
 
-    <h2>What your AI agent gets from skills.md</h2>
-    <p>When an agent reads skills.md, it immediately knows:</p>
-    <ul style="line-height:1.8">
-      <li><strong>SDK API</strong> — <code>app.db.query()</code>, <code>app.storage.upload()</code>, <code>app.maps.geocode()</code>, <code>app.rooms.join()</code>, all with exact signatures</li>
-      <li><strong>React hooks</strong> — <code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code> for auth and subscription gating</li>
-      <li><strong>Project structure</strong> — pnpm workspace, <code>web/src/App.tsx</code> entry point, CSS variable tokens</li>
-      <li><strong>Deploy flow</strong> — push to main = auto-deploy, no CI config needed</li>
-      <li><strong>Privacy rules</strong> — no tracking, no analytics, no third-party scripts</li>
-      <li><strong>Brand</strong> — Manrope + Fraunces fonts, purple accent, dark mode via system preference</li>
-    </ul>
+    <!-- ==================== OTHER TOOLS ==================== -->
+    <h2 id="other-tools">Other AI tools</h2>
+    <p style="font-size:0.92rem;color:var(--muted);margin-bottom:1rem">Steps 1-2 and 5-6 are the same for every tool. The only difference is Step 3 — how you tell the AI tool about the platform. Here's where to put the <code>skills.md</code> reference for each tool:</p>
 
-    <h2>Example prompt</h2>
-    <div class="ai-prompt">Build a meetup app where users can create events with a title, date, city, and description. Store events in the database using app.db. Show events on a map using app.maps. Let users RSVP. Add real-time chat per event using app.rooms. Use useProGate for auth. Follow the platform conventions in skills.md.</div>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <span class="tag">Terminal</span>
+        <h4>Claude Code</h4>
+        <p>Reads <code>CLAUDE.md</code> automatically — already set up by <code>pas create</code>.</p>
+        <code>CLAUDE.md</code>
+      </div>
+      <div class="tool-card">
+        <span class="tag">Editor</span>
+        <h4>Cursor</h4>
+        <p>Create a rules file in your project root.</p>
+        <code>.cursorrules</code>
+      </div>
+      <div class="tool-card">
+        <span class="tag">Editor</span>
+        <h4>GitHub Copilot</h4>
+        <p>Create an instructions file for Copilot.</p>
+        <code>.github/copilot-instructions.md</code>
+      </div>
+      <div class="tool-card">
+        <span class="tag">Terminal</span>
+        <h4>Codex CLI</h4>
+        <p>Create an agents file in your project root.</p>
+        <code>AGENTS.md</code>
+      </div>
+      <div class="tool-card">
+        <span class="tag">Terminal</span>
+        <h4>Aider</h4>
+        <p>Create a conventions file.</p>
+        <code>CONVENTIONS.md</code>
+      </div>
+      <div class="tool-card">
+        <span class="tag">Editor</span>
+        <h4>Windsurf</h4>
+        <p>Create a rules file in your project root.</p>
+        <code>.windsurfrules</code>
+      </div>
+      <div class="tool-card">
+        <span class="tag">Editor</span>
+        <h4>Cline</h4>
+        <p>Paste into the custom instructions field in settings.</p>
+        <code>Custom instructions</code>
+      </div>
+      <div class="tool-card">
+        <span class="tag">Editor</span>
+        <h4>Zed</h4>
+        <p>Paste the URL into the assistant panel context.</p>
+        <code>Assistant context</code>
+      </div>
+      <div class="tool-card">
+        <span class="tag">Editor</span>
+        <h4>Continue</h4>
+        <p>Create a rules file in your project root.</p>
+        <code>.continuerules</code>
+      </div>
+      <div class="tool-card">
+        <span class="tag">Web</span>
+        <h4>ChatGPT</h4>
+        <p>Paste the skills.md content into the chat.</p>
+        <code>Paste in chat</code>
+      </div>
+    </div>
 
-    <h2>Workspace layout</h2>
-    <p>Keep all your Pro app repos under one folder:</p>
-    <div class="cmd">mkdir -p ~/dev/stores/pas/apps && cd ~/dev/stores/pas/apps</div>
-    <div class="cmd" style="color:var(--muted);font-size:0.82rem">~/dev/stores/pas/
-  apps/            ← your app repos
-    meetup/
-    my-app/
-  platform/        ← SDK, CLI, backend (maintainers only)
-  proappstore/     ← store site (maintainers only)</div>
+    <p style="font-size:0.92rem">For all tools, the content to add is the same one line:</p>
+    <div class="cmd">See https://proappstore.online/skills.md for platform conventions.</div>
+    <p style="font-size:0.85rem;color:var(--muted)"><code>pas create</code> already adds this to <code>CLAUDE.md</code>. For other tools, create the appropriate file and add this line.</p>
 
-    <h2>What makes this different from FreeAppStore</h2>
-    <p>FreeAppStore apps use local storage only. ProAppStore apps get cloud infrastructure:</p>
-    <ul style="line-height:1.8">
-      <li><strong>Per-app SQL database</strong> — <code>app.db.query('SELECT * FROM events')</code></li>
-      <li><strong>File storage</strong> — <code>app.storage.upload('photo.jpg', file)</code></li>
-      <li><strong>Maps</strong> — <code>app.maps.geocode('Times Square')</code></li>
-      <li><strong>Uncapped real-time rooms</strong> — no connection limits</li>
-      <li><strong>Stripe subscriptions</strong> — built-in checkout and billing portal</li>
-    </ul>
-    <p>Same auth system, same deploy flow. The SDK is a superset — <code>@proappstore/sdk</code> includes everything from <code>@freeappstore/sdk</code> plus the Pro modules.</p>
+    <!-- ==================== WHAT YOU GET ==================== -->
+    <h2>What your app gets automatically</h2>
+    <p style="font-size:0.92rem;color:var(--muted);margin-bottom:1rem">When you run <code>pas create</code>, the platform provisions all of this:</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.75rem;margin:1rem 0 2rem">
+      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+        <strong>SQL Database</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">Your own database. Create tables, run queries, store anything.</p>
+      </div>
+      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+        <strong>Auth (GitHub)</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">Users sign in with GitHub. One line of code.</p>
+      </div>
+      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+        <strong>File Storage</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">Upload images, videos, documents. Get shareable URLs.</p>
+      </div>
+      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+        <strong>Maps</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">Geocode addresses, show maps. No API keys needed.</p>
+      </div>
+      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+        <strong>Real-time</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">WebSocket rooms for chat, collaboration, multiplayer.</p>
+      </div>
+      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+        <strong>Hosting</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">Push to main = deployed globally. Zero config.</p>
+      </div>
+    </div>
+
+    <!-- ==================== SDK CHEAT SHEET ==================== -->
+    <h2>SDK cheat sheet</h2>
+    <p style="font-size:0.92rem;color:var(--muted);margin-bottom:1rem">Copy-paste these into your AI prompts. <a href="/docs">Full docs here</a>.</p>
+
+    <div class="cmd"><span class="comment">// Initialize</span>
+import { initPro } from '@proappstore/sdk'
+const app = initPro({ appId: 'my-app' })
+
+<span class="comment">// Auth (React hook)</span>
+import { useProGate } from '@proappstore/sdk/hooks'
+const { gate, user, signIn } = useProGate(app, { allowFree: true })
+
+<span class="comment">// Database</span>
+await app.db.execute('CREATE TABLE IF NOT EXISTS todos (id TEXT PK, text TEXT, done INT)')
+await app.db.execute('INSERT INTO todos VALUES (?, ?, ?)', [id, 'Buy milk', 0])
+const { rows } = await app.db.query('SELECT * FROM todos WHERE done = ?', [0])
+
+<span class="comment">// File uploads</span>
+await app.storage.uploadPublic('photo.jpg', file, 'image/jpeg')
+const url = app.storage.publicUrl('photo.jpg')  <span class="comment">// use in &lt;img src&gt;</span>
+
+<span class="comment">// Maps</span>
+const results = await app.maps.geocode('San Francisco')
+const mapUrl = app.maps.embedUrl(37.77, -122.42)  <span class="comment">// use in &lt;iframe src&gt;</span>
+
+<span class="comment">// Real-time chat</span>
+const room = app.rooms.join('room-1')
+room.send({ text: 'hello' })
+room.onMessage(msg => console.log(msg))</div>
 
     <h2>Other reading</h2>
-    <ul>
-      <li><a href="/docs">Full SDK documentation</a></li>
-      <li><a href="/guidelines">Developer guidelines</a> — brand, design system, privacy rules</li>
-      <li><a href="/roadmap">Platform roadmap</a> — what's shipped and what's coming</li>
-      <li><a href="https://github.com/proappstore-online/platform">Platform source code</a></li>
-      <li><a href="https://freeappstore.online/build-with-ai">FreeAppStore's AI guide</a> — sister platform, same pattern</li>
+    <ul style="font-size:0.92rem;line-height:2">
+      <li><a href="/docs">Full SDK documentation</a> — every method, every option</li>
+      <li><a href="/guidelines">Developer guidelines</a> — design system, privacy rules, publishing</li>
+      <li><a href="/roadmap">Roadmap</a> — what's shipped and what's coming</li>
+      <li><a href="https://github.com/proappstore-online/platform">Platform source code</a> — open source</li>
+      <li><a href="https://freeappstore.online/build-with-ai">FreeAppStore build guide</a> — same pattern, free tier</li>
     </ul>
 
   </main>
