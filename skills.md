@@ -90,10 +90,38 @@ await app.subscription.openPortal(returnUrl)
 await app.db.execute('CREATE TABLE events (id TEXT PK, title TEXT, city TEXT)')
 const { rows } = await app.db.query('SELECT * FROM events WHERE city = ?', ['SF'])
 await app.db.execute('INSERT INTO events VALUES (?, ?, ?)', [id, 'Meetup', 'SF'])
+// File storage (images, videos, documents — backed by R2)
+await app.storage.upload('events/photo.jpg', file, 'image/jpeg')
+const response = await app.storage.download('events/photo.jpg')
+const files = await app.storage.list()
+await app.storage.delete('events/photo.jpg')
+
 // License keys
 const license = await app.license.current()
 await app.license.validate('KEY-123')
 ```
+
+### ProShell — platform UI component
+
+Wrap your app in `<ProShell>` for automatic auth gate, subscription wall, and topbar:
+
+```tsx
+import { initPro } from '@proappstore/sdk'
+import { ProShell } from '@proappstore/sdk/shell'
+
+const app = initPro({ appId: 'my-app' })
+
+export default function App() {
+  return (
+    <ProShell app={app} appName="My App">
+      {/* Only renders when signed in + subscribed */}
+      <MyAppContent />
+    </ProShell>
+  )
+}
+```
+
+ProShell provides: sign-in screen, subscription upgrade wall, topbar with avatar + menu (sign out, manage billing, delete account).
 
 ---
 
@@ -106,6 +134,8 @@ await app.license.validate('KEY-123')
 | Per-app SQL database | No (use collections) | Yes (full D1, custom schema) |
 | Real-time rooms | 5 rooms, 50 user-hours/day | Uncapped |
 | Subscriptions (Stripe) | No | Yes |
+| File storage (R2) | No | Yes (images, videos, 50MB/file) |
+| ProShell (platform UI) | No | Yes (auth + sub gate + topbar) |
 | License keys | No | Yes |
 | Custom domain | No | Yes |
 | Server-side AI | No | Coming |
