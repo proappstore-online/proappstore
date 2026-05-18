@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Guidelines — ProAppStore</title>
+  <meta name="description" content="Design system, tech stack, and publishing guidelines for ProAppStore developers." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Developer Guidelines — ProAppStore" />
+  <meta property="og:description" content="Design system, tech stack, and publishing guidelines for ProAppStore developers." />
+  <meta property="og:url" content="https://proappstore.online/guidelines" />
+  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .spec-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+    .spec-table th, .spec-table td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+    .spec-table th { font-weight: 700; color: var(--ink); }
+    .spec-table td { color: var(--muted); }
+    .spec-table code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82rem; }
+    .color-swatch { display: inline-block; width: 16px; height: 16px; border-radius: 4px; vertical-align: middle; margin-right: 0.4rem; border: 1px solid var(--border); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.7; margin: 1rem 0; }
+    .code-block code { background: none; padding: 0; }
+    .rule-card { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; padding: 1.25rem; margin: 0.75rem 0; }
+    .rule-card strong { display: block; margin-bottom: 0.25rem; }
+    .rule-card p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+    .section-nav { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem; }
+    .section-nav h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .section-nav a { display: block; font-size: 0.85rem; color: var(--accent); text-decoration: none; padding: 0.25rem 0; }
+    .section-nav a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="logo">Pro <span>Apps</span></a>
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/docs">Developers</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Developer Guidelines</h1>
+      <p>Design system, tech stack, and publishing rules for ProAppStore apps. Follow these to ship fast and stay consistent.</p>
+    </div>
+
+    <div class="page-content">
+      <div class="section-nav">
+        <h3>Contents</h3>
+        <a href="#quick-start">Quick Start</a>
+        <a href="#tech-stack">Tech Stack</a>
+        <a href="#project-structure">Project Structure</a>
+        <a href="#brand">Brand &amp; Design</a>
+        <a href="#sdk">SDK Overview</a>
+        <a href="#privacy">Privacy Rules</a>
+        <a href="#publishing">Publishing</a>
+      </div>
+
+      <!-- Quick Start -->
+      <h2 id="quick-start">Quick Start</h2>
+      <div class="code-block"><code># Install CLI
+npm i -g @proappstore/cli
+
+# Create app (scaffolds + provisions database + deploys data worker)
+pas create my-app
+
+# Develop locally
+cd my-app && pnpm dev
+
+# Deploy (push to main = auto-deploy)
+git push origin main</code></div>
+      <p>Your app is live at <code>my-app.proappstore.online</code> within minutes. The CLI creates a React + Vite + Tailwind project with the SDK pre-configured.</p>
+
+      <!-- Tech Stack -->
+      <h2 id="tech-stack">Tech Stack</h2>
+      <table class="spec-table">
+        <tr><th>Layer</th><th>Choice</th><th>Version</th></tr>
+        <tr><td>Language</td><td>TypeScript</td><td>^5.7</td></tr>
+        <tr><td>Framework</td><td>React</td><td>^19.0</td></tr>
+        <tr><td>Bundler</td><td>Vite</td><td>^8.0</td></tr>
+        <tr><td>Styling</td><td>Tailwind CSS</td><td>^4.2</td></tr>
+        <tr><td>Hosting</td><td>Cloudflare Pages</td><td>Auto-deploy on push</td></tr>
+        <tr><td>Backend</td><td>@proappstore/sdk</td><td>Auth, DB, Storage, Maps, Rooms, Subscription</td></tr>
+        <tr><td>Package Manager</td><td>pnpm</td><td>^10.30</td></tr>
+        <tr><td>Node</td><td>-</td><td>&ge;22</td></tr>
+      </table>
+
+      <!-- Project Structure -->
+      <h2 id="project-structure">Project Structure</h2>
+      <p>Every Pro app uses a pnpm workspace with the frontend in <code>web/</code>.</p>
+      <div class="code-block"><code>my-app/
+├── package.json           (workspace root)
+├── pnpm-workspace.yaml    (packages: [web])
+├── CLAUDE.md              (AI agent instructions)
+├── .pas.json              (platform config: appId, dataApiBase, d1DatabaseId)
+├── .gitignore
+└── web/
+    ├── index.html
+    ├── package.json       (@my-app/web)
+    ├── vite.config.ts
+    ├── tsconfig.json
+    └── src/
+        ├── main.tsx
+        ├── index.css       (Tailwind + CSS variables)
+        ├── App.tsx          (entry: useProGate for auth)
+        ├── types.ts
+        └── components/</code></div>
+
+      <!-- Brand & Design -->
+      <h2 id="brand">Brand &amp; Design</h2>
+
+      <h3>Colors</h3>
+      <table class="spec-table">
+        <tr><th>Token</th><th>Light</th><th>Dark</th><th>Usage</th></tr>
+        <tr><td><code>--paper</code></td><td><span class="color-swatch" style="background:#ffffff"></span>#ffffff</td><td><span class="color-swatch" style="background:#000000"></span>#000000</td><td>Page background</td></tr>
+        <tr><td><code>--ink</code></td><td><span class="color-swatch" style="background:#111111"></span>#111111</td><td><span class="color-swatch" style="background:#f0f0f0"></span>#f0f0f0</td><td>Primary text</td></tr>
+        <tr><td><code>--muted</code></td><td><span class="color-swatch" style="background:#666666"></span>#666666</td><td><span class="color-swatch" style="background:#888888"></span>#888888</td><td>Secondary text</td></tr>
+        <tr><td><code>--accent</code></td><td><span class="color-swatch" style="background:#7c3aed"></span>#7c3aed</td><td><span class="color-swatch" style="background:#a78bfa"></span>#a78bfa</td><td>Primary actions, links</td></tr>
+        <tr><td><code>--accent-soft</code></td><td><span class="color-swatch" style="background:#f5f3ff"></span>#f5f3ff</td><td><span class="color-swatch" style="background:#1e1533"></span>#1e1533</td><td>Accent backgrounds</td></tr>
+        <tr><td><code>--line</code></td><td>rgba(0,0,0,0.08)</td><td>rgba(255,255,255,0.08)</td><td>Borders, dividers</td></tr>
+      </table>
+
+      <h3>Typography</h3>
+      <table class="spec-table">
+        <tr><th>Role</th><th>Family</th><th>Weights</th></tr>
+        <tr><td>Body</td><td><strong>Manrope</strong></td><td>400, 500, 600, 700, 800</td></tr>
+        <tr><td>Display</td><td><strong>Fraunces</strong></td><td>500, 600, 700</td></tr>
+      </table>
+      <div class="code-block"><code>&lt;link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"&gt;</code></div>
+
+      <h3>Layout</h3>
+      <table class="spec-table">
+        <tr><th>Property</th><th>Value</th></tr>
+        <tr><td>Card border radius</td><td><code>1.25rem</code></td></tr>
+        <tr><td>Button border radius</td><td><code>0.75rem</code></td></tr>
+        <tr><td>Card padding</td><td><code>1.5rem</code></td></tr>
+        <tr><td>Grid gap</td><td><code>1.25rem</code></td></tr>
+        <tr><td>Max content width</td><td><code>48rem</code> (768px)</td></tr>
+        <tr><td>Dark mode</td><td><code>prefers-color-scheme: dark</code> (automatic)</td></tr>
+      </table>
+
+      <!-- SDK -->
+      <h2 id="sdk">SDK Overview</h2>
+      <p>One import, all platform features. See <a href="/docs">full docs</a> for API reference.</p>
+
+      <div class="code-block"><code>import { initPro } from '@proappstore/sdk'
+import { useProGate } from '@proappstore/sdk/hooks'
+
+const app = initPro({ appId: 'my-app' })
+
+// Available modules:
+app.auth        // GitHub OAuth, shared identity
+app.db          // Per-app SQL database (query, execute, batch)
+app.storage     // File uploads (R2)
+app.maps        // Geocoding, embeds (OpenStreetMap)
+app.kv          // Per-user key-value storage
+app.counters    // Shared atomic counters
+app.rooms       // Real-time WebSocket rooms
+app.proxy       // Secret-injecting API proxy
+app.subscription // Stripe checkout, billing portal
+app.license     // Per-app license keys</code></div>
+
+      <h3>Hooks (recommended for React)</h3>
+      <div class="code-block"><code>import { useProAuth } from '@proappstore/sdk/hooks'        // auth state
+import { useProSubscription } from '@proappstore/sdk/hooks' // subscription
+import { useProGate } from '@proappstore/sdk/hooks'         // combined gate</code></div>
+
+      <!-- Privacy -->
+      <h2 id="privacy">Privacy Rules</h2>
+      <p>All Pro apps must follow these rules. No exceptions.</p>
+
+      <div class="rule-card">
+        <strong>No tracking</strong>
+        <p>No analytics, no telemetry, no third-party trackers. No Google Analytics, no Mixpanel, no Amplitude.</p>
+      </div>
+      <div class="rule-card">
+        <strong>No ads</strong>
+        <p>No advertising of any kind. Revenue comes from subscriptions, not user attention.</p>
+      </div>
+      <div class="rule-card">
+        <strong>Minimal data collection</strong>
+        <p>Only collect data the app needs to function. Don't store data "just in case." Users can delete their data at any time.</p>
+      </div>
+      <div class="rule-card">
+        <strong>No external scripts</strong>
+        <p>No third-party JavaScript (analytics, chat widgets, A/B testing). Google Fonts CDN is allowed.</p>
+      </div>
+
+      <!-- Publishing -->
+      <h2 id="publishing">Publishing</h2>
+
+      <h3>How to publish</h3>
+      <ol>
+        <li>Build your app using <code>pas create</code> or the SDK manually</li>
+        <li>Push to a GitHub repo under the <code>proappstore-online</code> org</li>
+        <li>Cloudflare Pages auto-deploys on push to main</li>
+        <li>Add your app to the store registry (PR to <code>proappstore/registry.json</code>)</li>
+      </ol>
+
+      <h3>Requirements</h3>
+      <ul>
+        <li>TypeScript (no plain JS)</li>
+        <li>Clean build with zero errors</li>
+        <li>Uses the platform SDK for auth (no custom auth)</li>
+        <li>Mobile-responsive (works on 320px+)</li>
+        <li>Dark mode via <code>prefers-color-scheme</code></li>
+        <li>Follows the privacy rules above</li>
+      </ul>
+
+      <h3>Revenue</h3>
+      <p>Developers can set their own subscription prices via Stripe. The platform takes 10% commission. Stripe takes their standard 2.9% + 30c. You keep the rest.</p>
+
+      <div style="margin-top:2rem;padding:1.5rem;border:1px solid var(--accent);border-radius:0.75rem;background:var(--accent-soft)">
+        <h3 style="color:var(--accent);margin:0 0 0.5rem">Ready to build?</h3>
+        <p style="font-size:0.9rem;margin:0 0 1rem">Run <code>pas create my-app</code> and start shipping.</p>
+        <a href="/docs" style="color:var(--accent);font-weight:700;font-size:0.9rem">Read the full docs</a> |
+        <a href="https://github.com/proappstore-online/platform" style="color:var(--accent);font-weight:700;font-size:0.9rem">View source on GitHub</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium web apps that work everywhere.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/roadmap">Roadmap</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/guidelines">Guidelines</a>
+        <a href="/docs">Docs</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="https://freeappstore.online">FreeAppStore</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
