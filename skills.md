@@ -96,6 +96,12 @@ const response = await app.storage.download('events/photo.jpg')
 const files = await app.storage.list()
 await app.storage.delete('events/photo.jpg')
 
+// Maps (geocoding, reverse geocoding — no Google API keys needed)
+const results = await app.maps.geocode('Sydney Opera House')
+const place = await app.maps.reverseGeocode(-33.856, 151.215)
+const mapUrl = app.maps.embedUrl(-33.856, 151.215)  // for <iframe>
+const tileUrl = app.maps.staticUrl(-33.856, 151.215) // for <img>
+
 // License keys
 const license = await app.license.current()
 await app.license.validate('KEY-123')
@@ -135,6 +141,7 @@ ProShell provides: sign-in screen, subscription upgrade wall, topbar with avatar
 | Real-time rooms | 5 rooms, 50 user-hours/day | Uncapped |
 | Subscriptions (Stripe) | No | Yes |
 | File storage (R2) | No | Yes (images, videos, 50MB/file) |
+| Maps + geocoding | No | Yes (OpenStreetMap, no Google keys) |
 | ProShell (platform UI) | No | Yes (auth + sub gate + topbar) |
 | License keys | No | Yes |
 | Custom domain | No | Yes |
