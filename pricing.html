@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pricing — ProAppStore</title>
-  <meta name="description" content="ProAppStore pricing. $9/month unlocks all Pro apps. Developers keep 90%. Transparent, fair, simple." />
+  <meta name="description" content="FreeAppStore is free forever. ProAppStore is $9/month for all apps. Simple, transparent, fair." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Pricing — ProAppStore" />
-  <meta property="og:description" content="$9/month unlocks all Pro apps. Developers keep 90%. Transparent pricing." />
+  <meta property="og:description" content="Free forever or $9/month for everything. Simple, transparent." />
   <meta property="og:url" content="https://proappstore.online/pricing" />
   <meta property="og:image" content="https://proappstore.online/icon-512.png" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -21,10 +21,9 @@
       <nav>
         <a href="/">Apps</a>
         <a href="/about">About</a>
-        <a href="/docs">Docs</a>
         <a href="/roadmap">Roadmap</a>
         <a href="/pricing">Pricing</a>
-        <a href="https://console.proappstore.online">Console</a>
+        <a href="/docs">Developers</a>
         <a href="https://dashboard.proappstore.online">Account</a>
       </nav>
     </div>
@@ -33,90 +32,70 @@
   <main class="container">
     <div class="page-header">
       <h1>Pricing</h1>
-      <p>Transparent pricing for users and developers. We tell you exactly what costs money and why.</p>
+      <p>Simple and transparent. Free apps are free forever. Pro apps are $9/month for everything.</p>
     </div>
 
     <div class="page-content">
-      <h2>For Users</h2>
 
       <div class="tier-grid">
         <div class="tier free">
-          <h3>FreeAppStore</h3>
+          <h3>Free</h3>
           <div class="price">$0 <small>forever</small></div>
-          <div class="blurb">Free apps with local storage. No account required.</div>
+          <div class="blurb">Great apps that save data on your device. No account needed.</div>
           <ul>
-            <li>All free apps, unlimited use</li>
-            <li>No account required</li>
-            <li>PWA — install on home screen</li>
+            <li>24+ apps, completely free</li>
+            <li>No sign-up required</li>
             <li>Works offline</li>
-            <li>1MB KV per user per app</li>
-            <li>5 real-time rooms, 50 user-hours/day</li>
-            <li>Open source (MIT)</li>
+            <li>Install on your home screen</li>
+            <li>Data saved on your device</li>
+            <li>Open source</li>
           </ul>
+          <a href="https://freeappstore.online" class="hero-btn" style="display:inline-block;margin-top:1.25rem;font-size:0.85rem">Browse free apps</a>
         </div>
         <div class="tier pro">
-          <h3>ProAppStore</h3>
+          <h3>Pro</h3>
           <div class="price">$9 <small>/month</small></div>
-          <div class="blurb">All Pro apps with cloud features. Cancel anytime.</div>
+          <div class="blurb">Cloud-powered apps with databases, file storage, and collaboration.</div>
           <ul>
-            <li>Everything in Free</li>
-            <li>All Pro apps unlocked</li>
-            <li>Per-app SQL databases</li>
-            <li>File storage (images, videos, docs)</li>
-            <li>Uncapped real-time rooms</li>
-            <li>10MB KV per user per app</li>
-            <li>Maps + geocoding</li>
-            <li>Custom domains (coming)</li>
-            <li>Server-side AI (coming)</li>
-            <li>Priority support</li>
+            <li>Everything in Free, plus:</li>
+            <li>Cloud data — access from any device</li>
+            <li>File uploads (photos, documents, videos)</li>
+            <li>Real-time collaboration and chat</li>
+            <li>Maps and location features</li>
+            <li>All Pro apps included</li>
+            <li>Cancel anytime</li>
           </ul>
+          <a href="/" class="hero-btn" style="display:inline-block;margin-top:1.25rem;font-size:0.85rem">Browse Pro apps</a>
         </div>
       </div>
 
-      <h2>For Developers</h2>
+      <h2>Frequently asked questions</h2>
 
-      <p>Publishing on ProAppStore is free. The platform provides hosting, databases, auth, payments, and storage at no upfront cost. The business model is simple:</p>
+      <h3>What do I get for $9/month?</h3>
+      <p>Access to every Pro app on the platform. One subscription, all apps. No per-app charges.</p>
 
-      <div class="principles">
-        <div class="principle">
-          <h3>$0 to start</h3>
-          <p>No publishing fee, no monthly charge, no setup cost. Run <code>pas create</code> and start building.</p>
-        </div>
-        <div class="principle">
-          <h3>10% commission</h3>
-          <p>When users pay, the platform takes 10%. You keep 90%. Stripe handles processing (+ their standard 2.9% + 30c).</p>
-        </div>
-        <div class="principle">
-          <h3>You set the price</h3>
-          <p>Set your own subscription price. Monthly, yearly, or one-time. Your app, your pricing.</p>
-        </div>
-      </div>
+      <h3>Can I cancel?</h3>
+      <p>Yes, anytime. You keep access until the end of your billing period. No cancellation fees.</p>
 
-      <h2>What Costs Us Money (and why we charge)</h2>
-      <p>We're transparent about infrastructure costs. Here's what runs behind every Pro app:</p>
-      <table>
-        <thead>
-          <tr><th>Resource</th><th>Provider</th><th>Why it costs</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>D1 Database</td><td>Cloudflare</td><td>Per-app isolated SQLite. Reads, writes, storage.</td></tr>
-          <tr><td>R2 Storage</td><td>Cloudflare</td><td>File uploads. Charged per GB stored + egress.</td></tr>
-          <tr><td>Workers</td><td>Cloudflare</td><td>Data workers, API backend. Per-request billing.</td></tr>
-          <tr><td>Durable Objects</td><td>Cloudflare</td><td>WebSocket rooms. Charged per GB-second of duration.</td></tr>
-          <tr><td>Pages</td><td>Cloudflare</td><td>Static hosting. Free tier covers most apps.</td></tr>
-          <tr><td>Stripe</td><td>Stripe</td><td>Payment processing. 2.9% + 30c per transaction.</td></tr>
-        </tbody>
-      </table>
-      <p style="font-size:0.85rem;color:var(--muted);margin-top:1rem">The $9/month subscription and 10% commission fund these infrastructure costs and platform development. No VC money, no ads, no data selling.</p>
+      <h3>What happens to my data if I cancel?</h3>
+      <p>Your data stays in your account. If you resubscribe later, everything is still there.</p>
 
-      <h2>Why Not Per-App Pricing?</h2>
-      <p>We considered charging per-app but chose a single subscription instead. Here's why:</p>
-      <ul>
-        <li><strong>Lower friction</strong> — Users try more apps when there's no per-app purchase decision.</li>
-        <li><strong>Better for small apps</strong> — A niche utility with 50 users gets the same infrastructure as a popular app.</li>
-        <li><strong>Simpler for everyone</strong> — One subscription, one billing relationship, one dashboard.</li>
-      </ul>
-      <p>Developers who want per-app pricing can set their own subscription prices through Stripe. The platform subscription is the baseline; per-app pricing is opt-in on top.</p>
+      <h3>Do I need an account for the free apps?</h3>
+      <p>No. Free apps on <a href="https://freeappstore.online">FreeAppStore</a> work without any account. Data is saved locally on your device.</p>
+
+      <h3>What payment methods do you accept?</h3>
+      <p>Credit and debit cards via Stripe. We support all major card networks worldwide.</p>
+
+      <h3>Is there a free trial?</h3>
+      <p>Not yet, but we're considering it. The free apps on FreeAppStore give you a good feel for the platform.</p>
+
+      <h2>Why does Pro cost money?</h2>
+      <p>Running cloud infrastructure costs real money. Every Pro app gets its own database, file storage, and real-time servers. These cost us per-user, per-month. The $9 subscription covers those costs and funds platform development.</p>
+      <p>We don't run ads. We don't sell data. We don't have investors pushing for growth-at-all-costs. The subscription is the business model.</p>
+
+      <h2>For developers</h2>
+      <p>Publishing apps on ProAppStore is free. The platform provides hosting, databases, auth, and payments at no upfront cost. When users pay for your app, you keep 90% and the platform takes 10%.</p>
+      <p><a href="/docs">Read the developer docs</a> for details on building and publishing.</p>
     </div>
   </main>
 
@@ -124,16 +103,15 @@
     <div class="container">
       <div class="footer-left">
         <a href="/" class="logo">Pro <span>Apps</span></a>
-        <p>Premium apps for serious creators.</p>
+        <p>Premium web apps that work everywhere.</p>
       </div>
       <div class="footer-links">
         <a href="/about">About</a>
-        <a href="/docs">Docs</a>
         <a href="/roadmap">Roadmap</a>
         <a href="/pricing">Pricing</a>
+        <a href="/docs">Developers</a>
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
-        <a href="https://console.proappstore.online">Console</a>
         <a href="https://freeappstore.online">FreeAppStore</a>
         <a href="https://github.com/proappstore-online">GitHub</a>
       </div>

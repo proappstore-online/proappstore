@@ -113,6 +113,12 @@ header nav a:hover { color: var(--ink); }
 .vision-block h3 { color: var(--accent); margin: 0 0 0.5rem; font-size: 1rem; }
 .vision-block p { margin: 0.25rem 0; font-size: 0.88rem; }
 
+/* Hero buttons */
+.hero-btn { display: inline-block; background: var(--accent); color: white; padding: 0.65rem 1.5rem; border-radius: 0.6rem; font-size: 0.92rem; font-weight: 700; text-decoration: none; }
+.hero-btn:hover { text-decoration: none; opacity: 0.9; }
+.hero-btn-outline { display: inline-block; border: 1.5px solid var(--border); color: var(--ink); padding: 0.6rem 1.5rem; border-radius: 0.6rem; font-size: 0.92rem; font-weight: 700; text-decoration: none; }
+.hero-btn-outline:hover { text-decoration: none; border-color: var(--accent); color: var(--accent); }
+
 /* Footer */
 footer { border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 4rem; }
 footer .container { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap; }

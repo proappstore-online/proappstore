@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roadmap — ProAppStore</title>
-  <meta name="description" content="ProAppStore public roadmap. See what's shipped, what's in progress, and what's planned next." />
+  <meta name="description" content="What's live, what's being built, and what's coming next on ProAppStore." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Roadmap — ProAppStore" />
-  <meta property="og:description" content="See what's shipped, what's in progress, and what's planned." />
+  <meta property="og:description" content="See what's live, what's being built, and what's planned." />
   <meta property="og:url" content="https://proappstore.online/roadmap" />
   <meta property="og:image" content="https://proappstore.online/icon-512.png" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -21,10 +21,9 @@
       <nav>
         <a href="/">Apps</a>
         <a href="/about">About</a>
-        <a href="/docs">Docs</a>
         <a href="/roadmap">Roadmap</a>
         <a href="/pricing">Pricing</a>
-        <a href="https://console.proappstore.online">Console</a>
+        <a href="/docs">Developers</a>
         <a href="https://dashboard.proappstore.online">Account</a>
       </nav>
     </div>
@@ -33,171 +32,174 @@
   <main class="container">
     <div class="page-header">
       <h1>Roadmap</h1>
-      <p>What we've shipped, what we're building, and where we're headed. Updated live as things land.</p>
+      <p>We build in the open. Here's what's done, what's in progress, and what's planned.</p>
     </div>
 
     <div class="page-content">
 
-      <h2>Shipped</h2>
+      <h2>Live now</h2>
+      <p>These features are shipped and working today.</p>
       <div class="roadmap-section">
         <div class="roadmap-item">
-          <span class="roadmap-status shipped">SHIPPED</span>
+          <span class="roadmap-status shipped">LIVE</span>
           <div>
-            <h4>SDK v1.7 — Full platform SDK</h4>
-            <p>Auth, KV, counters, rooms, proxy, per-app SQL database, file storage, maps, subscriptions, license keys. React hooks API (useProAuth, useProSubscription, useProGate) and ProShell component.</p>
+            <h4>Sign in with GitHub</h4>
+            <p>One account works across every app. Sign in once, use everywhere. Shared with FreeAppStore.</p>
           </div>
         </div>
         <div class="roadmap-item">
-          <span class="roadmap-status shipped">SHIPPED</span>
+          <span class="roadmap-status shipped">LIVE</span>
           <div>
-            <h4>CLI — <code>pas create</code></h4>
-            <p>One command scaffolds a full Pro app: React + Vite + Tailwind project, provisions D1 database, connects to platform auth.</p>
+            <h4>Cloud databases</h4>
+            <p>Every app gets its own database. Your data is saved in the cloud and available from any device.</p>
           </div>
         </div>
         <div class="roadmap-item">
-          <span class="roadmap-status shipped">SHIPPED</span>
+          <span class="roadmap-status shipped">LIVE</span>
           <div>
-            <h4>Per-app SQL Database</h4>
-            <p>Each app gets its own Cloudflare D1 database fronted by a data worker. Custom schema, indexes, joins. SDK: <code>app.db.query()</code>, <code>app.db.execute()</code>, <code>app.db.batch()</code>.</p>
+            <h4>File uploads</h4>
+            <p>Upload and share images, documents, and videos. Public files get shareable links.</p>
           </div>
         </div>
         <div class="roadmap-item">
-          <span class="roadmap-status shipped">SHIPPED</span>
+          <span class="roadmap-status shipped">LIVE</span>
           <div>
-            <h4>File Storage (R2)</h4>
-            <p>Upload images, videos, documents. Public files get direct URLs for <code>&lt;img src&gt;</code>. SDK: <code>app.storage.upload()</code>, <code>app.storage.uploadPublic()</code>, <code>app.storage.download()</code>.</p>
+            <h4>Real-time collaboration</h4>
+            <p>Chat, presence, and live updates. See who's online. Work together in real time.</p>
           </div>
         </div>
         <div class="roadmap-item">
-          <span class="roadmap-status shipped">SHIPPED</span>
+          <span class="roadmap-status shipped">LIVE</span>
           <div>
-            <h4>Maps + Geocoding</h4>
-            <p>Address-to-coordinates, reverse geocoding, map embeds. OpenStreetMap/Nominatim powered. No Google API keys. SDK: <code>app.maps.geocode()</code>, <code>app.maps.embedUrl()</code>.</p>
+            <h4>Maps and locations</h4>
+            <p>Apps can show maps, find addresses, and work with locations. Powered by OpenStreetMap.</p>
           </div>
         </div>
         <div class="roadmap-item">
-          <span class="roadmap-status shipped">SHIPPED</span>
+          <span class="roadmap-status shipped">LIVE</span>
           <div>
-            <h4>React Hooks API</h4>
-            <p><code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code> — apps own their UI. Import from <code>@proappstore/sdk/hooks</code>.</p>
+            <h4>Personal storage</h4>
+            <p>Per-user storage for preferences, settings, and app data. Your stuff, saved for you.</p>
           </div>
         </div>
         <div class="roadmap-item">
-          <span class="roadmap-status shipped">SHIPPED</span>
+          <span class="roadmap-status shipped">LIVE</span>
           <div>
-            <h4>Dashboard + Console</h4>
-            <p>User account management at dashboard.proappstore.online. Creator console at console.proappstore.online.</p>
+            <h4>Meetup app</h4>
+            <p>The first Pro app. Create events, manage groups, chat in real time. <a href="https://meetup.proappstore.online">Try it</a>.</p>
           </div>
         </div>
         <div class="roadmap-item">
-          <span class="roadmap-status shipped">SHIPPED</span>
+          <span class="roadmap-status shipped">LIVE</span>
           <div>
-            <h4>Platform Auth (GitHub SSO)</h4>
-            <p>One sign-in across all Free and Pro apps. FAS handles identity, PAS delegates. Shared token format.</p>
+            <h4>User dashboard</h4>
+            <p>Manage your account, subscription, and preferences at <a href="https://dashboard.proappstore.online">dashboard.proappstore.online</a>.</p>
           </div>
         </div>
         <div class="roadmap-item">
-          <span class="roadmap-status shipped">SHIPPED</span>
+          <span class="roadmap-status shipped">LIVE</span>
           <div>
-            <h4>OIDC Trusted Publishing</h4>
-            <p>SDK and CLI publish to npm via OIDC from GitHub Actions. No stored npm tokens.</p>
+            <h4>Developer tools</h4>
+            <p>SDK, CLI, and creator console for developers who want to build and publish their own Pro apps.</p>
           </div>
         </div>
       </div>
 
-      <h2>In Progress</h2>
+      <h2>Being built</h2>
+      <p>Actively in development. Coming soon.</p>
       <div class="roadmap-section">
         <div class="roadmap-item">
           <span class="roadmap-status building">BUILDING</span>
           <div>
-            <h4>Stripe Integration</h4>
-            <p>Connect Stripe for real payment processing. Checkout flows, billing portal, webhook handlers are built in the backend — wiring up real Stripe keys and testing end-to-end.</p>
+            <h4>Payments</h4>
+            <p>Stripe integration for the $9/month subscription. Subscribe, manage billing, cancel anytime.</p>
           </div>
         </div>
         <div class="roadmap-item">
           <span class="roadmap-status building">BUILDING</span>
           <div>
-            <h4>Auto-Provision Data Workers</h4>
-            <p>When <code>pas create</code> runs, automatically deploy the per-app data worker (currently requires a manual <code>wrangler deploy</code> step).</p>
+            <h4>More apps</h4>
+            <p>New apps in progress: project management, language learning tools, and creative apps.</p>
           </div>
         </div>
         <div class="roadmap-item">
           <span class="roadmap-status building">BUILDING</span>
           <div>
-            <h4>Console DB Browser</h4>
-            <p>Browse tables, run SQL queries, inspect data from the creator console. Visual database management for your pro apps.</p>
+            <h4>Database browser</h4>
+            <p>A visual tool in the creator console for developers to inspect and manage their app's data.</p>
           </div>
         </div>
       </div>
 
       <h2>Planned</h2>
+      <p>On the list. We'll build these based on what people need most.</p>
       <div class="roadmap-section">
         <div class="roadmap-item">
           <span class="roadmap-status planned">PLANNED</span>
           <div>
-            <h4>Server-side AI</h4>
-            <p>Centralized API key vault. Users add their AI keys (OpenAI, Anthropic, Google) once. Apps call AI through a server-side proxy. Developers never see user keys. Token usage billed at cost.</p>
+            <h4>AI features</h4>
+            <p>Apps that use AI to help you write, summarize, create, and think. Bring your own API key — the platform keeps it safe.</p>
           </div>
         </div>
         <div class="roadmap-item">
           <span class="roadmap-status planned">PLANNED</span>
           <div>
-            <h4>Cron / Scheduled Workers</h4>
-            <p>Run background jobs on a schedule. Digests, reminders, batch processing, daily challenges.</p>
+            <h4>Scheduled tasks</h4>
+            <p>Daily digests, weekly summaries, reminders. Apps that do things for you on a schedule.</p>
           </div>
         </div>
         <div class="roadmap-item">
           <span class="roadmap-status planned">PLANNED</span>
           <div>
-            <h4>Transactional Email</h4>
-            <p>Send emails from your app. Welcome messages, notifications, receipts. Quota included with Pro subscription.</p>
+            <h4>Email notifications</h4>
+            <p>Get email updates from your apps. Event reminders, new messages, weekly recaps.</p>
           </div>
         </div>
         <div class="roadmap-item">
           <span class="roadmap-status planned">PLANNED</span>
           <div>
-            <h4>Custom Domains</h4>
-            <p>Bring your own domain to your Pro app. CNAME setup, automatic SSL, DNS verification.</p>
+            <h4>Push notifications</h4>
+            <p>Real-time alerts on your phone or desktop. New messages, event updates, important changes.</p>
           </div>
         </div>
         <div class="roadmap-item">
           <span class="roadmap-status planned">PLANNED</span>
           <div>
-            <h4>Developer Payouts</h4>
-            <p>Stripe Connect for marketplace payouts. Developers set their own subscription prices, platform takes 10% commission.</p>
+            <h4>Custom domains</h4>
+            <p>Use your own domain name (like myapp.com) instead of the default proappstore.online address.</p>
           </div>
         </div>
         <div class="roadmap-item">
           <span class="roadmap-status planned">PLANNED</span>
           <div>
-            <h4>Google OAuth</h4>
-            <p>Sign in with Google alongside GitHub. Broader user base, same identity system.</p>
+            <h4>Sign in with Google</h4>
+            <p>Use your Google account alongside GitHub. More ways to sign in.</p>
           </div>
         </div>
         <div class="roadmap-item">
           <span class="roadmap-status planned">PLANNED</span>
           <div>
-            <h4>App Analytics</h4>
-            <p>Privacy-respecting usage analytics for developers. Page views, active users, feature adoption. No third-party trackers.</p>
+            <h4>App analytics</h4>
+            <p>For developers: see how many people use your app, which features are popular, without tracking users.</p>
           </div>
         </div>
         <div class="roadmap-item">
           <span class="roadmap-status planned">PLANNED</span>
           <div>
-            <h4>Push Notifications</h4>
-            <p>Web Push API integration. Notify users about new messages, events, updates. Opt-in only.</p>
+            <h4>Developer payouts</h4>
+            <p>Developers can charge for their apps. Set your own price, keep 90% of the revenue.</p>
           </div>
         </div>
       </div>
 
-      <h2>Long-term Vision</h2>
+      <h2>The big picture</h2>
       <div class="vision-block">
-        <h3>The Full-Stack Web App Platform</h3>
-        <p>ProAppStore is building toward a world where any developer can ship a production-grade web app in an afternoon. Not a toy. Not a demo. A real product with auth, databases, payments, storage, real-time features, and global edge hosting.</p>
-        <p>The platform handles the 80% of infrastructure that's the same for every app. Developers focus on the 20% that makes their app unique.</p>
+        <h3>Where this is going</h3>
+        <p>We're building a world where useful software doesn't need an app store gatekeeper or a 30% tax. Web apps are faster, safer, and work on every device. ProAppStore gives developers the tools to build real products — databases, payments, storage, collaboration — and gives users a single place to find and use them.</p>
+        <p>No walled garden. No platform lock-in. The web is the platform.</p>
       </div>
 
-      <p style="margin-top:2rem;font-size:0.85rem;color:var(--muted)">This roadmap is a living document. Priorities shift based on what developers need most. Have a feature request? <a href="https://github.com/proappstore-online/platform/issues">Open an issue</a>.</p>
+      <p style="margin-top:2rem;font-size:0.88rem;color:var(--muted)">Priorities shift based on what people actually need. Have a suggestion? <a href="https://github.com/proappstore-online/platform/issues">Tell us on GitHub</a>.</p>
     </div>
   </main>
 
@@ -205,16 +207,15 @@
     <div class="container">
       <div class="footer-left">
         <a href="/" class="logo">Pro <span>Apps</span></a>
-        <p>Premium apps for serious creators.</p>
+        <p>Premium web apps that work everywhere.</p>
       </div>
       <div class="footer-links">
         <a href="/about">About</a>
-        <a href="/docs">Docs</a>
         <a href="/roadmap">Roadmap</a>
         <a href="/pricing">Pricing</a>
+        <a href="/docs">Developers</a>
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
-        <a href="https://console.proappstore.online">Console</a>
         <a href="https://freeappstore.online">FreeAppStore</a>
         <a href="https://github.com/proappstore-online">GitHub</a>
       </div>

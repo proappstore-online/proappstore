@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About — ProAppStore</title>
-  <meta name="description" content="ProAppStore is a marketplace for premium web apps with subscriptions, real-time collaboration, AI features, and per-app databases." />
+  <meta name="description" content="ProAppStore is a platform for premium web apps. One subscription, all apps. Cloud storage, real-time collaboration, maps, file uploads." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="About — ProAppStore" />
-  <meta property="og:description" content="Premium web apps with subscriptions, real-time collaboration, AI, and per-app databases." />
+  <meta property="og:description" content="Premium web apps that work in your browser. One subscription, all apps." />
   <meta property="og:url" content="https://proappstore.online/about" />
   <meta property="og:image" content="https://proappstore.online/icon-512.png" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -21,10 +21,9 @@
       <nav>
         <a href="/">Apps</a>
         <a href="/about">About</a>
-        <a href="/docs">Docs</a>
         <a href="/roadmap">Roadmap</a>
         <a href="/pricing">Pricing</a>
-        <a href="https://console.proappstore.online">Console</a>
+        <a href="/docs">Developers</a>
         <a href="https://dashboard.proappstore.online">Account</a>
       </nav>
     </div>
@@ -33,67 +32,88 @@
   <main class="container">
     <div class="page-header">
       <h1>About ProAppStore</h1>
-      <p>A marketplace for premium web apps. One SDK, one subscription, full power. Built for developers who want to ship real products without managing infrastructure.</p>
+      <p>A platform for premium web apps that work right in your browser. No downloads, no app store gatekeepers.</p>
     </div>
 
     <div class="page-content">
-      <h2>What is ProAppStore?</h2>
-      <p>ProAppStore is the paid counterpart to <a href="https://freeappstore.online">FreeAppStore</a>. Where FreeAppStore provides free, open-source apps with local storage, ProAppStore gives developers the full backend stack: per-app SQL databases, file storage, real-time WebSockets, Stripe subscriptions, maps, and more.</p>
-      <p>Developers build with a single SDK (<code>@proappstore/sdk</code>) and get hosting, auth, payments, and databases out of the box. Users get a single $9/month subscription that unlocks every app on the platform.</p>
 
-      <div class="vision-block">
-        <h3>Our Vision</h3>
-        <p>We believe the next generation of software is web-native. No app store gatekeepers, no 30% tax, no install friction. ProAppStore is the infrastructure layer that makes it possible for indie developers to build and monetize serious web apps without managing servers, databases, or payment systems.</p>
-      </div>
+      <h2>What is this?</h2>
+      <p>ProAppStore is a collection of web apps that go beyond what a basic website can do. These apps have databases, file storage, real-time collaboration, maps, and payment processing built in. They run in your browser on any device, but they feel like native apps.</p>
+      <p>Think of it like an app store, but everything runs on the web. No downloads. No iOS vs Android. Just open the link and use it.</p>
 
-      <h2>How It Works</h2>
+      <h2>How does it work?</h2>
 
       <div class="principles">
         <div class="principle">
-          <h3>For Developers</h3>
-          <p>Run <code>pas create my-app</code>. Get a repo, database, hosting, and auth in 30 seconds. Push to main to deploy. The SDK handles everything else.</p>
+          <h3>1. Browse and open</h3>
+          <p>Find an app you like on this site. Click "Open" and it loads instantly in your browser. You can install it to your home screen for an app-like experience.</p>
         </div>
         <div class="principle">
-          <h3>For Users</h3>
-          <p>Sign in once with GitHub. One $9/month subscription unlocks every Pro app. No per-app purchases, no surprise charges.</p>
+          <h3>2. Sign in once</h3>
+          <p>Use your GitHub account to sign in. One sign-in works across every app on the platform. Your data and settings follow you.</p>
         </div>
         <div class="principle">
-          <h3>For the Platform</h3>
-          <p>10% commission on developer-set subscription prices. Developers keep 90%. Stripe handles all payment processing.</p>
+          <h3>3. Use everywhere</h3>
+          <p>Your data lives in the cloud. Start on your phone, continue on your laptop. Share with friends. Everything stays in sync.</p>
         </div>
       </div>
 
-      <h2>Platform Architecture</h2>
-      <p>Every Pro app runs on Cloudflare's global edge network. The platform provides:</p>
+      <h2>What makes Pro apps different?</h2>
+      <p>Our sister site <a href="https://freeappstore.online">FreeAppStore</a> has 24+ free apps that store data locally on your device. Pro apps take it further:</p>
       <ul>
-        <li><strong>Auth</strong> — GitHub OAuth, shared identity across all apps. Sign in once, use everywhere.</li>
-        <li><strong>Database</strong> — Per-app Cloudflare D1 (SQLite). Your own tables, indexes, joins. Accessed through a dedicated data worker.</li>
-        <li><strong>Storage</strong> — R2 file storage for images, videos, documents. Public and private uploads.</li>
-        <li><strong>Real-time</strong> — WebSocket rooms via Durable Objects. Chat, presence, multiplayer.</li>
-        <li><strong>Payments</strong> — Stripe checkout, billing portal, webhooks. Platform handles the plumbing.</li>
-        <li><strong>Maps</strong> — Geocoding, reverse geocoding, map embeds. OpenStreetMap-powered, no API keys needed.</li>
-        <li><strong>Hosting</strong> — Cloudflare Pages with automatic deploys on git push. Zero config.</li>
+        <li><strong>Cloud data</strong> — Your information is saved in the cloud, not just on your phone. Switch devices and your stuff is there.</li>
+        <li><strong>Real-time</strong> — Chat with others, collaborate on projects, see who's online. Apps can be social.</li>
+        <li><strong>File uploads</strong> — Attach photos, documents, and videos. Apps can handle your files.</li>
+        <li><strong>Maps</strong> — Find nearby events, plot locations, get directions. Location-aware apps without the complexity.</li>
+        <li><strong>Payments</strong> — Developers can offer premium features. Users subscribe and manage billing in one place.</li>
       </ul>
 
-      <h2>The Free/Pro Relationship</h2>
-      <p>FreeAppStore and ProAppStore share the same identity system and SDK lineage. <code>@proappstore/sdk</code> extends <code>@freeappstore/sdk</code> with additional modules. Apps on either platform use the same auth, KV storage, counters, rooms, and proxy features.</p>
-      <p>The difference: Pro apps get per-app SQL databases, file storage, Stripe subscriptions, maps, and uncapped real-time rooms. Free apps run with sensible limits that keep the platform sustainable.</p>
+      <h2>The Free + Pro family</h2>
+      <p><a href="https://freeappstore.online">FreeAppStore</a> and ProAppStore are part of the same platform. Free apps are always 100% free forever — no tricks, no upsells. Pro apps add cloud features that cost real money to run (servers, databases, storage). The $9/month subscription covers those costs.</p>
+      <p>Same account works on both. You can use the free apps without ever paying. If you want cloud-powered apps, Pro is here.</p>
 
-      <h2>Tech Stack</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0">
+        <div style="padding:1.25rem;border:1px solid var(--border);border-radius:0.75rem">
+          <h3 style="margin:0 0 0.35rem">FreeAppStore</h3>
+          <ul style="font-size:0.85rem;color:var(--muted);margin:0;padding-left:1.25rem">
+            <li>24+ apps, always free</li>
+            <li>Data stays on your device</li>
+            <li>Works offline</li>
+            <li>Open source</li>
+          </ul>
+          <p style="margin:0.75rem 0 0"><a href="https://freeappstore.online" style="font-size:0.85rem;font-weight:600">Visit FreeAppStore</a></p>
+        </div>
+        <div style="padding:1.25rem;border:1px solid var(--accent);border-radius:0.75rem">
+          <h3 style="margin:0 0 0.35rem;color:var(--accent)">ProAppStore</h3>
+          <ul style="font-size:0.85rem;color:var(--muted);margin:0;padding-left:1.25rem">
+            <li>Cloud databases + file storage</li>
+            <li>Real-time collaboration</li>
+            <li>Maps + location features</li>
+            <li>$9/month, all apps included</li>
+          </ul>
+          <p style="margin:0.75rem 0 0"><a href="/pricing" style="font-size:0.85rem;font-weight:600">See pricing</a></p>
+        </div>
+      </div>
+
+      <h2>Where we're headed</h2>
+      <p>ProAppStore is in early access. We have one app live (Meetup) and more in development. Here's what's coming:</p>
       <ul>
-        <li>TypeScript, React 19, Vite 8, Tailwind CSS 4</li>
-        <li>Cloudflare Workers, D1, Durable Objects, R2, Pages</li>
-        <li>Stripe for payments</li>
-        <li>pnpm workspaces, OIDC trusted publishing to npm</li>
-        <li>Node 22+ (CI uses Node 24)</li>
+        <li><strong>More apps</strong> — Project management, study tools, habit trackers, creative tools</li>
+        <li><strong>AI features</strong> — Apps that can summarize, write, and help you think</li>
+        <li><strong>Notifications</strong> — Get alerts for events, messages, and updates</li>
+        <li><strong>Email</strong> — Apps can send you reminders and digests</li>
       </ul>
+      <p><a href="/roadmap">See the full roadmap</a></p>
 
-      <h2>Open Source</h2>
-      <p>The platform SDK, CLI, and store site are open source. Individual apps may be open or closed source at the developer's discretion.</p>
-      <p><a href="https://github.com/proappstore-online">View our GitHub organization</a></p>
+      <h2>For developers</h2>
+      <p>ProAppStore is also a platform for developers. One command gives you hosting, a database, auth, file storage, maps, and payments. You focus on building your app — the platform handles everything else.</p>
+      <p><a href="/docs">Read the developer docs</a> | <a href="https://github.com/proappstore-online/platform">View source on GitHub</a></p>
 
-      <h2>Contact</h2>
-      <p>Questions, partnerships, or feedback: open an issue on <a href="https://github.com/proappstore-online/platform">GitHub</a>.</p>
+      <h2>Privacy</h2>
+      <p>No ads. No tracking. No data selling. We make money from subscriptions, not from your personal information. <a href="/privacy">Read our privacy policy</a>.</p>
+
+      <h2>Questions?</h2>
+      <p>Open an issue on <a href="https://github.com/proappstore-online/platform/issues">GitHub</a>. We read everything.</p>
     </div>
   </main>
 
@@ -101,16 +121,15 @@
     <div class="container">
       <div class="footer-left">
         <a href="/" class="logo">Pro <span>Apps</span></a>
-        <p>Premium apps for serious creators.</p>
+        <p>Premium web apps that work everywhere.</p>
       </div>
       <div class="footer-links">
         <a href="/about">About</a>
-        <a href="/docs">Docs</a>
         <a href="/roadmap">Roadmap</a>
         <a href="/pricing">Pricing</a>
+        <a href="/docs">Developers</a>
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
-        <a href="https://console.proappstore.online">Console</a>
         <a href="https://freeappstore.online">FreeAppStore</a>
         <a href="https://github.com/proappstore-online">GitHub</a>
       </div>
