@@ -193,16 +193,40 @@ import { useProGate } from '@proappstore/sdk/hooks'         // combined gate</co
         <p>No third-party JavaScript (analytics, chat widgets, A/B testing). Google Fonts CDN is allowed.</p>
       </div>
 
-      <!-- Publishing -->
-      <h2 id="publishing">Publishing</h2>
+      <!-- Building -->
+      <h2 id="publishing">Building and Publishing</h2>
 
-      <h3>How to publish</h3>
-      <ol>
-        <li>Build your app using <code>pas create</code> or the SDK manually</li>
-        <li>Push to a GitHub repo under the <code>proappstore-online</code> org</li>
-        <li>Cloudflare Pages auto-deploys on push to main</li>
-        <li>Add your app to the store registry (PR to <code>proappstore/registry.json</code>)</li>
-      </ol>
+      <h3>How to build</h3>
+      <p>Full step-by-step with terminal commands: <a href="/build-with-ai" style="font-weight:700">Build with AI guide</a></p>
+      <p>Short version:</p>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:0.75rem;padding:1rem 1.25rem;margin:1rem 0;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:0.82rem;overflow-x:auto;white-space:pre;line-height:1.7"><span style="color:var(--muted)"># Install CLI</span>
+npm install -g @proappstore/cli
+
+<span style="color:var(--muted)"># Create app (scaffolds + provisions database + deploys data worker)</span>
+pas create my-app
+cd my-app
+
+<span style="color:var(--muted)"># Start AI coding (Claude Code, or use any other tool)</span>
+claude
+
+<span style="color:var(--muted)"># Run locally</span>
+pnpm dev
+
+<span style="color:var(--muted)"># Deploy</span>
+git push origin main
+<span style="color:var(--muted)"># Live at https://my-app.proappstore.online</span></div>
+
+      <h3>What you get automatically</h3>
+      <ul>
+        <li>React + Vite + Tailwind project with platform design system</li>
+        <li>Per-app SQL database (create any tables you want)</li>
+        <li>Auth (GitHub sign-in, works across all apps)</li>
+        <li>File storage (images, documents, videos)</li>
+        <li>Maps and geocoding</li>
+        <li>Real-time rooms (chat, presence)</li>
+        <li>CLAUDE.md pre-configured with skills.md reference</li>
+        <li>Auto-deploy on push to main via Cloudflare Pages</li>
+      </ul>
 
       <h3>Requirements</h3>
       <ul>
@@ -219,9 +243,10 @@ import { useProGate } from '@proappstore/sdk/hooks'         // combined gate</co
 
       <div style="margin-top:2rem;padding:1.5rem;border:1px solid var(--accent);border-radius:0.75rem;background:var(--accent-soft)">
         <h3 style="color:var(--accent);margin:0 0 0.5rem">Ready to build?</h3>
-        <p style="font-size:0.9rem;margin:0 0 1rem">Run <code>pas create my-app</code> and start shipping.</p>
-        <a href="/docs" style="color:var(--accent);font-weight:700;font-size:0.9rem">Read the full docs</a> |
-        <a href="https://github.com/proappstore-online/platform" style="color:var(--accent);font-weight:700;font-size:0.9rem">View source on GitHub</a>
+        <p style="font-size:0.9rem;margin:0 0 1rem">Full step-by-step with terminal commands, AI tool setup, and SDK cheat sheet.</p>
+        <a href="/build-with-ai" style="color:var(--accent);font-weight:700;font-size:0.9rem">Build with AI guide</a> |
+        <a href="/docs" style="color:var(--accent);font-weight:700;font-size:0.9rem">SDK docs</a> |
+        <a href="https://github.com/proappstore-online/platform" style="color:var(--accent);font-weight:700;font-size:0.9rem">Source on GitHub</a>
       </div>
     </div>
   </main>
