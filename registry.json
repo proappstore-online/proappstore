@@ -12,6 +12,19 @@
       "type": "connected",
       "developer": "ProAppStore",
       "proFeatures": ["Create events", "Event chat", "Manage groups"]
+    },
+    {
+      "id": "carsads",
+      "name": "Carsads",
+      "category": "marketplace",
+      "icon": "&#128663;",
+      "iconBg": "#fff1e9",
+      "description": "Car classifieds — browse listings, post your car for sale, and connect with buyers. Filter by make, price, year, location.",
+      "appUrl": "https://carsads.proappstore.online",
+      "repo": "proappstore-online/carsads",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": ["Post listings", "Upload photos", "Embedded map"]
     }
   ]
 }
