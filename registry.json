@@ -21,10 +21,23 @@
       "iconBg": "#fff1e9",
       "description": "Car classifieds — browse listings, post your car for sale, and connect with buyers. Filter by make, price, year, location.",
       "appUrl": "https://carsads.proappstore.online",
-      "repo": "proappstore-online/carsads",
+      "repo": "carsads-online/carsads",
+      "type": "connected",
+      "developer": "Carsads",
+      "proFeatures": ["Post listings", "Upload photos", "Embedded map"]
+    },
+    {
+      "id": "loopride",
+      "name": "Loopride",
+      "category": "transport",
+      "icon": "&#128260;",
+      "iconBg": "#ecfdf5",
+      "description": "Recurring rides — set up a route, days and time once, and your driver shows up week after week. Live GPS tracking when the trip starts.",
+      "appUrl": "https://loopride.proappstore.online",
+      "repo": "proappstore-online/loopride",
       "type": "connected",
       "developer": "ProAppStore",
-      "proFeatures": ["Post listings", "Upload photos", "Embedded map"]
+      "proFeatures": ["Recurring schedules", "Live driver tracking", "Real geocoding"]
     }
   ]
 }
