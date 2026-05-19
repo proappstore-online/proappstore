@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProAppStore — Premium Web Apps</title>
+  <meta name="description" content="Premium web apps with subscriptions, AI, real-time collaboration." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ProAppStore — Premium Web Apps" />
+  <meta property="og:description" content="Premium web apps with subscriptions, AI, real-time collaboration." />
+  <meta property="og:url" content="https://proappstore.online/" />
+  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  <script>
+    (function(){try{var s=localStorage.getItem('pas-theme');var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();
+  </script>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="brand" aria-label="ProAppStore">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7"/><path d="M4 7l8 6 8-6"/><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2"/></svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">ProAppStore</span>
+          <span class="brand-tag">Premium Web Apps</span>
+        </span>
+      </a>
+
+      <nav>
+        <a href="/">Apps</a>
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="https://dashboard.proappstore.online">Account</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/docs.html">SDK Docs</a>
+        <a href="https://freeappstore.online">Free</a>
+      </nav>
+
+      <div class="header-right">
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        </button>
+        <a href="https://dashboard.proappstore.online" class="btn-primary">Get $9 plan</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="apps-section" id="apps">
+      <div class="apps-header" style="border-top: none; padding-top: 0;">
+        <div class="apps-header-title">
+          <h2>Pro Apps</h2>
+          <div class="count" id="apps-count">Premium web apps with subscriptions, real-time collaboration, AI, and more. One SDK, full power. $9/mo for everything.</div>
+        </div>
+      </div>
+
+      <div class="split-layout">
+        <div class="apps-pane">
+          <div class="apps-grid compact" id="apps-grid">
+            {{APPS_GRID}}
+          </div>
+        </div>
+
+        <aside class="preview-pane" id="previewPane" aria-label="App preview">
+          <div class="preview-toolbar">
+            <div class="preview-title" id="previewTitle">No app selected<span class="preview-host"></span></div>
+            <button class="preview-btn" id="previewNewTab" type="button" title="Open in new tab" aria-label="Open in new tab" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7"/><path d="M10 14L21 3"/><path d="M21 13v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7"/></svg>
+            </button>
+            <button class="preview-btn" id="previewClose" type="button" title="Close preview" aria-label="Close preview" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="preview-body">
+            <div class="preview-empty" id="previewEmpty">
+              <span class="empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6,4 20,12 6,20"/></svg>
+              </span>
+              <span class="empty-title">Pick any Pro app to launch it here</span>
+              <span class="empty-tip">Sign in with your $9/mo subscription to unlock all of them.</span>
+            </div>
+            <iframe class="preview-frame" id="previewFrame" title="App preview" sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-downloads" referrerpolicy="no-referrer-when-downgrade" loading="lazy" hidden></iframe>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section style="margin: 3rem 0 2rem;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--ink-strong); letter-spacing: -0.01em; margin-bottom: 0.25rem;">Platform features</h2>
+      <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem;">All Pro apps share these capabilities through one SDK. <a href="/skills.md" style="color: var(--accent); font-weight: 600;">Read the docs →</a></p>
+      <div class="features-grid">
+        {{FEATURES}}
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium apps for serious creators.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="https://dashboard.proappstore.online">Account</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/about.html">About</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="https://freeappstore.online">FreeAppStore</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- Sort tabs visual only (no data) ---
+    document.querySelectorAll('.apps-tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.apps-tab').forEach(function (t) {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+      });
+    });
+
+    // --- Split-pane preview ---
+    (function () {
+      var SPLIT_MQ = window.matchMedia('(min-width: 1024px)');
+      var pane = document.getElementById('previewPane');
+      var frame = document.getElementById('previewFrame');
+      var empty = document.getElementById('previewEmpty');
+      var title = document.getElementById('previewTitle');
+      var btnNewTab = document.getElementById('previewNewTab');
+      var btnClose = document.getElementById('previewClose');
+      var current = null;
+
+      function activate(card) {
+        document.querySelectorAll('.app-card.compact.is-active').forEach(function (c) { c.classList.remove('is-active'); });
+        if (card) card.classList.add('is-active');
+      }
+      function setTitle(name, url) {
+        var host = '';
+        try { host = url ? new URL(url).host : ''; } catch (e) {}
+        title.innerHTML = '';
+        title.appendChild(document.createTextNode(name || 'No app selected'));
+        if (host) {
+          var hs = document.createElement('span');
+          hs.className = 'preview-host';
+          hs.textContent = host;
+          title.appendChild(hs);
+        }
+      }
+      function loadInPane(meta, card) {
+        current = meta;
+        pane.classList.add('is-loading');
+        frame.hidden = false;
+        empty.hidden = true;
+        btnNewTab.hidden = false;
+        btnClose.hidden = false;
+        setTitle(meta.name, meta.url);
+        frame.src = meta.url;
+        activate(card);
+        frame.addEventListener('load', function once() {
+          pane.classList.remove('is-loading');
+          frame.removeEventListener('load', once);
+        });
+        try {
+          var u = new URL(window.location.href);
+          u.searchParams.set('app', meta.id);
+          history.replaceState(null, '', u.toString());
+        } catch (e) {}
+      }
+      function clearPane() {
+        current = null;
+        frame.removeAttribute('src');
+        frame.hidden = true;
+        empty.hidden = false;
+        btnNewTab.hidden = true;
+        btnClose.hidden = true;
+        setTitle(null, '');
+        activate(null);
+        pane.classList.remove('is-loading');
+        try {
+          var u = new URL(window.location.href);
+          u.searchParams.delete('app');
+          history.replaceState(null, '', u.pathname + (u.search ? u.search : '') + u.hash);
+        } catch (e) {}
+      }
+      function cardMeta(card) {
+        var cta = card.querySelector('.app-cta');
+        var name = card.querySelector('.app-name');
+        var nameText = 'App';
+        if (name) {
+          var n = name.firstChild;
+          while (n && n.nodeType !== Node.TEXT_NODE) n = n.nextSibling;
+          nameText = (n && n.textContent.trim()) || name.textContent.trim();
+        }
+        return {
+          id: card.dataset.id || '',
+          name: nameText,
+          url: cta ? cta.getAttribute('href') : null,
+        };
+      }
+      document.querySelectorAll('#apps-grid .app-card.compact').forEach(function (card) {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function (e) {
+          if (SPLIT_MQ.matches) { e.preventDefault(); loadInPane(cardMeta(card), card); }
+        });
+      });
+      btnNewTab.addEventListener('click', function () {
+        if (current && current.url) window.open(current.url, '_blank', 'noopener');
+      });
+      btnClose.addEventListener('click', clearPane);
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var wantId = params.get('app');
+        if (wantId && SPLIT_MQ.matches) {
+          var match = document.querySelector('#apps-grid .app-card.compact[data-id="' + wantId + '"]');
+          if (match) loadInPane(cardMeta(match), match);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <script src="/theme.js"></script>
+</body>
+</html>
