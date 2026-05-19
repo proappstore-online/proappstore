@@ -61,13 +61,18 @@ test('build.js HTML-escapes app fields (XSS injection)', () => {
   const fixtureRegistry = path.join(tmp, 'registry.json');
   try {
     const base = JSON.parse(fs.readFileSync(REAL_REGISTRY, 'utf8'));
+    // Fields exercised here are exactly the ones the compact card renders:
+    // name, category, proFeatures. Description isn't rendered in the redesigned
+    // cards (compact rows only), so we don't assert on it — but if someone
+    // re-adds it, the existing esc() pipeline must catch it; that's a separate
+    // test to write at the time.
     base.apps.push({
       id: 'xss-fixture',
-      name: 'XSS Fixture',
-      category: 'test',
+      name: '<script>alert(1)</script>',
+      category: '<img src=x onerror=alert(3)>',
       icon: '&#9888;',
       iconBg: '#fff',
-      description: '<script>alert(1)</script>',
+      description: 'unused in current template',
       appUrl: 'https://xss.proappstore.online',
       repo: 'proappstore-online/xss-fixture',
       type: 'connected',
@@ -79,24 +84,31 @@ test('build.js HTML-escapes app fields (XSS injection)', () => {
     runBuild({ registryPath: fixtureRegistry, outDir: tmp });
     const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
 
-    // The literal escaped string must appear — proves esc() ran.
+    // Escaped versions must appear — proves esc() ran on each rendered field.
     assert.ok(
       html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'),
-      'expected escaped <script> tag in output',
+      'expected escaped <script> from name in output',
     );
-    // And the working <script>alert(1)</script> tag must NOT appear anywhere.
     assert.ok(
-      !html.includes('<script>alert(1)</script>'),
-      'unescaped <script> tag leaked into output — XSS vulnerability',
+      html.includes('&lt;img src=x onerror=alert(3)&gt;'),
+      'expected escaped <img> from category in output',
     );
-    // proFeatures are also escaped.
     assert.ok(
       html.includes('&lt;img src=x onerror=alert(2)&gt;'),
-      'expected escaped <img> tag in proFeatures',
+      'expected escaped <img> from proFeatures in output',
+    );
+    // And the working tags must NOT appear anywhere — XSS leak guard.
+    assert.ok(
+      !html.includes('<script>alert(1)</script>'),
+      'unescaped <script> tag from name leaked into output — XSS vulnerability',
+    );
+    assert.ok(
+      !html.includes('<img src=x onerror=alert(3)>'),
+      'unescaped <img> tag from category leaked into output — XSS vulnerability',
     );
     assert.ok(
       !html.includes('<img src=x onerror=alert(2)>'),
-      'unescaped <img> tag leaked from proFeatures',
+      'unescaped <img> tag from proFeatures leaked into output — XSS vulnerability',
     );
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
