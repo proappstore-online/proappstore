@@ -27,6 +27,19 @@
       "proFeatures": ["Post listings", "Upload photos", "Embedded map"]
     },
     {
+      "id": "dating",
+      "name": "Dating",
+      "category": "social",
+      "icon": "&#10084;",
+      "iconBg": "#fff1f2",
+      "description": "Swipe-style dating — build a profile, swipe through people nearby, and chat in real-time when you both like each other.",
+      "appUrl": "https://dating.proappstore.online",
+      "repo": "proappstore-online/dating",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": ["Profile photos", "Real-time chat", "Mutual-match detection"]
+    },
+    {
       "id": "loopride",
       "name": "Loopride",
       "category": "transport",
