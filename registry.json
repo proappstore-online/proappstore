@@ -11,7 +11,11 @@
       "repo": "proappstore-online/meetup",
       "type": "connected",
       "developer": "ProAppStore",
-      "proFeatures": ["Create events", "Event chat", "Manage groups"]
+      "proFeatures": [
+        "Create events",
+        "Event chat",
+        "Manage groups"
+      ]
     },
     {
       "id": "carsads",
@@ -24,7 +28,11 @@
       "repo": "carsads-online/carsads",
       "type": "connected",
       "developer": "Carsads",
-      "proFeatures": ["Post listings", "Upload photos", "Embedded map"]
+      "proFeatures": [
+        "Post listings",
+        "Upload photos",
+        "Embedded map"
+      ]
     },
     {
       "id": "dating",
@@ -37,7 +45,11 @@
       "repo": "proappstore-online/dating",
       "type": "connected",
       "developer": "ProAppStore",
-      "proFeatures": ["Profile photos", "Real-time chat", "Mutual-match detection"]
+      "proFeatures": [
+        "Profile photos",
+        "Real-time chat",
+        "Mutual-match detection"
+      ]
     },
     {
       "id": "loopride",
@@ -50,7 +62,29 @@
       "repo": "proappstore-online/loopride",
       "type": "connected",
       "developer": "ProAppStore",
-      "proFeatures": ["Recurring schedules", "Live driver tracking", "Real geocoding"]
+      "proFeatures": [
+        "Recurring schedules",
+        "Live driver tracking",
+        "Real geocoding"
+      ]
+    },
+    {
+      "id": "studio",
+      "name": "Studio",
+      "category": "productivity",
+      "icon": "&#127908;",
+      "iconBg": "#fffaf0",
+      "description": "Multi-tenant studio booking",
+      "appUrl": "https://studio.proappstore.online",
+      "repo": "proappstore-online/studio",
+      "cfProject": "proappstore-studio",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": [
+        "Bookings",
+        "Class schedules",
+        "Member management"
+      ]
     }
   ]
 }
