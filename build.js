@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = __dirname;
-const registry = JSON.parse(fs.readFileSync(path.join(ROOT, 'registry.json'), 'utf8'));
+const REGISTRY_PATH = process.env.REGISTRY_PATH || path.join(ROOT, 'registry.json');
+const OUT_DIR = process.env.OUT_DIR || ROOT;
+const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
 const apps = registry.apps;
 
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -27,7 +29,7 @@ const features = '<section style="margin:2rem 0 3rem"><h2 style="font-size:1.3re
 const footer = '</main><footer><div class="container"><div class="footer-left"><a href="/" class="logo">Pro <span>Apps</span></a><p>Premium apps for serious creators.</p></div><div class="footer-links"><a href="https://console.proappstore.online">Console</a><a href="https://dashboard.proappstore.online">Account</a><a href="https://freeappstore.online">FreeAppStore</a><a href="https://github.com/proappstore-online">GitHub</a></div></div></footer></body></html>';
 
 const html = head + header + hero + features + '<h2 style="font-size:1.3rem;font-weight:800;margin-bottom:1rem">Apps</h2><div class="apps-grid">\n' + cards + '\n</div>' + footer;
-fs.writeFileSync(path.join(ROOT, 'index.html'), html);
+fs.writeFileSync(path.join(OUT_DIR, 'index.html'), html);
 console.log('Built ' + apps.length + ' app cards');
 
-fs.writeFileSync(path.join(ROOT, 'manifest.json'), JSON.stringify({name:"ProAppStore",short_name:"ProApps",start_url:"/",display:"standalone",background_color:"#ffffff",theme_color:"#7c3aed",icons:[{src:"/icon-192.png",sizes:"192x192",type:"image/png"},{src:"/icon-512.png",sizes:"512x512",type:"image/png"}]},null,2));
+fs.writeFileSync(path.join(OUT_DIR, 'manifest.json'), JSON.stringify({name:"ProAppStore",short_name:"ProApps",start_url:"/",display:"standalone",background_color:"#ffffff",theme_color:"#7c3aed",icons:[{src:"/icon-192.png",sizes:"192x192",type:"image/png"},{src:"/icon-512.png",sizes:"512x512",type:"image/png"}]},null,2));
