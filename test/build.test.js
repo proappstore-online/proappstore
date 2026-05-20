@@ -222,6 +222,68 @@ test('CSP + security headers ship correctly', () => {
   }
 });
 
+test("CSP locks index.html script-src with hash (no 'unsafe-inline')", () => {
+  const tmp = makeTmpDir();
+  try {
+    runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
+    const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
+    const csp = (html.match(/Content-Security-Policy"\s+content="([^"]+)"/) || [])[1] || '';
+    const scriptSrc = (csp.match(/script-src[^;]*/) || [''])[0];
+    assert.ok(scriptSrc.includes("'sha256-"), `needs sha256 hash: ${scriptSrc}`);
+    assert.ok(!scriptSrc.includes("'unsafe-inline'"), `unsafe-inline leaked: ${scriptSrc}`);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('validator rejects duplicate ids and unbounded/ctrl-char names', () => {
+  let r = runBuildExpectFail([{ ...VALID_APP }, { ...VALID_APP }]);
+  try {
+    assert.equal(r.ok, false);
+    assert.match(r.stderr, /duplicate id/);
+  } finally { fs.rmSync(r.tmp, { recursive: true, force: true }); }
+  r = runBuildExpectFail([{ ...VALID_APP, name: 'x'.repeat(200) }]);
+  try {
+    assert.equal(r.ok, false);
+    assert.match(r.stderr, /name must be 1-80 chars/);
+  } finally { fs.rmSync(r.tmp, { recursive: true, force: true }); }
+  r = runBuildExpectFail([{ ...VALID_APP, name: 'tab' + String.fromCharCode(9) + 'name' }]);
+  try {
+    assert.equal(r.ok, false);
+    assert.match(r.stderr, /name must be/);
+  } finally { fs.rmSync(r.tmp, { recursive: true, force: true }); }
+});
+
+test('detail pages render expected name + escape XSS in description', () => {
+  const tmp = makeTmpDir();
+  const tmpRegistry = path.join(tmp, 'registry.json');
+  try {
+    const base = JSON.parse(fs.readFileSync(REAL_REGISTRY, 'utf8'));
+    base.apps.push({
+      id: 'detail-xss',
+      name: 'DetailXSS',
+      category: 'social',
+      icon: '&#9888;',
+      iconBg: '#fff',
+      description: '<script>alert(99)</script>',
+      appUrl: 'https://detail-xss.proappstore.online',
+      repo: 'proappstore-online/detail-xss',
+      type: 'connected',
+      developer: 'Test',
+    });
+    fs.writeFileSync(tmpRegistry, JSON.stringify(base));
+    runBuild({ registryPath: tmpRegistry, outDir: tmp });
+    const detail = fs.readFileSync(path.join(tmp, 'apps', 'detail-xss', 'index.html'), 'utf8');
+    // Name renders.
+    assert.match(detail, /DetailXSS/);
+    // Description's <script> is escaped, never raw.
+    assert.ok(detail.includes('&lt;script&gt;alert(99)&lt;/script&gt;'), 'description not escaped on detail');
+    assert.ok(!detail.includes('<script>alert(99)</script>'), 'raw <script> leaked on detail');
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
 function escapeRegExp(s) {
   return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
