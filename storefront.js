@@ -184,15 +184,30 @@
 // own deployed favicon). When a dev uploads a custom icon via Console, the
 // platform stores it in app_listings.icon_url; we fetch the public batch
 // and swap in any explicit iconUrl. One request, no per-card N+1.
+//
+// Security: iconUrl is whatever the API returns. We require https + an
+// allowlisted host so the swap never silently fails CSP — if a creator
+// uploads to a CDN we don't allow in `img-src`, the icon stays on the
+// default (storefront subdomain) instead of going blank.
 (function () {
   var grid = document.getElementById('apps-grid');
   if (!grid) return;
+
+  function isAllowedIconUrl(url) {
+    var u;
+    try { u = new URL(url); } catch (e) { return false; }
+    if (u.protocol !== 'https:') return false;
+    // Same allowlist the CSP img-src directive grants. Keep this list in
+    // sync with build.js's CSP construction.
+    return /\.proappstore\.online$/i.test(u.hostname);
+  }
+
   fetch('https://api.proappstore.online/v1/storefront/apps', { cache: 'default' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
       if (!data || !Array.isArray(data.apps)) return;
       data.apps.forEach(function (app) {
-        if (!app.iconUrl) return;
+        if (!app.iconUrl || !isAllowedIconUrl(app.iconUrl)) return;
         var card = grid.querySelector('.app-card.compact[data-id="' + CSS.escape(app.appId) + '"]');
         if (!card) return;
         var img = card.querySelector('.app-icon img');

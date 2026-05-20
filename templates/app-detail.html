@@ -146,7 +146,7 @@
 
   <!-- Per-page data island; read by /detail-page.js. No inline JS = CSP stays locked. -->
   <script type="application/json" id="page-data">{"id":{{ID_JSON}}}</script>
-  <script src="/theme.js"></script>
-  <script src="/detail-page.js" defer></script>
+  <script src="/theme.js" integrity="{{SRI_THEME_JS}}"></script>
+  <script src="/detail-page.js" integrity="{{SRI_DETAIL_PAGE_JS}}" defer></script>
 </body>
 </html>

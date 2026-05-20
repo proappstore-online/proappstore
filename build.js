@@ -108,10 +108,24 @@ if (!inlineScriptMatch) {
 }
 const inlineScriptHash = 'sha256-' + crypto.createHash('sha256').update(inlineScriptMatch[1]).digest('base64');
 
-const html = indexTemplate
+// SRI hashes for local scripts (CDN/repo tamper defense).
+function sriHash(filename) {
+  const content = fs.readFileSync(path.join(ROOT, filename));
+  return 'sha256-' + crypto.createHash('sha256').update(content).digest('base64');
+}
+const sriHashes = {
+  STOREFRONT_JS: sriHash('storefront.js'),
+  THEME_JS: sriHash('theme.js'),
+  DETAIL_PAGE_JS: sriHash('detail-page.js'),
+};
+
+let html = indexTemplate
   .replaceAll('{{INLINE_SCRIPT_HASH}}', inlineScriptHash)
   .replaceAll('{{APPS_GRID}}', cards)
   .replaceAll('{{FEATURES}}', featuresHtml);
+for (const [k, v] of Object.entries(sriHashes)) {
+  html = html.replaceAll(`{{SRI_${k}}}`, v);
+}
 
 fs.writeFileSync(path.join(OUT_DIR, 'index.html'), html);
 fs.writeFileSync(path.join(OUT_DIR, 'card-styles.css'), cardIconBackgrounds + '\n');
@@ -165,7 +179,7 @@ for (const app of apps) {
   const proFeaturesHtml = (app.proFeatures || [])
     .map((f) => `<li>${esc(f)}</li>`)
     .join('\n          ');
-  const detail = detailTemplate
+  let detail = detailTemplate
     .replaceAll('{{ID}}', esc(app.id))
     .replaceAll('{{ID_JSON}}', JSON.stringify(app.id))
     .replaceAll('{{NAME}}', esc(app.name))
@@ -178,6 +192,9 @@ for (const app of apps) {
     .replaceAll('{{APP_HOST}}', esc(appHost))
     .replaceAll('{{REPO_URL}}', esc(repoUrl))
     .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<li>—</li>');
+  for (const [k, v] of Object.entries(sriHashes)) {
+    detail = detail.replaceAll(`{{SRI_${k}}}`, v);
+  }
   fs.writeFileSync(path.join(dir, 'index.html'), detail);
 }
 console.log(`Built ${apps.length} app detail pages under apps/`);

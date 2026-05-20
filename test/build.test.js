@@ -271,6 +271,22 @@ test("script-src locked with hash, no 'unsafe-inline'", () => {
   }
 });
 
+test('every local <script src> has a valid SRI integrity attribute', () => {
+  const tmp = makeTmpDir();
+  try {
+    runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
+    const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
+    const localScripts = html.match(/<script\s+src="\/[^"]+\.js"[^>]*>/g) || [];
+    assert.ok(localScripts.length >= 2, `expected ≥2 local scripts, found ${localScripts.length}`);
+    for (const tag of localScripts) {
+      assert.match(tag, /integrity="sha256-[A-Za-z0-9+/=]+"/, `<script> missing integrity: ${tag}`);
+    }
+    assert.ok(!/{{SRI_[A-Z_]+}}/.test(html), 'unsubstituted SRI placeholder');
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
 test('detail pages have no inline <script> beyond the hashed theme bootstrap', () => {
   const tmp = makeTmpDir();
   try {
