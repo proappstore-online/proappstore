@@ -72,7 +72,10 @@
       <h2>Frequently asked questions</h2>
 
       <h3>What do I get for $9/month?</h3>
-      <p>Access to every Pro app on the platform. One subscription, all apps. No per-app charges.</p>
+      <p>Access to every Pro app on the platform. One subscription, all apps. No per-app charges, ever.</p>
+
+      <h3>Where does my $9 go?</h3>
+      <p>10% covers platform infrastructure (hosting, databases, file storage, real-time servers, payments). The other 90% goes to the creators of the apps you actually used that month — split in proportion to how much you used each one. <a href="#for-developers">See the math</a>.</p>
 
       <h3>Can I cancel?</h3>
       <p>Yes, anytime. You keep access until the end of your billing period. No cancellation fees.</p>
@@ -93,9 +96,27 @@
       <p>Running cloud infrastructure costs real money. Every Pro app gets its own database, file storage, and real-time servers. These cost us per-user, per-month. The $9 subscription covers those costs and funds platform development.</p>
       <p>We don't run ads. We don't sell data. We don't have investors pushing for growth-at-all-costs. The subscription is the business model.</p>
 
-      <h2>For developers</h2>
-      <p>Publishing apps on ProAppStore is free. The platform provides hosting, databases, auth, and payments at no upfront cost. When users pay for your app, you keep 90% and the platform takes 10%.</p>
-      <p><a href="/docs">Read the developer docs</a> for details on building and publishing.</p>
+      <h2>For developers — how you get paid</h2>
+      <p>There are <strong>no per-app prices</strong>. Subscribers pay one $9/mo fee for the whole catalogue. At the end of each month, the subscription pool — minus the 10% platform fee — is divided among creators in proportion to how much their app was actually used.</p>
+      <p>Think of it like Spotify or Substack's "boost" model: a subscriber who spends 80% of their time in one app sends roughly 80% of their subscription fee to that app's creator. A subscriber who uses ten apps evenly splits theirs ten ways.</p>
+
+      <h3>The math, made explicit</h3>
+      <p>For each subscriber, in each month:</p>
+      <ol>
+        <li>The platform records how much that subscriber used each app (session-minutes plus API calls, normalised).</li>
+        <li>The subscriber's $9 (minus the 10% platform fee) is split across the apps they used, proportional to that usage.</li>
+        <li>At the end of the month, each creator's payout is the sum of those slices across every subscriber who used their app. Payouts land via Stripe Connect.</li>
+      </ol>
+      <p>If your app gets 0% of any subscriber's time that month, you earn $0 that month. If your app is the only one a thousand subscribers use, you earn ~$8,100 that month (1,000 × $9 × 90%).</p>
+
+      <h3>What this means for what you build</h3>
+      <ul>
+        <li><strong>Don't gate features behind payments.</strong> Every feature is included with the $9 sub. There's nothing to upgrade to inside your app.</li>
+        <li><strong>Don't show upgrade prompts.</strong> See above.</li>
+        <li><strong>Build something people use.</strong> That's the entire incentive — earnings track usage, not screenshots.</li>
+      </ul>
+
+      <p><a href="/docs">Read the developer docs</a> for the SDK, hosting, and publishing flow.</p>
     </div>
   </main>
 
