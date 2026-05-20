@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy Template — ProAppStore</title>
+  <meta name="description" content="Copy-paste-edit privacy policy template for apps published on ProAppStore." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="logo">Pro <span>Apps</span></a>
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/get-started">Get Started</a>
+        <a href="/guidelines">Guidelines</a>
+        <a href="/docs">Developers</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Privacy Policy Template</h1>
+      <p>
+        Copy this markdown into your own <code>privacy.md</code>, or upload it
+        directly via the Console's Legal section. Replace
+        <code>{{APP_NAME}}</code>, <code>{{DATE}}</code>, and
+        <code>{{CONTACT}}</code>; delete any examples that don't apply.
+      </p>
+    </div>
+
+    <div class="page-content">
+      <p style="margin-bottom: 1rem;">
+        <a href="/privacy-template.md" download class="hero-btn" style="display:inline-block;font-size:0.85rem;">Download privacy-template.md</a>
+        <button id="copyBtn" type="button" class="hero-btn" style="display:inline-block;margin-left:0.5rem;font-size:0.85rem;">Copy to clipboard</button>
+      </p>
+
+      <p style="color: var(--muted); font-size: 0.9rem;">
+        Most Pro apps don't need their own privacy policy — the platform's
+        <a href="/privacy">privacy policy</a> already covers sign-in, billing,
+        storage, usage analytics, and account deletion. You only need to add
+        a per-app policy if <strong>your app</strong> does something the
+        platform's policy doesn't already describe (e.g. calling a
+        third-party API on the user's behalf, accessing the camera/mic,
+        storing things outside the standard platform primitives).
+      </p>
+
+      <h2>The template</h2>
+      <pre id="templateSrc" style="white-space: pre-wrap; background: var(--paper-deep, #f7f7f7); border: 1px solid var(--line, rgba(0,0,0,0.08)); border-radius: 0.75rem; padding: 1rem; font-size: 0.85rem; line-height: 1.45; overflow-x: auto;"># Privacy Policy — {{APP_NAME}}
+
+_Last updated: {{DATE}}_
+
+This is the privacy policy for **{{APP_NAME}}**, a Pro app on
+[ProAppStore](https://proappstore.online). It covers what _this app_ does
+with your data. For platform-wide data handling (sign-in, billing, file
+storage, usage analytics for creator payouts, account deletion) see the
+[platform privacy policy](https://proappstore.online/privacy).
+
+---
+
+## What {{APP_NAME}} stores about you
+
+&gt; _Fill in what your app keeps. Examples below — delete the ones that don't
+&gt; apply, add app-specific ones._
+
+- The data you explicitly enter into the app (e.g. notes, photos, contacts).
+  Stored in your private per-user KV / database / file storage. No one else
+  has access except you.
+- _If your app collects more — explicit consent, location, integrations with
+  third parties — list each one and why._
+
+## What {{APP_NAME}} does NOT store
+
+- _Examples to keep / edit:_ no contacts list scraping, no background
+  location, no microphone access, no analytics on your behavior inside the
+  app, no advertising IDs.
+
+## Where data lives
+
+Everything you save in {{APP_NAME}} is stored on Cloudflare infrastructure
+(D1, R2, KV) under your ProAppStore account. The app developer does not
+have access to your personal data — only daily aggregate counts (active
+users, session-minutes, API calls) used to size their payout share.
+
+## Third-party services
+
+&gt; _List any third-party APIs your app calls on the user's behalf — Stripe,
+&gt; mapping providers, weather APIs, etc. Delete the section if there are
+&gt; none._
+
+- _Example:_ When you geocode an address inside the app, your query is sent
+  to OpenStreetMap Nominatim via the platform proxy. The platform strips
+  your identity before the request leaves; the third party never sees who
+  you are.
+
+## Cookies
+
+{{APP_NAME}} uses the same session cookie as the rest of ProAppStore for
+authentication. No tracking, advertising, or analytics cookies.
+
+## Data deletion
+
+Delete your account from
+[dashboard.proappstore.online](https://dashboard.proappstore.online).
+That removes all data {{APP_NAME}} stored for you, alongside the
+platform-level account deletion described in the
+[platform privacy policy](https://proappstore.online/privacy#data-deletion).
+
+## Contact
+
+Questions about this app's privacy practices: {{CONTACT}}.
+
+Questions about platform-wide privacy: [open an issue on
+GitHub](https://github.com/proappstore-online/platform/issues).
+</pre>
+
+      <h2 style="margin-top: 2rem;">Don't have anything app-specific to disclose?</h2>
+      <p>
+        Then you can point <code>privacyPolicyUrl</code> in your listing
+        straight at <a href="/privacy"><code>https://proappstore.online/privacy</code></a>.
+        That's a valid, honest answer for apps that only use standard
+        platform primitives (auth, KV, D1, R2, real-time, the AI proxy)
+        and don't do anything novel with the user's data.
+      </p>
+
+      <h2>Same for terms?</h2>
+      <p>
+        The platform's <a href="/terms">terms</a> already cover usage of
+        Pro apps in general. App-specific terms are only needed if your
+        app introduces new obligations on the user (e.g. age restriction,
+        content rules, dispute resolution). Otherwise point at
+        <a href="/terms"><code>https://proappstore.online/terms</code></a>.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium apps for serious creators.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/docs">Docs</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/privacy-template">Privacy template</a>
+        <a href="/terms">Terms</a>
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const txt = document.getElementById('templateSrc').textContent || '';
+      try {
+        await navigator.clipboard.writeText(txt);
+        const btn = document.getElementById('copyBtn');
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = original; }, 1500);
+      } catch (e) {
+        alert('Copy failed — select the text and copy manually.');
+      }
+    });
+  </script>
+</body>
+</html>
