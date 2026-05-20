@@ -7,6 +7,7 @@ const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
 const apps = registry.apps;
 
 const indexTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'index.html'), 'utf8');
+const detailTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'app-detail.html'), 'utf8');
 
 function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -20,14 +21,18 @@ const cards = apps.map((app) => {
     .slice(0, 3)
     .map((f) => `<span class="pro-badge-sm">${esc(f)}</span>`)
     .join('');
+  // Wrap the card body in an anchor to the detail page; keep the "Open" CTA
+  // going straight to the live subdomain so users can launch in one click.
   return `        <div class="app-card compact" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
-          <div class="app-icon" style="background: ${iconBg};">
-            <img src="${esc(app.appUrl)}/apple-touch-icon.png" alt="" onerror="this.replaceWith(document.createTextNode('${letter}'))" />
-          </div>
-          <div class="app-body">
-            <span class="app-name">${esc(app.name)}</span>
-            <span class="app-meta">${esc(app.category)}${pf ? ' · ' + pf : ''}</span>
-          </div>
+          <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
+            <div class="app-icon" style="background: ${iconBg};">
+              <img src="${esc(app.appUrl)}/apple-touch-icon.png" alt="" onerror="this.replaceWith(document.createTextNode('${letter}'))" />
+            </div>
+            <div class="app-body">
+              <span class="app-name">${esc(app.name)}</span>
+              <span class="app-meta">${esc(app.category)}${pf ? ' · ' + pf : ''}</span>
+            </div>
+          </a>
           <a href="${esc(app.appUrl)}" target="_blank" rel="noopener" class="app-cta" aria-label="Open ${esc(app.name)}">
             <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6,4 20,12 6,20"/></svg>
             <span class="cta-label">Open</span>
@@ -56,6 +61,41 @@ const html = indexTemplate
 
 fs.writeFileSync(path.join(OUT_DIR, 'index.html'), html);
 console.log(`Built ${apps.length} app cards`);
+
+// Per-app detail pages at /apps/{id}/. Each page is a static shell that
+// inlines the registry-known fields (name, category, dev, etc.) and then
+// progressively enhances client-side by fetching the listing JSON from
+// the PAS API. That way the page is meaningful even before the live
+// fetch completes — and CDN-cacheable.
+const appsDir = path.join(OUT_DIR, 'apps');
+fs.mkdirSync(appsDir, { recursive: true });
+for (const app of apps) {
+  const dir = path.join(appsDir, app.id);
+  fs.mkdirSync(dir, { recursive: true });
+  const firstLetter = (app.name || '?').trim().charAt(0).toUpperCase().replace(/[\\']/g, '\\$&');
+  const appHost = (() => {
+    try { return new URL(app.appUrl).host; } catch { return app.appUrl; }
+  })();
+  const repoUrl = app.repo ? `https://github.com/${app.repo}` : 'https://github.com/proappstore-online';
+  const proFeaturesHtml = (app.proFeatures || [])
+    .map((f) => `<li>${esc(f)}</li>`)
+    .join('\n          ');
+  const detail = detailTemplate
+    .replaceAll('{{ID}}', esc(app.id))
+    .replaceAll('{{ID_JSON}}', JSON.stringify(app.id))
+    .replaceAll('{{NAME}}', esc(app.name))
+    .replaceAll('{{DESCRIPTION}}', esc(app.description || ''))
+    .replaceAll('{{CATEGORY}}', esc(app.category || ''))
+    .replaceAll('{{DEVELOPER}}', esc(app.developer || 'ProAppStore'))
+    .replaceAll('{{ICON_BG}}', esc(app.iconBg || '#7c3aed'))
+    .replaceAll('{{FIRST_LETTER}}', firstLetter)
+    .replaceAll('{{APP_URL}}', esc(app.appUrl))
+    .replaceAll('{{APP_HOST}}', esc(appHost))
+    .replaceAll('{{REPO_URL}}', esc(repoUrl))
+    .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<li>—</li>');
+  fs.writeFileSync(path.join(dir, 'index.html'), detail);
+}
+console.log(`Built ${apps.length} app detail pages under apps/`);
 
 fs.writeFileSync(
   path.join(OUT_DIR, 'manifest.json'),

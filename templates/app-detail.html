@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{NAME}} — ProAppStore</title>
+  <meta name="description" content="{{DESCRIPTION}}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{NAME}} — ProAppStore" />
+  <meta property="og:description" content="{{DESCRIPTION}}" />
+  <meta property="og:url" content="https://proappstore.online/apps/{{ID}}/" />
+  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  <script>
+    (function(){try{var s=localStorage.getItem('pas-theme');var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();
+  </script>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="canonical" href="https://proappstore.online/apps/{{ID}}/" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="brand" aria-label="ProAppStore">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7"/><path d="M4 7l8 6 8-6"/><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2"/></svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">ProAppStore</span>
+          <span class="brand-tag">Premium Web Apps</span>
+        </span>
+      </a>
+
+      <nav>
+        <a href="/">Apps</a>
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="https://dashboard.proappstore.online">Account</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/docs.html">SDK Docs</a>
+        <a href="https://freeappstore.online">Free</a>
+      </nav>
+
+      <div class="header-right">
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        </button>
+        <a href="https://dashboard.proappstore.online" class="btn-primary">Get $9 plan</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container detail">
+    <p class="breadcrumb"><a href="/">Apps</a> <span aria-hidden="true">›</span> {{NAME}}</p>
+
+    <section class="detail-hero" id="hero">
+      <div class="detail-icon" id="detailIcon" style="background: {{ICON_BG}};">
+        <img id="detailIconImg" src="{{APP_URL}}/apple-touch-icon.png" alt=""
+             onerror="this.replaceWith(document.createTextNode('{{FIRST_LETTER}}'))" />
+      </div>
+      <div class="detail-meta">
+        <h1 id="detailName">{{NAME}}</h1>
+        <p class="detail-tagline" id="detailTagline">{{DESCRIPTION}}</p>
+        <div class="detail-meta-row">
+          <span class="detail-category" id="detailCategory">{{CATEGORY}}</span>
+          <span class="detail-by">by <span id="detailDeveloper">{{DEVELOPER}}</span></span>
+        </div>
+        <div class="detail-actions">
+          <a id="detailOpen" href="{{APP_URL}}" target="_blank" rel="noopener" class="btn-primary">
+            <svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg>
+            Open app
+          </a>
+          <a href="{{REPO_URL}}" target="_blank" rel="noopener" class="btn-secondary">View source</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-screenshots" id="screenshotsSection" hidden>
+      <h2>Screenshots</h2>
+      <div class="screenshots-rail" id="screenshotsRail"></div>
+    </section>
+
+    <section class="detail-about">
+      <h2>About</h2>
+      <div id="detailLongDescription" class="detail-long">{{DESCRIPTION}}</div>
+    </section>
+
+    <section class="detail-pro" id="proSection">
+      <h2>Pro features</h2>
+      <ul class="pro-features-list" id="proFeaturesList">{{PRO_FEATURES_HTML}}</ul>
+    </section>
+
+    <section class="detail-info">
+      <h2>Developer</h2>
+      <dl class="detail-info-grid">
+        <div class="detail-info-row" id="websiteRow" hidden>
+          <dt>Website</dt>
+          <dd><a id="websiteLink" target="_blank" rel="noopener"></a></dd>
+        </div>
+        <div class="detail-info-row" id="supportRow" hidden>
+          <dt>Support</dt>
+          <dd><a id="supportLink" target="_blank" rel="noopener"></a></dd>
+        </div>
+        <div class="detail-info-row" id="socialRow" hidden>
+          <dt>Social</dt>
+          <dd class="detail-social" id="socialLinks"></dd>
+        </div>
+        <div class="detail-info-row" id="privacyRow" hidden>
+          <dt>Privacy</dt>
+          <dd><a id="privacyLink" target="_blank" rel="noopener">Privacy policy</a></dd>
+        </div>
+        <div class="detail-info-row" id="termsRow" hidden>
+          <dt>Terms</dt>
+          <dd><a id="termsLink" target="_blank" rel="noopener">Terms of service</a></dd>
+        </div>
+        <div class="detail-info-row">
+          <dt>Subdomain</dt>
+          <dd><a href="{{APP_URL}}" target="_blank" rel="noopener">{{APP_HOST}}</a></dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium apps for serious creators.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="https://dashboard.proappstore.online">Account</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/about.html">About</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="https://freeappstore.online">FreeAppStore</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/theme.js"></script>
+  <script>
+    (function () {
+      var APP_ID = {{ID_JSON}};
+      var API = 'https://api.proappstore.online/v1/storefront/apps/' + encodeURIComponent(APP_ID);
+
+      function $(id) { return document.getElementById(id); }
+      function setText(id, v) { var el = $(id); if (el && v != null && v !== '') el.textContent = v; }
+      function show(id) { var el = $(id); if (el) el.hidden = false; }
+
+      function renderMarkdownLite(md) {
+        // Tiny safe renderer: paragraphs + bold/italic/links. No raw HTML.
+        var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+        var html = esc(md)
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+          .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+        var paras = html.split(/\n\s*\n/).map(function (p) { return '<p>' + p.replace(/\n/g, '<br />') + '</p>'; });
+        return paras.join('');
+      }
+
+      fetch(API, { cache: 'default' })
+        .then(function (r) { if (!r.ok) throw new Error('listing fetch ' + r.status); return r.json(); })
+        .then(function (l) {
+          // Tagline + long description
+          if (l.tagline) setText('detailTagline', l.tagline);
+          if (l.longDescription) {
+            $('detailLongDescription').innerHTML = renderMarkdownLite(l.longDescription);
+          }
+          if (l.category) setText('detailCategory', l.category);
+
+          // Icon — override placeholder if a real one is set
+          if (l.iconUrl) {
+            var icon = $('detailIcon');
+            icon.style.background = l.splashColor || icon.style.background;
+            var img = $('detailIconImg');
+            if (img) {
+              img.onerror = null;
+              img.src = l.iconUrl;
+            }
+          } else if (l.splashColor) {
+            $('detailIcon').style.background = l.splashColor;
+          }
+
+          // Screenshots
+          if (l.screenshots && l.screenshots.length) {
+            var rail = $('screenshotsRail');
+            l.screenshots.forEach(function (url) {
+              var img = document.createElement('img');
+              img.src = url;
+              img.alt = '';
+              img.loading = 'lazy';
+              rail.appendChild(img);
+            });
+            show('screenshotsSection');
+          }
+
+          // Developer info
+          if (l.websiteUrl) { $('websiteLink').href = l.websiteUrl; $('websiteLink').textContent = l.websiteUrl.replace(/^https?:\/\//, ''); show('websiteRow'); }
+          if (l.supportUrl) { $('supportLink').href = l.supportUrl; $('supportLink').textContent = l.supportUrl.replace(/^https?:\/\//, ''); show('supportRow'); }
+
+          // Social
+          var socials = [];
+          if (l.socialTwitter) socials.push({ label: '𝕏 / Twitter', href: 'https://x.com/' + encodeURIComponent(l.socialTwitter), text: '@' + l.socialTwitter });
+          if (l.socialGithub)  socials.push({ label: 'GitHub',      href: 'https://github.com/' + encodeURIComponent(l.socialGithub), text: l.socialGithub });
+          if (l.socialMastodon) socials.push({ label: 'Mastodon',    href: l.socialMastodon, text: l.socialMastodon.replace(/^https?:\/\//, '') });
+          if (l.socialBluesky) socials.push({ label: 'Bluesky',     href: 'https://bsky.app/profile/' + encodeURIComponent(l.socialBluesky), text: '@' + l.socialBluesky });
+          if (socials.length) {
+            var box = $('socialLinks');
+            socials.forEach(function (s, i) {
+              if (i > 0) box.appendChild(document.createTextNode(' · '));
+              var a = document.createElement('a');
+              a.href = s.href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = s.text;
+              a.setAttribute('title', s.label);
+              box.appendChild(a);
+            });
+            show('socialRow');
+          }
+
+          // Legal
+          if (l.privacyPolicyUrl) { $('privacyLink').href = l.privacyPolicyUrl; show('privacyRow'); }
+          if (l.termsUrl) { $('termsLink').href = l.termsUrl; show('termsRow'); }
+        })
+        .catch(function () { /* leave server-rendered fallback in place */ });
+    })();
+  </script>
+</body>
+</html>
