@@ -14,6 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build storefront
+        # Generates index.html and apps/{id}/index.html from registry.json
+        # via build.js. Build artifacts are gitignored, so we produce them
+        # on the runner before deploying — otherwise wrangler uploads only
+        # the source files and the deployment ends up with no landing page
+        # or detail pages.
+        run: npm run build
+
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy . --project-name=proappstore
         env:
