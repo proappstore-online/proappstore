@@ -203,6 +203,19 @@ test('no inline onerror + has data-letter', () => {
     const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
     assert.ok(!/\sonerror\s*=/i.test(html), 'inline onerror= leaked');
     assert.ok(/<div class="app-icon" data-letter="/.test(html), 'data-letter missing');
+    // No inline style attribute on app-icon either; iconBg lives in card-styles.css.
+    assert.ok(
+      !/<div class="app-icon" data-letter="[^"]*" style=/.test(html),
+      'inline style= leaked onto .app-icon',
+    );
+    const css = fs.readFileSync(path.join(tmp, 'card-styles.css'), 'utf8');
+    const registry = JSON.parse(fs.readFileSync(REAL_REGISTRY, 'utf8'));
+    for (const a of registry.apps) {
+      assert.ok(
+        css.includes(`.app-card[data-id="${a.id}"] .app-icon`),
+        `card-styles.css missing rule for "${a.id}"`,
+      );
+    }
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }

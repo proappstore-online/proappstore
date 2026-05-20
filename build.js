@@ -50,10 +50,15 @@ function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+// Per-card icon backgrounds live in card-styles.css so a malformed iconBg
+// slipping past validation never reaches an HTML style attribute.
+function escapeAttrCss(s) { return String(s).replace(/[^a-z0-9_-]/gi, '_'); }
+const cardIconBackgrounds = apps
+  .map(a => `.app-card[data-id="${escapeAttrCss(a.id)}"] .app-icon { background: ${a.iconBg || '#7c3aed'}; }`)
+  .join('\n');
+
 const cards = apps.map((app) => {
-  // Letter fallback on data-attribute; storefront.js binds the error handler.
   const letter = esc((app.name || '?').trim().charAt(0).toUpperCase());
-  const iconBg = esc(app.iconBg || '#7c3aed');
   const pf = (app.proFeatures || [])
     .slice(0, 3)
     .map((f) => `<span class="pro-badge-sm">${esc(f)}</span>`)
@@ -62,7 +67,7 @@ const cards = apps.map((app) => {
   // going straight to the live subdomain so users can launch in one click.
   return `        <div class="app-card compact" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
           <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
-            <div class="app-icon" data-letter="${letter}" style="background: ${iconBg};">
+            <div class="app-icon" data-letter="${letter}">
               <img src="${esc(app.appUrl)}/apple-touch-icon.png" alt="" loading="lazy" />
             </div>
             <div class="app-body">
@@ -109,6 +114,7 @@ const html = indexTemplate
   .replaceAll('{{FEATURES}}', featuresHtml);
 
 fs.writeFileSync(path.join(OUT_DIR, 'index.html'), html);
+fs.writeFileSync(path.join(OUT_DIR, 'card-styles.css'), cardIconBackgrounds + '\n');
 console.log(`Built ${apps.length} app cards`);
 
 // Security headers via CF Pages _headers (must be HTTP headers, not meta tags).
