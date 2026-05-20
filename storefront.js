@@ -178,3 +178,28 @@
     SPLIT_MQ.addEventListener('change', function (e) { if (!e.matches) activate(null); });
   }
 })();
+
+// ─── Card icon enhancement ───────────────────────────────────────────────
+// Cards default to <id>.proappstore.online/apple-touch-icon.png (the app's
+// own deployed favicon). When a dev uploads a custom icon via Console, the
+// platform stores it in app_listings.icon_url; we fetch the public batch
+// and swap in any explicit iconUrl. One request, no per-card N+1.
+(function () {
+  var grid = document.getElementById('apps-grid');
+  if (!grid) return;
+  fetch('https://api.proappstore.online/v1/storefront/apps', { cache: 'default' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      if (!data || !Array.isArray(data.apps)) return;
+      data.apps.forEach(function (app) {
+        if (!app.iconUrl) return;
+        var card = grid.querySelector('.app-card.compact[data-id="' + CSS.escape(app.appId) + '"]');
+        if (!card) return;
+        var img = card.querySelector('.app-icon img');
+        if (img && img.getAttribute('src') !== app.iconUrl) {
+          img.setAttribute('src', app.iconUrl);
+        }
+      });
+    })
+    .catch(function () { /* silent — storefront still renders from registry */ });
+})();
