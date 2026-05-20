@@ -13,7 +13,8 @@ function esc(s) {
 }
 
 const cards = apps.map((app) => {
-  const letter = (app.name || '?').trim().charAt(0).toUpperCase();
+  // Escape for safe use inside the single-quoted JS string in img.onerror.
+  const letter = (app.name || '?').trim().charAt(0).toUpperCase().replace(/[\\']/g, '\\$&');
   const iconBg = esc(app.iconBg || '#7c3aed');
   const pf = (app.proFeatures || [])
     .slice(0, 3)
