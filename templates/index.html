@@ -16,7 +16,7 @@
   <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
   <!-- CSP: lock down what the page can load + ban iframing the storefront (anti-clickjack). -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; script-src 'self' '{{INLINE_SCRIPT_HASH}}'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self' https://*.proappstore.online https://api.proappstore.online; frame-src https://*.proappstore.online; base-uri 'self'; form-action 'self' https://api.proappstore.online;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; script-src 'self' '{{INLINE_SCRIPT_HASH}}'; style-src 'self'; font-src 'self'; connect-src 'self' https://*.proappstore.online https://api.proappstore.online; frame-src https://*.proappstore.online; base-uri 'self'; form-action 'self' https://api.proappstore.online;" />
   <script>
     (function(){try{var s=localStorage.getItem('pas-theme');var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();
   </script>
@@ -57,7 +57,7 @@
 
   <main class="container">
     <section class="apps-section" id="apps">
-      <div class="apps-header" style="border-top: none; padding-top: 0;">
+      <div class="apps-header flush">
         <div class="apps-header-title">
           <h2>Pro Apps</h2>
           <div class="count" id="apps-count">Premium web apps with subscriptions, real-time collaboration, AI, and more. One SDK, full power. $9/mo for everything.</div>
@@ -95,18 +95,18 @@
       </div>
     </section>
 
-    <section style="margin: 3rem 0 2rem;">
-      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--ink-strong); letter-spacing: -0.01em; margin-bottom: 0.25rem;">Platform features</h2>
-      <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem;">All Pro apps share these capabilities through one SDK. <a href="/skills.md" style="color: var(--accent); font-weight: 600;">Read the docs →</a></p>
+    <section class="section-spaced">
+      <h2 class="section-h2 strong">Platform features</h2>
+      <p class="lede">All Pro apps share these capabilities through one SDK. <a href="/skills.md" class="text-accent-bold">Read the docs →</a></p>
       <div class="features-grid">
         {{FEATURES}}
       </div>
     </section>
 
-    <section id="how-creators-get-paid" style="margin: 3rem 0 2rem;">
-      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--ink-strong); letter-spacing: -0.01em; margin-bottom: 0.25rem;">How creators get paid</h2>
-      <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem;">One subscription, every app — fairly split by usage.</p>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+    <section id="how-creators-get-paid" class="section-spaced">
+      <h2 class="section-h2 strong">How creators get paid</h2>
+      <p class="lede">One subscription, every app — fairly split by usage.</p>
+      <div class="tile-grid-narrow">
         <div class="feature-card">
           <strong>No per-app prices</strong>
           <p>$9/mo unlocks every Pro app. Creators don't set a price; you don't pick which app to pay for.</p>
@@ -124,38 +124,38 @@
           <p>Don't gate features. Don't show upgrade prompts. Build something people use — your earnings track usage, nothing else.</p>
         </div>
       </div>
-      <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--muted);">
-        Full math + edge cases on the <a href="/pricing" style="color: var(--accent); font-weight: 600;">pricing page</a>.
+      <p class="foot-note">
+        Full math + edge cases on the <a href="/pricing" class="text-accent-bold">pricing page</a>.
       </p>
     </section>
 
-    <section id="where" style="margin: 3rem 0 2rem;">
-      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--ink-strong); letter-spacing: -0.01em; margin-bottom: 0.25rem;">Where everything lives</h2>
-      <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem;">A map of every URL across the stores. Bookmark this page.</p>
+    <section id="where" class="section-spaced">
+      <h2 class="section-h2 strong">Where everything lives</h2>
+      <p class="lede">A map of every URL across the stores. Bookmark this page.</p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+      <div class="tile-grid">
 
         <div class="feature-card">
           <strong>For users</strong>
-          <p style="margin-top: 0.5rem;">
-            <a href="https://proappstore.online" style="color: var(--accent); font-weight: 600;">proappstore.online</a> — pro storefront (you are here)<br/>
-            <a href="https://dashboard.proappstore.online" style="color: var(--accent); font-weight: 600;">dashboard.proappstore.online</a> — account, subscription, preferences
+          <p class="mt-half">
+            <a href="https://proappstore.online" class="text-accent-bold">proappstore.online</a> — pro storefront (you are here)<br/>
+            <a href="https://dashboard.proappstore.online" class="text-accent-bold">dashboard.proappstore.online</a> — account, subscription, preferences
           </p>
         </div>
 
         <div class="feature-card">
           <strong>For developers</strong>
-          <p style="margin-top: 0.5rem;">
-            <a href="https://console.proappstore.online" style="color: var(--accent); font-weight: 600;">console.proappstore.online</a> — manage your apps, submit new ones for review<br/>
-            <a href="https://api.proappstore.online" style="color: var(--accent); font-weight: 600;">api.proappstore.online</a> — backend (auth, D1, R2, Stripe, AI, SMS)<br/>
-            <a href="/skills.md" style="color: var(--accent); font-weight: 600;">/skills.md</a> — SDK reference (this site)<br/>
-            <a href="https://github.com/proappstore-online" style="color: var(--accent); font-weight: 600;">github.com/proappstore-online</a> — source code
+          <p class="mt-half">
+            <a href="https://console.proappstore.online" class="text-accent-bold">console.proappstore.online</a> — manage your apps, submit new ones for review<br/>
+            <a href="https://api.proappstore.online" class="text-accent-bold">api.proappstore.online</a> — backend (auth, D1, R2, Stripe, AI, SMS)<br/>
+            <a href="/skills.md" class="text-accent-bold">/skills.md</a> — SDK reference (this site)<br/>
+            <a href="https://github.com/proappstore-online" class="text-accent-bold">github.com/proappstore-online</a> — source code
           </p>
         </div>
 
         <div class="feature-card">
           <strong>CLI</strong>
-          <p style="margin-top: 0.5rem; font-family: ui-monospace, monospace; font-size: 0.85em;">
+          <p class="mt-half-mono">
             npm i -g @proappstore/cli<br/>
             pas create &lt;id&gt;<br/>
             pas publish<br/>
@@ -165,43 +165,43 @@
 
         <div class="feature-card">
           <strong>Pro apps live now</strong>
-          <p style="margin-top: 0.5rem;">
-            <a href="https://meetup.proappstore.online" style="color: var(--accent); font-weight: 600;">meetup</a> ·
-            <a href="https://carsads.proappstore.online" style="color: var(--accent); font-weight: 600;">carsads</a> ·
-            <a href="https://dating.proappstore.online" style="color: var(--accent); font-weight: 600;">dating</a> ·
-            <a href="https://loopride.proappstore.online" style="color: var(--accent); font-weight: 600;">loopride</a> ·
-            <a href="https://studio.proappstore.online" style="color: var(--accent); font-weight: 600;">studio</a>
+          <p class="mt-half">
+            <a href="https://meetup.proappstore.online" class="text-accent-bold">meetup</a> ·
+            <a href="https://carsads.proappstore.online" class="text-accent-bold">carsads</a> ·
+            <a href="https://dating.proappstore.online" class="text-accent-bold">dating</a> ·
+            <a href="https://loopride.proappstore.online" class="text-accent-bold">loopride</a> ·
+            <a href="https://studio.proappstore.online" class="text-accent-bold">studio</a>
           </p>
         </div>
 
         <div class="feature-card">
           <strong>Free sister stores</strong>
-          <p style="margin-top: 0.5rem;">
-            <a href="https://freeappstore.online" style="color: var(--accent); font-weight: 600;">freeappstore.online</a> — free apps (FAS)<br/>
-            <a href="https://freegamestore.online" style="color: var(--accent); font-weight: 600;">freegamestore.online</a> — free games (FGS)<br/>
-            <a href="https://freewebstore.online" style="color: var(--accent); font-weight: 600;">freewebstore.online</a> — free one-page sites (FWS)
+          <p class="mt-half">
+            <a href="https://freeappstore.online" class="text-accent-bold">freeappstore.online</a> — free apps (FAS)<br/>
+            <a href="https://freegamestore.online" class="text-accent-bold">freegamestore.online</a> — free games (FGS)<br/>
+            <a href="https://freewebstore.online" class="text-accent-bold">freewebstore.online</a> — free one-page sites (FWS)
           </p>
         </div>
 
         <div class="feature-card">
           <strong>Pro sister stores</strong>
-          <p style="margin-top: 0.5rem;">
-            <a href="https://prowebstore.online" style="color: var(--accent); font-weight: 600;">prowebstore.online</a> — knowledge-graph CMS for serious sites (PWS)<br/>
-            <em style="color: var(--muted);">progamestore — org doesn't exist yet</em>
+          <p class="mt-half">
+            <a href="https://prowebstore.online" class="text-accent-bold">prowebstore.online</a> — knowledge-graph CMS for serious sites (PWS)<br/>
+            <em class="text-muted">progamestore — org doesn't exist yet</em>
           </p>
         </div>
 
         <div class="feature-card">
           <strong>Admin / publishing portals</strong>
-          <p style="margin-top: 0.5rem;">
-            <a href="https://publish.freeappstore.online" style="color: var(--accent); font-weight: 600;">publish.freeappstore.online</a> — self-service publishing for free apps<br/>
-            <a href="https://admin.freeappstore.online" style="color: var(--accent); font-weight: 600;">admin.freeappstore.online</a> — admin UI (Google sign-in; also handles pro provisioning)
+          <p class="mt-half">
+            <a href="https://publish.freeappstore.online" class="text-accent-bold">publish.freeappstore.online</a> — self-service publishing for free apps<br/>
+            <a href="https://admin.freeappstore.online" class="text-accent-bold">admin.freeappstore.online</a> — admin UI (Google sign-in; also handles pro provisioning)
           </p>
         </div>
 
         <div class="feature-card">
           <strong>Source orgs on GitHub</strong>
-          <p style="margin-top: 0.5rem; font-family: ui-monospace, monospace; font-size: 0.85em;">
+          <p class="mt-half-mono">
             github.com/freeappstore-online<br/>
             github.com/freegamestore-online<br/>
             github.com/proappstore-online<br/>

@@ -1819,3 +1819,17 @@ html.dark .quality-badge.grade-f { background: #450a0a; color: #fca5a5; }
   .detail-info-row { grid-template-columns: 1fr; gap: 0.2rem; }
   .screenshots-rail img { height: 280px; }
 }
+
+/* Template utility classes — enable style-src 'self' (no 'unsafe-inline'). */
+.text-accent-bold { color: var(--accent); font-weight: 600; }
+.text-muted { color: var(--muted); }
+.lede { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+.section-h2 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.25rem; }
+.section-h2.strong { color: var(--ink-strong); }
+.section-spaced { margin: 3rem 0 2rem; }
+.mt-half { margin-top: 0.5rem; }
+.mt-half-mono { margin-top: 0.5rem; font-family: ui-monospace, monospace; font-size: 0.85em; }
+.foot-note { margin-top: 1rem; font-size: 0.85rem; color: var(--muted); }
+.tile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.tile-grid-narrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+.apps-header.flush { border-top: none; padding-top: 0; }
