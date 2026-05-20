@@ -4,6 +4,20 @@
  *  - Injects mobile hamburger menu + overlay. */
 
 (function () {
+  // ── Icon fallback (runs on every page) ──
+  function bindIconFallback(img) {
+    function fallback() {
+      var letter = (img.parentElement && img.parentElement.dataset.letter) || "?";
+      img.replaceWith(document.createTextNode(letter));
+    }
+    if (img.complete && img.naturalHeight === 0) fallback();
+    else img.addEventListener("error", fallback, { once: true });
+  }
+  document.querySelectorAll(".app-icon, .detail-icon").forEach(function (el) {
+    var img = el.querySelector("img");
+    if (img) bindIconFallback(img);
+  });
+
   // ── Theme: apply stored / preferred mode ──
   try {
     var stored = localStorage.getItem("pas-theme");

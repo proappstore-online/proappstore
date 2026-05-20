@@ -6,6 +6,29 @@ const OUT_DIR = process.env.OUT_DIR || ROOT;
 const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
 const apps = registry.apps;
 
+// Registry shape validator — stop malformed/malicious entries at build time.
+const ID_RE = /^[a-z0-9][a-z0-9-]*$/;
+const COLOR_RE = /^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+const URL_RE = /^https:\/\/[a-z0-9.-]+\.proappstore\.online(?:\/.*)?$/;
+function validateRegistry(items) {
+  const errors = [];
+  for (const a of items) {
+    if (!a.id || !ID_RE.test(a.id)) errors.push(`bad id: ${JSON.stringify(a.id)}`);
+    if (!a.name || typeof a.name !== 'string') errors.push(`${a.id}: missing name`);
+    if (!a.appUrl || !URL_RE.test(a.appUrl)) errors.push(`${a.id}: appUrl must be https://*.proappstore.online, got ${JSON.stringify(a.appUrl)}`);
+    if (a.iconBg && !COLOR_RE.test(a.iconBg)) errors.push(`${a.id}: iconBg must be a #hex color, got ${JSON.stringify(a.iconBg)}`);
+    if (a.category != null && (typeof a.category !== 'string' || a.category.length > 80 || /[\x00-\x1f]/.test(a.category))) {
+      errors.push(`${a.id}: bad category ${JSON.stringify(a.category)}`);
+    }
+    if (a.proFeatures && !Array.isArray(a.proFeatures)) errors.push(`${a.id}: proFeatures must be an array`);
+  }
+  if (errors.length) {
+    console.error('Registry validation failed:\n  - ' + errors.join('\n  - '));
+    process.exit(1);
+  }
+}
+validateRegistry(apps);
+
 const indexTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'index.html'), 'utf8');
 const detailTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'app-detail.html'), 'utf8');
 
@@ -14,8 +37,8 @@ function esc(s) {
 }
 
 const cards = apps.map((app) => {
-  // Escape for safe use inside the single-quoted JS string in img.onerror.
-  const letter = (app.name || '?').trim().charAt(0).toUpperCase().replace(/[\\']/g, '\\$&');
+  // Letter fallback on data-attribute; storefront.js binds the error handler.
+  const letter = esc((app.name || '?').trim().charAt(0).toUpperCase());
   const iconBg = esc(app.iconBg || '#7c3aed');
   const pf = (app.proFeatures || [])
     .slice(0, 3)
@@ -25,8 +48,8 @@ const cards = apps.map((app) => {
   // going straight to the live subdomain so users can launch in one click.
   return `        <div class="app-card compact" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
           <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
-            <div class="app-icon" style="background: ${iconBg};">
-              <img src="${esc(app.appUrl)}/apple-touch-icon.png" alt="" onerror="this.replaceWith(document.createTextNode('${letter}'))" />
+            <div class="app-icon" data-letter="${letter}" style="background: ${iconBg};">
+              <img src="${esc(app.appUrl)}/apple-touch-icon.png" alt="" loading="lazy" />
             </div>
             <div class="app-body">
               <span class="app-name">${esc(app.name)}</span>
@@ -61,6 +84,17 @@ const html = indexTemplate
 
 fs.writeFileSync(path.join(OUT_DIR, 'index.html'), html);
 console.log(`Built ${apps.length} app cards`);
+
+// Security headers via CF Pages _headers (must be HTTP headers, not meta tags).
+fs.writeFileSync(path.join(OUT_DIR, '_headers'), [
+  '/*',
+  '  X-Frame-Options: DENY',
+  '  X-Content-Type-Options: nosniff',
+  '  Referrer-Policy: strict-origin-when-cross-origin',
+  '  Permissions-Policy: geolocation=(), microphone=(), camera=()',
+  '  Content-Security-Policy: frame-ancestors \'none\'',
+  '',
+].join('\n'));
 
 // Per-app detail pages at /apps/{id}/. Each page is a static shell that
 // inlines the registry-known fields (name, category, dev, etc.) and then
