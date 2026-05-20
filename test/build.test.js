@@ -271,6 +271,23 @@ test("script-src locked with hash, no 'unsafe-inline'", () => {
   }
 });
 
+test('CSP reporting wired (report-to + Reporting-Endpoints + handler file)', () => {
+  const tmp = makeTmpDir();
+  try {
+    runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
+    const { headers, csp } = readHeadersCsp(tmp);
+    assert.match(csp, /report-to csp-endpoint/);
+    assert.match(csp, /report-uri \/v1\/csp-report/);
+    assert.match(headers, /Reporting-Endpoints: csp-endpoint="\/v1\/csp-report"/);
+    assert.ok(
+      fs.readFileSync(path.join(REPO_ROOT, 'functions/v1/csp-report.js'), 'utf8').includes('onRequestPost'),
+      'functions/v1/csp-report.js missing or wrong shape',
+    );
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
 test('every local <script src> has a valid SRI integrity attribute', () => {
   const tmp = makeTmpDir();
   try {
