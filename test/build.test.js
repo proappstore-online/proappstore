@@ -130,6 +130,98 @@ test('build.js writes manifest.json with PWA fields', () => {
   }
 });
 
+// ── Validator + security-regression tests ──
+
+const VALID_APP = {
+  id: 'valid-app',
+  name: 'Valid',
+  category: 'social',
+  icon: '&#9728;',
+  iconBg: '#f5f3ff',
+  description: 'ok',
+  appUrl: 'https://valid.proappstore.online',
+  repo: 'proappstore-online/valid',
+  type: 'connected',
+  developer: 'ProAppStore',
+};
+
+function runBuildExpectFail(apps) {
+  const tmp = makeTmpDir();
+  const tmpRegistry = path.join(tmp, 'registry.json');
+  fs.writeFileSync(tmpRegistry, JSON.stringify({ apps }));
+  try {
+    execFileSync(process.execPath, [BUILD_JS], {
+      env: { ...process.env, REGISTRY_PATH: tmpRegistry, OUT_DIR: tmp },
+      cwd: REPO_ROOT,
+      stdio: 'pipe',
+    });
+    return { ok: true, stderr: '', tmp };
+  } catch (err) {
+    return { ok: false, stderr: (err.stderr && err.stderr.toString()) || err.message, tmp };
+  }
+}
+
+test('validator rejects wrong-host appUrl', () => {
+  const { ok, stderr, tmp } = runBuildExpectFail([
+    { ...VALID_APP, appUrl: 'https://evil.example.com' },
+  ]);
+  try {
+    assert.equal(ok, false);
+    assert.match(stderr, /appUrl must be https:\/\/\*\.proappstore\.online/);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('validator rejects bad iconBg', () => {
+  const { ok, stderr, tmp } = runBuildExpectFail([
+    { ...VALID_APP, iconBg: 'url(javascript:alert(1))' },
+  ]);
+  try {
+    assert.equal(ok, false);
+    assert.match(stderr, /iconBg must be a #hex color/);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('validator rejects bad id', () => {
+  for (const badId of ['UPPER', 'two words', '']) {
+    const { ok, tmp } = runBuildExpectFail([{ ...VALID_APP, id: badId }]);
+    try {
+      assert.equal(ok, false, `id="${badId}" should reject`);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  }
+});
+
+test('no inline onerror + has data-letter', () => {
+  const tmp = makeTmpDir();
+  try {
+    runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
+    const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
+    assert.ok(!/\sonerror\s*=/i.test(html), 'inline onerror= leaked');
+    assert.ok(/<div class="app-icon" data-letter="/.test(html), 'data-letter missing');
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('CSP + security headers ship correctly', () => {
+  const tmp = makeTmpDir();
+  try {
+    runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
+    const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
+    assert.match(html, /Content-Security-Policy/);
+    const headers = fs.readFileSync(path.join(tmp, '_headers'), 'utf8');
+    assert.match(headers, /X-Frame-Options:\s*DENY/);
+    assert.match(headers, /frame-ancestors 'none'/);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
 function escapeRegExp(s) {
   return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
