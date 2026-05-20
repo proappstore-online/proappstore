@@ -15,7 +15,7 @@
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self' https://*.proappstore.online https://api.proappstore.online; frame-src https://*.proappstore.online; base-uri 'self';" />
+  <!-- CSP lives in _headers (single HTTP-header source of truth). -->
   <script>
     (function(){try{var s=localStorage.getItem('pas-theme');var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();
   </script>
@@ -144,91 +144,9 @@
     </div>
   </footer>
 
+  <!-- Per-page data island; read by /detail-page.js. No inline JS = CSP stays locked. -->
+  <script type="application/json" id="page-data">{"id":{{ID_JSON}}}</script>
   <script src="/theme.js"></script>
-  <script>
-    (function () {
-      var APP_ID = {{ID_JSON}};
-      var API = 'https://api.proappstore.online/v1/storefront/apps/' + encodeURIComponent(APP_ID);
-
-      function $(id) { return document.getElementById(id); }
-      function setText(id, v) { var el = $(id); if (el && v != null && v !== '') el.textContent = v; }
-      function show(id) { var el = $(id); if (el) el.hidden = false; }
-
-      function renderMarkdownLite(md) {
-        // Tiny safe renderer: paragraphs + bold/italic/links. No raw HTML.
-        var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
-        var html = esc(md)
-          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-          .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-          .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-        var paras = html.split(/\n\s*\n/).map(function (p) { return '<p>' + p.replace(/\n/g, '<br />') + '</p>'; });
-        return paras.join('');
-      }
-
-      fetch(API, { cache: 'default' })
-        .then(function (r) { if (!r.ok) throw new Error('listing fetch ' + r.status); return r.json(); })
-        .then(function (l) {
-          // Tagline + long description
-          if (l.tagline) setText('detailTagline', l.tagline);
-          if (l.longDescription) {
-            $('detailLongDescription').innerHTML = renderMarkdownLite(l.longDescription);
-          }
-          if (l.category) setText('detailCategory', l.category);
-
-          // Icon — override placeholder if a real one is set
-          if (l.iconUrl) {
-            var icon = $('detailIcon');
-            icon.style.background = l.splashColor || icon.style.background;
-            var img = $('detailIconImg');
-            if (img) {
-              img.onerror = null;
-              img.src = l.iconUrl;
-            }
-          } else if (l.splashColor) {
-            $('detailIcon').style.background = l.splashColor;
-          }
-
-          // Screenshots
-          if (l.screenshots && l.screenshots.length) {
-            var rail = $('screenshotsRail');
-            l.screenshots.forEach(function (url) {
-              var img = document.createElement('img');
-              img.src = url;
-              img.alt = '';
-              img.loading = 'lazy';
-              rail.appendChild(img);
-            });
-            show('screenshotsSection');
-          }
-
-          // Developer info
-          if (l.websiteUrl) { $('websiteLink').href = l.websiteUrl; $('websiteLink').textContent = l.websiteUrl.replace(/^https?:\/\//, ''); show('websiteRow'); }
-          if (l.supportUrl) { $('supportLink').href = l.supportUrl; $('supportLink').textContent = l.supportUrl.replace(/^https?:\/\//, ''); show('supportRow'); }
-
-          // Social
-          var socials = [];
-          if (l.socialTwitter) socials.push({ label: '𝕏 / Twitter', href: 'https://x.com/' + encodeURIComponent(l.socialTwitter), text: '@' + l.socialTwitter });
-          if (l.socialGithub)  socials.push({ label: 'GitHub',      href: 'https://github.com/' + encodeURIComponent(l.socialGithub), text: l.socialGithub });
-          if (l.socialMastodon) socials.push({ label: 'Mastodon',    href: l.socialMastodon, text: l.socialMastodon.replace(/^https?:\/\//, '') });
-          if (l.socialBluesky) socials.push({ label: 'Bluesky',     href: 'https://bsky.app/profile/' + encodeURIComponent(l.socialBluesky), text: '@' + l.socialBluesky });
-          if (socials.length) {
-            var box = $('socialLinks');
-            socials.forEach(function (s, i) {
-              if (i > 0) box.appendChild(document.createTextNode(' · '));
-              var a = document.createElement('a');
-              a.href = s.href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = s.text;
-              a.setAttribute('title', s.label);
-              box.appendChild(a);
-            });
-            show('socialRow');
-          }
-
-          // Legal
-          if (l.privacyPolicyUrl) { $('privacyLink').href = l.privacyPolicyUrl; show('privacyRow'); }
-          if (l.termsUrl) { $('termsLink').href = l.termsUrl; show('termsRow'); }
-        })
-        .catch(function () { /* leave server-rendered fallback in place */ });
-    })();
-  </script>
+  <script src="/detail-page.js" defer></script>
 </body>
 </html>

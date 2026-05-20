@@ -117,14 +117,33 @@ fs.writeFileSync(path.join(OUT_DIR, 'index.html'), html);
 fs.writeFileSync(path.join(OUT_DIR, 'card-styles.css'), cardIconBackgrounds + '\n');
 console.log(`Built ${apps.length} app cards`);
 
-// Security headers via CF Pages _headers (must be HTTP headers, not meta tags).
+// Security headers via CF Pages _headers — single source of truth for CSP and
+// every other security header. <meta> CSP intentionally absent.
+const csp = [
+  "default-src 'self'",
+  "img-src 'self' https://*.proappstore.online data:",
+  `script-src 'self' '${inlineScriptHash}'`,
+  "style-src 'self'",
+  "font-src 'self'",
+  "connect-src 'self' https://*.proappstore.online https://api.proappstore.online",
+  "frame-src https://*.proappstore.online",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self' https://api.proappstore.online",
+  "object-src 'none'",
+  "upgrade-insecure-requests",
+].join('; ');
+
 fs.writeFileSync(path.join(OUT_DIR, '_headers'), [
   '/*',
   '  X-Frame-Options: DENY',
   '  X-Content-Type-Options: nosniff',
   '  Referrer-Policy: strict-origin-when-cross-origin',
-  '  Permissions-Policy: geolocation=(), microphone=(), camera=()',
-  '  Content-Security-Policy: frame-ancestors \'none\'',
+  '  Strict-Transport-Security: max-age=31536000; includeSubDomains',
+  '  Cross-Origin-Opener-Policy: same-origin',
+  '  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), midi=()',
+  `  Content-Security-Policy: ${csp}`,
+  `  Content-Security-Policy-Report-Only: ${csp}`,
   '',
 ].join('\n'));
 

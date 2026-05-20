@@ -221,44 +221,65 @@ test('no inline onerror + has data-letter', () => {
   }
 });
 
-test('CSP + security headers ship correctly', () => {
+function readHeadersCsp(outDir) {
+  const headers = fs.readFileSync(path.join(outDir, '_headers'), 'utf8');
+  const m = headers.match(/Content-Security-Policy:\s*([^\n]+)/);
+  return { headers, csp: m ? m[1] : '' };
+}
+
+test('_headers ships X-Frame-Options + HSTS + COOP + frame-ancestors', () => {
   const tmp = makeTmpDir();
   try {
     runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
-    const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
-    assert.match(html, /Content-Security-Policy/);
-    const headers = fs.readFileSync(path.join(tmp, '_headers'), 'utf8');
+    const { headers, csp } = readHeadersCsp(tmp);
     assert.match(headers, /X-Frame-Options:\s*DENY/);
-    assert.match(headers, /frame-ancestors 'none'/);
+    assert.match(headers, /Strict-Transport-Security:\s*max-age=31536000/);
+    assert.match(headers, /Cross-Origin-Opener-Policy:\s*same-origin/);
+    assert.match(csp, /frame-ancestors 'none'/);
+    assert.match(csp, /object-src 'none'/);
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }
 });
 
-test("style-src is locked too, index.html has zero inline style=", () => {
+test('style-src is locked, no inline style= in body', () => {
   const tmp = makeTmpDir();
   try {
     runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
-    const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
-    const csp = (html.match(/Content-Security-Policy"\s+content="([^"]+)"/) || [])[1] || '';
+    const { csp } = readHeadersCsp(tmp);
     const styleSrc = (csp.match(/style-src[^;]*/) || [''])[0];
     assert.ok(!styleSrc.includes("'unsafe-inline'"), `style-src still 'unsafe-inline': ${styleSrc}`);
+    const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
     const body = html.replace(/<head>[\s\S]*?<\/head>/, '');
     assert.ok(!/\sstyle="/.test(body), 'inline style= survived in body');
+    assert.ok(!/meta\s+http-equiv="Content-Security-Policy"/i.test(html), 'CSP meta re-appeared in index');
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }
 });
 
-test("CSP locks index.html script-src with hash (no 'unsafe-inline')", () => {
+test("script-src locked with hash, no 'unsafe-inline'", () => {
   const tmp = makeTmpDir();
   try {
     runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
-    const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
-    const csp = (html.match(/Content-Security-Policy"\s+content="([^"]+)"/) || [])[1] || '';
+    const { csp } = readHeadersCsp(tmp);
     const scriptSrc = (csp.match(/script-src[^;]*/) || [''])[0];
     assert.ok(scriptSrc.includes("'sha256-"), `needs sha256 hash: ${scriptSrc}`);
     assert.ok(!scriptSrc.includes("'unsafe-inline'"), `unsafe-inline leaked: ${scriptSrc}`);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('detail pages have no inline <script> beyond the hashed theme bootstrap', () => {
+  const tmp = makeTmpDir();
+  try {
+    runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
+    const detail = fs.readFileSync(path.join(tmp, 'apps', 'meetup', 'index.html'), 'utf8');
+    // Count bare <script>…</script> blocks (no src=, no type=application/json).
+    const inlineCount = (detail.match(/<script>[\s\S]*?<\/script>/g) || []).length;
+    assert.equal(inlineCount, 1, `expected 1 inline <script> (theme bootstrap), found ${inlineCount}`);
+    assert.ok(!/meta\s+http-equiv="Content-Security-Policy"/i.test(detail), 'CSP meta still on detail page');
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }
