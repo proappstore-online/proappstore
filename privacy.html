@@ -43,6 +43,7 @@
       <ul>
         <li>Data you explicitly save in your apps (KV entries, database rows, uploaded files)</li>
         <li>Subscription status and Stripe customer ID (for billing)</li>
+        <li>Per-(app, day) usage counts: session-minutes spent in each app, API calls made on your behalf. Used to compute creator payouts. See <a href="#usage-analytics">Usage analytics for payouts</a>.</li>
       </ul>
 
       <h2>What We Don't Collect</h2>
@@ -50,7 +51,7 @@
         <li>No analytics or tracking cookies</li>
         <li>No third-party trackers (Google Analytics, Facebook Pixel, etc.)</li>
         <li>No advertising IDs or fingerprinting</li>
-        <li>No usage telemetry beyond what's needed for rate limiting</li>
+        <li>No event-by-event logs, no IP-address profiling, no usage data sold or shared with advertisers</li>
       </ul>
 
       <h2>How We Use Your Data</h2>
@@ -58,7 +59,31 @@
         <li><strong>Authentication</strong> — Your GitHub identity lets you sign in across all apps.</li>
         <li><strong>App data</strong> — Your KV entries, database rows, and files are stored so your apps work. Each app's data is isolated.</li>
         <li><strong>Billing</strong> — Stripe handles payment processing. We store your Stripe customer ID to manage your subscription.</li>
+        <li><strong>Creator payouts</strong> — Coarse usage counts (session-minutes, API calls per app per day) drive how the subscription pool is split among creators. See below.</li>
       </ul>
+
+      <h2 id="usage-analytics">Usage Analytics for Payouts</h2>
+      <p>ProAppStore is a single subscription that unlocks every Pro app. We pay creators monthly in proportion to how much their apps were actually used. To do that math we need to know which apps you used and roughly how much.</p>
+      <p>What we record, while you're signed in and a Pro app is the focused tab:</p>
+      <ul>
+        <li>A heartbeat every 60 seconds from <code>@proappstore/sdk</code>, bumping a counter on (app, your user id, day in UTC).</li>
+        <li>Optional API-call counts that an app increments when it does work on your behalf.</li>
+      </ul>
+      <p>What we do <em>not</em> record:</p>
+      <ul>
+        <li>Event-by-event session timelines — only daily totals.</li>
+        <li>What you did inside the app (clicks, scrolls, content viewed).</li>
+        <li>Your IP address or user-agent in these usage rows.</li>
+        <li>Anything when the tab is hidden, backgrounded, or you're signed out.</li>
+      </ul>
+      <p>Who sees what:</p>
+      <ul>
+        <li><strong>You</strong> can see your own per-app usage on the Account page ("where did my $9 go this month").</li>
+        <li><strong>Creators</strong> see daily aggregates for their own apps (active users, session-minutes, API calls). They cannot see per-user data.</li>
+        <li><strong>Stripe</strong> receives the payout amount, not the underlying usage data, when the monthly payout runs.</li>
+        <li><strong>No one else.</strong> We don't sell, share, or use usage data for advertising.</li>
+      </ul>
+      <p>To opt out: don't sign in (the apps still work for free where applicable on <a href="https://freeappstore.online">FreeAppStore</a>), or delete your account from the <a href="https://dashboard.proappstore.online">Dashboard</a> — usage rows are removed with the rest of your account data.</p>
 
       <h2>Data Storage</h2>
       <p>All data is stored on Cloudflare's global network (D1 databases, R2 storage, KV). Data is encrypted at rest by Cloudflare. We do not transfer your data to any third parties except Stripe for payment processing.</p>
