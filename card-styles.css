@@ -1,0 +1,5 @@
+.app-card[data-id="meetup"] .app-icon { background: #f5f3ff; }
+.app-card[data-id="carsads"] .app-icon { background: #fff1e9; }
+.app-card[data-id="dating"] .app-icon { background: #fff1f2; }
+.app-card[data-id="loopride"] .app-icon { background: #ecfdf5; }
+.app-card[data-id="studio"] .app-icon { background: #fffaf0; }

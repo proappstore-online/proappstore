@@ -2,5 +2,8 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: geolocation=(), microphone=(), camera=()
-  Content-Security-Policy: frame-ancestors 'none'
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), midi=()
+  Content-Security-Policy: default-src 'self'; img-src 'self' https://*.proappstore.online data:; script-src 'self' 'sha256-yNaS0cNlozGYkMaYiGz02K9CrAcMuEiy24b6W177ykY='; style-src 'self'; font-src 'self'; connect-src 'self' https://*.proappstore.online https://api.proappstore.online; frame-src https://*.proappstore.online; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://api.proappstore.online; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy-Report-Only: default-src 'self'; img-src 'self' https://*.proappstore.online data:; script-src 'self' 'sha256-yNaS0cNlozGYkMaYiGz02K9CrAcMuEiy24b6W177ykY='; style-src 'self'; font-src 'self'; connect-src 'self' https://*.proappstore.online https://api.proappstore.online; frame-src https://*.proappstore.online; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://api.proappstore.online; object-src 'none'; upgrade-insecure-requests
