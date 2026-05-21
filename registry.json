@@ -85,6 +85,25 @@
         "Class schedules",
         "Member management"
       ]
+    },
+    {
+      "id": "grasskarma",
+      "name": "GrassKarma",
+      "category": "marketplace",
+      "icon": "🌱",
+      "iconBg": "#2D7D7D",
+      "description": "Hyper-local lawn care — neighbours share a mower, street by street.",
+      "appUrl": "https://grasskarma.proappstore.online",
+      "repo": "proappstore-online/grasskarma",
+      "cfProject": "proappstore-grasskarma",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": [
+        "Street groups",
+        "Mower discovery",
+        "Reviews",
+        "Recurring schedules"
+      ]
     }
   ]
 }
