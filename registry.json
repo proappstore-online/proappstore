@@ -104,6 +104,25 @@
         "Reviews",
         "Recurring schedules"
       ]
+    },
+    {
+      "id": "kanban",
+      "name": "Kanban Pro",
+      "category": "productivity",
+      "icon": "&#128230;",
+      "iconBg": "#f5f3ff",
+      "description": "Team kanban boards with real-time presence, assignees, and live collaboration.",
+      "appUrl": "https://kanban.proappstore.online",
+      "repo": "proappstore-online/kanban",
+      "cfProject": "proappstore-kanban",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": [
+        "Real-time multiplayer",
+        "Assignees",
+        "Workspaces",
+        "Invites"
+      ]
     }
   ]
 }
