@@ -6,3 +6,6 @@ index.html
 manifest.json
 !templates/index.html
 .gstack/
+
+# vcqa run artifacts
+.vibe-check/
