@@ -10,6 +10,35 @@
   <meta property="og:description" content="Premium web apps with subscriptions, AI, real-time collaboration." />
   <meta property="og:url" content="https://proappstore.online/" />
   <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://proappstore.online/" />
+  <!-- WebSite + SearchAction JSON-LD for sitelinks search; Organization for
+       knowledge-panel signal. -->
+  <script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://proappstore.online/#website",
+        "url": "https://proappstore.online/",
+        "name": "ProAppStore",
+        "description": "Premium web apps with subscriptions, AI, real-time collaboration.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://proappstore.online/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://proappstore.online/#org",
+        "name": "ProAppStore",
+        "url": "https://proappstore.online/",
+        "logo": "https://proappstore.online/icon-512.png",
+        "sameAs": ["https://github.com/proappstore-online"]
+      }
+    ]
+  }</script>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />

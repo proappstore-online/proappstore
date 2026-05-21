@@ -20,7 +20,23 @@
     (function(){try{var s=localStorage.getItem('pas-theme');var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();
   </script>
   <link rel="stylesheet" href="/style.css" />
+  <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://proappstore.online/apps/{{ID}}/" />
+  <!-- Per-app SoftwareApplication JSON-LD — rich-card eligibility for app
+       searches. Free-tier on PAS is currently $0 until paywall logic ships
+       (see memory: pro-apps-currently-free). -->
+  <script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "{{NAME}}",
+    "description": "{{DESCRIPTION}}",
+    "applicationCategory": "{{CATEGORY}}",
+    "operatingSystem": "Web",
+    "url": "{{APP_URL}}",
+    "image": "https://proappstore.online/icon-512.png",
+    "offers": {"@type": "Offer", "price": "9", "priceCurrency": "USD"},
+    "isPartOf": {"@id": "https://proappstore.online/#website"}
+  }</script>
 </head>
 <body>
   <header>

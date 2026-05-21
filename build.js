@@ -222,3 +222,30 @@ fs.writeFileSync(
     2,
   ),
 );
+
+// --- Generate sitemap.xml ---
+// Lists every top-level marketing page + every per-app detail page so Google
+// can discover them all from one URL. Linked from robots.txt.
+const today = new Date().toISOString().split('T')[0];
+const sitemapEntries = [
+  '  <url><loc>https://proappstore.online/</loc><priority>1.0</priority></url>',
+  '  <url><loc>https://proappstore.online/about</loc><priority>0.8</priority></url>',
+  '  <url><loc>https://proappstore.online/pricing</loc><priority>0.9</priority></url>',
+  '  <url><loc>https://proappstore.online/get-started</loc><priority>0.9</priority></url>',
+  '  <url><loc>https://proappstore.online/build-with-ai</loc><priority>0.85</priority></url>',
+  '  <url><loc>https://proappstore.online/guidelines</loc><priority>0.7</priority></url>',
+  '  <url><loc>https://proappstore.online/docs</loc><priority>0.8</priority></url>',
+  '  <url><loc>https://proappstore.online/roadmap</loc><priority>0.7</priority></url>',
+  '  <url><loc>https://proappstore.online/privacy</loc><priority>0.5</priority></url>',
+  '  <url><loc>https://proappstore.online/terms</loc><priority>0.5</priority></url>',
+  ...apps.map((app) =>
+    `  <url><loc>https://proappstore.online/apps/${app.id}/</loc><priority>0.9</priority></url>`,
+  ),
+];
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapEntries.join('\n')}
+</urlset>
+`;
+fs.writeFileSync(path.join(OUT_DIR, 'sitemap.xml'), sitemap);
+console.log(`Generated sitemap.xml (${sitemapEntries.length} URLs)`);
