@@ -123,6 +123,26 @@
         "Workspaces",
         "Invites"
       ]
+    },
+    {
+      "id": "bandmates",
+      "name": "Bandmates",
+      "category": "social",
+      "icon": "&#127928;",
+      "iconBg": "#fef3c7",
+      "description": "Find musicians, manage bands, discover events.",
+      "appUrl": "https://bandmates.proappstore.online",
+      "repo": "proappstore-online/bandmates",
+      "cfProject": "proappstore-bandmates",
+      "hostedOn": "r2",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": [
+        "Musician discovery",
+        "Band management",
+        "Real-time chat",
+        "Event RSVP"
+      ]
     }
   ],
   "developers": [
@@ -131,7 +151,10 @@
       "name": "ProAppStore",
       "github": "serge-ivo",
       "bio": "Platform team. Building the infrastructure, SDK, and first-party apps for proappstore.online.",
-      "badges": ["platform", "founding-developer"],
+      "badges": [
+        "platform",
+        "founding-developer"
+      ],
       "joinedAt": "2026-05-01"
     },
     {
@@ -139,7 +162,9 @@
       "name": "Carsads",
       "github": "carsads-online",
       "bio": "Car classifieds marketplace. Browse listings, post your car for sale, and connect with buyers.",
-      "badges": ["founding-developer"],
+      "badges": [
+        "founding-developer"
+      ],
       "joinedAt": "2026-05-15"
     }
   ]
