@@ -65,8 +65,13 @@
         <a href="#avatar">Avatar</a>
         <a href="#signin-button">SignInButton</a>
         <a href="#theme-toggle">ThemeToggle</a>
+        <a href="#pro-badge">ProBadge</a>
         <a href="#profile-menu">ProfileMenu</a>
-        <a href="#profile-page">ProfilePage</a>
+        <a href="#subscription-status">SubscriptionStatus</a>
+        <a href="#upgrade-card">UpgradeCard</a>
+        <a href="#billing-button">BillingButton</a>
+        <a href="#gate-screen">GateScreen</a>
+        <a href="#pro-profile-page">ProProfilePage</a>
         <a href="#pro-shell">ProShell</a>
         <a href="#hooks">Hooks</a>
         <a href="#patterns">Patterns</a>
@@ -207,28 +212,127 @@
 &lt;ThemeToggle /&gt;</code></pre>
       </div>
 
+      <div class="component-section" id="pro-badge">
+        <h2>ProBadge</h2>
+        <p>Purple "PRO" subscription badge. Use anywhere to indicate premium status.</p>
+        <pre><code>import { ProBadge } from '@proappstore/sdk/ui'
+
+&lt;ProBadge /&gt;
+&lt;ProBadge size="lg" /&gt;</code></pre>
+        <table class="props-table">
+          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>size</code></td><td><code>'sm' | 'md' | 'lg'</code></td><td><code>'sm'</code></td><td>Badge size</td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <div class="component-section" id="profile-menu">
         <h2>ProfileMenu</h2>
-        <p>Avatar button that opens a dropdown: username, theme toggle, sign out, delete account.</p>
+        <p>Avatar button that opens dropdown with Pro features: PRO badge, billing link, theme toggle, sign out, delete account (with double-confirm).</p>
         <pre><code>import { ProfileMenu } from '@proappstore/sdk/ui'
 
-&lt;ProfileMenu app={app} /&gt;</code></pre>
+&lt;ProfileMenu app={app} /&gt;
+&lt;ProfileMenu app={app} showBilling={false}&gt;
+  &lt;button style={menuStyle}&gt;Settings&lt;/button&gt;
+&lt;/ProfileMenu&gt;</code></pre>
         <table class="props-table">
           <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
           <tbody>
             <tr><td><code>app</code></td><td><code>ProAppStore</code></td><td>-</td><td>SDK instance</td></tr>
             <tr><td><code>showThemeToggle</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show theme toggle in dropdown</td></tr>
+            <tr><td><code>showBilling</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show "Manage billing" for Pro subscribers</td></tr>
             <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>-</td><td>Extra menu items</td></tr>
+          </tbody>
+        </table>
+        <p>Automatically shows PRO badge next to username for active subscribers.</p>
+      </div>
+
+      <div class="component-section" id="subscription-status">
+        <h2>SubscriptionStatus</h2>
+        <p>Inline subscription status indicator: PRO badge with renewal date, or "Free plan" with optional upgrade button.</p>
+        <pre><code>import { SubscriptionStatus } from '@proappstore/sdk/ui'
+
+&lt;SubscriptionStatus app={app} /&gt;
+&lt;SubscriptionStatus app={app} showUpgrade={false} /&gt;</code></pre>
+        <table class="props-table">
+          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>app</code></td><td><code>ProAppStore</code></td><td>-</td><td>SDK instance</td></tr>
+            <tr><td><code>showUpgrade</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show upgrade button for free users</td></tr>
           </tbody>
         </table>
       </div>
 
-      <div class="component-section" id="profile-page">
-        <h2>ProfilePage</h2>
-        <p>Full-page settings view. Mount at any route.</p>
-        <pre><code>import { ProfilePage } from '@proappstore/sdk/ui'
+      <div class="component-section" id="upgrade-card">
+        <h2>UpgradeCard</h2>
+        <p>Styled call-to-action card prompting upgrade to Pro. Fully customizable text and features list.</p>
+        <pre><code>import { UpgradeCard } from '@proappstore/sdk/ui'
 
-&lt;Route path="/profile" element={&lt;ProfilePage app={app} /&gt;} /&gt;</code></pre>
+&lt;UpgradeCard app={app} /&gt;
+&lt;UpgradeCard
+  app={app}
+  title="Go Pro"
+  description="Get unlimited storage and AI features."
+  priceLabel="$9/month"
+  features={['Cloud sync', 'AI assistant', 'Priority support']}
+/&gt;</code></pre>
+        <table class="props-table">
+          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>app</code></td><td><code>ProAppStore</code></td><td>-</td><td>SDK instance</td></tr>
+            <tr><td><code>title</code></td><td><code>string</code></td><td><code>"Upgrade to Pro"</code></td><td>Card heading</td></tr>
+            <tr><td><code>description</code></td><td><code>string</code></td><td>(default text)</td><td>Card description</td></tr>
+            <tr><td><code>priceLabel</code></td><td><code>string</code></td><td><code>"$9/month"</code></td><td>Price shown on button</td></tr>
+            <tr><td><code>features</code></td><td><code>string[]</code></td><td>(4 defaults)</td><td>Feature list</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="component-section" id="billing-button">
+        <h2>BillingButton</h2>
+        <p>Button that opens the Stripe billing portal for subscription management.</p>
+        <pre><code>import { BillingButton } from '@proappstore/sdk/ui'
+
+&lt;BillingButton app={app} /&gt;
+&lt;BillingButton app={app} label="Billing settings" variant="ghost" /&gt;</code></pre>
+        <table class="props-table">
+          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>app</code></td><td><code>ProAppStore</code></td><td>-</td><td>SDK instance</td></tr>
+            <tr><td><code>label</code></td><td><code>string</code></td><td><code>"Manage billing"</code></td><td>Button text</td></tr>
+            <tr><td><code>variant</code></td><td><code>'primary' | 'secondary' | 'ghost'</code></td><td><code>'secondary'</code></td><td>Button style</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="component-section" id="gate-screen">
+        <h2>GateScreen</h2>
+        <p>Renders the appropriate gate screen based on state: loading spinner, sign-in prompt, or upgrade card. Used internally by ProShell, but available for custom layouts.</p>
+        <pre><code>import { GateScreen } from '@proappstore/sdk/ui'
+import { useProGate } from '@proappstore/sdk/hooks'
+
+function App() {
+  const { gate, ...rest } = useProGate(app)
+  if (gate !== 'ready') return &lt;GateScreen gate={gate} app={app} appName="My App" /&gt;
+  return &lt;MyApp /&gt;
+}</code></pre>
+        <table class="props-table">
+          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>gate</code></td><td><code>'loading' | 'signed-out' | 'no-subscription'</code></td><td>-</td><td>Current gate state</td></tr>
+            <tr><td><code>app</code></td><td><code>ProAppStore</code></td><td>-</td><td>SDK instance</td></tr>
+            <tr><td><code>appName</code></td><td><code>string?</code></td><td>-</td><td>App name for the sign-in screen</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="component-section" id="pro-profile-page">
+        <h2>ProProfilePage</h2>
+        <p>Full-page profile with subscription info, billing management, theme selector, and danger zone. The Pro-enhanced version of ProfilePage.</p>
+        <pre><code>import { ProProfilePage } from '@proappstore/sdk/ui'
+
+&lt;Route path="/profile" element={&lt;ProProfilePage app={app} /&gt;} /&gt;</code></pre>
         <table class="props-table">
           <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
           <tbody>
@@ -236,6 +340,7 @@
             <tr><td><code>showThemeToggle</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show theme selector</td></tr>
           </tbody>
         </table>
+        <p>Shows: avatar + username with PRO badge, subscription status (active/free with upgrade CTA), billing management button, theme preference (system/light/dark), sign out, danger zone with account deletion.</p>
       </div>
 
       <div class="component-section" id="pro-shell">
@@ -253,9 +358,10 @@
             <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>-</td><td>App content</td></tr>
             <tr><td><code>appName</code></td><td><code>string?</code></td><td>-</td><td>Topbar name</td></tr>
             <tr><td><code>allowFree</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Skip subscription gate</td></tr>
+            <tr><td><code>showThemeToggle</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show theme toggle in profile menu</td></tr>
           </tbody>
         </table>
-        <p>Use <code>ProShell</code> for the full zero-config experience, or use the <code>./ui</code> primitives to build your own layout.</p>
+        <p>ProShell now uses CSS custom properties for theming, includes a footer, and uses the <code>./ui</code> components internally. For custom layouts, use the primitives directly.</p>
       </div>
 
       <div class="component-section" id="hooks">
@@ -295,23 +401,49 @@ const { gate, user, signIn, upgrade } = useProGate(app)</code></pre>
         <h2>Patterns</h2>
 
         <div class="pattern-card">
-          <h4>Custom topbar with subscription badge</h4>
-          <pre><code>import { useProAuth, useTheme } from '@proappstore/sdk/hooks'
-import { Avatar, ThemeToggle } from '@proappstore/sdk/ui'
-import { useProSubscription } from '@proappstore/sdk/hooks'
+          <h4>Custom topbar with Pro badge</h4>
+          <pre><code>import { Avatar, ThemeToggle, ProBadge } from '@proappstore/sdk/ui'
+import { useProAuth, useProSubscription } from '@proappstore/sdk/hooks'
 
 function MyHeader() {
   const { user } = useProAuth(app)
   const { isPro } = useProSubscription(app)
   return (
     &lt;header&gt;
-      &lt;h1&gt;My App&lt;/h1&gt;
+      &lt;h1&gt;My App {isPro &amp;&amp; &lt;ProBadge /&gt;}&lt;/h1&gt;
       &lt;ThemeToggle /&gt;
       {user &amp;&amp; &lt;Avatar user={user} /&gt;}
-      {isPro &amp;&amp; &lt;span className="badge"&gt;PRO&lt;/span&gt;}
     &lt;/header&gt;
   )
 }</code></pre>
+        </div>
+
+        <div class="pattern-card">
+          <h4>Custom gate with GateScreen</h4>
+          <pre><code>import { GateScreen } from '@proappstore/sdk/ui'
+import { useProGate } from '@proappstore/sdk/hooks'
+
+function App() {
+  const { gate } = useProGate(app)
+  if (gate !== 'ready') return &lt;GateScreen gate={gate} app={app} /&gt;
+  return &lt;MyApp /&gt;
+}</code></pre>
+        </div>
+
+        <div class="pattern-card">
+          <h4>Inline upgrade prompt</h4>
+          <pre><code>import { SubscriptionStatus } from '@proappstore/sdk/ui'
+
+// Shows PRO badge or "Free plan [Upgrade]" inline
+&lt;SubscriptionStatus app={app} /&gt;</code></pre>
+        </div>
+
+        <div class="pattern-card">
+          <h4>Settings page with subscription</h4>
+          <pre><code>import { ProProfilePage } from '@proappstore/sdk/ui'
+
+&lt;Route path="/settings" element={&lt;ProProfilePage app={app} /&gt;} /&gt;</code></pre>
+          <p>Shows subscription status, billing management, theme preferences, and account deletion.</p>
         </div>
 
         <div class="pattern-card">
@@ -329,7 +461,7 @@ function MyHeader() {
           <tr><td><code>@proappstore/sdk</code></td><td><code>initPro</code>, <code>ProAppStore</code>, types</td></tr>
           <tr><td><code>@proappstore/sdk/hooks</code></td><td><code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code>, <code>useTheme</code></td></tr>
           <tr><td><code>@proappstore/sdk/shell</code></td><td><code>ProShell</code></td></tr>
-          <tr><td><code>@proappstore/sdk/ui</code></td><td><code>Avatar</code>, <code>SignInButton</code>, <code>ThemeToggle</code>, <code>ProfileMenu</code>, <code>ProfilePage</code></td></tr>
+          <tr><td><code>@proappstore/sdk/ui</code></td><td><code>Avatar</code>, <code>SignInButton</code>, <code>ThemeToggle</code>, <code>ProBadge</code>, <code>ProfileMenu</code>, <code>SubscriptionStatus</code>, <code>UpgradeCard</code>, <code>BillingButton</code>, <code>GateScreen</code>, <code>ProProfilePage</code></td></tr>
         </tbody>
       </table>
 
