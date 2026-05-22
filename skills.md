@@ -338,18 +338,103 @@ Platform monorepo packages:
 
 ---
 
+## CLI Reference (`@proappstore/cli`)
+
+```bash
+npm i -g @proappstore/cli
+
+# Create a new app (scaffolds repo + provisions D1 + R2 + data worker)
+pas create my-app
+
+# Check compliance before publishing
+pas check
+
+# Publish to the store (submits for review)
+pas publish
+
+# Check CLI version
+pas --version
+```
+
+`pas create` does everything: scaffolds from template, creates GitHub repo, provisions D1 database, sets up data worker, creates CF Pages project. Push to main = live.
+
+---
+
+## Project Structure
+
+Every Pro app follows this layout (created by `pas create`):
+
+```
+my-app/
+├── web/
+│   ├── src/
+│   │   ├── App.tsx          ← your app (wrap in ProShell)
+│   │   ├── main.tsx         ← entry point
+│   │   └── index.css        ← Tailwind + CSS custom properties
+│   ├── index.html
+│   ├── vite.config.ts
+│   ├── tsconfig.json
+│   └── package.json         ← @proappstore/sdk dependency
+├── package.json              ← workspace root
+├── pnpm-workspace.yaml
+├── CLAUDE.md                 ← AI agent instructions
+└── .github/workflows/deploy.yml
+```
+
+---
+
+## How Deployment Works
+
+1. Developer pushes to `main`
+2. GitHub Actions builds (`pnpm build`)
+3. Built output uploads to R2 (`apps/<app-id>/`)
+4. Host worker serves from R2 at `<app-id>.proappstore.online`
+5. SDK npm packages auto-publish via OIDC (no tokens stored)
+
+**Two distinct operations:**
+- **Deploy** = push code → live on subdomain (automatic, every push)
+- **Publish** = submit to store listing for review (manual, `pas publish`)
+
+---
+
+## Platform Rules
+
+1. **One SDK import.** Use `@proappstore/sdk` — it includes everything from FAS + Pro features.
+2. **ProShell or SDK components.** Use `<ProShell>` or individual `@proappstore/sdk/ui` components for auth/subscription UI. No custom sign-in buttons.
+3. **No inline secrets.** Use `app.proxy.fetch()` for third-party APIs — it injects keys server-side.
+4. **No in-app payments.** Monetization is through the platform subscription only. Don't gate features behind separate payments.
+5. **Mobile-first.** Test at 375px width. Touch targets ≥ 44px. No horizontal scroll.
+
+---
+
+## Privacy Rules
+
+- **No tracking.** No Google Analytics, no Facebook Pixel, no third-party trackers.
+- **No cookies.** Use `localStorage` (via SDK KV) for persistence.
+- **No data selling.** User data stays on the platform.
+- **Delete account = delete data.** `deleteAccount()` in SDK hooks wipes all KV data.
+
+---
+
+## Brand Design
+
+- **Accent color:** Purple `#7c3aed` (light), `#a78bfa` (dark)
+- **Fonts:** Manrope (body), Fraunces (display headings)
+- **CSS tokens:** `--ink`, `--muted`, `--accent`, `--accent-soft`, `--border`, `--surface`, `--bg`, `--radius`
+- **Dark mode:** Via `data-theme="dark"` on `<html>` — SDK `useTheme()` handles it
+- Full design token reference: https://proappstore.online/docs/ui#design-tokens
+
+---
+
 ## IMPORTANT: What NOT to do
 
 - **Do NOT ask for API tokens or secrets.** All infra is automated.
 - **Do NOT deploy manually.** Push to main = auto-deploy.
-- **Do NOT scaffold from scratch.** Copy from templates.
-- **Do NOT import both SDKs.** `@proappstore/sdk` includes everything.
-
----
-
-## Deployment
-
-Push to main → auto-deploy via CF Pages (apps) or GH Actions (backend/SDK).
+- **Do NOT scaffold from scratch.** Use `pas create`.
+- **Do NOT import both SDKs.** `@proappstore/sdk` includes everything from FAS.
+- **Do NOT build custom auth UI.** Use SDK components (ProShell, ProfileMenu, SignInButton).
+- **Do NOT add tracking.** No GA, no pixels, no third-party analytics.
+- **Do NOT gate features behind payments.** Platform subscription covers everything.
 
 ---
 
@@ -357,11 +442,13 @@ Push to main → auto-deploy via CF Pages (apps) or GH Actions (backend/SDK).
 
 ```
 ~/dev/stores/pas/
-├── platform/       → proappstore-online/platform
+├── platform/       → proappstore-online/platform (sdk, cli, backend)
 ├── proappstore/    → proappstore-online/proappstore (store site)
-├── dashboard/      → proappstore-online/dashboard
+├── console/        → proappstore-online/console (creator portal)
+├── dashboard/      → proappstore-online/dashboard (user account)
 ├── apps/
 │   ├── meetup/     → proappstore-online/meetup
+│   ├── carsads/    → carsads-online/carsads
 │   └── ...
 └── templates/      → app scaffolding
 ```
