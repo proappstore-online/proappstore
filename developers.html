@@ -18,7 +18,7 @@
   <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
   <script>
-    (function(){try{var s=localStorage.getItem('pas-theme');var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();
+    (function(){try{var p=localStorage.getItem('stores-theme');var d=p==='dark'||(!p||p==='system')&&matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.dataset.theme='dark';}catch(e){}})();
   </script>
   <link rel="stylesheet" href="/style.css" />
 </head>
@@ -103,6 +103,6 @@
     </div>
   </footer>
 
-  <script src="/theme.js" integrity="sha256-7/aXrneNN+k6qlTzROXVQpExA7mOFwwh/JU/e7LqdGg="></script>
+  <script src="/theme.js" integrity="sha256-0WlPp1d2M2jpzTj8J3XxDcb9VuYXOQy8SvK+Bqpw7Iw="></script>
 </body>
 </html>
