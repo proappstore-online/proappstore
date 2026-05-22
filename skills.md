@@ -20,6 +20,7 @@ The paid counterpart to FreeAppStore. Premium web apps with subscriptions, real-
 - **Dashboard**: https://dashboard.proappstore.online
 - **Console**: https://console.proappstore.online
 - **API**: https://api.proappstore.online
+- **MCP**: https://mcp.proappstore.online/mcp (AI agent tools)
 - **Free tier**: https://freeappstore.online
 - **GitHub org**: https://github.com/proappstore-online
 
@@ -438,6 +439,25 @@ my-app/
 
 ---
 
+## MCP Server
+
+AI agents can connect to the ProAppStore MCP server for platform-aware tooling:
+
+```json
+{
+  "mcpServers": {
+    "proappstore": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.proappstore.online/mcp"]
+    }
+  }
+}
+```
+
+Tools: `list_apps`, `deploy_status`, `app_info`, `platform_guide`, `sdk_reference` (16 feature sections: auth, db, storage, maps, AI, subscriptions, rooms, hooks, UI, etc.)
+
+---
+
 ## Local folder structure
 
 ```
@@ -446,6 +466,7 @@ my-app/
 ├── proappstore/    → proappstore-online/proappstore (store site)
 ├── console/        → proappstore-online/console (creator portal)
 ├── dashboard/      → proappstore-online/dashboard (user account)
+├── mcp/            → proappstore-online/mcp (MCP server for AI agents)
 ├── apps/
 │   ├── meetup/     → proappstore-online/meetup
 │   ├── carsads/    → carsads-online/carsads
