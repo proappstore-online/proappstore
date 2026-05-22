@@ -290,7 +290,16 @@ await app.notifications.send('user-123', {
 await app.notifications.broadcast({
   title: 'New feature!',
   body: 'Check out the new map view.',
-})</code></pre>
+})
+
+// Peer-to-peer: notify another user in the same app (no creator check)
+await app.notifications.notifyUser('gh:123', {
+  title: '@serge mentioned you',
+  body: 'In "Wire the broadcast"',
+  url: 'https://kanban.proappstore.online/#/...',
+  tag: 'mention:card-1',
+})
+// Rate-limited: 30/min per user per app</code></pre>
       <p>Your app needs a service worker. Use <code>Notifications.getServiceWorkerScript()</code> to generate <code>/sw.js</code>.</p>
 
       <h2>SMS</h2>
@@ -338,13 +347,16 @@ await app.roles.assign('user-456', 'moderator')
 // Revoke a role
 await app.roles.revoke('user-456', 'moderator')
 
-// Check if the current user has a role (zero-I/O, from session token)
-const isMod = app.roles.has('moderator')
+// Check if the current user has a role
+const isMod = await app.roles.check('moderator')
 
 // List all roles for the current user
-const myRoles = app.roles.list()
-// ['member', 'moderator']</code></pre>
-      <p>Roles are baked into the session token, so <code>app.roles.has()</code> and <code>app.roles.list()</code> require no network calls.</p>
+const myRoles = await app.roles.myRoles()
+// ['member', 'moderator']
+
+// List all role assignments for the app (owner-only)
+const all = await app.roles.listAll()
+// [{ userId: 'user-456', role: 'moderator' }, ...]</code></pre>
 
       <h2>Proxy (Secret-injecting API Proxy)</h2>
       <p>Call third-party APIs without exposing keys to the client.</p>

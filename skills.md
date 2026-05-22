@@ -114,6 +114,10 @@ await app.notifications.subscribe()          // request permission + register SW
 await app.notifications.isSubscribed()       // check status
 await app.notifications.send('user-id', { title: 'Hey!', body: 'Event starting soon.', url: '/events/1' })
 await app.notifications.broadcast({ title: 'New feature!', body: 'Check it out.' })
+await app.notifications.notifyUser('gh:123', {   // peer-to-peer (no creator check, 30/min)
+  title: '@serge mentioned you', body: 'In "Wire the broadcast"',
+  url: 'https://kanban.proappstore.online/#/...', tag: 'mention:card-1',
+})
 
 // SMS (Twilio-backed, creator-only)
 await app.sms.send('+15551234567', 'Your reservation is confirmed!')
@@ -139,8 +143,9 @@ await tx.delete('clients', { id: 'c-1' })
 // Roles (app-level RBAC — default: owner, member, moderator, editor, viewer)
 await app.roles.assign('user-456', 'moderator')   // assign
 await app.roles.revoke('user-456', 'moderator')   // revoke
-const isMod = app.roles.has('moderator')           // check (zero-I/O, from token)
-const myRoles = app.roles.list()                   // list current user's roles
+const isMod = await app.roles.check('moderator')    // check current user's role
+const myRoles = await app.roles.myRoles()            // list current user's roles
+const all = await app.roles.listAll()                // all assignments (owner-only)
 
 // License keys
 const license = await app.license.current()
