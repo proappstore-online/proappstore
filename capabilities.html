@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Capabilities — ProAppStore</title>
+  <meta name="description" content="What can you build in a browser today? WebGPU, WebBluetooth, WebAuthn, WASM, and 50+ modern APIs — with browser support for Chrome, Firefox, Safari, and Edge." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Web Capabilities — ProAppStore" />
+  <meta property="og:description" content="Modern browser APIs that make native apps obsolete. See what's possible with PWAs today." />
+  <meta property="og:url" content="https://proappstore.online/capabilities" />
+  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://proappstore.online/capabilities" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; margin: 1.5rem 0 3rem; }
+    .cap-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; background: var(--panel); transition: border-color 0.15s; }
+    .cap-card:hover { border-color: var(--accent); }
+    .cap-card h4 { font-size: 1rem; font-weight: 700; color: var(--ink-strong); margin-bottom: 0.25rem; }
+    .cap-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.45; margin-bottom: 0.75rem; }
+    .cap-card .browsers { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .cap-card .b { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; }
+    .cap-card .b .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dot-y { background: #22c55e; }
+    .dot-p { background: #eab308; }
+    .dot-n { background: #ef4444; }
+    .cap-card .use { font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-top: 0.5rem; }
+    .legend { display: flex; gap: 1.5rem; margin-bottom: 2rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+    .legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .section-intro { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .category-icon { font-size: 1.25rem; margin-right: 0.5rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="logo">Pro <span>Apps</span></a>
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/docs">Docs</a>
+        <a href="/developers">Developers</a>
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="https://freeappstore.online">Free</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Web Capabilities</h1>
+      <p>What can you build in a browser today? More than you think. These APIs are available right now &mdash; no app store, no install, no native code.</p>
+    </div>
+
+    <div class="page-content">
+
+      <div class="legend">
+        <span><span class="dot dot-y"></span> Supported</span>
+        <span><span class="dot dot-p"></span> Partial</span>
+        <span><span class="dot dot-n"></span> Not supported</span>
+        <span style="color: var(--ink); font-weight: 600;">Browsers: Chrome 126+ &middot; Firefox 128+ &middot; Safari 18+ &middot; Edge 126+</span>
+      </div>
+
+      <!-- ====== GRAPHICS & RENDERING ====== -->
+      <h2>Graphics &amp; Rendering</h2>
+      <p class="section-intro">GPU-accelerated 2D/3D rendering, video effects, and hardware-level graphics.</p>
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h4>WebGPU</h4>
+          <p>Next-gen GPU API. Compute shaders, modern rendering pipeline, ML inference on the GPU. Successor to WebGL.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-p"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: 3D editors, AI inference, data visualization, games</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>WebGL 2</h4>
+          <p>OpenGL ES 3.0 in the browser. Stable, universal. Powers Three.js, Babylon.js, PixiJS, and most browser games.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Games, 3D product viewers, maps, charts</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Canvas 2D</h4>
+          <p>Immediate-mode 2D drawing. Fast, simple, everywhere. Drawings, photo editors, signatures, charts.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Drawing apps, image editors, dashboards</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>OffscreenCanvas</h4>
+          <p>Render canvas in a Web Worker &mdash; no jank on the main thread. Critical for complex games and visualizations.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Heavy visualization, game engines, video processing</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>View Transitions</h4>
+          <p>Animated page transitions with a single CSS rule. Cross-document transitions for multi-page apps.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Fluid navigation, app-like page transitions</p>
+        </div>
+
+      </div>
+
+      <!-- ====== HARDWARE ACCESS ====== -->
+      <h2>Hardware Access</h2>
+      <p class="section-intro">Connect to Bluetooth devices, USB peripherals, gamepads, and serial ports directly from the browser.</p>
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h4>Web Bluetooth</h4>
+          <p>Connect to BLE devices. Heart rate monitors, smart lights, fitness trackers, IoT sensors.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Fitness dashboards, IoT controllers, device config tools</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>WebUSB</h4>
+          <p>Talk to USB devices directly. Arduino, 3D printers, microcontrollers, custom hardware.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Firmware flashers, hardware configurators, lab tools</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Web Serial</h4>
+          <p>Serial port communication. Robotics, CNC machines, Arduino serial monitors.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Serial monitors, robot controllers, device diagnostics</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>WebHID</h4>
+          <p>Human Interface Devices. Game controllers, specialized keyboards, LED controllers.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Custom controller apps, macro editors, accessibility tools</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Gamepad API</h4>
+          <p>Xbox, PlayStation, and generic controllers. Vibration, analog sticks, buttons.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Browser games with controller support</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Web NFC</h4>
+          <p>Read/write NFC tags. Asset tracking, smart posters, authentication tokens.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome*</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge*</span>
+          </div>
+          <p class="use">Build: Inventory scanners, NFC tag writers (Android only)</p>
+        </div>
+
+      </div>
+
+      <!-- ====== MEDIA & COMMUNICATION ====== -->
+      <h2>Media &amp; Communication</h2>
+      <p class="section-intro">Video calls, audio processing, screen sharing, and speech — all in the browser.</p>
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h4>WebRTC</h4>
+          <p>Peer-to-peer video/audio/data. Video calls, screen sharing, file transfer, multiplayer games.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Video conferencing, P2P file sharing, live streaming</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Web Audio API</h4>
+          <p>Professional audio processing. Synthesis, effects, spatial audio, visualization, mixing.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: DAWs, synths, audio visualizers, podcast editors</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>MediaRecorder</h4>
+          <p>Record audio/video from any MediaStream. Screen recordings, voice memos, video capture.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Screen recorders, voice note apps, video editors</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Screen Capture</h4>
+          <p>Capture entire screen, window, or browser tab as a video stream.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Presentation tools, screenshot apps, remote support</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Speech Recognition</h4>
+          <p>Voice-to-text. Dictation, voice commands, transcription. Works offline in some browsers.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Dictation apps, voice-controlled UIs, transcription tools</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Speech Synthesis</h4>
+          <p>Text-to-speech with multiple voices and languages. Accessibility, narration, language learning.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Read-aloud, language tutors, accessibility tools</p>
+        </div>
+
+      </div>
+
+      <!-- ====== STORAGE & FILES ====== -->
+      <h2>Storage &amp; Files</h2>
+      <p class="section-intro">Gigabytes of client-side storage, real file system access, and offline-first data.</p>
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h4>IndexedDB</h4>
+          <p>Structured client-side database. Stores objects, blobs, files. No size limit (quota-managed). Backbone of offline apps.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Offline-first apps, local databases, caching layers</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Origin Private File System</h4>
+          <p>High-performance file storage in a sandboxed file system. Fast reads/writes, great for large assets.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Video editors, IDEs, SQLite-in-browser, large file processing</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>File System Access</h4>
+          <p>Read and write to the user's real file system. Open files, save files, watch directories.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Code editors, Photoshop-class tools, file managers</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Cache API</h4>
+          <p>Programmatic HTTP cache. Store responses for offline use. Powers service worker caching strategies.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Offline-capable PWAs, asset caching, API response caching</p>
+        </div>
+
+      </div>
+
+      <!-- ====== PERFORMANCE & COMPUTE ====== -->
+      <h2>Performance &amp; Compute</h2>
+      <p class="section-intro">Native-speed code in the browser. Multi-threading, SIMD, and compiled languages.</p>
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h4>WebAssembly (WASM)</h4>
+          <p>Run C, C++, Rust, Go at near-native speed. Photoshop, AutoCAD, Figma, and FFmpeg all use WASM.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Video encoders, image processors, CAD tools, emulators</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Web Workers</h4>
+          <p>Background threads. CPU-heavy work without blocking the UI. Shared workers across tabs.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Parallel processing, syntax highlighting, search indexing</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>SharedArrayBuffer</h4>
+          <p>Shared memory between workers. Enables true multi-threading with atomics.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Multi-threaded WASM, real-time audio/video processing</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>WASM SIMD</h4>
+          <p>Single Instruction, Multiple Data. Process 4+ values in one CPU cycle. Critical for ML, codecs, physics.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: ML inference, image filters, physics engines, codecs</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Scheduler API</h4>
+          <p>Prioritized task scheduling. Keep the UI responsive while doing background work.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Smooth UIs under heavy load, priority-aware rendering</p>
+        </div>
+
+      </div>
+
+      <!-- ====== NETWORKING ====== -->
+      <h2>Networking</h2>
+      <p class="section-intro">Real-time connections, streaming, and peer-to-peer communication.</p>
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h4>WebSocket</h4>
+          <p>Full-duplex persistent connection. Chat, live updates, multiplayer games, collaboration.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Chat apps, live dashboards, collaborative editors</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>WebTransport</h4>
+          <p>HTTP/3-based transport. Unreliable datagrams + reliable streams. Lower latency than WebSocket.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Real-time games, live video, IoT telemetry</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Fetch Streaming</h4>
+          <p>Stream request and response bodies. Process data as it arrives &mdash; critical for LLM token streaming.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: AI chat UIs, large file uploads, real-time data feeds</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Server-Sent Events</h4>
+          <p>One-way server push over HTTP. Auto-reconnect, last-event-ID resumption. Simpler than WebSocket for push.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Live feeds, notification streams, stock tickers</p>
+        </div>
+
+      </div>
+
+      <!-- ====== SENSORS ====== -->
+      <h2>Sensors</h2>
+      <p class="section-intro">Device sensors for location, motion, orientation, and environment.</p>
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h4>Geolocation</h4>
+          <p>GPS position. One-shot or continuous tracking. Used by every map, delivery, and fitness app.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Maps, delivery tracking, geofencing, fitness</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Accelerometer &amp; Gyroscope</h4>
+          <p>Motion and orientation sensors. Tilt controls, pedometers, gesture detection.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Motion-controlled games, step counters, AR experiences</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Ambient Light Sensor</h4>
+          <p>Measure ambient light level. Auto-adjust UI brightness or trigger dark mode.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Adaptive UIs, reading modes, photography tools</p>
+        </div>
+
+      </div>
+
+      <!-- ====== AUTH & SECURITY ====== -->
+      <h2>Auth &amp; Security</h2>
+      <p class="section-intro">Passwordless auth, biometrics, and cryptographic primitives &mdash; all built into the browser.</p>
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h4>WebAuthn / Passkeys</h4>
+          <p>Passwordless login with biometrics or hardware keys. Phishing-resistant. The future of auth.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Passwordless login, 2FA, secure admin panels</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Web Crypto API</h4>
+          <p>AES, RSA, ECDSA, HMAC, SHA, PBKDF2 &mdash; hardware-accelerated. No external crypto libraries needed.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: E2E encryption, password managers, signed messages</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Credential Management</h4>
+          <p>Programmatic access to the browser's credential store. One-tap sign-in, federated login.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-p"></span>Firefox</span>
+            <span class="b"><span class="dot dot-p"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: One-tap login, password auto-fill, federated auth</p>
+        </div>
+
+      </div>
+
+      <!-- ====== PLATFORM INTEGRATION ====== -->
+      <h2>Platform Integration</h2>
+      <p class="section-intro">OS-level features that make PWAs feel native.</p>
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h4>Push Notifications</h4>
+          <p>Real push notifications &mdash; even when the app isn't open. iOS added support in 2023.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Messaging apps, task reminders, live alerts</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Web Share API</h4>
+          <p>Invoke the native share sheet. Share text, URLs, and files to any installed app.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Social sharing, export flows, content distribution</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Badging API</h4>
+          <p>Set a badge count on the app icon. Unread messages, pending tasks, notification counts.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Messaging apps, to-do lists, email clients</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Clipboard API</h4>
+          <p>Read and write to the clipboard. Rich text, images, custom formats.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Code editors, design tools, rich text editors</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Fullscreen API</h4>
+          <p>Go fullscreen. Essential for games, presentations, video players, kiosk mode.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Games, presentations, media players, kiosk apps</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Picture-in-Picture</h4>
+          <p>Float a video in a mini window above other apps. Video calls while multitasking.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Video players, tutorial overlays, meeting companions</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Payment Request API</h4>
+          <p>Native checkout UI. Apple Pay, Google Pay, saved cards &mdash; one-click payment.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-p"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: E-commerce, donation flows, subscription checkouts</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>Window Management</h4>
+          <p>Multi-screen placement. Detect connected displays, open windows on specific screens.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Trading terminals, presentation tools, kiosk setups</p>
+        </div>
+
+      </div>
+
+      <!-- ====== AI & ML ====== -->
+      <h2>AI &amp; ML (On-device)</h2>
+      <p class="section-intro">Run machine learning models directly in the browser &mdash; no server round-trip.</p>
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h4>WebNN (Web Neural Network)</h4>
+          <p>Hardware-accelerated ML inference using the OS neural engine. NPU, GPU, or CPU.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-p"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-n"></span>Safari</span>
+            <span class="b"><span class="dot dot-p"></span>Edge</span>
+          </div>
+          <p class="use">Build: Real-time translation, face detection, voice commands</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>WebGPU Compute</h4>
+          <p>General-purpose GPU compute via compute shaders. Run ML models, physics, and simulations on the GPU.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-n"></span>Firefox</span>
+            <span class="b"><span class="dot dot-p"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: LLM inference (llama.cpp), image generation, scientific computing</p>
+        </div>
+
+        <div class="cap-card">
+          <h4>WASM + ONNX Runtime</h4>
+          <p>Run ONNX models via WebAssembly. Framework-agnostic ML inference with SIMD acceleration.</p>
+          <div class="browsers">
+            <span class="b"><span class="dot dot-y"></span>Chrome</span>
+            <span class="b"><span class="dot dot-y"></span>Firefox</span>
+            <span class="b"><span class="dot dot-y"></span>Safari</span>
+            <span class="b"><span class="dot dot-y"></span>Edge</span>
+          </div>
+          <p class="use">Build: Object detection, sentiment analysis, recommendation engines</p>
+        </div>
+
+      </div>
+
+      <!-- ====== WHAT YOU CAN BUILD ====== -->
+      <h2>What You Can Build</h2>
+      <p>These are real app categories that are fully possible with today's browser APIs &mdash; no native code, no app store.</p>
+      <div class="cap-grid">
+        <div class="cap-card" style="border-color: var(--accent);">
+          <h4>Creative Tools</h4>
+          <p>Photo editors, vector design (Figma-class), DAWs, video editors, 3D modeling. Canvas + WASM + OPFS.</p>
+        </div>
+        <div class="cap-card" style="border-color: var(--accent);">
+          <h4>Productivity</h4>
+          <p>Spreadsheets, project management, note-taking, calendars, CRM. IndexedDB + sync + offline.</p>
+        </div>
+        <div class="cap-card" style="border-color: var(--accent);">
+          <h4>Communication</h4>
+          <p>Video conferencing, chat, email clients, social networks. WebRTC + WebSocket + Push.</p>
+        </div>
+        <div class="cap-card" style="border-color: var(--accent);">
+          <h4>Developer Tools</h4>
+          <p>Code editors, terminals, Git clients, database browsers, API testers. File System Access + WASM.</p>
+        </div>
+        <div class="cap-card" style="border-color: var(--accent);">
+          <h4>Games</h4>
+          <p>2D and 3D games, multiplayer, controller support. WebGL/WebGPU + Gamepad + Web Audio.</p>
+        </div>
+        <div class="cap-card" style="border-color: var(--accent);">
+          <h4>IoT &amp; Hardware</h4>
+          <p>Device dashboards, firmware flashers, sensor monitors, smart home controls. Bluetooth + USB + Serial.</p>
+        </div>
+        <div class="cap-card" style="border-color: var(--accent);">
+          <h4>AI &amp; ML</h4>
+          <p>On-device inference, real-time translation, image generation, chatbots. WebGPU + WASM + WebNN.</p>
+        </div>
+        <div class="cap-card" style="border-color: var(--accent);">
+          <h4>Health &amp; Fitness</h4>
+          <p>Step counters, heart rate monitors, workout trackers, meditation timers. Bluetooth + Sensors + Push.</p>
+        </div>
+      </div>
+
+      <h2>What Browsers Still Can't Do</h2>
+      <p>Some things genuinely require a native app. Be honest about the gaps.</p>
+      <table>
+        <thead><tr><th>Capability</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Background execution (always-on)</td><td>Limited</td><td>Service workers wake on push/sync, but can't run indefinitely</td></tr>
+          <tr><td>System tray / menu bar</td><td>No</td><td>PWAs can't sit in the system tray</td></tr>
+          <tr><td>Low-level networking (raw TCP/UDP)</td><td>No</td><td>WebTransport covers most cases; raw sockets are not exposed</td></tr>
+          <tr><td>Inter-app communication</td><td>No</td><td>Can't talk to other installed apps (no Intents equivalent)</td></tr>
+          <tr><td>Phone calls / native SMS</td><td>No</td><td>Can trigger <code>tel:</code> / <code>sms:</code> links, but can't programmatically dial or send</td></tr>
+          <tr><td>Contacts / Calendar access</td><td>Partial</td><td>Contact Picker API exists (Chrome only); no calendar access</td></tr>
+          <tr><td>Kernel extensions / drivers</td><td>No</td><td>Obviously. Use WebUSB/WebHID for device communication instead</td></tr>
+          <tr><td>App Store distribution</td><td>Partial</td><td>PWAs can be listed on Google Play (TWA) and MS Store, but not Apple App Store</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Start Building</h2>
+      <p>The browser is the most powerful application platform ever created. Every API on this page is available to ProAppStore apps out of the box &mdash; plus cloud storage, real-time sync, push notifications, AI, and payments through the <a href="/docs">SDK</a>.</p>
+      <pre><code>npm i @proappstore/sdk
+pas create my-app</code></pre>
+      <p><a href="/docs">Read the docs &rarr;</a></p>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium apps for serious creators.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/docs">Docs</a>
+        <a href="/docs/ui">UI Library</a>
+        <a href="/capabilities">Capabilities</a>
+        <a href="/developers">Developers</a>
+        <a href="/roadmap">Roadmap</a>
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="https://freeappstore.online">FreeAppStore</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // Detect theme from localStorage (shared with SDK)
+    const t = localStorage.getItem('fas:theme');
+    if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  </script>
+</body>
+</html>
