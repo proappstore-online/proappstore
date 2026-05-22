@@ -244,8 +244,13 @@ const valid = await app.license.validate('LIC-ABC-123')</code></pre>
   body: JSON.stringify({ model: 'gpt-4', messages: [...] }),
 })</code></pre>
 
+      <h2>UI Components</h2>
+      <p>Drop-in React components. Import from <code>@proappstore/sdk/ui</code>. Components use CSS custom properties so they blend into your app's theme.</p>
+      <p><a href="/docs/ui">Full UI component library &amp; design tokens &rarr;</a></p>
+      <pre><code>import { Avatar, SignInButton, ThemeToggle, ProfileMenu, ProfilePage } from '@proappstore/sdk/ui'</code></pre>
+
       <h2>ProShell Component</h2>
-      <p>A convenience wrapper that handles auth gates, subscription checks, and renders a topbar. Use hooks for more control.</p>
+      <p>A convenience wrapper that handles auth gates, subscription checks, and renders a topbar. Use hooks or <code>./ui</code> primitives for more control.</p>
       <pre><code>import { initPro } from '@proappstore/sdk'
 import { ProShell } from '@proappstore/sdk/shell'
 
@@ -273,8 +278,9 @@ export default function App() {
         <thead><tr><th>Import path</th><th>What you get</th></tr></thead>
         <tbody>
           <tr><td><code>@proappstore/sdk</code></td><td><code>initPro</code>, <code>ProAppStore</code>, types</td></tr>
-          <tr><td><code>@proappstore/sdk/hooks</code></td><td><code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code></td></tr>
+          <tr><td><code>@proappstore/sdk/hooks</code></td><td><code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code>, <code>useTheme</code></td></tr>
           <tr><td><code>@proappstore/sdk/shell</code></td><td><code>ProShell</code></td></tr>
+          <tr><td><code>@proappstore/sdk/ui</code></td><td><code>Avatar</code>, <code>SignInButton</code>, <code>ThemeToggle</code>, <code>ProfileMenu</code>, <code>ProfilePage</code></td></tr>
         </tbody>
       </table>
 
