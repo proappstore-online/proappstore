@@ -2112,3 +2112,117 @@ html.dark .dev-badge.founding-developer { background: #451a03; color: #fcd34d; }
   .app-meta { gap: 1rem; }
   .pro-features-grid { grid-template-columns: 1fr; }
 }
+
+/* =====================================================================
+ * Base code/table styles — used by docs and content pages
+ * ===================================================================== */
+.page-content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  margin: 1rem 0;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.page-content pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.page-content code {
+  background: var(--surface-2, var(--surface));
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.page-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.88rem;
+}
+
+.page-content th,
+.page-content td {
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-content th {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 0.78rem;
+}
+
+.page-content td {
+  color: var(--muted);
+}
+
+/* =====================================================================
+ * Docs-specific styles (token tables, component cards, patterns)
+ * ===================================================================== */
+.token-table { width: 100%; border-collapse: collapse; margin: 1rem 0 2rem; font-size: 0.88rem; }
+.token-table th, .token-table td { padding: 0.55rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+.token-table th { font-weight: 700; color: var(--ink); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.token-table td { color: var(--muted); }
+.token-table code { background: var(--surface-2, var(--surface)); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82rem; }
+
+.swatch {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+  border: 1px solid var(--border);
+}
+
+/* Design-token swatch colors (CSP-safe) */
+.swatch[data-color="bg-l"] { background: #f8fafc; }
+.swatch[data-color="bg-d"] { background: #0f172a; }
+.swatch[data-color="surface-l"] { background: #ffffff; }
+.swatch[data-color="surface-d"] { background: #1e293b; }
+.swatch[data-color="surface2-l"] { background: #f1f5f9; }
+.swatch[data-color="surface2-d"] { background: #0f172a; }
+.swatch[data-color="ink-l"] { background: #1e293b; }
+.swatch[data-color="ink-d"] { background: #f1f5f9; }
+.swatch[data-color="ink-strong-l"] { background: #0f172a; }
+.swatch[data-color="ink-strong-d"] { background: #ffffff; }
+.swatch[data-color="muted-l"] { background: #64748b; }
+.swatch[data-color="muted-d"] { background: #94a3b8; }
+.swatch[data-color="border-l"] { background: #e2e8f0; }
+.swatch[data-color="border-d"] { background: #334155; }
+.swatch[data-color="border-strong-l"] { background: #cbd5e1; }
+.swatch[data-color="border-strong-d"] { background: #475569; }
+/* PAS accent (purple) */
+.swatch[data-color="accent-l"] { background: #7c3aed; }
+.swatch[data-color="accent-d"] { background: #a78bfa; }
+.swatch[data-color="accent-hover-l"] { background: #6d28d9; }
+.swatch[data-color="accent-hover-d"] { background: #7c3aed; }
+.swatch[data-color="accent-soft-l"] { background: #f5f3ff; }
+.swatch[data-color="accent-soft-d"] { background: #2e1065; }
+
+.level-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin: 1.5rem 0 2rem; }
+.level-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius, 0.75rem); padding: 1.25rem; }
+.level-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; color: var(--ink); }
+.level-card p { font-size: 0.85rem; color: var(--muted); margin: 0; }
+.level-card code { font-size: 0.78rem; }
+
+.props-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0 1.5rem; font-size: 0.88rem; }
+.props-table th, .props-table td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+.props-table th { font-weight: 700; color: var(--ink); font-size: 0.78rem; }
+.props-table td code { background: var(--surface-2, var(--surface)); padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.82rem; }
+
+.pattern-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius, 0.75rem); padding: 1.25rem; margin: 1rem 0; }
+.pattern-card h4 { margin: 0 0 0.5rem; font-size: 1rem; }
+
+.component-section { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.component-section:first-of-type { border-top: none; padding-top: 0; }
