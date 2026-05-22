@@ -124,5 +124,23 @@
         "Invites"
       ]
     }
+  ],
+  "developers": [
+    {
+      "id": "proappstore",
+      "name": "ProAppStore",
+      "github": "serge-ivo",
+      "bio": "Platform team. Building the infrastructure, SDK, and first-party apps for proappstore.online.",
+      "badges": ["platform", "founding-developer"],
+      "joinedAt": "2026-05-01"
+    },
+    {
+      "id": "carsads",
+      "name": "Carsads",
+      "github": "carsads-online",
+      "bio": "Car classifieds marketplace. Browse listings, post your car for sale, and connect with buyers.",
+      "badges": ["founding-developer"],
+      "joinedAt": "2026-05-15"
+    }
   ]
 }

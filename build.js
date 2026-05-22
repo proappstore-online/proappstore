@@ -43,8 +43,12 @@ function validateRegistry(items) {
 }
 validateRegistry(apps);
 
+const developers = registry.developers || [];
+
 const indexTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'index.html'), 'utf8');
 const detailTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'app-detail.html'), 'utf8');
+const developersTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'developers.html'), 'utf8');
+const developerDetailTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'developer-detail.html'), 'utf8');
 
 function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -89,7 +93,10 @@ const platformFeatures = [
   ['Stripe Subscriptions', 'Checkout, billing portal, webhooks. Platform handles all payment flows.'],
   ['Per-user KV + Counters', 'User storage + shared atomic counters for votes, views, leaderboards.'],
   ['File Storage (R2)', 'Upload images, videos, documents. 50 MB per file. SDK: app.storage.upload().'],
-  ['Maps + Geocoding', 'Geocode addresses, embed maps, no Google API keys. OpenStreetMap powered.'],
+  ['Maps + Geocoding + Routing', 'Geocode addresses, driving directions, embed maps. OpenStreetMap powered, no Google keys.'],
+  ['Push Notifications', 'Web Push via VAPID. Subscribe users, send targeted or broadcast pushes.'],
+  ['SMS', 'Twilio-backed text messages. Send reminders, confirmations, broadcasts. Creator-only.'],
+  ['Server-side AI', 'Workers AI text generation, chat, and embeddings. Two model tiers, included in subscription.'],
   ['ProShell + Hooks', 'Platform auth gate + subscription wall. ProShell or hooks — you control the UI.'],
 ];
 
@@ -135,7 +142,7 @@ console.log(`Built ${apps.length} app cards`);
 // every other security header. <meta> CSP intentionally absent.
 const csp = [
   "default-src 'self'",
-  "img-src 'self' https://*.proappstore.online data:",
+  "img-src 'self' https://*.proappstore.online https://github.com https://avatars.githubusercontent.com data:",
   `script-src 'self' '${inlineScriptHash}'`,
   "style-src 'self'",
   "font-src 'self'",
@@ -181,27 +188,129 @@ for (const app of apps) {
   })();
   const repoUrl = app.repo ? `https://github.com/${app.repo}` : 'https://github.com/proappstore-online';
   const proFeaturesHtml = (app.proFeatures || [])
-    .map((f) => `<li>${esc(f)}</li>`)
-    .join('\n          ');
+    .map((f) => `<div class="pro-feature-card"><span class="pro-feature-check">+</span> ${esc(f)}</div>`)
+    .join('\n        ');
+  // Look up developer info from the developers array
+  const dev = developers.find(d => d.name === app.developer) || {};
+  const devGithub = dev.github || 'proappstore-online';
+  const devUrl = dev.id ? `/developers/${dev.id}/` : '/developers';
+  const devBio = dev.bio || '';
   let detail = detailTemplate
     .replaceAll('{{ID}}', esc(app.id))
-    .replaceAll('{{ID_JSON}}', JSON.stringify(app.id))
     .replaceAll('{{NAME}}', esc(app.name))
     .replaceAll('{{DESCRIPTION}}', esc(app.description || ''))
     .replaceAll('{{CATEGORY}}', esc(app.category || ''))
     .replaceAll('{{DEVELOPER}}', esc(app.developer || 'ProAppStore'))
+    .replaceAll('{{DEV_GITHUB}}', esc(devGithub))
+    .replaceAll('{{DEV_URL}}', esc(devUrl))
+    .replaceAll('{{DEV_BIO}}', esc(devBio))
     .replaceAll('{{ICON_BG}}', esc(app.iconBg || '#7c3aed'))
     .replaceAll('{{FIRST_LETTER}}', firstLetter)
     .replaceAll('{{APP_URL}}', esc(app.appUrl))
     .replaceAll('{{APP_HOST}}', esc(appHost))
     .replaceAll('{{REPO_URL}}', esc(repoUrl))
-    .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<li>—</li>');
+    .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<div class="pro-feature-card">Premium features included</div>');
   for (const [k, v] of Object.entries(sriHashes)) {
     detail = detail.replaceAll(`{{SRI_${k}}}`, v);
   }
   fs.writeFileSync(path.join(dir, 'index.html'), detail);
 }
 console.log(`Built ${apps.length} app detail pages under apps/`);
+
+// --- Developer pages ---
+// Build a mapping from developer name -> apps
+const devAppMap = {};
+for (const dev of developers) {
+  devAppMap[dev.name] = apps.filter(a => a.developer === dev.name);
+}
+
+// Badge labels
+const badgeLabels = {
+  'platform': 'Platform',
+  'founding-developer': 'Founding Dev',
+};
+
+// Developer card for the grid
+const devCards = developers.map(dev => {
+  const appCount = (devAppMap[dev.name] || []).length;
+  const badgesHtml = (dev.badges || [])
+    .map(b => `<span class="dev-badge ${esc(b)}">${esc(badgeLabels[b] || b)}</span>`)
+    .join('');
+  return `        <a class="dev-card" href="/developers/${esc(dev.id)}/">
+          <img class="dev-avatar" src="https://github.com/${esc(dev.github)}.png?size=200" alt="${esc(dev.name)}" loading="lazy" />
+          <div class="dev-card-body">
+            <span class="dev-card-name">${esc(dev.name)}</span>
+            <span class="dev-card-bio">${esc(dev.bio || '')}</span>
+            <div class="dev-badges">${badgesHtml}</div>
+            <span class="dev-card-stats">${appCount} app${appCount === 1 ? '' : 's'}</span>
+          </div>
+        </a>`;
+}).join('\n');
+
+let developersHtml = developersTemplate
+  .replaceAll('{{DEVELOPERS_GRID}}', devCards);
+for (const [k, v] of Object.entries(sriHashes)) {
+  developersHtml = developersHtml.replaceAll(`{{SRI_${k}}}`, v);
+}
+fs.writeFileSync(path.join(OUT_DIR, 'developers.html'), developersHtml);
+console.log(`Built developers page (${developers.length} developers)`);
+
+// Per-developer detail pages at /developers/{id}/
+const devsDir = path.join(OUT_DIR, 'developers');
+fs.mkdirSync(devsDir, { recursive: true });
+for (const dev of developers) {
+  const dir = path.join(devsDir, dev.id);
+  fs.mkdirSync(dir, { recursive: true });
+  const devApps = devAppMap[dev.name] || [];
+  const appCount = devApps.length;
+  // Reuse the compact card markup from the main page
+  const devAppsHtml = devApps.map(app => {
+    const letter = esc((app.name || '?').trim().charAt(0).toUpperCase());
+    const pf = (app.proFeatures || [])
+      .slice(0, 3)
+      .map(f => `<span class="pro-badge-sm">${esc(f)}</span>`)
+      .join('');
+    return `        <div class="app-card compact" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
+          <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
+            <div class="app-icon" data-letter="${letter}">
+              <img src="${esc(app.appUrl)}/apple-touch-icon.png" alt="" loading="lazy" />
+            </div>
+            <div class="app-body">
+              <span class="app-name">${esc(app.name)}</span>
+              <span class="app-meta">${esc(app.category)}${pf ? ' · ' + pf : ''}</span>
+            </div>
+          </a>
+          <a href="${esc(app.appUrl)}" target="_blank" rel="noopener" class="app-cta" aria-label="Open ${esc(app.name)}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6,4 20,12 6,20"/></svg>
+            <span class="cta-label">Open</span>
+          </a>
+        </div>`;
+  }).join('\n');
+
+  const badgesHtml = (dev.badges || [])
+    .map(b => `<span class="dev-badge ${esc(b)}">${esc(badgeLabels[b] || b)}</span>`)
+    .join('');
+
+  const joinedDate = dev.joinedAt
+    ? new Date(dev.joinedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
+    : '';
+
+  let detail = developerDetailTemplate
+    .replaceAll('{{ID}}', esc(dev.id))
+    .replaceAll('{{NAME}}', esc(dev.name))
+    .replaceAll('{{BIO}}', esc(dev.bio || ''))
+    .replaceAll('{{GITHUB}}', esc(dev.github))
+    .replaceAll('{{BADGES_HTML}}', badgesHtml)
+    .replaceAll('{{JOINED}}', esc(joinedDate))
+    .replaceAll('{{APP_COUNT}}', String(appCount))
+    .replaceAll('{{APP_COUNT_PLURAL}}', appCount === 1 ? '' : 's')
+    .replaceAll('{{DEV_APPS_GRID}}', devAppsHtml);
+  for (const [k, v] of Object.entries(sriHashes)) {
+    detail = detail.replaceAll(`{{SRI_${k}}}`, v);
+  }
+  fs.writeFileSync(path.join(dir, 'index.html'), detail);
+}
+console.log(`Built ${developers.length} developer detail pages under developers/`);
 
 fs.writeFileSync(
   path.join(OUT_DIR, 'manifest.json'),
@@ -239,6 +348,10 @@ const sitemapEntries = [
   '  <url><loc>https://proappstore.online/roadmap</loc><priority>0.7</priority></url>',
   '  <url><loc>https://proappstore.online/privacy</loc><priority>0.5</priority></url>',
   '  <url><loc>https://proappstore.online/terms</loc><priority>0.5</priority></url>',
+  '  <url><loc>https://proappstore.online/developers</loc><priority>0.8</priority></url>',
+  ...developers.map((dev) =>
+    `  <url><loc>https://proappstore.online/developers/${dev.id}/</loc><priority>0.7</priority></url>`,
+  ),
   ...apps.map((app) =>
     `  <url><loc>https://proappstore.online/apps/${app.id}/</loc><priority>0.9</priority></url>`,
   ),
