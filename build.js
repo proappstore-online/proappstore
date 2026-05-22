@@ -124,6 +124,8 @@ const sriHashes = {
   STOREFRONT_JS: sriHash('storefront.js'),
   THEME_JS: sriHash('theme.js'),
   DETAIL_PAGE_JS: sriHash('detail-page.js'),
+  PRISM_JS: sriHash('prism.js'),
+  PRISM_AUTODETECT_JS: sriHash('prism-autodetect.js'),
 };
 
 let html = indexTemplate
