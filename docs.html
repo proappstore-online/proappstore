@@ -330,6 +330,22 @@ await tx.update('clients', { id: 'c-1' }, { name: 'Alicia' })
 await tx.delete('clients', { id: 'c-1' })</code></pre>
       <p>Tables must have a <code>tenant_id TEXT</code> column. Drop to <code>app.db.query()</code> for joins or aggregates.</p>
 
+      <h2>Roles (App-level RBAC)</h2>
+      <p>Per-app role management. Default roles out of the box: <code>owner</code> (automatic, app creator), <code>member</code> (basic access), <code>moderator</code>, <code>editor</code>, <code>viewer</code>. Custom roles are supported &mdash; pass any string.</p>
+      <pre><code>// Assign a role
+await app.roles.assign('user-456', 'moderator')
+
+// Revoke a role
+await app.roles.revoke('user-456', 'moderator')
+
+// Check if the current user has a role (zero-I/O, from session token)
+const isMod = app.roles.has('moderator')
+
+// List all roles for the current user
+const myRoles = app.roles.list()
+// ['member', 'moderator']</code></pre>
+      <p>Roles are baked into the session token, so <code>app.roles.has()</code> and <code>app.roles.list()</code> require no network calls.</p>
+
       <h2>Proxy (Secret-injecting API Proxy)</h2>
       <p>Call third-party APIs without exposing keys to the client.</p>
       <pre><code>const response = await app.proxy.fetch('/openai/chat/completions', {

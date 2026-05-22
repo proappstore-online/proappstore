@@ -135,6 +135,12 @@ const all = await tx.findMany('clients')
 await tx.update('clients', { id: 'c-1' }, { name: 'Alicia' })
 await tx.delete('clients', { id: 'c-1' })
 
+// Roles (app-level RBAC — default: owner, member, moderator, editor, viewer)
+await app.roles.assign('user-456', 'moderator')   // assign
+await app.roles.revoke('user-456', 'moderator')   // revoke
+const isMod = app.roles.has('moderator')           // check (zero-I/O, from token)
+const myRoles = app.roles.list()                   // list current user's roles
+
 // License keys
 const license = await app.license.current()
 await app.license.validate('KEY-123')
