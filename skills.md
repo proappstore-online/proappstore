@@ -183,9 +183,11 @@ function GatedApp() {
 
 Gate states: `'loading'` | `'signed-out'` | `'no-subscription'` | `'ready'`
 
-### ProShell — platform UI component
+### App UI Components (`@proappstore/sdk/ui`)
 
-Wrap your app in `<ProShell>` for automatic auth gate, subscription wall, and topbar:
+**Pro apps MUST use the SDK components for auth, profile, and subscription UI.** The SDK components enforce brand consistency and handle the full lifecycle.
+
+#### ProShell — zero-config app wrapper
 
 ```tsx
 import { initPro } from '@proappstore/sdk'
@@ -196,14 +198,91 @@ const app = initPro({ appId: 'my-app' })
 export default function App() {
   return (
     <ProShell app={app} appName="My App">
-      {/* Only renders when signed in + subscribed */}
       <MyAppContent />
     </ProShell>
   )
 }
 ```
 
-ProShell provides: sign-in screen, subscription upgrade wall, topbar with avatar + menu (sign out, manage billing, delete account).
+Props: `app` (required), `children`, `appName`, `allowFree` (default true), `showThemeToggle` (default true).
+
+#### Individual components
+
+Use these when you need more layout control than ProShell provides:
+
+```tsx
+import {
+  Avatar,           // GitHub avatar with initial fallback
+  SignInButton,     // Platform-branded sign-in
+  ThemeToggle,      // Sun/moon, cycles system→light→dark
+  ProBadge,         // Purple "PRO" badge (sm/md/lg)
+  ProfileMenu,      // Avatar dropdown: badge, billing, theme, sign out, delete
+  SubscriptionStatus, // Inline: PRO badge or "Free plan [Upgrade]"
+  UpgradeCard,      // Styled upgrade CTA card with features list
+  BillingButton,    // Opens Stripe billing portal (primary/secondary/ghost)
+  GateScreen,       // Loading / sign-in / upgrade screens
+  ProProfilePage,   // Full settings: subscription, billing, theme, danger zone
+} from '@proappstore/sdk/ui'
+
+// Avatar
+<Avatar user={user} size={32} />
+
+// ProBadge
+<ProBadge size="md" />
+
+// Theme toggle (no props needed)
+<ThemeToggle />
+
+// Profile menu with billing
+<ProfileMenu app={app} showThemeToggle showBilling />
+
+// Inline subscription status
+<SubscriptionStatus app={app} />
+
+// Upgrade prompt card
+<UpgradeCard app={app} title="Go Pro" priceLabel="$9/month" features={['Cloud sync', 'AI', 'Support']} />
+
+// Billing portal button
+<BillingButton app={app} variant="secondary" />
+
+// Gate screen (use with useProGate)
+const { gate } = useProGate(app)
+if (gate !== 'ready') return <GateScreen gate={gate} app={app} appName="My App" />
+
+// Full profile/settings page
+<Route path="/profile" element={<ProProfilePage app={app} />} />
+```
+
+#### useTheme hook
+
+```tsx
+import { useTheme } from '@proappstore/sdk/hooks'
+
+const { theme, preference, setPreference } = useTheme()
+// theme: 'light' | 'dark' (resolved)
+// preference: 'light' | 'dark' | 'system'
+// Stores in localStorage('fas:theme'), applies data-theme on <html>
+```
+
+#### useProNotifications hook
+
+```tsx
+import { useProNotifications } from '@proappstore/sdk/hooks'
+
+const { permission, isSubscribed, subscribe, unsubscribe, loading } = useProNotifications(app)
+```
+
+### Exports map
+
+```
+@proappstore/sdk          → initPro, ProAppStore, TenantScope, types
+@proappstore/sdk/hooks    → useProAuth, useProSubscription, useProGate, useProNotifications, useTheme
+@proappstore/sdk/shell    → ProShell
+@proappstore/sdk/ui       → Avatar, SignInButton, ThemeToggle, ProBadge, ProfileMenu,
+                            SubscriptionStatus, UpgradeCard, BillingButton, GateScreen, ProProfilePage
+```
+
+Full UI component docs: https://proappstore.online/docs/ui
 
 ---
 
