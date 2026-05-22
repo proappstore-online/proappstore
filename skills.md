@@ -152,6 +152,18 @@ const all = await app.roles.listAll()                // all assignments (owner-o
 // License keys
 const license = await app.license.current()
 await app.license.validate('KEY-123')
+
+// Email (transactional — Resend-backed, 100/day per app)
+await app.email.send('alice@example.com', 'Confirmed!', '<h1>Your reservation is set.</h1>')
+await app.email.send('bob@example.com', 'Reset password', '<p>Click here</p>', { replyTo: 'support@my-app.com' })
+
+// Webhooks (outbound — HMAC-SHA256 signed delivery)
+const { id, secret } = await app.webhooks.register('notification.sent', 'https://my-backend.com/hook')
+const hooks = await app.webhooks.list()
+await app.webhooks.test(id)                   // fire test event
+await app.webhooks.remove(id)
+// Events: notification.sent, storage.uploaded
+// Headers: X-Webhook-Signature (HMAC-SHA256 hex), X-Webhook-Event, Content-Type: application/json
 ```
 
 ### React Hooks (recommended)
@@ -284,7 +296,7 @@ const { permission, isSubscribed, subscribe, unsubscribe, loading } = useProNoti
 ### Exports map
 
 ```
-@proappstore/sdk          → initPro, ProAppStore, TenantScope, types
+@proappstore/sdk          → initPro, ProAppStore, TenantScope, Email, Webhooks, types
 @proappstore/sdk/hooks    → useProAuth, useProSubscription, useProGate, useProNotifications, useTheme
 @proappstore/sdk/shell    → ProShell
 @proappstore/sdk/ui       → Avatar, SignInButton, ThemeToggle, TextSizeToggle, ProBadge, ProfileMenu,
@@ -312,6 +324,8 @@ Full UI component docs: https://proappstore.online/docs/ui
 | Multi-tenant helpers | No | Yes (auto tenant_id scoping) |
 | ProShell (platform UI) | No | Yes (auth + sub gate + topbar) |
 | License keys | No | Yes |
+| Transactional email | No | Yes (Resend-backed, 100/day) |
+| Outbound webhooks | No | Yes (HMAC-signed, Zapier/Make/n8n) |
 | Custom domain | No | Yes |
 | Cron/scheduled | No | Coming |
 

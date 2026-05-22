@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Docs — ProAppStore</title>
-  <meta name="description" content="ProAppStore SDK documentation. Auth, database, storage, maps, subscriptions, real-time rooms, push notifications, SMS, AI, and React hooks." />
+  <meta name="description" content="ProAppStore SDK documentation. Auth, database, storage, maps, subscriptions, real-time rooms, push notifications, SMS, AI, email, webhooks, and React hooks." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Docs — ProAppStore" />
-  <meta property="og:description" content="SDK docs: auth, database, storage, maps, subscriptions, notifications, SMS, AI, real-time rooms, hooks." />
+  <meta property="og:description" content="SDK docs: auth, database, storage, maps, subscriptions, notifications, SMS, AI, email, webhooks, real-time rooms, hooks." />
   <meta property="og:url" content="https://proappstore.online/docs" />
   <meta property="og:image" content="https://proappstore.online/icon-512.png" />
   <meta name="twitter:card" content="summary" />
@@ -312,6 +312,61 @@ await app.sms.broadcast(
   'Meetup starts in 30 minutes!',
 )</code></pre>
 
+      <h2>Email (Transactional)</h2>
+      <p>Send transactional emails (password resets, confirmations, notifications) via the platform. Resend-backed &mdash; no API keys needed. Rate-limited to 100/day per app.</p>
+      <pre><code>// Send a transactional email (must be app owner or editor)
+await app.email.send(
+  'alice@example.com',
+  'Your reservation is confirmed',
+  '&lt;h1&gt;Confirmed!&lt;/h1&gt;&lt;p&gt;Your reservation for June 1 is all set.&lt;/p&gt;',
+)
+
+// With reply-to address
+await app.email.send(
+  'bob@example.com',
+  'Reset your password',
+  '&lt;p&gt;Click &lt;a href="..."&gt;here&lt;/a&gt; to reset.&lt;/p&gt;',
+  { replyTo: 'support@my-app.com' },
+)</code></pre>
+      <table>
+        <thead><tr><th>Limit</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Emails per day per app</td><td>100</td></tr>
+          <tr><td>Subject max length</td><td>200 chars</td></tr>
+          <tr><td>Body max size</td><td>50 KB</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Webhooks (Outbound)</h2>
+      <p>Receive HMAC-signed HTTP callbacks when events happen in your app. Integrate with Zapier, Make, n8n, or your own backend.</p>
+      <pre><code>// Register a webhook (app owner only)
+const { id, secret } = await app.webhooks.register(
+  'notification.sent',
+  'https://my-backend.com/webhook',
+)
+// Save the secret! It's only returned once.
+
+// List registered webhooks
+const hooks = await app.webhooks.list()
+
+// Fire a test event
+const result = await app.webhooks.test(id)
+// { status: 200, body: 'OK' }
+
+// Remove a webhook
+await app.webhooks.remove(id)</code></pre>
+      <p>Supported events: <code>notification.sent</code>, <code>storage.uploaded</code>.</p>
+      <p>Payloads are POST'd with headers:</p>
+      <table>
+        <thead><tr><th>Header</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td><code>X-Webhook-Event</code></td><td>Event name (e.g. <code>notification.sent</code>)</td></tr>
+          <tr><td><code>X-Webhook-Signature</code></td><td>HMAC-SHA256 hex digest of the body, signed with your webhook secret</td></tr>
+          <tr><td><code>Content-Type</code></td><td><code>application/json</code></td></tr>
+        </tbody>
+      </table>
+      <p>Manage webhooks visually in the <a href="https://console.proappstore.online">Console</a> under each app's detail page.</p>
+
       <h2>AI (Server-side LLM + Embeddings)</h2>
       <p>Workers AI &mdash; text generation, chat, and embeddings included in the platform subscription. No API keys needed.</p>
       <pre><code>// Text generation ('fast' = Llama-3.1-8B, 'smart' = Llama-3.3-70B)
@@ -413,7 +468,7 @@ app.usage.flush()</code></pre>
       <table>
         <thead><tr><th>Import path</th><th>What you get</th></tr></thead>
         <tbody>
-          <tr><td><code>@proappstore/sdk</code></td><td><code>initPro</code>, <code>ProAppStore</code>, <code>TenantScope</code>, types</td></tr>
+          <tr><td><code>@proappstore/sdk</code></td><td><code>initPro</code>, <code>ProAppStore</code>, <code>TenantScope</code>, <code>Email</code>, <code>Webhooks</code>, types</td></tr>
           <tr><td><code>@proappstore/sdk/hooks</code></td><td><code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code>, <code>useProNotifications</code>, <code>useTheme</code></td></tr>
           <tr><td><code>@proappstore/sdk/shell</code></td><td><code>ProShell</code></td></tr>
           <tr><td><code>@proappstore/sdk/ui</code></td><td><code>Avatar</code>, <code>SignInButton</code>, <code>ThemeToggle</code>, <code>TextSizeToggle</code>, <code>ProBadge</code>, <code>ProfileMenu</code>, <code>SubscriptionStatus</code>, <code>UpgradeCard</code>, <code>BillingButton</code>, <code>GateScreen</code>, <code>ProProfilePage</code></td></tr>
