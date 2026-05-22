@@ -15,23 +15,6 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="stylesheet" href="/style.css" />
-  <style>
-    .spec-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
-    .spec-table th, .spec-table td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
-    .spec-table th { font-weight: 700; color: var(--ink); }
-    .spec-table td { color: var(--muted); }
-    .spec-table code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82rem; }
-    .color-swatch { display: inline-block; width: 16px; height: 16px; border-radius: 4px; vertical-align: middle; margin-right: 0.4rem; border: 1px solid var(--border); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.7; margin: 1rem 0; }
-    .code-block code { background: none; padding: 0; }
-    .rule-card { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; padding: 1.25rem; margin: 0.75rem 0; }
-    .rule-card strong { display: block; margin-bottom: 0.25rem; }
-    .rule-card p { font-size: 0.88rem; color: var(--muted); margin: 0; }
-    .section-nav { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem; }
-    .section-nav h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; }
-    .section-nav a { display: block; font-size: 0.85rem; color: var(--accent); text-decoration: none; padding: 0.25rem 0; }
-    .section-nav a:hover { text-decoration: underline; }
-  </style>
 </head>
 <body>
   <header>
@@ -122,11 +105,11 @@ git push origin main</code></div>
       <h3>Colors</h3>
       <table class="spec-table">
         <tr><th>Token</th><th>Light</th><th>Dark</th><th>Usage</th></tr>
-        <tr><td><code>--paper</code></td><td><span class="color-swatch" style="background:#ffffff"></span>#ffffff</td><td><span class="color-swatch" style="background:#000000"></span>#000000</td><td>Page background</td></tr>
-        <tr><td><code>--ink</code></td><td><span class="color-swatch" style="background:#111111"></span>#111111</td><td><span class="color-swatch" style="background:#f0f0f0"></span>#f0f0f0</td><td>Primary text</td></tr>
-        <tr><td><code>--muted</code></td><td><span class="color-swatch" style="background:#666666"></span>#666666</td><td><span class="color-swatch" style="background:#888888"></span>#888888</td><td>Secondary text</td></tr>
-        <tr><td><code>--accent</code></td><td><span class="color-swatch" style="background:#7c3aed"></span>#7c3aed</td><td><span class="color-swatch" style="background:#a78bfa"></span>#a78bfa</td><td>Primary actions, links</td></tr>
-        <tr><td><code>--accent-soft</code></td><td><span class="color-swatch" style="background:#f5f3ff"></span>#f5f3ff</td><td><span class="color-swatch" style="background:#1e1533"></span>#1e1533</td><td>Accent backgrounds</td></tr>
+        <tr><td><code>--paper</code></td><td><span class="color-swatch color-swatch-white"></span>#ffffff</td><td><span class="color-swatch color-swatch-black"></span>#000000</td><td>Page background</td></tr>
+        <tr><td><code>--ink</code></td><td><span class="color-swatch color-swatch-111"></span>#111111</td><td><span class="color-swatch color-swatch-f0f"></span>#f0f0f0</td><td>Primary text</td></tr>
+        <tr><td><code>--muted</code></td><td><span class="color-swatch color-swatch-666"></span>#666666</td><td><span class="color-swatch color-swatch-888"></span>#888888</td><td>Secondary text</td></tr>
+        <tr><td><code>--accent</code></td><td><span class="color-swatch color-swatch-7c3"></span>#7c3aed</td><td><span class="color-swatch color-swatch-a78"></span>#a78bfa</td><td>Primary actions, links</td></tr>
+        <tr><td><code>--accent-soft</code></td><td><span class="color-swatch color-swatch-f5f"></span>#f5f3ff</td><td><span class="color-swatch color-swatch-1e1"></span>#1e1533</td><td>Accent backgrounds</td></tr>
         <tr><td><code>--line</code></td><td>rgba(0,0,0,0.08)</td><td>rgba(255,255,255,0.08)</td><td>Borders, dividers</td></tr>
       </table>
 
@@ -200,24 +183,24 @@ import { useProGate } from '@proappstore/sdk/hooks'         // combined gate</co
       <h2 id="publishing">Building and Publishing</h2>
 
       <h3>How to build</h3>
-      <p>Full step-by-step with terminal commands: <a href="/build-with-ai" style="font-weight:700">Build with AI guide</a></p>
+      <p>Full step-by-step with terminal commands: <a href="/build-with-ai" class="gl-link-bold">Build with AI guide</a></p>
       <p>Short version:</p>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:0.75rem;padding:1rem 1.25rem;margin:1rem 0;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:0.82rem;overflow-x:auto;white-space:pre;line-height:1.7"><span style="color:var(--muted)"># Install CLI</span>
+      <div class="gl-cmd-block"><span class="gl-cmd-comment"># Install CLI</span>
 npm install -g @proappstore/cli
 
-<span style="color:var(--muted)"># Create app (scaffolds + provisions database + deploys data worker)</span>
+<span class="gl-cmd-comment"># Create app (scaffolds + provisions database + deploys data worker)</span>
 pas create my-app
 cd my-app
 
-<span style="color:var(--muted)"># Start AI coding (Claude Code, or use any other tool)</span>
+<span class="gl-cmd-comment"># Start AI coding (Claude Code, or use any other tool)</span>
 claude
 
-<span style="color:var(--muted)"># Run locally</span>
+<span class="gl-cmd-comment"># Run locally</span>
 pnpm dev
 
-<span style="color:var(--muted)"># Deploy</span>
+<span class="gl-cmd-comment"># Deploy</span>
 git push origin main
-<span style="color:var(--muted)"># Live at https://my-app.proappstore.online</span></div>
+<span class="gl-cmd-comment"># Live at https://my-app.proappstore.online</span></div>
 
       <h3>What you get automatically</h3>
       <ul>
@@ -244,12 +227,12 @@ git push origin main
       <h3>Revenue</h3>
       <p>Developers can set their own subscription prices via Stripe. The platform takes 10% commission. Stripe takes their standard 2.9% + 30c. You keep the rest.</p>
 
-      <div style="margin-top:2rem;padding:1.5rem;border:1px solid var(--accent);border-radius:0.75rem;background:var(--accent-soft)">
-        <h3 style="color:var(--accent);margin:0 0 0.5rem">Ready to build?</h3>
-        <p style="font-size:0.9rem;margin:0 0 1rem">Full step-by-step with terminal commands, AI tool setup, and SDK cheat sheet.</p>
-        <a href="/build-with-ai" style="color:var(--accent);font-weight:700;font-size:0.9rem">Build with AI guide</a> |
-        <a href="/docs" style="color:var(--accent);font-weight:700;font-size:0.9rem">SDK docs</a> |
-        <a href="https://github.com/proappstore-online/platform" style="color:var(--accent);font-weight:700;font-size:0.9rem">Source on GitHub</a>
+      <div class="gl-cta-box">
+        <h3 class="gl-cta-heading">Ready to build?</h3>
+        <p class="gl-cta-body">Full step-by-step with terminal commands, AI tool setup, and SDK cheat sheet.</p>
+        <a href="/build-with-ai" class="gl-cta-link">Build with AI guide</a> |
+        <a href="/docs" class="gl-cta-link">SDK docs</a> |
+        <a href="https://github.com/proappstore-online/platform" class="gl-cta-link">Source on GitHub</a>
       </div>
     </div>
   </main>

@@ -15,28 +15,6 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="stylesheet" href="/style.css" />
-  <style>
-    .ai-hero { padding: 2rem 0 1rem; }
-    .ai-hero h1 { font-size: clamp(2rem, 5vw, 2.5rem); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
-    .ai-lead { font-size: 1.05rem; color: var(--muted); line-height: 1.6; max-width: 700px; margin-bottom: 2rem; }
-    .steps { counter-reset: step; list-style: none; padding: 0; }
-    .steps > li { counter-increment: step; margin-bottom: 2.5rem; padding-left: 2.5rem; position: relative; }
-    .steps > li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
-    .steps h3 { font-size: 1.1rem; font-weight: 800; margin: 0 0 0.5rem; }
-    .steps p { font-size: 0.92rem; color: var(--muted); margin: 0.35rem 0; }
-    .cmd { background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.85rem 1.1rem; margin: 0.75rem 0; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.85rem; overflow-x: auto; white-space: pre; line-height: 1.6; }
-    .cmd .comment { color: var(--muted); }
-    .cmd .output { color: var(--muted); font-style: italic; }
-    .callout { padding: 1.25rem 1.5rem; border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 0 0.75rem 0.75rem 0; margin: 1.5rem 0; font-size: 0.9rem; }
-    .callout strong { color: var(--ink); }
-    .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin: 1rem 0 2rem; }
-    .tool-card { padding: 1rem; border: 1px solid var(--border); border-radius: 0.75rem; background: var(--surface); }
-    .tool-card h4 { font-size: 0.95rem; margin: 0 0 0.25rem; }
-    .tool-card p { font-size: 0.8rem; color: var(--muted); margin: 0 0 0.35rem; }
-    .tool-card code { font-size: 0.75rem; background: var(--accent-soft); color: var(--accent); padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
-    .tag { display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.3rem; }
-    h2 { font-size: 1.4rem; font-weight: 800; margin: 3rem 0 1rem; letter-spacing: -0.01em; }
-  </style>
 </head>
 <body>
   <header>
@@ -61,8 +39,8 @@
     </div>
 
     <!-- ==================== PREREQUISITES ==================== -->
-    <h2>Prerequisites</h2>
-    <p style="font-size:0.92rem;color:var(--muted);margin-bottom:1rem">You need Node.js and pnpm installed. If you already have them, skip to Step 1.</p>
+    <h2 class="ai-h2">Prerequisites</h2>
+    <p class="body-sm-muted">You need Node.js and pnpm installed. If you already have them, skip to Step 1.</p>
 
     <div class="cmd"><span class="comment"># Check if Node is installed (need v22+)</span>
 node --version
@@ -84,8 +62,8 @@ pnpm --version
 <span class="output"># Should print 10.x.x</span></div>
 
     <!-- ==================== STEP BY STEP ==================== -->
-    <h2>Step-by-step: Claude Code (terminal)</h2>
-    <p style="font-size:0.92rem;color:var(--muted);margin-bottom:1.5rem">This is the full walkthrough using Claude Code. Other tools follow the same pattern — see the <a href="#other-tools">tool-specific instructions</a> below.</p>
+    <h2 class="ai-h2">Step-by-step: Claude Code (terminal)</h2>
+    <p class="body-sm-muted-wide">This is the full walkthrough using Claude Code. Other tools follow the same pattern — see the <a href="#other-tools">tool-specific instructions</a> below.</p>
 
     <ol class="steps">
       <li>
@@ -129,7 +107,7 @@ cd my-app
 <span class="comment"># Start Claude Code</span>
 claude</div>
         <p>Claude Code reads your project's <code>CLAUDE.md</code> file automatically. That file already contains:</p>
-        <div class="cmd" style="font-size:0.8rem"><span class="output">See https://proappstore.online/skills.md
+        <div class="cmd cmd-sm"><span class="output">See https://proappstore.online/skills.md
 for platform conventions.</span></div>
         <p>Claude now knows the entire SDK, the database API, the hooks, the design system — everything.</p>
       </li>
@@ -137,7 +115,7 @@ for platform conventions.</span></div>
       <li>
         <h3>Tell Claude what to build</h3>
         <p>Type your prompt in the Claude Code terminal. Be specific about what features you want.</p>
-        <div class="cmd" style="border-style:dashed"><span class="comment"># Example prompts you can type:</span>
+        <div class="cmd cmd-dashed"><span class="comment"># Example prompts you can type:</span>
 
 Build a todo app. Store todos in the database using app.db.
 Use useProGate for auth. Let users create, complete, and
@@ -183,110 +161,110 @@ git push origin main
     </div>
 
     <!-- ==================== OTHER TOOLS ==================== -->
-    <h2 id="other-tools">Other AI tools</h2>
-    <p style="font-size:0.92rem;color:var(--muted);margin-bottom:1rem">Steps 1-2 and 5-6 are the same for every tool. The only difference is Step 3 — how you tell the AI tool about the platform. Here's where to put the <code>skills.md</code> reference for each tool:</p>
+    <h2 class="ai-h2" id="other-tools">Other AI tools</h2>
+    <p class="body-sm-muted">Steps 1-2 and 5-6 are the same for every tool. The only difference is Step 3 — how you tell the AI tool about the platform. Here's where to put the <code>skills.md</code> reference for each tool:</p>
 
     <div class="tool-grid">
       <div class="tool-card">
-        <span class="tag">Terminal</span>
+        <span class="ai-tag">Terminal</span>
         <h4>Claude Code</h4>
         <p>Reads <code>CLAUDE.md</code> automatically — already set up by <code>pas create</code>.</p>
         <code>CLAUDE.md</code>
       </div>
       <div class="tool-card">
-        <span class="tag">Editor</span>
+        <span class="ai-tag">Editor</span>
         <h4>Cursor</h4>
         <p>Create a rules file in your project root.</p>
         <code>.cursorrules</code>
       </div>
       <div class="tool-card">
-        <span class="tag">Editor</span>
+        <span class="ai-tag">Editor</span>
         <h4>GitHub Copilot</h4>
         <p>Create an instructions file for Copilot.</p>
         <code>.github/copilot-instructions.md</code>
       </div>
       <div class="tool-card">
-        <span class="tag">Terminal</span>
+        <span class="ai-tag">Terminal</span>
         <h4>Codex CLI</h4>
         <p>Create an agents file in your project root.</p>
         <code>AGENTS.md</code>
       </div>
       <div class="tool-card">
-        <span class="tag">Terminal</span>
+        <span class="ai-tag">Terminal</span>
         <h4>Aider</h4>
         <p>Create a conventions file.</p>
         <code>CONVENTIONS.md</code>
       </div>
       <div class="tool-card">
-        <span class="tag">Editor</span>
+        <span class="ai-tag">Editor</span>
         <h4>Windsurf</h4>
         <p>Create a rules file in your project root.</p>
         <code>.windsurfrules</code>
       </div>
       <div class="tool-card">
-        <span class="tag">Editor</span>
+        <span class="ai-tag">Editor</span>
         <h4>Cline</h4>
         <p>Paste into the custom instructions field in settings.</p>
         <code>Custom instructions</code>
       </div>
       <div class="tool-card">
-        <span class="tag">Editor</span>
+        <span class="ai-tag">Editor</span>
         <h4>Zed</h4>
         <p>Paste the URL into the assistant panel context.</p>
         <code>Assistant context</code>
       </div>
       <div class="tool-card">
-        <span class="tag">Editor</span>
+        <span class="ai-tag">Editor</span>
         <h4>Continue</h4>
         <p>Create a rules file in your project root.</p>
         <code>.continuerules</code>
       </div>
       <div class="tool-card">
-        <span class="tag">Web</span>
+        <span class="ai-tag">Web</span>
         <h4>ChatGPT</h4>
         <p>Paste the skills.md content into the chat.</p>
         <code>Paste in chat</code>
       </div>
     </div>
 
-    <p style="font-size:0.92rem">For all tools, the content to add is the same one line:</p>
+    <p class="body-sm">For all tools, the content to add is the same one line:</p>
     <div class="cmd">See https://proappstore.online/skills.md for platform conventions.</div>
-    <p style="font-size:0.85rem;color:var(--muted)"><code>pas create</code> already adds this to <code>CLAUDE.md</code>. For other tools, create the appropriate file and add this line.</p>
+    <p class="body-xs-muted"><code>pas create</code> already adds this to <code>CLAUDE.md</code>. For other tools, create the appropriate file and add this line.</p>
 
     <!-- ==================== WHAT YOU GET ==================== -->
-    <h2>What your app gets automatically</h2>
-    <p style="font-size:0.92rem;color:var(--muted);margin-bottom:1rem">When you run <code>pas create</code>, the platform provisions all of this:</p>
+    <h2 class="ai-h2">What your app gets automatically</h2>
+    <p class="body-sm-muted">When you run <code>pas create</code>, the platform provisions all of this:</p>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.75rem;margin:1rem 0 2rem">
-      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+    <div class="feature-grid-auto">
+      <div class="feature-tile">
         <strong>SQL Database</strong>
-        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">Your own database. Create tables, run queries, store anything.</p>
+        <p>Your own database. Create tables, run queries, store anything.</p>
       </div>
-      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+      <div class="feature-tile">
         <strong>Auth (GitHub)</strong>
-        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">Users sign in with GitHub. One line of code.</p>
+        <p>Users sign in with GitHub. One line of code.</p>
       </div>
-      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+      <div class="feature-tile">
         <strong>File Storage</strong>
-        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">Upload images, videos, documents. Get shareable URLs.</p>
+        <p>Upload images, videos, documents. Get shareable URLs.</p>
       </div>
-      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+      <div class="feature-tile">
         <strong>Maps</strong>
-        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">Geocode addresses, show maps. No API keys needed.</p>
+        <p>Geocode addresses, show maps. No API keys needed.</p>
       </div>
-      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+      <div class="feature-tile">
         <strong>Real-time</strong>
-        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">WebSocket rooms for chat, collaboration, multiplayer.</p>
+        <p>WebSocket rooms for chat, collaboration, multiplayer.</p>
       </div>
-      <div style="padding:1rem;border:1px solid var(--border);border-radius:0.5rem">
+      <div class="feature-tile">
         <strong>Hosting</strong>
-        <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0 0">Push to main = deployed globally. Zero config.</p>
+        <p>Push to main = deployed globally. Zero config.</p>
       </div>
     </div>
 
     <!-- ==================== SDK CHEAT SHEET ==================== -->
-    <h2>SDK cheat sheet</h2>
-    <p style="font-size:0.92rem;color:var(--muted);margin-bottom:1rem">Copy-paste these into your AI prompts. <a href="/docs">Full docs here</a>.</p>
+    <h2 class="ai-h2">SDK cheat sheet</h2>
+    <p class="body-sm-muted">Copy-paste these into your AI prompts. <a href="/docs">Full docs here</a>.</p>
 
     <div class="cmd"><span class="comment">// Initialize</span>
 import { initPro } from '@proappstore/sdk'
@@ -314,8 +292,8 @@ const room = app.rooms.join('room-1')
 room.send({ text: 'hello' })
 room.onMessage(msg => console.log(msg))</div>
 
-    <h2>Other reading</h2>
-    <ul style="font-size:0.92rem;line-height:2">
+    <h2 class="ai-h2">Other reading</h2>
+    <ul class="reading-list">
       <li><a href="/docs">Full SDK documentation</a> — every method, every option</li>
       <li><a href="/guidelines">Developer guidelines</a> — design system, privacy rules, publishing</li>
       <li><a href="/roadmap">Roadmap</a> — what's shipped and what's coming</li>

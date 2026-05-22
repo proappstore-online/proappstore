@@ -15,53 +15,6 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="stylesheet" href="/style.css" />
-  <style>
-    .gs-hero { text-align: center; padding: 3rem 0 2rem; }
-    .gs-hero h1 { font-size: clamp(2rem, 6vw, 3rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.75rem; }
-    .gs-hero p { font-size: 1.1rem; color: var(--muted); max-width: 480px; margin: 0 auto; }
-    .terminal { background: #1e1e2e; border-radius: 0.75rem; overflow: hidden; margin: 2rem auto; max-width: 640px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
-    .terminal-bar { background: #313244; padding: 0.6rem 0.85rem; display: flex; align-items: center; gap: 0.5rem; }
-    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .terminal-dot.red { background: #f38ba8; }
-    .terminal-dot.yellow { background: #f9e2af; }
-    .terminal-dot.green { background: #a6e3a1; }
-    .terminal-title { flex: 1; text-align: center; font-size: 0.72rem; color: #6c7086; font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
-    .terminal-body { padding: 1.25rem; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.88rem; line-height: 1.8; min-height: 320px; }
-    .terminal-line { white-space: pre; overflow-x: auto; }
-    .terminal-line .prompt { color: #a6e3a1; }
-    .terminal-line .cmd { color: #cdd6f4; }
-    .terminal-line .output { color: #6c7086; }
-    .terminal-line .success { color: #a6e3a1; }
-    .terminal-line .url { color: #89b4fa; }
-    .terminal-line .highlight { color: #f9e2af; }
-    .cursor { display: inline-block; width: 8px; height: 1.1em; background: #cdd6f4; vertical-align: text-bottom; animation: blink 1s step-end infinite; }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-    .terminal-line { opacity: 0; transition: opacity 0.15s; }
-    .terminal-line.visible { opacity: 1; }
-    .gs-after { text-align: center; padding: 2rem 0; }
-    .gs-after h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.75rem; }
-    .gs-after p { font-size: 0.95rem; color: var(--muted); max-width: 520px; margin: 0 auto 1.5rem; }
-    .gs-btn { display: inline-block; background: var(--accent); color: white; padding: 0.7rem 1.5rem; border-radius: 0.6rem; font-size: 0.92rem; font-weight: 700; text-decoration: none; margin: 0 0.35rem; }
-    .gs-btn:hover { opacity: 0.9; text-decoration: none; }
-    .gs-btn-outline { display: inline-block; border: 1.5px solid var(--border); color: var(--ink); padding: 0.65rem 1.5rem; border-radius: 0.6rem; font-size: 0.92rem; font-weight: 700; text-decoration: none; margin: 0 0.35rem; }
-    .gs-btn-outline:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .gs-features { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; max-width: 640px; margin: 2rem auto; text-align: left; }
-    .gs-feature { padding: 1rem; border: 1px solid var(--border); border-radius: 0.5rem; }
-    .gs-feature strong { font-size: 0.9rem; display: block; margin-bottom: 0.2rem; }
-    .gs-feature p { font-size: 0.8rem; color: var(--muted); margin: 0; }
-    .replay-btn { display: inline-block; margin-top: 1rem; font-size: 0.8rem; color: #6c7086; cursor: pointer; border: 1px solid #313244; padding: 0.3rem 0.75rem; border-radius: 0.4rem; background: none; }
-    .replay-btn:hover { color: #89b4fa; border-color: #89b4fa; }
-    .terminal-line.copyable { cursor: pointer; position: relative; border-radius: 0.25rem; margin: 0 -0.35rem; padding: 0 0.35rem; }
-    .terminal-line.copyable:hover { background: rgba(255,255,255,0.05); }
-    .terminal-line.copyable::after { content: 'click to copy'; position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); font-size: 0.65rem; color: #6c7086; opacity: 0; transition: opacity 0.15s; pointer-events: none; }
-    .terminal-line.copyable:hover::after { opacity: 1; }
-    .terminal-line.copied::after { content: 'copied!'; color: #a6e3a1; opacity: 1; }
-    .copy-line { cursor: pointer; position: relative; border-radius: 0.25rem; margin: 0 -0.25rem; padding: 0.1rem 0.25rem; }
-    .copy-line:hover { background: rgba(255,255,255,0.05); }
-    .copy-line::after { content: 'click to copy'; position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); font-size: 0.65rem; color: #6c7086; opacity: 0; transition: opacity 0.15s; pointer-events: none; }
-    .copy-line:hover::after { opacity: 1; }
-    .copy-line.copied::after { content: 'copied!'; color: #a6e3a1; opacity: 1; }
-  </style>
 </head>
 <body>
   <header>
@@ -92,7 +45,7 @@
         <span class="terminal-title">Terminal</span>
       </div>
       <div class="terminal-body" id="term"></div>
-      <div style="text-align:center;padding:0 0 1rem">
+      <div class="replay-wrap">
         <button class="replay-btn" onclick="runDemo()">Replay</button>
       </div>
     </div>
@@ -100,23 +53,23 @@
     <div class="gs-after">
       <h2>That's it. Your app is live.</h2>
       <p>Database provisioned. Auth configured. File storage ready. Maps available. Auto-deploy on every <code>git push</code>.</p>
-      <div style="margin-top:1.25rem">
+      <div class="gs-btns">
         <a href="/build-with-ai" class="gs-btn">Full build guide</a>
         <a href="/docs" class="gs-btn-outline">SDK docs</a>
       </div>
     </div>
 
     <!-- AI TOOL EXAMPLES -->
-    <h2 style="text-align:center;font-size:1.4rem;font-weight:800;margin:3rem 0 0.5rem">Now use any AI tool to build</h2>
-    <p style="text-align:center;font-size:0.95rem;color:var(--muted);max-width:520px;margin:0 auto 2rem">Your project already has a <code>CLAUDE.md</code> pointing to the platform guide. Open any AI tool and start describing what you want.</p>
+    <h2 class="gs-section-heading">Now use any AI tool to build</h2>
+    <p class="gs-section-lead">Your project already has a <code>CLAUDE.md</code> pointing to the platform guide. Open any AI tool and start describing what you want.</p>
 
     <!-- Claude Code -->
-    <div class="terminal" style="margin:1.5rem auto">
+    <div class="terminal terminal-inset">
       <div class="terminal-bar">
         <span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span>
         <span class="terminal-title">Claude Code</span>
       </div>
-      <div class="terminal-body" style="min-height:auto;padding:1rem 1.25rem">
+      <div class="terminal-body terminal-body-compact">
         <div class="terminal-line visible"><span class="prompt">my-app $</span> <span class="cmd">claude</span></div>
         <div class="terminal-line visible"><span class="output"></span></div>
         <div class="terminal-line visible"><span class="success">  Claude reads CLAUDE.md automatically.</span></div>
@@ -128,12 +81,12 @@
     </div>
 
     <!-- Cursor -->
-    <div class="terminal" style="margin:1.5rem auto">
+    <div class="terminal terminal-inset">
       <div class="terminal-bar">
         <span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span>
         <span class="terminal-title">Cursor</span>
       </div>
-      <div class="terminal-body" style="min-height:auto;padding:1rem 1.25rem">
+      <div class="terminal-body terminal-body-compact">
         <div class="terminal-line visible"><span class="output">  1. Open the project folder in Cursor</span></div>
         <div class="terminal-line visible"><span class="output">  2. Create <span class="highlight">.cursorrules</span> in the root with one line:</span></div>
         <div class="terminal-line visible"><span class="output"></span></div>
@@ -144,12 +97,12 @@
     </div>
 
     <!-- Codex CLI -->
-    <div class="terminal" style="margin:1.5rem auto">
+    <div class="terminal terminal-inset">
       <div class="terminal-bar">
         <span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span>
         <span class="terminal-title">Codex CLI (OpenAI)</span>
       </div>
-      <div class="terminal-body" style="min-height:auto;padding:1rem 1.25rem">
+      <div class="terminal-body terminal-body-compact">
         <div class="terminal-line visible"><span class="prompt">my-app $</span> <span class="cmd">codex</span></div>
         <div class="terminal-line visible"><span class="output"></span></div>
         <div class="terminal-line visible"><span class="output">  Create <span class="highlight">AGENTS.md</span> in the root with one line:</span></div>
@@ -160,12 +113,12 @@
     </div>
 
     <!-- GitHub Copilot -->
-    <div class="terminal" style="margin:1.5rem auto">
+    <div class="terminal terminal-inset">
       <div class="terminal-bar">
         <span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span>
         <span class="terminal-title">GitHub Copilot</span>
       </div>
-      <div class="terminal-body" style="min-height:auto;padding:1rem 1.25rem">
+      <div class="terminal-body terminal-body-compact">
         <div class="terminal-line visible"><span class="output">  1. Open the project in VS Code with Copilot</span></div>
         <div class="terminal-line visible"><span class="output">  2. Create <span class="highlight">.github/copilot-instructions.md</span> with one line:</span></div>
         <div class="terminal-line visible"><span class="url">     See https://proappstore.online/skills.md for platform conventions.</span></div>
@@ -174,12 +127,12 @@
     </div>
 
     <!-- Any tool -->
-    <div class="terminal" style="margin:1.5rem auto">
+    <div class="terminal terminal-inset">
       <div class="terminal-bar">
         <span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span>
         <span class="terminal-title">Windsurf / Cline / Zed / Continue / Aider / Any tool</span>
       </div>
-      <div class="terminal-body" style="min-height:auto;padding:1rem 1.25rem">
+      <div class="terminal-body terminal-body-compact">
         <div class="terminal-line visible"><span class="output">  Add this one line to your tool's instruction file:</span></div>
         <div class="terminal-line visible"><span class="output"></span></div>
         <div class="terminal-line visible"><span class="url">  See https://proappstore.online/skills.md for platform conventions.</span></div>
