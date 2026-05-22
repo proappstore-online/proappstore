@@ -396,6 +396,19 @@ export default function App() {
         </tbody>
       </table>
 
+      <h2>Usage Tracking</h2>
+      <p>ProAppStore tracks usage automatically to compute creator payouts. Auto-started by <code>initPro()</code> — you don't need to do anything.</p>
+      <pre><code>// Default — telemetry on
+const app = initPro({ appId: 'my-app' })
+
+// Opt out (won't count toward payouts)
+const app = initPro({ appId: 'my-app', usage: { auto: false } })
+
+// Manual controls (rarely needed)
+app.usage.start()
+app.usage.stop()
+app.usage.flush()</code></pre>
+
       <h2>Exports</h2>
       <table>
         <thead><tr><th>Import path</th><th>What you get</th></tr></thead>
