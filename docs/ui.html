@@ -166,9 +166,37 @@
             <td>Accent background</td>
           </tr>
           <tr>
+            <td><code>--ink-strong</code></td>
+            <td><span class="swatch" style="background:#0f172a"></span><code>#0f172a</code></td>
+            <td><span class="swatch" style="background:#ffffff"></span><code>#ffffff</code></td>
+            <td>Emphasized text</td>
+          </tr>
+          <tr>
+            <td><code>--surface-2</code></td>
+            <td><span class="swatch" style="background:#f1f5f9"></span><code>#f1f5f9</code></td>
+            <td><span class="swatch" style="background:#0f172a"></span><code>#0f172a</code></td>
+            <td>Secondary surface</td>
+          </tr>
+          <tr>
+            <td><code>--border-strong</code></td>
+            <td><span class="swatch" style="background:#cbd5e1"></span><code>#cbd5e1</code></td>
+            <td><span class="swatch" style="background:#475569"></span><code>#475569</code></td>
+            <td>Strong borders</td>
+          </tr>
+          <tr>
             <td><code>--radius</code></td>
             <td colspan="2"><code>0.75rem</code></td>
             <td>Default border radius</td>
+          </tr>
+          <tr>
+            <td><code>--radius-sm</code></td>
+            <td colspan="2"><code>0.5rem</code></td>
+            <td>Small border radius</td>
+          </tr>
+          <tr>
+            <td><code>--shadow</code></td>
+            <td colspan="2"><code>0 1px 3px rgba(15,23,42,0.08)</code></td>
+            <td>Card shadow</td>
           </tr>
         </tbody>
       </table>
@@ -391,6 +419,12 @@ const { theme, preference, setPreference } = useTheme()</code></pre>
 
 const { subscription, isPro, loading, upgrade, manageBilling } = useProSubscription(app)</code></pre>
 
+        <h3>useProNotifications(app)</h3>
+        <p>Web push notification state and actions.</p>
+        <pre><code>import { useProNotifications } from '@proappstore/sdk/hooks'
+
+const { permission, isSubscribed, subscribe, unsubscribe, loading } = useProNotifications(app)</code></pre>
+
         <h3>useProGate(app)</h3>
         <pre><code>import { useProGate } from '@proappstore/sdk/hooks'
 
@@ -459,7 +493,7 @@ function App() {
         <thead><tr><th>Import path</th><th>What you get</th></tr></thead>
         <tbody>
           <tr><td><code>@proappstore/sdk</code></td><td><code>initPro</code>, <code>ProAppStore</code>, types</td></tr>
-          <tr><td><code>@proappstore/sdk/hooks</code></td><td><code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code>, <code>useTheme</code></td></tr>
+          <tr><td><code>@proappstore/sdk/hooks</code></td><td><code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code>, <code>useProNotifications</code>, <code>useTheme</code></td></tr>
           <tr><td><code>@proappstore/sdk/shell</code></td><td><code>ProShell</code></td></tr>
           <tr><td><code>@proappstore/sdk/ui</code></td><td><code>Avatar</code>, <code>SignInButton</code>, <code>ThemeToggle</code>, <code>ProBadge</code>, <code>ProfileMenu</code>, <code>SubscriptionStatus</code>, <code>UpgradeCard</code>, <code>BillingButton</code>, <code>GateScreen</code>, <code>ProProfilePage</code></td></tr>
         </tbody>

@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Docs — ProAppStore</title>
-  <meta name="description" content="ProAppStore SDK documentation. Auth, database, storage, maps, subscriptions, real-time rooms, and React hooks." />
+  <meta name="description" content="ProAppStore SDK documentation. Auth, database, storage, maps, subscriptions, real-time rooms, push notifications, SMS, AI, and React hooks." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Docs — ProAppStore" />
-  <meta property="og:description" content="SDK docs: auth, database, storage, maps, subscriptions, real-time rooms, hooks." />
+  <meta property="og:description" content="SDK docs: auth, database, storage, maps, subscriptions, notifications, SMS, AI, real-time rooms, hooks." />
   <meta property="og:url" content="https://proappstore.online/docs" />
   <meta property="og:image" content="https://proappstore.online/icon-512.png" />
   <meta name="twitter:card" content="summary" />
@@ -114,14 +114,40 @@ function App() {
       <p>Gate states: <code>'loading'</code> | <code>'signed-out'</code> | <code>'no-subscription'</code> | <code>'ready'</code></p>
       <p>Pass <code>{ allowFree: true }</code> to skip the subscription check.</p>
 
+      <h3>useProNotifications</h3>
+      <p>Web push notification state and actions.</p>
+      <pre><code>import { useProNotifications } from '@proappstore/sdk/hooks'
+
+function NotifToggle() {
+  const { permission, isSubscribed, subscribe, unsubscribe, loading } = useProNotifications(app)
+
+  if (permission === 'denied') return null
+  return (
+    &lt;button onClick={isSubscribed ? unsubscribe : subscribe}&gt;
+      {isSubscribed ? 'Disable' : 'Enable notifications'}
+    &lt;/button&gt;
+  )
+}</code></pre>
+
+      <h3>useTheme</h3>
+      <p>Zero-provider theme hook. Shared with FreeAppStore (same localStorage key).</p>
+      <pre><code>import { useTheme } from '@proappstore/sdk/hooks'
+
+const { theme, preference, setPreference } = useTheme()
+// theme: 'light' | 'dark' (resolved)
+// preference: 'light' | 'dark' | 'system'</code></pre>
+
       <h2>Auth</h2>
       <p>GitHub OAuth. Shared identity across all FreeAppStore and ProAppStore apps.</p>
-      <pre><code>await app.auth.init()          // Initialize, check for existing session
-app.auth.onChange(user =&gt; {})  // Listen for sign-in/out
-app.auth.signIn()              // Redirect to GitHub OAuth
-app.auth.signOut()             // Clear session
-app.auth.user                  // Current user (or null)
-app.auth.token                 // Session token (for API calls)</code></pre>
+      <pre><code>await app.auth.init()                  // Initialize, check for existing session
+app.auth.onChange(user =&gt; {})          // Listen for sign-in/out
+app.auth.signIn()                      // Redirect to GitHub OAuth
+app.auth.signIn('google')              // Redirect to Google OAuth
+await app.auth.signInWithEmail(email)  // Send magic-link email
+app.auth.signOut()                     // Clear session
+app.auth.user                          // Current user (or null)
+app.auth.token                         // Session token (for API calls)
+await app.auth.setDateOfBirth('2000-01-15')  // Set DOB (set-once, age &gt;= 13)</code></pre>
 
       <h2>Database (Per-app SQL)</h2>
       <p>Each Pro app gets its own Cloudflare D1 (SQLite) database. Custom schema, indexes, joins.</p>
@@ -186,7 +212,7 @@ await app.kv.delete('profile')</code></pre>
       <h2>Counters (Shared Atomic)</h2>
       <p>Cross-user counters for votes, views, leaderboards.</p>
       <pre><code>await app.counters.increment('page-views')
-await app.counters.decrement('likes')
+await app.counters.increment('likes', -1)
 const count = await app.counters.get('page-views')
 const all = await app.counters.list()</code></pre>
 
@@ -197,16 +223,24 @@ const all = await app.counters.list()</code></pre>
 room.send({ type: 'chat', text: 'hello' })
 room.onMessage(msg =&gt; console.log(msg))
 room.onPeers(peers =&gt; console.log(peers.length, 'online'))
-room.leave()</code></pre>
+room.close()</code></pre>
 
-      <h2>Maps + Geocoding</h2>
-      <p>Address-to-coordinates and map embeds. OpenStreetMap powered. No Google API keys.</p>
+      <h2>Maps, Geocoding + Routing</h2>
+      <p>Address-to-coordinates, driving directions, and map embeds. OpenStreetMap + OSRM powered. No Google API keys.</p>
       <pre><code>// Geocode an address
 const results = await app.maps.geocode('Times Square, New York')
 // [{lat: 40.758, lng: -73.985, displayName: "Times Square...", address: {...}}]
 
 // Reverse geocode
 const place = await app.maps.reverseGeocode(40.758, -73.985)
+
+// Driving route between two points
+const route = await app.maps.route(
+  { lat: 40.758, lng: -73.985 },
+  { lat: 40.748, lng: -73.986 },
+)
+// route.geometry — GeoJSON LineString
+// route.distanceMeters, route.durationSeconds
 
 // Embed map (for &lt;iframe&gt;)
 const mapUrl = app.maps.embedUrl(40.758, -73.985)
@@ -236,6 +270,64 @@ const license = await app.license.current()
 
 // Validate any key (no auth required)
 const valid = await app.license.validate('LIC-ABC-123')</code></pre>
+
+      <h2>Notifications (Web Push)</h2>
+      <p>Push notifications to your users. Subscribe from the browser, send targeted or broadcast pushes (creator-only).</p>
+      <pre><code>// User side — subscribe to push
+await app.notifications.subscribe()
+await app.notifications.unsubscribe()
+const subscribed = await app.notifications.isSubscribed()
+
+// Creator side — send to a specific user
+await app.notifications.send('user-123', {
+  title: 'Event starting!',
+  body: 'The meetup begins in 10 minutes.',
+  url: '/events/evt-1',
+})
+
+// Broadcast to all subscribers
+await app.notifications.broadcast({
+  title: 'New feature!',
+  body: 'Check out the new map view.',
+})</code></pre>
+      <p>Your app needs a service worker. Use <code>Notifications.getServiceWorkerScript()</code> to generate <code>/sw.js</code>.</p>
+
+      <h2>SMS</h2>
+      <p>Send text messages via the platform (Twilio-backed). Creator-only. Numbers must be E.164 (<code>+15551234567</code>).</p>
+      <pre><code>await app.sms.send('+15551234567', 'Your reservation is confirmed!')
+
+await app.sms.broadcast(
+  ['+15551234567', '+15559876543'],
+  'Meetup starts in 30 minutes!',
+)</code></pre>
+
+      <h2>AI (Server-side LLM + Embeddings)</h2>
+      <p>Workers AI &mdash; text generation, chat, and embeddings included in the platform subscription. No API keys needed.</p>
+      <pre><code>// Text generation ('fast' = Llama-3.1-8B, 'smart' = Llama-3.3-70B)
+const { text } = await app.ai.generate('Write a haiku about coding')
+const { text } = await app.ai.generate('Summarize...', { model: 'smart', maxTokens: 512 })
+
+// Multi-turn chat
+const { text } = await app.ai.chat([
+  { role: 'system', content: 'You are a helpful event planner.' },
+  { role: 'user', content: 'Suggest a venue for 50 people in SF.' },
+])
+
+// Embeddings ('m3' = multilingual 1024-dim, 'base' = English 768-dim)
+const { vectors } = await app.ai.embed('yoga class')
+const { vectors } = await app.ai.embed(['yoga', 'pilates'], { model: 'base' })</code></pre>
+
+      <h2>Tenant Scope (Multi-tenant)</h2>
+      <p>Safe-by-default CRUD for multi-tenant tables. Auto-injects <code>tenant_id</code> on writes and auto-scopes reads &mdash; prevents cross-tenant leaks.</p>
+      <pre><code>const tx = app.db.tenant('studio-123')
+
+await tx.insert('clients', { id: 'c-1', name: 'Alice' })
+const alice = await tx.find('clients', { id: 'c-1' })
+const all = await tx.findMany('clients')
+const count = await tx.count('clients')
+await tx.update('clients', { id: 'c-1' }, { name: 'Alicia' })
+await tx.delete('clients', { id: 'c-1' })</code></pre>
+      <p>Tables must have a <code>tenant_id TEXT</code> column. Drop to <code>app.db.query()</code> for joins or aggregates.</p>
 
       <h2>Proxy (Secret-injecting API Proxy)</h2>
       <p>Call third-party APIs without exposing keys to the client.</p>
@@ -269,7 +361,8 @@ export default function App() {
           <tr><td><code>app</code></td><td><code>ProAppStore</code></td><td>SDK instance from <code>initPro()</code></td></tr>
           <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>App content (rendered when gates pass)</td></tr>
           <tr><td><code>appName</code></td><td><code>string?</code></td><td>Name shown in the topbar</td></tr>
-          <tr><td><code>allowFree</code></td><td><code>boolean?</code></td><td>Skip subscription gate (default: false)</td></tr>
+          <tr><td><code>allowFree</code></td><td><code>boolean?</code></td><td>Skip subscription gate (default: true)</td></tr>
+          <tr><td><code>showThemeToggle</code></td><td><code>boolean?</code></td><td>Show theme toggle in profile menu (default: true)</td></tr>
         </tbody>
       </table>
 
@@ -277,8 +370,8 @@ export default function App() {
       <table>
         <thead><tr><th>Import path</th><th>What you get</th></tr></thead>
         <tbody>
-          <tr><td><code>@proappstore/sdk</code></td><td><code>initPro</code>, <code>ProAppStore</code>, types</td></tr>
-          <tr><td><code>@proappstore/sdk/hooks</code></td><td><code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code>, <code>useTheme</code></td></tr>
+          <tr><td><code>@proappstore/sdk</code></td><td><code>initPro</code>, <code>ProAppStore</code>, <code>TenantScope</code>, types</td></tr>
+          <tr><td><code>@proappstore/sdk/hooks</code></td><td><code>useProAuth</code>, <code>useProSubscription</code>, <code>useProGate</code>, <code>useProNotifications</code>, <code>useTheme</code></td></tr>
           <tr><td><code>@proappstore/sdk/shell</code></td><td><code>ProShell</code></td></tr>
           <tr><td><code>@proappstore/sdk/ui</code></td><td><code>Avatar</code>, <code>SignInButton</code>, <code>ThemeToggle</code>, <code>ProBadge</code>, <code>ProfileMenu</code>, <code>SubscriptionStatus</code>, <code>UpgradeCard</code>, <code>BillingButton</code>, <code>GateScreen</code>, <code>ProProfilePage</code></td></tr>
         </tbody>

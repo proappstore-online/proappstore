@@ -100,11 +100,40 @@ const response = await app.storage.download('events/photo.jpg')
 const files = await app.storage.list()
 await app.storage.delete('events/photo.jpg')
 
-// Maps (geocoding, reverse geocoding — no Google API keys needed)
+// Maps (geocoding, routing, embeds — no Google API keys needed)
 const results = await app.maps.geocode('Sydney Opera House')
 const place = await app.maps.reverseGeocode(-33.856, 151.215)
+const route = await app.maps.route({ lat: -33.856, lng: 151.215 }, { lat: -33.870, lng: 151.209 })
+// route.geometry (GeoJSON LineString), route.distanceMeters, route.durationSeconds
 const mapUrl = app.maps.embedUrl(-33.856, 151.215)  // for <iframe>
 const tileUrl = app.maps.staticUrl(-33.856, 151.215) // for <img>
+
+// Push notifications (Web Push)
+await app.notifications.subscribe()          // request permission + register SW
+await app.notifications.isSubscribed()       // check status
+await app.notifications.send('user-id', { title: 'Hey!', body: 'Event starting soon.', url: '/events/1' })
+await app.notifications.broadcast({ title: 'New feature!', body: 'Check it out.' })
+
+// SMS (Twilio-backed, creator-only)
+await app.sms.send('+15551234567', 'Your reservation is confirmed!')
+await app.sms.broadcast(['+15551234567', '+15559876543'], 'Meetup in 30 min!')
+
+// AI (Workers AI — server-side LLM + embeddings, included in subscription)
+const { text } = await app.ai.generate('Write a haiku about yoga')
+const { text } = await app.ai.generate('Summarize...', { model: 'smart' })  // 'fast' or 'smart'
+const { text } = await app.ai.chat([
+  { role: 'system', content: 'You are a yoga instructor.' },
+  { role: 'user', content: 'What is downward dog?' },
+])
+const { vectors } = await app.ai.embed(['vinyasa', 'restorative'])  // 'm3' or 'base'
+
+// Multi-tenant helpers (auto-scoped by tenant_id)
+const tx = app.db.tenant('studio-123')
+await tx.insert('clients', { id: 'c-1', name: 'Alice' })
+const alice = await tx.find('clients', { id: 'c-1' })
+const all = await tx.findMany('clients')
+await tx.update('clients', { id: 'c-1' }, { name: 'Alicia' })
+await tx.delete('clients', { id: 'c-1' })
 
 // License keys
 const license = await app.license.current()
@@ -182,11 +211,14 @@ ProShell provides: sign-in screen, subscription upgrade wall, topbar with avatar
 | Real-time rooms | 5 rooms, 50 user-hours/day | Uncapped |
 | Subscriptions (Stripe) | No | Yes |
 | File storage (R2) | No | Yes (images, videos, 50MB/file) |
-| Maps + geocoding | No | Yes (OpenStreetMap, no Google keys) |
+| Maps + geocoding + routing | No | Yes (OpenStreetMap, no Google keys) |
+| Push notifications | No | Yes (Web Push, VAPID) |
+| SMS | No | Yes (Twilio-backed, creator-only) |
+| Server-side AI | No | Yes (Workers AI — text, chat, embeddings) |
+| Multi-tenant helpers | No | Yes (auto tenant_id scoping) |
 | ProShell (platform UI) | No | Yes (auth + sub gate + topbar) |
 | License keys | No | Yes |
 | Custom domain | No | Yes |
-| Server-side AI | No | Coming |
 | Cron/scheduled | No | Coming |
 
 ---
