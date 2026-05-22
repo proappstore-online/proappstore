@@ -1,0 +1,43 @@
+# ProAppStore
+
+> ProAppStore is a paid app marketplace where developers publish professional PWA apps at `<name>.proappstore.online`. Apps are built with TypeScript, React, and Vite, deployed via Cloudflare Pages. The platform provides an SDK with auth, per-app SQL databases, file storage (R2), real-time rooms (uncapped), Stripe subscriptions, server-side AI, maps, push notifications, and SMS. Developers set their own subscription prices; the platform takes a 10% commission. For the full AI agent guide, see [skills.md](https://proappstore.online/skills.md).
+
+## AI Agent Integration
+
+- [skills.md](https://proappstore.online/skills.md): Complete platform guide for AI agents. Tech stack, SDK reference (auth, db, storage, subscriptions, rooms, AI, maps, push, SMS), CLI commands, deploy flow. Point your AI agent here.
+- [MCP Server](https://mcp.freeappstore.online/mcp): Remote MCP server (Streamable HTTP) covering the whole platform family. Connect with `npx mcp-remote https://mcp.freeappstore.online/mcp`.
+- [Platform Skills (FAS)](https://freeappstore.online/skills.md): Shared platform guide covering conventions used across the store family.
+
+## SDK
+
+- [@proappstore/sdk on npm](https://www.npmjs.com/package/@proappstore/sdk): Platform SDK. `initPro()` gives you auth, per-app D1 database, R2 file storage, real-time rooms, Stripe subscriptions, AI, maps, push notifications, SMS, React hooks, and UI components.
+- [SDK Docs](https://proappstore.online/docs): Full SDK documentation with examples.
+- [UI Component Library](https://proappstore.online/docs/ui): Live preview of ProShell, ProBadge, SubscriptionStatus, UpgradeCard, BillingButton, GateScreen, and more.
+
+## CLI
+
+- [@proappstore/cli on npm](https://www.npmjs.com/package/@proappstore/cli): CLI for scaffolding, compliance checks, and publishing. Commands: `pas create`, `pas check`, `pas publish`.
+
+## For Developers
+
+- [Build with AI](https://proappstore.online/build-with-ai): Step-by-step guide to building a Pro app with Claude Code, Cursor, Codex, or any AI tool.
+- [Get Started](https://proappstore.online/get-started): Manual setup guide without AI.
+- [Guidelines](https://proappstore.online/guidelines): Tech stack, project structure, compliance checks.
+- [Developers](https://proappstore.online/developers): Browse registered developers and their apps.
+
+## Platform
+
+- [App Catalog](https://proappstore.online/): Browse all published Pro apps.
+- [Pricing](https://proappstore.online/pricing): Platform features, developer commission structure, and subscription details.
+- [Roadmap](https://proappstore.online/roadmap): Upcoming features and platform direction.
+- [Dashboard](https://dashboard.proappstore.online/): User account management and subscriptions.
+- [Console](https://console.proappstore.online/): Creator admin portal for managing apps.
+- [Platform Source](https://github.com/proappstore-online/platform): SDK, CLI, compliance, and backend source code.
+
+## Optional
+
+- [About](https://proappstore.online/about): What ProAppStore is and how it works.
+- [Privacy Policy](https://proappstore.online/privacy): Privacy-first approach, minimal data collection.
+- [Terms of Service](https://proappstore.online/terms): Platform terms, developer agreement.
+- [FreeAppStore](https://freeappstore.online/): Free tier — apps with capped rooms, KV storage, no AI proxy.
+- [FreeGameStore](https://freegamestore.online/): Free platform for web games.
