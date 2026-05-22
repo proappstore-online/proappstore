@@ -61,7 +61,9 @@ const app = initPro({ appId: 'my-app' })
 // Auth (GitHub OAuth — shared identity with FreeAppStore)
 await app.auth.init()
 app.auth.onChange(user => { ... })
-app.auth.signIn()
+app.auth.signIn()           // GitHub OAuth (default)
+app.auth.signIn('google')   // Google OAuth
+app.auth.signIn('apple')    // Apple OAuth
 app.auth.signOut()
 
 // Per-user KV storage
@@ -221,6 +223,7 @@ import {
   Avatar,           // GitHub avatar with initial fallback
   SignInButton,     // Platform-branded sign-in
   ThemeToggle,      // Sun/moon, cycles system→light→dark
+  TextSizeToggle,   // A/A+/A-, cycles default→large→small text
   ProBadge,         // Purple "PRO" badge (sm/md/lg)
   ProfileMenu,      // Avatar dropdown: badge, billing, theme, sign out, delete
   SubscriptionStatus, // Inline: PRO badge or "Free plan [Upgrade]"
@@ -284,7 +287,7 @@ const { permission, isSubscribed, subscribe, unsubscribe, loading } = useProNoti
 @proappstore/sdk          → initPro, ProAppStore, TenantScope, types
 @proappstore/sdk/hooks    → useProAuth, useProSubscription, useProGate, useProNotifications, useTheme
 @proappstore/sdk/shell    → ProShell
-@proappstore/sdk/ui       → Avatar, SignInButton, ThemeToggle, ProBadge, ProfileMenu,
+@proappstore/sdk/ui       → Avatar, SignInButton, ThemeToggle, TextSizeToggle, ProBadge, ProfileMenu,
                             SubscriptionStatus, UpgradeCard, BillingButton, GateScreen, ProProfilePage
 ```
 
