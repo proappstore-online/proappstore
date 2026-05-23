@@ -1,6 +1,24 @@
 {
   "apps": [
     {
+      "id": "meet",
+      "name": "Meet",
+      "category": "social",
+      "icon": "&#128222;",
+      "iconBg": "#ecfdf5",
+      "description": "Instant 1-on-1 video meetings with push notifications. Go available, share your link, get notified when someone joins.",
+      "appUrl": "https://proappstore-meet.pages.dev",
+      "repo": "proappstore-online/meet",
+      "cfProject": "proappstore-meet",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": [
+        "Push notifications",
+        "Availability mode",
+        "Real-time rooms"
+      ]
+    },
+    {
       "id": "meetup",
       "name": "Meetup",
       "category": "social",
