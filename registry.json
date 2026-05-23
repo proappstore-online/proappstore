@@ -7,15 +7,18 @@
       "icon": "&#128222;",
       "iconBg": "#ecfdf5",
       "description": "Instant 1-on-1 video meetings with push notifications. Go available, share your link, get notified when someone joins.",
-      "appUrl": "https://proappstore-meet.pages.dev",
+      "about": "Meet is a zero-install video calling app. Toggle your availability, share a link, and get a push notification when someone joins your room. Video and audio are peer-to-peer via WebRTC — no media server, no latency, no data collection.\n\nDesigned for quick 1-on-1 calls, not large meetings. The availability toggle lets contacts see when you're free without messaging you first. Push notifications ensure you never miss a join — even if the tab is closed.",
+      "appUrl": "https://meet.proappstore.online",
       "repo": "proappstore-online/meet",
       "cfProject": "proappstore-meet",
       "type": "connected",
       "developer": "ProAppStore",
       "proFeatures": [
-        "Push notifications",
-        "Availability mode",
-        "Real-time rooms"
+        "WebRTC video and audio calls",
+        "Push notifications on join",
+        "Availability toggle",
+        "Shareable room links",
+        "Real-time presence (WebSocket rooms)"
       ]
     },
     {
@@ -25,14 +28,18 @@
       "icon": "&#128197;",
       "iconBg": "#f5f3ff",
       "description": "Create events, groups, and real-time chat. RSVP tracking, attendee counts, and community management.",
+      "about": "Meetup is a full-featured event management platform. Create public or private events with location, date/time, and capacity limits. Organize recurring groups around shared interests — book clubs, running groups, tech meetups, language exchanges.\n\nEvery event gets its own real-time chat room powered by WebSocket rooms, so attendees can coordinate before, during, and after the event. RSVP tracking shows who's coming, who's maybe, and how many spots are left.\n\nBuilt for community organizers who need more than a shared calendar but less than a full social network. No ads, no algorithmic feed — just events and the people going to them.",
       "appUrl": "https://meetup.proappstore.online",
       "repo": "proappstore-online/meetup",
       "type": "connected",
       "developer": "ProAppStore",
       "proFeatures": [
-        "Create events",
-        "Event chat",
-        "Manage groups"
+        "Create events with date, time, location, capacity",
+        "Organize recurring groups around shared interests",
+        "Real-time event chat (WebSocket rooms)",
+        "RSVP tracking with live attendee counts",
+        "Push notifications for event reminders",
+        "Community moderation tools"
       ]
     },
     {
@@ -42,14 +49,18 @@
       "icon": "&#128663;",
       "iconBg": "#fff1e9",
       "description": "Car classifieds — browse listings, post your car for sale, and connect with buyers. Filter by make, price, year, location.",
+      "about": "Carsads is a car classifieds marketplace. List your car with photos, specs, and a price. Browse listings filtered by make, model, year, price range, and location. Each listing gets a dedicated page with an embedded map showing the seller's area.\n\nSellers upload multiple photos per listing (stored on R2), write detailed descriptions, and set their asking price. Buyers can see all active listings in a responsive grid, filter and sort by what matters, and contact sellers directly.\n\nThe embedded maps use the platform's geocoding API (OpenStreetMap-based) — no Google Maps keys needed. Every listing is automatically geocoded from the seller's city or postcode.",
       "appUrl": "https://carsads.proappstore.online",
       "repo": "carsads-online/carsads",
       "type": "connected",
       "developer": "Carsads",
       "proFeatures": [
-        "Post listings",
-        "Upload photos",
-        "Embedded map"
+        "Post listings with multiple photos and detailed specs",
+        "Filter by make, model, year, price range, and location",
+        "Embedded map per listing (geocoded automatically)",
+        "Photo uploads via R2 storage",
+        "Responsive grid and list views",
+        "Direct seller contact"
       ]
     },
     {
@@ -59,14 +70,18 @@
       "icon": "&#10084;",
       "iconBg": "#fff1f2",
       "description": "Swipe-style dating — build a profile, swipe through people nearby, and chat in real-time when you both like each other.",
+      "about": "A swipe-based dating app built entirely on the ProAppStore SDK. Create a profile with photos, bio, and preferences. Browse through potential matches with swipe-left/right gestures. When two people both swipe right, a match is created and a real-time chat room opens.\n\nPhotos are stored on R2. Profile data lives in D1. The mutual-match detection uses atomic counter increments to prevent race conditions. Chat is powered by WebSocket rooms — one room per match, created on-demand.\n\nPrivacy-first: no tracking, no algorithmic manipulation, no dark patterns. Your data stays on the platform and is deleted when you delete your account.",
       "appUrl": "https://dating.proappstore.online",
       "repo": "proappstore-online/dating",
       "type": "connected",
       "developer": "ProAppStore",
       "proFeatures": [
-        "Profile photos",
-        "Real-time chat",
-        "Mutual-match detection"
+        "Swipe-style browsing with profile photos",
+        "Mutual-match detection (both must like)",
+        "Real-time chat when matched (WebSocket rooms)",
+        "Profile photo uploads (R2 storage)",
+        "Bio, preferences, and age filtering",
+        "Privacy-first — no tracking or data selling"
       ]
     },
     {
@@ -76,14 +91,18 @@
       "icon": "&#128260;",
       "iconBg": "#ecfdf5",
       "description": "Recurring rides — set up a route, days and time once, and your driver shows up week after week. Live GPS tracking when the trip starts.",
+      "about": "Loopride solves the problem of recurring trips — school runs, commute shares, weekly errands. Set up a route with pickup and dropoff points, choose which days and times, and your driver follows the same schedule every week.\n\nRoutes are geocoded using the platform's maps API. Driving directions render as a real route on the map (not a straight line). When a trip starts, the driver's GPS position is tracked live and shared with passengers via WebSocket rooms.\n\nDesigned for small groups who ride together regularly. Not a ride-hailing service — no surge pricing, no matching algorithms, no marketplace dynamics. Just a shared schedule for people who already know each other.",
       "appUrl": "https://loopride.proappstore.online",
       "repo": "proappstore-online/loopride",
       "type": "connected",
       "developer": "ProAppStore",
       "proFeatures": [
-        "Recurring schedules",
-        "Live driver tracking",
-        "Real geocoding"
+        "Set up recurring routes with days and times",
+        "Geocoded pickup/dropoff points on real maps",
+        "Live GPS tracking during trips (WebSocket rooms)",
+        "Driving route directions (OSRM-powered)",
+        "Push notifications for trip reminders",
+        "Small group management (driver + passengers)"
       ]
     },
     {
@@ -92,16 +111,20 @@
       "category": "productivity",
       "icon": "&#127908;",
       "iconBg": "#fffaf0",
-      "description": "Multi-tenant studio booking",
+      "description": "Multi-tenant studio booking — manage spaces, classes, instructors, and memberships for yoga studios, gyms, and co-working spaces.",
+      "about": "Studio is a booking and management system for physical spaces — yoga studios, gyms, dance schools, co-working spaces. Manage multiple rooms, set class schedules, assign instructors, and let members book sessions.\n\nUses the SDK's multi-tenant helpers (TenantScope) so each studio's data is completely isolated. Studio owners see only their own classes, members, and bookings. The tenant_id is auto-injected on every database operation — no cross-studio data leaks.\n\nMembers can browse the schedule, book classes, and manage their memberships. Instructors see their upcoming classes and attendance. Studio owners get a full dashboard with bookings, revenue, and member activity.",
       "appUrl": "https://studio.proappstore.online",
       "repo": "proappstore-online/studio",
       "cfProject": "proappstore-studio",
       "type": "connected",
       "developer": "ProAppStore",
       "proFeatures": [
-        "Bookings",
-        "Class schedules",
-        "Member management"
+        "Multi-tenant: each studio is fully isolated",
+        "Room and space management",
+        "Class scheduling with instructor assignment",
+        "Member booking and attendance tracking",
+        "Membership management",
+        "Owner dashboard with analytics"
       ]
     },
     {
@@ -111,16 +134,19 @@
       "icon": "🌱",
       "iconBg": "#2D7D7D",
       "description": "Hyper-local lawn care — neighbours share a mower, street by street.",
+      "about": "GrassKarma is a hyper-local lawn care sharing platform. Streets organize into groups. Someone in the group owns a mower and offers to cut lawns for neighbours. Karma points track who's contributing and who's receiving.\n\nEach street group is geocoded to a real address range. Members join by entering their street address — the platform matches them to the nearest group or creates a new one. Reviews and karma scores build trust within the group.\n\nBuilt on the premise that most suburban streets have 3-4 lawnmowers for 20+ houses. One shared mower, maintained by the group, cuts everyone's lawn on rotation. The app just coordinates who, when, and tracks the karma.",
       "appUrl": "https://grasskarma.proappstore.online",
       "repo": "proappstore-online/grasskarma",
       "cfProject": "proappstore-grasskarma",
       "type": "connected",
       "developer": "ProAppStore",
       "proFeatures": [
-        "Street groups",
-        "Mower discovery",
-        "Reviews",
-        "Recurring schedules"
+        "Street-level group formation (geocoded)",
+        "Mower discovery — who has one nearby",
+        "Karma tracking for contributions",
+        "Neighbour reviews and trust scores",
+        "Schedule rotation management",
+        "Push notifications for your mow day"
       ]
     },
     {
@@ -130,16 +156,20 @@
       "icon": "&#128230;",
       "iconBg": "#f5f3ff",
       "description": "Team kanban boards with real-time presence, assignees, and live collaboration.",
+      "about": "Kanban Pro is a real-time collaborative kanban board. Create workspaces, invite team members via shareable links, and manage tasks across customizable columns. See who's looking at the board right now with live presence indicators.\n\nEvery action — moving a card, editing a title, assigning a member — syncs instantly across all connected browsers via WebSocket rooms. No refresh needed. Drag-and-drop cards between columns. Assign team members to cards. Add status, ETA, requirements, and acceptance criteria.\n\nCards support @mentions that trigger push notifications. Filter the board by assignee, status, or search text. The \"Launched\" column auto-caps at 10 cards with an expand toggle to keep the board fast.",
       "appUrl": "https://kanban.proappstore.online",
       "repo": "proappstore-online/kanban",
       "cfProject": "proappstore-kanban",
       "type": "connected",
       "developer": "ProAppStore",
       "proFeatures": [
-        "Real-time multiplayer",
-        "Assignees",
-        "Workspaces",
-        "Invites"
+        "Real-time collaboration (WebSocket rooms)",
+        "Live presence — see who's on the board",
+        "Drag-and-drop cards between columns",
+        "Assignees, @mentions with push notifications",
+        "Shareable invite links for teams",
+        "Status, ETA, requirements, acceptance criteria per card",
+        "Board filters: assignee, status, text search"
       ]
     },
     {
@@ -149,6 +179,7 @@
       "icon": "&#127928;",
       "iconBg": "#fef3c7",
       "description": "Find musicians, manage bands, discover events.",
+      "about": "Bandmates helps musicians find each other. Create a profile with your instruments, genres, experience level, and location. Browse other musicians in your area. Form bands, manage rehearsal schedules, and discover local music events.\n\nEach band gets a shared space with member management, a setlist builder, and a rehearsal calendar. Band members can chat in real-time. Event discovery shows local gigs, open mics, and jam sessions — searchable by genre, venue, and date.\n\nBuilt for the musician who just moved to a new city, the drummer looking for a weekend cover band, or the singer-songwriter who wants to find a guitarist for a duo.",
       "appUrl": "https://bandmates.proappstore.online",
       "repo": "proappstore-online/bandmates",
       "cfProject": "proappstore-bandmates",
@@ -156,10 +187,12 @@
       "type": "connected",
       "developer": "ProAppStore",
       "proFeatures": [
-        "Musician discovery",
-        "Band management",
-        "Real-time chat",
-        "Event RSVP"
+        "Musician profiles with instruments and genres",
+        "Location-based musician discovery",
+        "Band creation and member management",
+        "Real-time band chat (WebSocket rooms)",
+        "Rehearsal scheduling and calendar",
+        "Local event and gig discovery"
       ]
     }
   ],

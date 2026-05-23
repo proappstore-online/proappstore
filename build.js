@@ -211,7 +211,11 @@ for (const app of apps) {
     .replaceAll('{{APP_URL}}', esc(app.appUrl))
     .replaceAll('{{APP_HOST}}', esc(appHost))
     .replaceAll('{{REPO_URL}}', esc(repoUrl))
-    .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<div class="pro-feature-card">Premium features included</div>');
+    .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<div class="pro-feature-card">Premium features included</div>')
+    .replaceAll('{{ABOUT_HTML}}', (app.about || app.description || '')
+      .split('\n\n')
+      .map(p => `      <p style="color: var(--muted); line-height: 1.7; margin-top: 0.75rem;">${esc(p.trim())}</p>`)
+      .join('\n'));
   for (const [k, v] of Object.entries(sriHashes)) {
     detail = detail.replaceAll(`{{SRI_${k}}}`, v);
   }

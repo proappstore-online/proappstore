@@ -97,34 +97,8 @@
         </div>
       </div>
 
-      <div class="split-layout">
-        <div class="apps-pane">
-          <div class="apps-grid compact" id="apps-grid">
-            {{APPS_GRID}}
-          </div>
-        </div>
-
-        <aside class="preview-pane" id="previewPane" aria-label="App preview">
-          <div class="preview-toolbar">
-            <div class="preview-title" id="previewTitle">No app selected<span class="preview-host"></span></div>
-            <button class="preview-btn" id="previewNewTab" type="button" title="Open in new tab" aria-label="Open in new tab" hidden>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7"/><path d="M10 14L21 3"/><path d="M21 13v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7"/></svg>
-            </button>
-            <button class="preview-btn" id="previewClose" type="button" title="Close preview" aria-label="Close preview" hidden>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-          </div>
-          <div class="preview-body">
-            <div class="preview-empty" id="previewEmpty">
-              <span class="empty-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6,4 20,12 6,20"/></svg>
-              </span>
-              <span class="empty-title">Pick any Pro app to launch it here</span>
-              <span class="empty-tip">Sign in with your $9/mo subscription to unlock all of them.</span>
-            </div>
-            <iframe class="preview-frame" id="previewFrame" title="App preview" sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-downloads" referrerpolicy="no-referrer-when-downgrade" loading="lazy" hidden></iframe>
-          </div>
-        </aside>
+      <div class="apps-grid compact" id="apps-grid">
+        {{APPS_GRID}}
       </div>
     </section>
 
