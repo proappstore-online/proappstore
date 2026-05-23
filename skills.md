@@ -28,7 +28,7 @@ The paid counterpart to FreeAppStore. Premium web apps with subscriptions, real-
 
 ## Per-repo CLAUDE.md convention
 
-Same as FAS. Keep it minimal — only what's unique to that repo:
+Keep it minimal — only what's unique to that repo:
 
 ````markdown
 # <name>
@@ -282,7 +282,7 @@ import { useTheme } from '@proappstore/sdk/hooks'
 const { theme, preference, setPreference } = useTheme()
 // theme: 'light' | 'dark' (resolved)
 // preference: 'light' | 'dark' | 'system'
-// Stores in localStorage('fas:theme'), applies data-theme on <html>
+// Stores in localStorage('stores-theme'), applies data-theme on <html>
 ```
 
 #### useProNotifications hook
@@ -309,7 +309,7 @@ Full UI component docs: https://proappstore.online/docs/ui
 
 ## What Pro adds over Free
 
-| Feature | Free (FAS) | Pro (PAS) |
+| Feature | Free | Pro |
 |---------|-----------|-----------|
 | Auth + KV + Counters + Rooms + Proxy | Included | Included (same SDK) |
 | KV storage limit | 1MB/user | 10MB/user |
@@ -345,7 +345,7 @@ Platform monorepo packages:
 
 | Package | npm | Purpose |
 |---------|-----|---------|
-| `packages/sdk` | `@proappstore/sdk` | Unified SDK (FAS + Pro) |
+| `packages/sdk` | `@proappstore/sdk` | Full platform SDK |
 | `packages/cli` | `@proappstore/cli` | CLI for publishing |
 | `packages/backend` | private | CF Worker — Stripe, subscriptions, licenses |
 
@@ -365,6 +365,9 @@ Platform monorepo packages:
 
 ```bash
 npm i -g @proappstore/cli
+
+# Sign in with GitHub
+pas login
 
 # Create a new app (scaffolds repo + provisions D1 + R2 + data worker)
 pas create my-app
@@ -422,7 +425,7 @@ my-app/
 
 ## Platform Rules
 
-1. **One SDK import.** Use `@proappstore/sdk` — it includes everything from FAS + Pro features.
+1. **One SDK import.** Use `@proappstore/sdk` — it includes all platform features.
 2. **ProShell or SDK components.** Use `<ProShell>` or individual `@proappstore/sdk/ui` components for auth/subscription UI. No custom sign-in buttons.
 3. **No inline secrets.** Use `app.proxy.fetch()` for third-party APIs — it injects keys server-side.
 4. **No in-app payments.** Monetization is through the platform subscription only. Don't gate features behind separate payments.
@@ -454,7 +457,7 @@ my-app/
 - **Do NOT ask for API tokens or secrets.** All infra is automated.
 - **Do NOT deploy manually.** Push to main = auto-deploy.
 - **Do NOT scaffold from scratch.** Use `pas create`.
-- **Do NOT import both SDKs.** `@proappstore/sdk` includes everything from FAS.
+- **Do NOT import `@freeappstore/sdk` directly.** `@proappstore/sdk` includes everything.
 - **Do NOT build custom auth UI.** Use SDK components (ProShell, ProfileMenu, SignInButton).
 - **Do NOT add tracking.** No GA, no pixels, no third-party analytics.
 - **Do NOT gate features behind payments.** Platform subscription covers everything.

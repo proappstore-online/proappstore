@@ -48,6 +48,9 @@
       <pre><code># Install the CLI
 npm i -g @proappstore/cli
 
+# Sign in with GitHub
+pas login
+
 # Create a new app (scaffolds + provisions database)
 pas create my-app
 
@@ -72,8 +75,7 @@ const app = initPro({ appId: 'my-app' })</code></pre>
         <thead><tr><th>Option</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>appId</code></td><td>(required)</td><td>Your app's unique identifier</td></tr>
-          <tr><td><code>fasApiBase</code></td><td><code>https://api.freeappstore.online</code></td><td>Auth API base URL</td></tr>
-          <tr><td><code>proApiBase</code></td><td><code>https://api.proappstore.online</code></td><td>Pro API base URL</td></tr>
+          <tr><td><code>proApiBase</code></td><td><code>https://api.proappstore.online</code></td><td>Platform API base URL</td></tr>
           <tr><td><code>dataApiBase</code></td><td><code>https://data-{appId}.proappstore.online</code></td><td>Per-app data worker URL</td></tr>
         </tbody>
       </table>
