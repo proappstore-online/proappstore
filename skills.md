@@ -376,6 +376,9 @@ pas whoami
 # Scaffold a new app from the template
 pas create my-app
 
+# Scaffold + create GitHub repo + push in one step
+pas create my-app --repo my-org/my-app
+
 # Check compliance before publishing
 pas check
 
@@ -395,7 +398,7 @@ pas logout
 pas --version
 ```
 
-`pas create` scaffolds from the template repo and provisions the D1 database + Data Worker. `pas publish` creates the CF Pages project, DNS record (`<id>.proappstore.online`), D1 database, and Data Worker. Developers own their own GitHub repos — the platform doesn't create or manage them.
+`pas create` scaffolds from the template repo and provisions the D1 database + Data Worker. The optional `--repo owner/name` flag creates a GitHub repo and pushes in one step. `pas publish` creates the CF Pages project, DNS record (`<id>.proappstore.online`), D1 database, and Data Worker. For repos outside `proappstore-online`, `pas publish` auto-sets the `CLOUDFLARE_API_TOKEN` deploy secret. Developers own their own GitHub repos — the platform doesn't create or manage them.
 
 ---
 
