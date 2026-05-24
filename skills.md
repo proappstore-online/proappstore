@@ -338,8 +338,9 @@ proappstore-online/platform     — monorepo (sdk, cli, backend, data-worker)
 proappstore-online/proappstore  — store site (static HTML)
 proappstore-online/dashboard    — user account management (React)
 proappstore-online/console      — creator console (React)
-proappstore-online/<app-name>   — individual app repos
 ```
+
+App repos live in the **creator's own GitHub account or org** — the platform doesn't create or manage them. Creators scaffold with `pas create`, push to their own repo, then `pas publish` to provision platform resources.
 
 Platform monorepo packages:
 
@@ -507,8 +508,8 @@ Tools: `list_apps`, `deploy_status`, `app_info`, `platform_guide`, `sdk_referenc
 ├── dashboard/      → proappstore-online/dashboard (user account)
 ├── mcp/            → proappstore-online/mcp (MCP server for AI agents)
 ├── apps/
-│   ├── meetup/     → proappstore-online/meetup
-│   ├── carsads/    → carsads-online/carsads
-│   └── ...
+│   ├── meetup/     → proappstore-online/meetup (platform default apps)
+│   ├── carsads/    → carsads-online/carsads (third-party creator)
+│   └── ...         (creators host apps in their own GitHub accounts)
 └── templates/      → app scaffolding
 ```
