@@ -53,17 +53,23 @@ pas login
 
 # Scaffold from the template
 pas create my-app
-
-# Start developing
 cd my-app
+
+# Develop locally
 pnpm dev
 
-# Provision platform resources (CF Pages, D1, Data Worker)
+# Provision platform resources (Pages, DNS, D1, Data Worker)
 pas publish
 
-# Deploy (push to main = auto-deploy via GitHub Actions)
+# Deploy (push to main = auto-deploy)
 git push origin main</code></pre>
-      <p>Your app is live at <code>proappstore-my-app.pages.dev</code>. Add a custom domain with <code>pas domain add my-app.proappstore.online</code>.</p>
+      <p>Your app is live at <code>my-app.proappstore.online</code>. DNS is set up automatically by <code>pas publish</code>.</p>
+
+      <h3>Other CLI commands</h3>
+      <pre><code>pas whoami            # show signed-in user
+pas check             # run compliance checks
+pas domain list       # manage custom domains
+pas logout            # sign out</code></pre>
 
       <h2>Installation</h2>
       <pre><code>npm i @proappstore/sdk

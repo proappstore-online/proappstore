@@ -369,20 +369,32 @@ npm i -g @proappstore/cli
 # Sign in with GitHub
 pas login
 
+# Check who you're signed in as
+pas whoami
+
 # Scaffold a new app from the template
 pas create my-app
 
 # Check compliance before publishing
 pas check
 
-# Provision platform resources (CF Pages, D1, Data Worker)
+# Provision platform resources (CF Pages, DNS, D1, Data Worker)
 pas publish
+
+# Manage custom domains
+pas domain add my-custom.com
+pas domain list
+pas domain verify my-custom.com
+pas domain remove my-custom.com
+
+# Sign out
+pas logout
 
 # Check CLI version
 pas --version
 ```
 
-`pas create` scaffolds from the template repo and provisions the D1 database + Data Worker. `pas publish` creates the CF Pages project and registers the app. Developers own their own GitHub repos — the platform doesn't create or manage them.
+`pas create` scaffolds from the template repo and provisions the D1 database + Data Worker. `pas publish` creates the CF Pages project, DNS record (`<id>.proappstore.online`), D1 database, and Data Worker. Developers own their own GitHub repos — the platform doesn't create or manage them.
 
 ---
 
@@ -411,17 +423,17 @@ my-app/
 
 ## How Deployment Works
 
-1. Developer runs `pas publish` → provisions CF Pages project + D1 + Data Worker
-2. Developer pushes to `main` → GitHub Actions builds (`pnpm build`)
-3. Built output deploys to Cloudflare Pages at `proappstore-<id>.pages.dev`
-4. Custom subdomain `<id>.proappstore.online` via `pas domain` (optional)
+1. Developer runs `pas publish` → provisions CF Pages project, DNS, D1, Data Worker
+2. App is live at `<id>.proappstore.online` immediately
+3. Developer pushes to `main` → GitHub Actions builds and deploys to Cloudflare Pages
+4. Every subsequent `git push` auto-deploys
 
 **Two distinct operations:**
-- **Publish** = provision platform resources (one-time, `pas publish`)
+- **Publish** = provision platform resources + DNS (one-time, `pas publish`)
 - **Deploy** = push code → live on Pages (automatic, every `git push`)
 
-**Developer owns:** GitHub repo, deploy workflow, `CLOUDFLARE_API_TOKEN` secret (org-level or per-repo).
-**Platform owns:** CF Pages project, D1 database, Data Worker, compliance checks.
+**Developer owns:** GitHub repo, deploy workflow.
+**Platform owns:** CF Pages project, DNS, D1 database, Data Worker, `CLOUDFLARE_API_TOKEN` (org-level secret), compliance checks.
 
 ---
 
