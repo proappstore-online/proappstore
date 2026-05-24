@@ -369,20 +369,20 @@ npm i -g @proappstore/cli
 # Sign in with GitHub
 pas login
 
-# Create a new app (scaffolds repo + provisions D1 + R2 + data worker)
+# Scaffold a new app from the template
 pas create my-app
 
 # Check compliance before publishing
 pas check
 
-# Publish to the store (submits for review)
+# Provision platform resources (CF Pages, D1, Data Worker)
 pas publish
 
 # Check CLI version
 pas --version
 ```
 
-`pas create` does everything: scaffolds from template, creates GitHub repo, provisions D1 database, sets up data worker, creates CF Pages project. Push to main = live.
+`pas create` scaffolds from the template repo and provisions the D1 database + Data Worker. `pas publish` creates the CF Pages project and registers the app. Developers own their own GitHub repos — the platform doesn't create or manage them.
 
 ---
 
@@ -411,15 +411,17 @@ my-app/
 
 ## How Deployment Works
 
-1. Developer pushes to `main`
-2. GitHub Actions builds (`pnpm build`)
-3. Built output uploads to R2 (`apps/<app-id>/`)
-4. Host worker serves from R2 at `<app-id>.proappstore.online`
-5. SDK npm packages auto-publish via OIDC (no tokens stored)
+1. Developer runs `pas publish` → provisions CF Pages project + D1 + Data Worker
+2. Developer pushes to `main` → GitHub Actions builds (`pnpm build`)
+3. Built output deploys to Cloudflare Pages at `proappstore-<id>.pages.dev`
+4. Custom subdomain `<id>.proappstore.online` via `pas domain` (optional)
 
 **Two distinct operations:**
-- **Deploy** = push code → live on subdomain (automatic, every push)
-- **Publish** = submit to store listing for review (manual, `pas publish`)
+- **Publish** = provision platform resources (one-time, `pas publish`)
+- **Deploy** = push code → live on Pages (automatic, every `git push`)
+
+**Developer owns:** GitHub repo, deploy workflow, `CLOUDFLARE_API_TOKEN` secret (org-level or per-repo).
+**Platform owns:** CF Pages project, D1 database, Data Worker, compliance checks.
 
 ---
 
