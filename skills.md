@@ -385,6 +385,19 @@ pas check
 # Provision platform resources (CF Pages, DNS, D1, Data Worker)
 pas publish
 
+# Connect a third-party API (one command, pre-configured)
+pas integrate openai        # prompts for API key, sets up proxy
+pas integrate amadeus       # prompts for client_id + client_secret
+pas integrate list          # show all available integrations
+
+# Or configure manually
+pas secret set MY_KEY <value>
+pas secret list
+pas secret rm MY_KEY
+pas proxy allow 'https://api.example.com/' --inject bearer --secret MY_KEY
+pas proxy list
+pas proxy deny 'https://api.example.com/'
+
 # Manage custom domains
 pas domain add my-custom.com
 pas domain list
@@ -399,6 +412,37 @@ pas --version
 ```
 
 `pas create` scaffolds from the template repo and provisions the D1 database + Data Worker. The optional `--repo owner/name` flag creates a GitHub repo and pushes in one step. `pas publish` creates the CF Pages project, DNS record (`<id>.proappstore.online`), D1 database, and Data Worker. For repos outside `proappstore-online`, `pas publish` auto-sets the `CLOUDFLARE_API_TOKEN` deploy secret. Developers own their own GitHub repos — the platform doesn't create or manage them.
+
+### Integrations
+
+`pas integrate <name>` connects third-party APIs with one command. The platform knows how each API authenticates — you just provide your credentials.
+
+**AI providers:**
+
+| Integration | Command | What you need |
+|---|---|---|
+| OpenAI (GPT, DALL-E) | `pas integrate openai` | API key from platform.openai.com |
+| Anthropic (Claude) | `pas integrate anthropic` | API key from console.anthropic.com |
+| Google AI (Gemini) | `pas integrate google-ai` | API key from aistudio.google.com |
+| OpenRouter | `pas integrate openrouter` | API key from openrouter.ai |
+| Replicate | `pas integrate replicate` | API key from replicate.com |
+| Stability AI | `pas integrate stability` | API key from stability.ai |
+| ElevenLabs (TTS) | `pas integrate elevenlabs` | API key from elevenlabs.io |
+
+**Data & services:**
+
+| Integration | Command | What you need |
+|---|---|---|
+| Amadeus (flights) | `pas integrate amadeus` | Client ID + Secret from developers.amadeus.com |
+| Spotify | `pas integrate spotify` | Client ID + Secret from developer.spotify.com |
+| GitHub API | `pas integrate github` | Personal access token from github.com |
+| OpenWeatherMap | `pas integrate openweathermap` | API key from openweathermap.org |
+| Stripe | `pas integrate stripe` | Secret key from dashboard.stripe.com |
+| RapidAPI | `pas integrate rapidapi` | API key from rapidapi.com |
+
+After integrating, use `app.proxy.fetch()` in your app — the platform handles auth, token refresh (for OAuth2), and secret injection server-side. Your API keys never touch the browser.
+
+Note: `app.ai` (Workers AI) is built into the platform and doesn't need integration. Use `pas integrate openai` etc. only if you need a specific provider's models beyond what Workers AI offers.
 
 ---
 
