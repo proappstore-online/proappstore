@@ -194,6 +194,28 @@
         "Rehearsal scheduling and calendar",
         "Local event and gig discovery"
       ]
+    },
+    {
+      "id": "micro",
+      "name": "Micro",
+      "category": "productivity",
+      "icon": "&#9998;",
+      "iconBg": "#eff6ff",
+      "description": "Collaborative whiteboard — infinite canvas with shapes, sticky notes, freehand drawing, and real-time sync.",
+      "about": "Micro is a collaborative whiteboard inspired by Miro. An infinite SVG canvas with pan, zoom, and a full shape toolkit: rectangles, ellipses, lines, freehand drawing, text, and sticky notes.\n\nSelect, move, and resize shapes with precision handles. Undo/redo with Cmd+Z. Boards auto-save to D1 — create multiple boards, rename them, and pick up where you left off. Keyboard shortcuts for every tool make it fast to switch between drawing modes.\n\nBuilt for brainstorming, wireframing, and visual collaboration. Real-time multiplayer with cursor presence is coming next.",
+      "appUrl": "https://micro.proappstore.online",
+      "repo": "proappstore-online/micro",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": [
+        "Infinite SVG canvas with pan and zoom",
+        "6 drawing tools: rect, ellipse, line, freehand, text, sticky",
+        "Select, move, resize with precision handles",
+        "Undo/redo (100-entry history stack)",
+        "Board persistence — create, rename, delete boards",
+        "Auto-save with debounce",
+        "Keyboard shortcuts for every tool"
+      ]
     }
   ],
   "developers": [
