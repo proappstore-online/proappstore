@@ -216,19 +216,6 @@
         "Auto-save with debounce",
         "Keyboard shortcuts for every tool"
       ]
-    },
-    {
-      "id": "test-provision",
-      "name": "Test Provision",
-      "category": "test",
-      "icon": "&#128295;",
-      "iconBg": "#f0f0f0",
-      "description": "Smoke test — will be deleted",
-      "appUrl": "https://test-provision.proappstore.online",
-      "repo": "proappstore-online/test-provision",
-      "cfProject": "proappstore-test-provision",
-      "type": "connected",
-      "developer": "ProAppStore"
     }
   ],
   "developers": [
