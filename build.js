@@ -202,7 +202,7 @@ for (const app of apps) {
     .replaceAll('{{NAME}}', esc(app.name))
     .replaceAll('{{DESCRIPTION}}', esc(app.description || ''))
     .replaceAll('{{CATEGORY}}', esc(app.category || ''))
-    .replaceAll('{{DEVELOPER}}', esc(app.developer || 'ProAppStore'))
+    .replaceAll('{{DEVELOPER}}', esc(app.developer || 'Unknown'))
     .replaceAll('{{DEV_GITHUB}}', esc(devGithub))
     .replaceAll('{{DEV_URL}}', esc(devUrl))
     .replaceAll('{{DEV_BIO}}', esc(devBio))
