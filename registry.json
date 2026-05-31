@@ -173,6 +173,30 @@
       ]
     },
     {
+      "id": "timetrack",
+      "name": "TimeTrack",
+      "category": "productivity",
+      "icon": "&#9201;",
+      "iconBg": "#f0fdf4",
+      "description": "Track time, manage projects, send invoices. Timers, day/week views, expense tracking, reports, and billing.",
+      "about": "TimeTrack is a time tracking and invoicing app inspired by Harvest. Start a timer or log hours manually against any project and task combination. Switch between day view (entry list with inline editing) and week view (spreadsheet grid with daily totals).\n\nOrganize work by clients, projects, and tasks. Set billing rates at the project, task, or user level. Track budgets with visual progress bars.\n\nLog expenses with categories (including unit-based pricing like mileage), attach receipt photos via R2 storage, and mark them billable. Create invoices from unbilled time and expenses, add tax and discounts, record payments.\n\nRun reports by client, project, task, or team member across any date range. See total hours, billable hours, and billable amounts. Export to CSV.",
+      "appUrl": "https://timetrack.proappstore.online",
+      "repo": "proappstore-online/timetrack",
+      "cfProject": "proappstore-timetrack",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": [
+        "Running timers with live elapsed display",
+        "Day view and week view (spreadsheet grid)",
+        "Projects with clients, billing rates, and budgets",
+        "Expense tracking with receipt uploads (R2)",
+        "Invoicing from tracked time and expenses",
+        "Reports by client, project, task, and team",
+        "Tax, discount, and payment terms on invoices",
+        "CSV export for all reports"
+      ]
+    },
+    {
       "id": "bandmates",
       "name": "Bandmates",
       "category": "social",
