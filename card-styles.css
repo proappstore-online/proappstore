@@ -8,3 +8,4 @@
 .app-card[data-id="kanban"] .app-icon { background: #f5f3ff; }
 .app-card[data-id="timetrack"] .app-icon { background: #f0fdf4; }
 .app-card[data-id="bandmates"] .app-icon { background: #fef3c7; }
+.app-card[data-id="micro"] .app-icon { background: #eff6ff; }

@@ -12,7 +12,7 @@
       "repo": "proappstore-online/meet",
       "cfProject": "proappstore-meet",
       "type": "connected",
-      "developer": "ProAppStore",
+      "developer": "Serge",
       "proFeatures": [
         "WebRTC video and audio calls",
         "Push notifications on join",
@@ -32,7 +32,7 @@
       "appUrl": "https://meetup.proappstore.online",
       "repo": "proappstore-online/meetup",
       "type": "connected",
-      "developer": "ProAppStore",
+      "developer": "Serge",
       "proFeatures": [
         "Create events with date, time, location, capacity",
         "Organize recurring groups around shared interests",
@@ -74,7 +74,7 @@
       "appUrl": "https://dating.proappstore.online",
       "repo": "proappstore-online/dating",
       "type": "connected",
-      "developer": "ProAppStore",
+      "developer": "Serge",
       "proFeatures": [
         "Swipe-style browsing with profile photos",
         "Mutual-match detection (both must like)",
@@ -95,7 +95,7 @@
       "appUrl": "https://loopride.proappstore.online",
       "repo": "proappstore-online/loopride",
       "type": "connected",
-      "developer": "ProAppStore",
+      "developer": "Serge",
       "proFeatures": [
         "Set up recurring routes with days and times",
         "Geocoded pickup/dropoff points on real maps",
@@ -117,7 +117,7 @@
       "repo": "proappstore-online/studio",
       "cfProject": "proappstore-studio",
       "type": "connected",
-      "developer": "ProAppStore",
+      "developer": "Serge",
       "proFeatures": [
         "Multi-tenant: each studio is fully isolated",
         "Room and space management",
@@ -139,7 +139,7 @@
       "repo": "proappstore-online/grasskarma",
       "cfProject": "proappstore-grasskarma",
       "type": "connected",
-      "developer": "ProAppStore",
+      "developer": "Serge",
       "proFeatures": [
         "Street-level group formation (geocoded)",
         "Mower discovery — who has one nearby",
@@ -161,7 +161,7 @@
       "repo": "proappstore-online/kanban",
       "cfProject": "proappstore-kanban",
       "type": "connected",
-      "developer": "ProAppStore",
+      "developer": "Serge",
       "proFeatures": [
         "Real-time collaboration (WebSocket rooms)",
         "Live presence — see who's on the board",
@@ -184,7 +184,7 @@
       "repo": "proappstore-online/timetrack",
       "cfProject": "proappstore-timetrack",
       "type": "connected",
-      "developer": "ProAppStore",
+      "developer": "Serge",
       "proFeatures": [
         "Running timers with live elapsed display",
         "Day view and week view (spreadsheet grid)",
@@ -209,7 +209,7 @@
       "cfProject": "proappstore-bandmates",
       "hostedOn": "r2",
       "type": "connected",
-      "developer": "ProAppStore",
+      "developer": "Serge",
       "proFeatures": [
         "Musician profiles with instruments and genres",
         "Location-based musician discovery",
@@ -230,7 +230,7 @@
       "appUrl": "https://micro.proappstore.online",
       "repo": "proappstore-online/micro",
       "type": "connected",
-      "developer": "ProAppStore",
+      "developer": "Serge",
       "proFeatures": [
         "Infinite SVG canvas with pan and zoom",
         "6 drawing tools: rect, ellipse, line, freehand, text, sticky",
@@ -245,7 +245,7 @@
   "developers": [
     {
       "id": "proappstore",
-      "name": "ProAppStore",
+      "name": "Serge",
       "github": "serge-ivo",
       "bio": "Platform team. Building the infrastructure, SDK, and first-party apps for proappstore.online.",
       "badges": [
