@@ -64,7 +64,11 @@ app.auth.onChange(user => { ... })
 app.auth.signIn()           // GitHub OAuth (default)
 app.auth.signIn('google')   // Google OAuth
 app.auth.signIn('apple')    // Apple OAuth
+await app.auth.signInWithEmail(email)  // Magic-link email sign-in
 app.auth.signOut()
+app.auth.user                        // Current user (or null)
+app.auth.token                       // Session token (for API calls)
+await app.auth.setDateOfBirth('2000-01-15')  // Set DOB (set-once, age >= 13)
 
 // Per-user KV storage
 await app.kv.set('key', value)
@@ -97,8 +101,13 @@ await app.subscription.openPortal(returnUrl)
 await app.db.execute('CREATE TABLE events (id TEXT PK, title TEXT, city TEXT)')
 const { rows } = await app.db.query('SELECT * FROM events WHERE city = ?', ['SF'])
 await app.db.execute('INSERT INTO events VALUES (?, ?, ?)', [id, 'Meetup', 'SF'])
+await app.db.batch([{ sql: 'INSERT ...', params: [...] }, { sql: 'UPDATE ...' }])  // transactional batch
+const tables = await app.db.tables()  // list user-created tables
+
 // File storage (images, videos, documents — backed by R2)
 await app.storage.upload('events/photo.jpg', file, 'image/jpeg')
+await app.storage.uploadPublic('avatar.jpg', file, 'image/jpeg')  // publicly accessible
+const url = app.storage.publicUrl('avatar.jpg')  // no-auth URL for <img src>
 const response = await app.storage.download('events/photo.jpg')
 const files = await app.storage.list()
 await app.storage.delete('events/photo.jpg')
@@ -113,6 +122,7 @@ const tileUrl = app.maps.staticUrl(-33.856, 151.215) // for <img>
 
 // Push notifications (Web Push)
 await app.notifications.subscribe()          // request permission + register SW
+await app.notifications.unsubscribe()        // unsubscribe
 await app.notifications.isSubscribed()       // check status
 await app.notifications.send('user-id', { title: 'Hey!', body: 'Event starting soon.', url: '/events/1' })
 await app.notifications.broadcast({ title: 'New feature!', body: 'Check it out.' })
@@ -152,6 +162,11 @@ const all = await app.roles.listAll()                // all assignments (owner-o
 // License keys
 const license = await app.license.current()
 await app.license.validate('KEY-123')
+
+// Usage tracking (auto-started by default, powers creator payouts)
+app.usage.start()   // start tracking (automatic unless opts.usage.auto === false)
+app.usage.stop()    // pause tracking
+app.usage.flush()   // flush pending events
 
 // Email (transactional — Resend-backed, 100/day per app)
 await app.email.send('alice@example.com', 'Confirmed!', '<h1>Your reservation is set.</h1>')
