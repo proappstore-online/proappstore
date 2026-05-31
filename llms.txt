@@ -1,6 +1,6 @@
 # ProAppStore
 
-> ProAppStore is a paid app marketplace where developers publish professional PWA apps at `<name>.proappstore.online`. Apps are built with TypeScript, React, and Vite, deployed via Cloudflare Pages. The platform provides an SDK with auth, per-app SQL databases, file storage (R2), real-time rooms (uncapped), Stripe subscriptions, server-side AI, maps, push notifications, and SMS. Developers set their own subscription prices; the platform takes a 10% commission. For the full AI agent guide, see [skills.md](https://proappstore.online/skills.md).
+> ProAppStore is a paid app marketplace where developers publish professional PWA apps at `<name>.proappstore.online`. Apps are built with TypeScript, React, and Vite, deployed via Cloudflare Pages. The platform provides an SDK with auth, per-app SQL databases, file storage (R2), real-time rooms (uncapped), Stripe subscriptions, server-side AI, maps, push notifications, and SMS. One $9/month subscription unlocks all Pro apps; creator payouts are split from the pool by usage share (minus 10% platform fee). For the full AI agent guide, see [skills.md](https://proappstore.online/skills.md).
 
 ## AI Agent Integration
 
