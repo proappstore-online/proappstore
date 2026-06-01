@@ -217,7 +217,7 @@ const results = await app.db.batch([
 const tables = await app.db.tables()</code></pre>
 
       <h2>Storage (File Upload)</h2>
-      <p>Upload images, videos, documents. Public files get direct URLs. Backed by Cloudflare R2.</p>
+      <p>Upload images, videos, documents. Public files get direct URLs. Backed by Cloudflare R2. Limit: 50 MB per file. HTML, JS, and SVG uploads are blocked for security.</p>
       <pre><code>// Private upload (owner-only access)
 await app.storage.upload('docs/resume.pdf', file, 'application/pdf')
 
@@ -251,7 +251,7 @@ const count = await app.counters.get('page-views')
 const all = await app.counters.list()</code></pre>
 
       <h2>Rooms (Real-time WebSocket)</h2>
-      <p>WebSocket rooms for chat, presence, multiplayer. Backed by Cloudflare Durable Objects.</p>
+      <p>WebSocket rooms for chat, presence, multiplayer. Backed by Cloudflare Durable Objects. Limits: 32 peers/room, 4 KB/message, 100 msg/s per peer, 24h idle eviction.</p>
       <pre><code>const room = app.rooms.join('lobby')
 
 room.send({ type: 'chat', text: 'hello' })
@@ -400,7 +400,7 @@ await app.webhooks.remove(id)</code></pre>
       <p>Manage webhooks visually in the <a href="https://console.proappstore.online">Console</a> under each app's detail page.</p>
 
       <h2>AI (Server-side LLM + Embeddings)</h2>
-      <p>Workers AI &mdash; text generation, chat, and embeddings included in the platform subscription. No API keys needed.</p>
+      <p>Workers AI &mdash; text generation, chat, and embeddings included in the platform subscription. No API keys needed. Limits: 16k char prompt, 1,024 max output tokens.</p>
       <pre><code>// Text generation ('fast' = Llama-3.1-8B, 'smart' = Llama-3.3-70B)
 const { text } = await app.ai.generate('Write a haiku about coding')
 const { text } = await app.ai.generate('Summarize...', { model: 'smart', maxTokens: 512 })
@@ -447,7 +447,7 @@ const all = await app.roles.listAll()
 // [{ userId: 'user-456', role: 'moderator' }, ...]</code></pre>
 
       <h2>Proxy (Secret-injecting API Proxy)</h2>
-      <p>Call third-party APIs without exposing keys to the client.</p>
+      <p>Call third-party APIs without exposing keys to the client. Limits: 10k requests/day, 100 KB request/response body, 5 secrets per app.</p>
       <pre><code>const response = await app.proxy.fetch('/openai/chat/completions', {
   method: 'POST',
   body: JSON.stringify({ model: 'gpt-4', messages: [...] }),
@@ -512,6 +512,34 @@ app.usage.flush()</code></pre>
       <pre><code># Add to your CLAUDE.md:
 See https://proappstore.online/skills.md for platform skills.</code></pre>
       <p><a href="/skills.md">View skills.md</a> for the full agent-readable reference.</p>
+
+      <h2>Platform Limits</h2>
+      <table>
+        <thead><tr><th>Resource</th><th>Limit</th></tr></thead>
+        <tbody>
+          <tr><td>Storage &mdash; file size</td><td>50 MB per file</td></tr>
+          <tr><td>Storage &mdash; blocked types</td><td>HTML, JS, SVG (security)</td></tr>
+          <tr><td>AI &mdash; prompt length</td><td>16,000 chars</td></tr>
+          <tr><td>AI &mdash; max output tokens</td><td>1,024</td></tr>
+          <tr><td>AI &mdash; models</td><td><code>fast</code> = Llama-3.1-8B, <code>smart</code> = Llama-3.3-70B</td></tr>
+          <tr><td>Rooms &mdash; peers per room</td><td>32</td></tr>
+          <tr><td>Rooms &mdash; message size</td><td>4 KB</td></tr>
+          <tr><td>Rooms &mdash; rate</td><td>100 msg/s per peer</td></tr>
+          <tr><td>Rooms &mdash; idle eviction</td><td>24 hours</td></tr>
+          <tr><td>Proxy &mdash; daily requests</td><td>10,000</td></tr>
+          <tr><td>Proxy &mdash; request/response body</td><td>100 KB each</td></tr>
+          <tr><td>Secrets per app</td><td>5</td></tr>
+          <tr><td>KV storage</td><td>10 MB per user</td></tr>
+          <tr><td>Notifications &mdash; p2p rate</td><td>30/min per app</td></tr>
+          <tr><td>Email &mdash; daily sends</td><td>100 per app</td></tr>
+          <tr><td>Webhooks per app</td><td>5</td></tr>
+          <tr><td>Webhook events</td><td><code>notification.sent</code>, <code>storage.uploaded</code></td></tr>
+          <tr><td>Logs &mdash; per batch</td><td>100 entries, 4 KB each</td></tr>
+          <tr><td>Listing tagline</td><td>60 chars</td></tr>
+          <tr><td>Listing description</td><td>5,000 chars</td></tr>
+          <tr><td>Listing screenshots</td><td>8</td></tr>
+        </tbody>
+      </table>
 
       <h2>Links</h2>
       <ul>

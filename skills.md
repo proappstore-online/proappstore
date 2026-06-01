@@ -329,7 +329,7 @@ Full UI component docs: https://proappstore.online/docs/ui
 | Auth + KV + Counters + Rooms + Proxy | Included | Included (same SDK) |
 | KV storage limit | 1MB/user | 10MB/user |
 | Per-app SQL database | No (use collections) | Yes (full D1, custom schema) |
-| Real-time rooms | 5 rooms, 50 user-hours/day | Uncapped |
+| Real-time rooms | 5 rooms, 50 user-hours/day | Uncapped rooms (32 peers/room, 4KB/msg, 100 msg/s/peer) |
 | Subscriptions (Stripe) | No | Yes |
 | File storage (R2) | No | Yes (images, videos, 50MB/file) |
 | Maps + geocoding + routing | No | Yes (OpenStreetMap, no Google keys) |
@@ -343,6 +343,31 @@ Full UI component docs: https://proappstore.online/docs/ui
 | Outbound webhooks | No | Yes (HMAC-signed, Zapier/Make/n8n) |
 | Custom domain | No | Yes |
 | Cron/scheduled | No | Coming |
+
+### Platform limits
+
+| Resource | Limit |
+|----------|-------|
+| **Storage** file size | 50 MB per file |
+| **Storage** blocked types | HTML, JS, SVG (security) |
+| **AI** prompt length | 16,000 chars |
+| **AI** max output tokens | 1,024 |
+| **AI** models | `fast` = Llama-3.1-8B, `smart` = Llama-3.3-70B |
+| **Rooms** peers per room | 32 |
+| **Rooms** message size | 4 KB |
+| **Rooms** rate | 100 msg/s per peer |
+| **Rooms** idle eviction | 24 hours |
+| **Proxy** daily requests | 10,000 |
+| **Proxy** request/response body | 100 KB each |
+| **Secrets** per app | 5 |
+| **Notifications** p2p rate | 30/min per app |
+| **Email** daily sends | 100 per app |
+| **Webhooks** per app | 5 |
+| **Webhooks** events | `notification.sent`, `storage.uploaded` |
+| **Listings** tagline | 60 chars |
+| **Listings** description | 5,000 chars |
+| **Listings** screenshots | 8 |
+| **Logs** per POST batch | 100 entries, 4 KB each |
 
 ---
 
