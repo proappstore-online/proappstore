@@ -371,6 +371,58 @@ Full UI component docs: https://proappstore.online/docs/ui
 
 ---
 
+## Agent Teams
+
+Every PAS project can have a team of AI agents (BA, Dev, QA) that build and test apps autonomously. PO drives the backlog; agents execute.
+
+### Ticket lifecycle
+
+```
+inbox → ba-refining → awaiting-approval → ready → dev-active → qa-active → done
+                                                       ↑              ↓
+                                                       └── qa-failed ──┘
+```
+
+Also: `cancelled` (PO kills it), `failed` (cost cap, iteration cap, or stuck).
+
+### Roles
+
+| Role | Job | Default tools |
+|------|-----|---------------|
+| BA | Refine ideas into specs with acceptance criteria | read-only |
+| Dev | Write app code with PAS SDK | scaffold_app, write_file, batch_write_files, read_file, search_files, provision_app |
+| QA | Verify acceptance criteria, review code quality | read_file, list_files, search_files |
+
+### Runtimes
+
+| Runtime | Provider | Key pattern |
+|---------|----------|-------------|
+| `cf-native` | Anthropic (Messages API) | BYO `ANTHROPIC_API_KEY` |
+| `openai-responses` | OpenAI (Responses API) | BYO `OPENAI_API_KEY` |
+
+Each role can use a different runtime + model. Keys come from PAS key vault.
+
+### API
+
+```
+POST   /v1/projects                              # create project
+GET    /v1/projects/:slug                         # get project
+PUT    /v1/projects/:slug/roles                   # set role configs
+POST   /v1/projects/:slug/tickets                 # create ticket (PO)
+GET    /v1/projects/:slug/tickets                 # list tickets (kanban)
+POST   /v1/projects/:slug/tickets/:id/transition  # move ticket
+POST   /v1/projects/:slug/tickets/:id/run         # run agent
+GET    /v1/projects/:slug/tickets/:id/messages    # message history
+GET    /v1/projects/:slug/cost                    # cost summary
+WS     /v1/projects/:slug/ws                      # real-time stream
+```
+
+### Cost controls
+
+Monthly cap per project (default $50). Token spend tracked per ticket per role. Cap hit → active tickets auto-fail. Max 5 QA→Dev iterations per ticket.
+
+---
+
 ## Architecture
 
 ```

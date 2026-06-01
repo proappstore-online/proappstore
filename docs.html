@@ -507,6 +507,68 @@ app.usage.flush()</code></pre>
         </tbody>
       </table>
 
+      <h2>Agent Teams (AI-powered development)</h2>
+      <p>Every PAS project can have a team of AI agents that build, review, and test your app. Agents run on Anthropic and OpenAI infrastructure &mdash; PAS provides the coordination layer, ticket board, and project tools.</p>
+
+      <h3>How it works</h3>
+      <ol>
+        <li><strong>PO creates a ticket</strong> with a raw idea ("Build a chess academy with game rooms and puzzles")</li>
+        <li><strong>BA agent</strong> refines it into a structured spec with acceptance criteria</li>
+        <li><strong>PO approves</strong> the spec</li>
+        <li><strong>Dev agent</strong> writes the code using PAS SDK, commits to GitHub</li>
+        <li><strong>QA agent</strong> reviews the code against acceptance criteria</li>
+        <li>If QA fails, it loops back to Dev (max 5 iterations)</li>
+        <li>When QA passes, the app deploys automatically</li>
+      </ol>
+
+      <h3>Ticket lifecycle (kanban)</h3>
+      <pre><code>inbox &rarr; ba-refining &rarr; awaiting-approval &rarr; ready &rarr; dev-active &rarr; qa-active &rarr; done
+                                                                 &uarr;              &darr;
+                                                                 &boxur;&horbar;&horbar; qa-failed &horbar;&horbar;&boxul;</code></pre>
+      <p>Each project gets its own kanban board in the console. Tickets transition automatically as agents complete their work. PO approves specs and can cancel tickets at any point.</p>
+
+      <h3>Three agent roles</h3>
+      <table>
+        <thead><tr><th>Role</th><th>Job</th><th>Tools</th></tr></thead>
+        <tbody>
+          <tr><td><strong>BA</strong></td><td>Refine raw ideas into specs with acceptance criteria, SDK primitives, file lists, out-of-scope</td><td>Read-only</td></tr>
+          <tr><td><strong>Dev</strong></td><td>Write app code using PAS SDK. React + Vite + TypeScript + Tailwind</td><td>scaffold_app, write_file, batch_write_files, read_file, search_files, get_deploy_status, provision_app</td></tr>
+          <tr><td><strong>QA</strong></td><td>Verify acceptance criteria. Check error handling, imports, dark mode, mobile, SDK usage</td><td>read_file, list_files, search_files, get_deploy_status</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Two runtime options</h3>
+      <table>
+        <thead><tr><th>Runtime</th><th>Provider</th><th>Models</th><th>How it works</th></tr></thead>
+        <tbody>
+          <tr><td><code>cf-native</code></td><td>Anthropic</td><td>Claude Sonnet, Opus, Haiku</td><td>Messages API with tool loop, runs in CF Worker</td></tr>
+          <tr><td><code>openai-responses</code></td><td>OpenAI</td><td>GPT-4o, GPT-5, o3-mini</td><td>Responses API with previous_response_id chaining</td></tr>
+        </tbody>
+      </table>
+      <p>Each role can use a different runtime and model. BYO API keys from the PAS key vault.</p>
+
+      <h3>Cost controls</h3>
+      <p>Each project has a monthly cost cap (default $50). Token spend is tracked per ticket, per role. When the cap is reached, active tickets auto-fail. Cost summary available via <code>GET /v1/projects/:slug/cost</code>.</p>
+
+      <h3>Real-time streaming</h3>
+      <p>Connect via WebSocket to <code>/v1/projects/:slug/ws</code> for live updates: ticket transitions, agent messages, tool calls, deploy status. The console renders this as a live activity feed.</p>
+
+      <h3>API</h3>
+      <pre><code>POST   /v1/projects                          # Create project
+GET    /v1/projects/:slug                     # Get project
+GET    /v1/projects/:slug/roles               # List role configs
+PUT    /v1/projects/:slug/roles               # Update role configs
+POST   /v1/projects/:slug/tickets             # Create ticket
+GET    /v1/projects/:slug/tickets             # List tickets (kanban)
+GET    /v1/projects/:slug/tickets/:id         # Get ticket details
+PATCH  /v1/projects/:slug/tickets/:id         # Update ticket
+POST   /v1/projects/:slug/tickets/:id/transition  # Transition status
+GET    /v1/projects/:slug/tickets/:id/messages    # Message history
+POST   /v1/projects/:slug/tickets/:id/messages    # Add message
+POST   /v1/projects/:slug/tickets/:id/run         # Run agent on ticket
+GET    /v1/projects/:slug/cost                    # Cost summary
+WS     /v1/projects/:slug/ws                      # Real-time stream</code></pre>
+
       <h2>AI Agent Integration</h2>
       <p>Point your Claude Code, Codex, or other AI agent at the machine-readable guide:</p>
       <pre><code># Add to your CLAUDE.md:
