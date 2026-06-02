@@ -522,9 +522,10 @@ app.usage.flush()</code></pre>
       </ol>
 
       <h3>Ticket lifecycle (kanban)</h3>
-      <pre><code>inbox &rarr; ba-refining &rarr; awaiting-approval &rarr; ready &rarr; dev-active &rarr; qa-active &rarr; done
+      <pre><code>inbox &rarr; ba-refining &rarr; awaiting-approval &rarr; ready &rarr; dev-active &rarr; qa-active &rarr; deploying &rarr; done
                                                                  &uarr;              &darr;
                                                                  &boxur;&horbar;&horbar; qa-failed &horbar;&horbar;&boxul;</code></pre>
+      <p><code>deploying</code> is an automatic system stage (push &rarr; verify the CI build for that commit), not an agent action.</p>
       <p>Each project gets its own kanban board in the console. Tickets transition automatically as agents complete their work. PO approves specs and can cancel tickets at any point.</p>
 
       <h3>Three agent roles</h3>
@@ -532,8 +533,8 @@ app.usage.flush()</code></pre>
         <thead><tr><th>Role</th><th>Job</th><th>Tools</th></tr></thead>
         <tbody>
           <tr><td><strong>BA</strong></td><td>Refine raw ideas into specs with acceptance criteria, SDK primitives, file lists, out-of-scope</td><td>Read-only</td></tr>
-          <tr><td><strong>Dev</strong></td><td>Write app code using PAS SDK. React + Vite + TypeScript + Tailwind</td><td>scaffold_app, write_file, batch_write_files, read_file, search_files, get_deploy_status, provision_app</td></tr>
-          <tr><td><strong>QA</strong></td><td>Verify acceptance criteria. Check error handling, imports, dark mode, mobile, SDK usage</td><td>read_file, list_files, search_files, get_deploy_status</td></tr>
+          <tr><td><strong>Dev</strong></td><td>Write app code using PAS SDK. React + Vite + TypeScript + Tailwind</td><td>write_file, batch_write_files, read_file, list_files, search_files, read_docs (deployment is an automatic system stage after QA — no deploy tools)</td></tr>
+          <tr><td><strong>QA</strong></td><td>Verify acceptance criteria. Check error handling, imports, dark mode, mobile, SDK usage. Ends with VERDICT: PASS / FAIL</td><td>read_file, list_files, search_files, read_docs</td></tr>
         </tbody>
       </table>
 

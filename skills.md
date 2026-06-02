@@ -405,20 +405,25 @@ Every PAS project can have a team of AI agents (BA, Dev, QA) that build and test
 ### Ticket lifecycle
 
 ```
-inbox → ba-refining → awaiting-approval → ready → dev-active → qa-active → done
+inbox → ba-refining → awaiting-approval → ready → dev-active → qa-active → deploying → done
                                                        ↑              ↓
                                                        └── qa-failed ──┘
 ```
 
-Also: `cancelled` (PO kills it), `failed` (cost cap, iteration cap, or stuck).
+Also: `cancelled` (PO kills it), `failed` (cost cap, iteration cap, or a deploy
+that can't be verified). **`deploying` is a deterministic system stage, not an
+agent** — after QA passes, the platform pushes the code, captures the commit SHA,
+and verifies the real CI build for that exact commit. Green → `done`; red → back
+to Dev with the compiler error. So "done" means "verified live", and agents
+cannot self-declare a deploy.
 
 ### Roles
 
-| Role | Job | Default tools |
-|------|-----|---------------|
-| BA | Refine ideas into specs with acceptance criteria | read-only |
-| Dev | Write app code with PAS SDK | scaffold_app, write_file, batch_write_files, read_file, search_files, provision_app |
-| QA | Verify acceptance criteria, review code quality | read_file, list_files, search_files |
+| Role | Job | Tools |
+|------|-----|-------|
+| BA | Refine ideas into specs with acceptance criteria | read-only (`read_file`, `list_files`, `search_files`, `read_docs`) |
+| Dev | Write app code with the PAS SDK | `write_file`, `batch_write_files`, `read_file`, `list_files`, `search_files`, `read_docs` — **no deploy/scaffold tools; deployment is automatic after QA** |
+| QA | Verify acceptance criteria + code quality; end the report with `VERDICT: PASS` or `VERDICT: FAIL` | `read_file`, `list_files`, `search_files`, `read_docs` |
 
 ### Runtimes
 
