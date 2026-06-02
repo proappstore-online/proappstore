@@ -289,6 +289,33 @@ if (gate !== 'ready') return <GateScreen gate={gate} app={app} appName="My App" 
 <Route path="/profile" element={<ProProfilePage app={app} />} />
 ```
 
+#### Exact component props (do NOT pass undocumented props — it fails `tsc`)
+
+These are the real signatures. Passing a prop not listed here is a compile error.
+
+```ts
+<ProShell app appName? allowFree? showThemeToggle?>{children}</ProShell>
+<Avatar user size? />                 // size defaults to 32
+<SignInButton app label? />           // ONLY app + label. NO `provider`, NO `onClick`.
+<ThemeToggle />                       // no props
+<TextSizeToggle />                    // no props
+<ProfileMenu app showThemeToggle? showBilling?>{children?}</ProfileMenu>
+<GateScreen gate app appName? />
+```
+
+**Multi-provider sign-in — common mistake.** `<SignInButton>` always calls
+`app.auth.signIn()` (GitHub); it has **no `provider` prop**. For Google/Apple,
+render your own button calling the auth method directly:
+
+```tsx
+<button onClick={() => app.auth.signIn('google')}>Sign in with Google</button>
+<button onClick={() => app.auth.signIn('apple')}>Sign in with Apple</button>
+```
+
+Also note: the `useProAuth(app)` hook's `signIn` is **zero-arg** (GitHub only). To
+choose a provider, call `app.auth.signIn(provider)` directly, not the hook's
+`signIn(provider)`.
+
 #### useTheme hook
 
 ```tsx
