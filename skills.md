@@ -63,7 +63,7 @@ await app.auth.init()
 app.auth.onChange(user => { ... })
 app.auth.signIn()           // GitHub OAuth (default)
 app.auth.signIn('google')   // Google OAuth
-app.auth.signIn('apple')    // Apple OAuth
+// providers are ONLY 'github' (default) and 'google'. There is NO 'apple' — signIn('apple') fails tsc.
 await app.auth.signInWithEmail(email)  // Magic-link email sign-in
 app.auth.signOut()
 app.auth.user                        // Current user (or null)
@@ -75,21 +75,21 @@ await app.auth.setDateOfBirth('2000-01-15')  // Set DOB (set-once, age >= 13)
 
 // Per-user KV storage
 await app.kv.set('key', value)
-await app.kv.get('key')
-await app.kv.list({ prefix: 'note:' })
-await app.kv.getMany(keys)
+await app.kv.get<T>('key')                 // → T | null
+await app.kv.list({ prefix: 'note:' })     // → string[] (KEYS only, no values — fetch each with kv.get)
+await app.kv.getMany(keys)                 // → Map<string, T> (use .get(k), NOT obj[k])
 await app.kv.delete('key')
 
 // Shared counters (cross-user, atomic)
-await app.counters.increment('views')
-await app.counters.get('views')
-await app.counters.list()
+await app.counters.increment('views')      // → number (new value)
+await app.counters.get('views')            // → number
+await app.counters.list()                  // → Record<string, number> (object keyed by name, NOT an array)
 
 // Real-time rooms (WebSocket)
 const room = app.rooms.join('room-id')
-room.send(data)
-room.onMessage(cb)
-room.onPeers(cb)
+room.send<T>(data)
+room.onMessage<T>(m => { /* m = { from: { uid, login }, data: T, at: number } — your payload is m.data, sender is m.from */ })
+room.onPeers(peers => { /* peers = { uid, login }[] */ })
 room.close()
 
 // Secret-injecting API proxy
@@ -102,22 +102,22 @@ await app.subscription.openPortal(returnUrl)
 
 // Per-app SQL database (full D1 access)
 await app.db.execute('CREATE TABLE events (id TEXT PK, title TEXT, city TEXT)')
-const { rows } = await app.db.query('SELECT * FROM events WHERE city = ?', ['SF'])
-await app.db.execute('INSERT INTO events VALUES (?, ?, ?)', [id, 'Meetup', 'SF'])
-await app.db.batch([{ sql: 'INSERT ...', params: [...] }, { sql: 'UPDATE ...' }])  // transactional batch
+const { rows } = await app.db.query<Event>('SELECT * FROM events WHERE city = ?', ['SF'])  // → { rows: Event[]; meta }. PASS <T> or rows are Record<string,unknown>[] (row.title is unknown → tsc errors).
+const r = await app.db.execute('INSERT INTO events VALUES (?, ?, ?)', [id, 'Meetup', 'SF'])  // → { meta: { changes, duration, last_row_id } }. NO .rows; the field is last_row_id (snake_case), not lastRowId.
+await app.db.batch([{ sql: 'INSERT ...', params: [...] }, { sql: 'UPDATE ...' }])  // transactional; → array of { rows, meta } (one per statement)
 const tables = await app.db.tables()  // list user-created tables
 
 // File storage (images, videos, documents — backed by R2)
-await app.storage.upload('events/photo.jpg', file, 'image/jpeg')
-await app.storage.uploadPublic('avatar.jpg', file, 'image/jpeg')  // publicly accessible
+await app.storage.upload('events/photo.jpg', file, 'image/jpeg')        // → { key, size, contentType, url }
+await app.storage.uploadPublic('avatar.jpg', file, 'image/jpeg')        // → { key, size, contentType, url }
 const url = app.storage.publicUrl('avatar.jpg')  // no-auth URL for <img src>
-const response = await app.storage.download('events/photo.jpg')
-const files = await app.storage.list()
+const response = await app.storage.download('events/photo.jpg')  // → Response (call .blob() / .arrayBuffer())
+const files = await app.storage.list()           // → { key, size, uploaded }[]  (it's .key, NOT .name; no .url — use publicUrl(key))
 await app.storage.delete('events/photo.jpg')
 
 // Maps (geocoding, routing, embeds — no Google API keys needed)
-const results = await app.maps.geocode('Sydney Opera House')
-const place = await app.maps.reverseGeocode(-33.856, 151.215)
+const results = await app.maps.geocode('Sydney Opera House')  // → GeoResult[]; each = { lat, lng, displayName, address, type, importance }. Use results[0].lat/.lng (NOT latitude/longitude).
+const place = await app.maps.reverseGeocode(-33.856, 151.215)  // → { lat, lng, displayName, address }
 const route = await app.maps.route({ lat: -33.856, lng: 151.215 }, { lat: -33.870, lng: 151.209 })
 // route.geometry (GeoJSON LineString), route.distanceMeters, route.durationSeconds
 const mapUrl = app.maps.embedUrl(-33.856, 151.215)  // for <iframe>
@@ -127,7 +127,7 @@ const tileUrl = app.maps.staticUrl(-33.856, 151.215) // for <img>
 await app.notifications.subscribe()          // request permission + register SW
 await app.notifications.unsubscribe()        // unsubscribe
 await app.notifications.isSubscribed()       // check status
-await app.notifications.send('user-id', { title: 'Hey!', body: 'Event starting soon.', url: '/events/1' })
+await app.notifications.send('user-id', { title: 'Hey!', body: 'Event starting soon.', url: '/events/1' })  // send/broadcast/notifyUser → { sent: number; failed: number }
 await app.notifications.broadcast({ title: 'New feature!', body: 'Check it out.' })
 await app.notifications.notifyUser('gh:123', {   // peer-to-peer (no creator check, 30/min)
   title: '@serge mentioned you', body: 'In "Wire the broadcast"',
@@ -145,7 +145,7 @@ const { text } = await app.ai.chat([
   { role: 'system', content: 'You are a yoga instructor.' },
   { role: 'user', content: 'What is downward dog?' },
 ])
-const { vectors } = await app.ai.embed(['vinyasa', 'restorative'])  // 'm3' or 'base'
+const { vectors } = await app.ai.embed(['vinyasa', 'restorative'], { model: 'm3' })  // model is an OPTIONS object { model: 'm3' | 'base' }, NOT a positional arg
 
 // Multi-tenant helpers (auto-scoped by tenant_id)
 const tx = app.db.tenant('studio-123')
@@ -155,12 +155,8 @@ const all = await tx.findMany('clients')
 await tx.update('clients', { id: 'c-1' }, { name: 'Alicia' })
 await tx.delete('clients', { id: 'c-1' })
 
-// Roles (app-level RBAC — default: owner, member, moderator, editor, viewer)
-await app.roles.assign('user-456', 'moderator')   // assign
-await app.roles.revoke('user-456', 'moderator')   // revoke
-const isMod = await app.roles.check('moderator')    // check current user's role
-const myRoles = await app.roles.myRoles()            // list current user's roles
-const all = await app.roles.listAll()                // all assignments (owner-only)
+// RBAC: there is NO `app.roles` in the SDK. Do role checks in `app.db` (e.g. a
+// roles table keyed by user id). Calling app.roles.* fails tsc.
 
 // License keys
 const license = await app.license.current()
