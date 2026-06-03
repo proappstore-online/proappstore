@@ -67,6 +67,9 @@ app.auth.signIn('apple')    // Apple OAuth
 await app.auth.signInWithEmail(email)  // Magic-link email sign-in
 app.auth.signOut()
 app.auth.user                        // Current user (or null)
+// The User is EXACTLY: { id: string; login: string; avatarUrl: string | null; dateOfBirth: string | null }
+// There is NO `name` and NO `email`. Use `user.login` to display, `user.id` (e.g. "gh:123") as the key.
+// `user.name` / `user.email` / `user.name ?? user.email` do NOT exist → they fail tsc and break the deploy.
 app.auth.token                       // Session token (for API calls)
 await app.auth.setDateOfBirth('2000-01-15')  // Set DOB (set-once, age >= 13)
 
