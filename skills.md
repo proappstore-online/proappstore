@@ -155,7 +155,11 @@ const all = await tx.findMany('clients')
 await tx.update('clients', { id: 'c-1' }, { name: 'Alicia' })
 await tx.delete('clients', { id: 'c-1' })
 
-// Roles (app-level RBAC — default roles: owner, member, moderator, editor, viewer)
+// Roles (app-level RBAC) — BUILT-IN platform feature. Use this for ANY permission
+// gating (admins, moderators, owner-only screens, member vs viewer). Don't roll
+// your own roles table or hardcode user ids. Default roles: owner, member,
+// moderator, editor, viewer (custom = pass any string). `owner` is auto-assigned
+// to the app creator.
 await app.roles.assign('gh:123', 'moderator')   // assign a role to a user
 await app.roles.revoke('gh:123', 'moderator')   // revoke
 const isMod = await app.roles.check('moderator') // → boolean (current user has the role?)
