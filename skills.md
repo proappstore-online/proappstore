@@ -155,8 +155,12 @@ const all = await tx.findMany('clients')
 await tx.update('clients', { id: 'c-1' }, { name: 'Alicia' })
 await tx.delete('clients', { id: 'c-1' })
 
-// RBAC: there is NO `app.roles` in the SDK. Do role checks in `app.db` (e.g. a
-// roles table keyed by user id). Calling app.roles.* fails tsc.
+// Roles (app-level RBAC — default roles: owner, member, moderator, editor, viewer)
+await app.roles.assign('gh:123', 'moderator')   // assign a role to a user
+await app.roles.revoke('gh:123', 'moderator')   // revoke
+const isMod = await app.roles.check('moderator') // → boolean (current user has the role?)
+const mine = await app.roles.myRoles()           // → string[] (current user's roles)
+const all = await app.roles.listAll()            // → RoleAssignment[] (owner-only)
 
 // License keys
 const license = await app.license.current()
