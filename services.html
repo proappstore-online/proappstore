@@ -120,6 +120,10 @@
 
   <script>
   (function() {
+    // Escape user-controlled strings before inserting into HTML (prevents XSS)
+    function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+    function escAttr(s) { return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
     var grid = document.getElementById('dev-grid');
     fetch('https://api.proappstore.online/v1/services/developers')
       .then(function(r) { return r.json(); })
@@ -130,25 +134,25 @@
           return;
         }
         grid.innerHTML = devs.map(function(d) {
-          var name = d.login || d.creatorId;
+          var name = esc(d.login || d.creatorId);
           var rate = (d.promptRateCents / 100).toFixed(2);
           var avatar = d.avatarUrl
-            ? '<img class="dev-avatar" src="' + d.avatarUrl + '" alt="' + name + '" loading="lazy" />'
-            : '<div class="dev-avatar" style="background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.5rem">' + name.charAt(0).toUpperCase() + '</div>';
-          var quality = d.qualityScore ? d.qualityScore.toFixed(1) + '/10' : '—';
-          var rating = d.avgRating ? d.avgRating.toFixed(1) + '/5' : '—';
-          var apps = d.appCount || 0;
-          var bio = d.bioServices ? '<span class="dev-card-bio">' + d.bioServices + '</span>' : '';
+            ? '<img class="dev-avatar" src="' + escAttr(d.avatarUrl) + '" alt="' + escAttr(d.login || d.creatorId) + '" loading="lazy" />'
+            : '<div class="dev-avatar" style="background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.5rem">' + name.charAt(0) + '</div>';
+          var quality = d.qualityScore ? d.qualityScore.toFixed(1) + '/10' : '\u2014';
+          var rating = d.avgRating ? d.avgRating.toFixed(1) + '/5' : '\u2014';
+          var apps = parseInt(d.appCount) || 0;
+          var bio = d.bioServices ? '<span class="dev-card-bio">' + esc(d.bioServices) + '</span>' : '';
           return '<div class="dev-card">'
             + avatar
             + '<div class="dev-card-body">'
             + '<span class="dev-card-name">' + name + '</span>'
             + bio
             + '<div class="dev-badges">'
-            + '<span class="dev-badge" style="background:var(--accent);color:#fff">$' + rate + '/prompt</span>'
+            + '<span class="dev-badge" style="background:var(--accent);color:#fff">$' + esc(rate) + '/prompt</span>'
             + '<span class="dev-badge">' + apps + ' apps</span>'
             + '</div>'
-            + '<span class="dev-card-stats">Quality: ' + quality + ' · Rating: ' + rating + ' · ' + d.completedEngagements + ' jobs done</span>'
+            + '<span class="dev-card-stats">Quality: ' + esc(quality) + ' \u00b7 Rating: ' + esc(rating) + ' \u00b7 ' + parseInt(d.completedEngagements || 0) + ' jobs done</span>'
             + '</div>'
             + '</div>';
         }).join('');
