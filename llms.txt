@@ -5,7 +5,8 @@
 ## AI Agent Integration
 
 - [skills.md](https://proappstore.online/skills.md): Complete platform guide for AI agents. Tech stack, SDK reference (auth, db, storage, subscriptions, rooms, AI, maps, push, SMS), CLI commands, deploy flow. Point your AI agent here.
-- [MCP Server](https://mcp.freeappstore.online/mcp): Remote MCP server (Streamable HTTP) covering the whole platform family. Connect with `npx mcp-remote https://mcp.freeappstore.online/mcp`.
+- [MCP Server](https://mcp.proappstore.online/mcp): Remote MCP server. Connect with `npx mcp-remote https://mcp.proappstore.online/mcp`. Beyond platform tools, **every published app can expose its own tools** (declared in an `mcp.json` manifest, registered automatically on publish) — an external AI calls them as `<app>/<tool>`. See skills.md › MCP Server.
+- **Agent customization**: Agent Teams build apps for you, and every agent's identity, system prompt, skills, and model are tunable per project (`GET /v1/projects/:slug/agents` to see them all; `PUT /v1/projects/:slug/roles` to tune the build roles). See skills.md › Agent Teams.
 - [Platform Skills (FAS)](https://freeappstore.online/skills.md): Shared platform guide covering conventions used across the store family.
 
 ## SDK

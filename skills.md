@@ -407,7 +407,7 @@ Full UI component docs: https://proappstore.online/docs/ui
 
 ## Agent Teams
 
-Every PAS project can have a team of AI agents (BA, Dev, QA) that build and test apps autonomously. PO drives the backlog; agents execute.
+Every PAS project has a team of AI agents that build and test apps autonomously. A **PO** drives the backlog (Build-tab chat), an **Architect** owns the Knowledge Base (Research-tab chat), and **BA/Dev/QA** execute the pipeline. Every agent's identity, prompt, skills, and model are tunable per project — see [Agent customization](#agent-customization).
 
 ### Ticket lifecycle
 
@@ -428,9 +428,11 @@ cannot self-declare a deploy.
 
 | Role | Job | Tools |
 |------|-----|-------|
+| PO | Build-tab chat: turn the founder's intent into the smallest shippable tickets; answer from the real code; own the backlog | `list_files`, `read_file`, `search_files`, `remember`, `create_ticket` |
+| Architect | Research-tab chat **+** build: research the app and author the Knowledge Base (`KNOWLEDGE.md` + `docs/`) the team builds against; design the app's MCP tool surface | `write_file`, `batch_write_files`, `read_file`, `list_files`, `search_files`, `read_docs`, `remember` |
 | BA | Refine ideas into specs with acceptance criteria | read-only (`read_file`, `list_files`, `search_files`, `read_docs`) |
-| Dev | Write app code with the PAS SDK | `write_file`, `batch_write_files`, `read_file`, `list_files`, `search_files`, `read_docs` — **no deploy/scaffold tools; deployment is automatic after QA** |
-| QA | Verify acceptance criteria + code quality; end the report with `VERDICT: PASS` or `VERDICT: FAIL` | `read_file`, `list_files`, `search_files`, `read_docs` |
+| Dev | Write app code with the PAS SDK; author the app's `mcp.json` so it's MCP-callable | `write_file`, `batch_write_files`, `read_file`, `list_files`, `search_files`, `read_docs` — **no deploy/scaffold tools; deployment is automatic after QA** |
+| QA | Write Playwright E2E specs that run against the live app on every deploy; a failing assertion routes the ticket back to Dev | `write_file` (specs only), `read_file`, `list_files`, `search_files`, `read_docs` |
 
 ### Runtimes
 
@@ -441,12 +443,28 @@ cannot self-declare a deploy.
 
 Each role can use a different runtime + model. Keys come from PAS key vault.
 
+### Agent customization
+
+Everything textual about an agent is data, scoped per project, and tunable — its
+**identity** (persona), its **system prompt**, the **skills** it can use, and its
+**model/runtime**. Override only what you need; the rest keeps the seeded default.
+
+- **See every agent** — `GET /v1/projects/:slug/agents` returns the resolved
+  catalog (each agent's identity, base system prompt, tools, model, runtime, and
+  whether it's running a default or a custom override). This is what powers "see
+  all prompts / skills / identities" in the Console.
+- **Tune the build roles** — `PUT /v1/projects/:slug/roles` sets `persona`
+  (identity), `systemPromptOverride`, `model`, `runtime`, `spineTools`, and
+  `maxTokens` per role. The Architect's persona is shared with its Research chat.
+
 ### API
 
 ```
 POST   /v1/projects                              # create project
 GET    /v1/projects/:slug                         # get project
-PUT    /v1/projects/:slug/roles                   # set role configs
+GET    /v1/projects/:slug/agents                  # resolved catalog of all agents (identity/prompt/skills/model)
+GET    /v1/projects/:slug/roles                   # get role configs
+PUT    /v1/projects/:slug/roles                   # set role configs (identity, prompt, model, tools…)
 POST   /v1/projects/:slug/tickets                 # create ticket (PO)
 GET    /v1/projects/:slug/tickets                 # list tickets (kanban)
 POST   /v1/projects/:slug/tickets/:id/transition  # move ticket
@@ -672,7 +690,45 @@ AI agents can connect to the ProAppStore MCP server for platform-aware tooling:
 }
 ```
 
-Tools: `list_apps`, `deploy_status`, `app_info`, `platform_guide`, `sdk_reference` (16 feature sections: auth, db, storage, maps, AI, subscriptions, rooms, hooks, UI, etc.)
+Platform tools: `list_apps`, `deploy_status`, `app_info`, `platform_guide`, `sdk_reference` (16 feature sections: auth, db, storage, maps, AI, subscriptions, rooms, hooks, UI, etc.), and `discover_tools` (list the per-app tools currently registered).
+
+### Your app can expose its own tools
+
+ProAppStore is **AI-first**: any app can publish tools to this MCP server, so an
+external AI can call the app's data operations as `<app_id>/<tool_name>`.
+
+Declare them in an **`mcp.json`** at the repo root — each tool is one
+parameterized SQL statement against your app's D1:
+
+```json
+{
+  "tools": [
+    {
+      "name": "list_items",
+      "description": "List the signed-in user's items, newest first",
+      "operation": "query",
+      "sql": "SELECT id, title FROM items WHERE user_id = :__user_id ORDER BY created_at DESC LIMIT :limit",
+      "params": { "limit": { "type": "integer", "default": 50, "max": 200, "optional": true } },
+      "requires_auth": true
+    }
+  ]
+}
+```
+
+- `operation`: `query` (a single `SELECT`, returns rows) or `execute` (a single
+  `INSERT`/`UPDATE`/`DELETE`; `UPDATE`/`DELETE` need a `WHERE`). No semicolons,
+  one statement, no DDL.
+- Bind values with `:name` placeholders declared in `params` (`string` /
+  `integer` / `number` / `boolean`).
+- Magic placeholders (don't declare them): `:__user_id` (the caller — forces
+  `requires_auth: true`), `:__now` (ms epoch), `:__uuid` (a fresh id).
+- Max 50 tools per app.
+
+**Registration is automatic.** `pas publish` registers a CLI app's `mcp.json`;
+the Agent Teams deploy stage registers an agent-built app's `mcp.json` after a
+green deploy. Then `discover_tools` shows it and `<app>/<tool>` calls it (tools
+with `requires_auth` run as the connected user). Full guide:
+[docs › MCP App Tools](https://proappstore.online/docs).
 
 ---
 
