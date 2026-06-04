@@ -105,6 +105,7 @@ await app.db.execute('CREATE TABLE events (id TEXT PK, title TEXT, city TEXT)')
 const { rows } = await app.db.query<Event>('SELECT * FROM events WHERE city = ?', ['SF'])  // → { rows: Event[]; meta }. PASS <T> or rows are Record<string,unknown>[] (row.title is unknown → tsc errors).
 const r = await app.db.execute('INSERT INTO events VALUES (?, ?, ?)', [id, 'Meetup', 'SF'])  // → { meta: { changes, duration, last_row_id } }. NO .rows; the field is last_row_id (snake_case), not lastRowId.
 await app.db.batch([{ sql: 'INSERT ...', params: [...] }, { sql: 'UPDATE ...' }])  // transactional; → array of { rows, meta } (one per statement)
+await app.db.migrate([{ name: '0001_init', sql: 'CREATE TABLE events (id TEXT PRIMARY KEY, title TEXT)' }])  // migrations are { name, sql } ONLY (no id/version/up/down). Each runs once, in order; idempotent.
 const tables = await app.db.tables()  // list user-created tables
 
 // File storage (images, videos, documents — backed by R2)
