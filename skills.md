@@ -693,6 +693,16 @@ AI agents can connect to the ProAppStore MCP server for platform-aware tooling:
 
 Platform tools: `list_apps`, `deploy_status`, `app_info`, `platform_guide`, `sdk_reference` (16 feature sections: auth, db, storage, maps, AI, subscriptions, rooms, hooks, UI, etc.), and `discover_tools` (list the per-app tools currently registered).
 
+### Drive the Agent Teams loop over MCP
+
+You can build an app end-to-end from your own AI client. Each tool takes a PAS
+session `token` (the owner's; the account needs a BYO Anthropic key for agents to
+run): `create_app`, `list_projects`, `get_project`, `build_knowledge_base`,
+`chat_agent` (`thread:'build'`→PO files tickets; `thread:'research'`→Architect
+revises the KB), `list_tickets`, `list_agents` (resolved agent catalog),
+`get_project_files`, `set_project_running` (play/pause), `set_project_budget`
+(monthly cost cap). See [Agent customization](https://proappstore.online/docs).
+
 ### Your app can expose its own tools
 
 ProAppStore is **AI-first**: any app can publish tools to this MCP server, so an
