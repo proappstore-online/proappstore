@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hire a Developer — ProAppStore</title>
+  <meta name="description" content="Hire a ProAppStore developer to build your app. Per-prompt billing, transparent pricing, quality-scored developers." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Hire a Developer — ProAppStore" />
+  <meta property="og:description" content="Find a developer, describe your app, watch it get built. Per-prompt billing." />
+  <meta property="og:url" content="https://proappstore.online/services" />
+  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://proappstore.online/services" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <script>(function(){try{var p=localStorage.getItem('stores-theme');var d=p==='dark'||(!p||p==='system')&&matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.dataset.theme='dark';var t=localStorage.getItem('stores-text-size');if(t)document.documentElement.dataset.text=t;}catch(e){}})()</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="brand" aria-label="ProAppStore">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7"/><path d="M4 7l8 6 8-6"/><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2"/></svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">ProAppStore</span>
+          <span class="brand-tag">Premium Web Apps</span>
+        </span>
+      </a>
+
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/docs">Docs</a>
+        <a href="/developers">Developers</a>
+        <a href="/services">Services</a>
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="https://freeappstore.online">Free</a>
+      </nav>
+
+      <div class="header-right">
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Hire a Developer</h1>
+      <p>Find a ProAppStore developer to build your app. Per-prompt billing — you only pay when the developer works.</p>
+    </div>
+
+    <div class="page-content">
+      <section class="section-spaced">
+        <h2 class="section-h2 strong">How it works</h2>
+        <div class="tile-grid-narrow">
+          <div class="feature-card">
+            <strong>1. Find a developer</strong>
+            <p>Browse profiles below or <a href="https://console.proappstore.online/#/services" class="text-accent-bold">post a build request</a> and let developers come to you.</p>
+          </div>
+          <div class="feature-card">
+            <strong>2. Top up your balance</strong>
+            <p>Add funds to your account (minimum $10). Your balance is only charged when the developer sends you a message.</p>
+          </div>
+          <div class="feature-card">
+            <strong>3. Chat &amp; build</strong>
+            <p>Describe what you want. The developer builds it in a live workspace — you can watch the progress in real time.</p>
+          </div>
+          <div class="feature-card">
+            <strong>4. Pay per prompt</strong>
+            <p>Each developer message costs their listed rate. 90% goes to the dev, 10% is the platform fee. No hourly billing, no surprises.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-spaced">
+        <h2 class="section-h2 strong">Available developers</h2>
+        <p class="lede">Sorted by quality score and experience. All developers build with the ProAppStore SDK.</p>
+        <div id="dev-grid" class="developers-grid" style="min-height:120px">
+          <p style="grid-column:1/-1;text-align:center;color:var(--muted)">Loading developers...</p>
+        </div>
+      </section>
+
+      <section class="section-spaced">
+        <h2 class="section-h2 strong">Want to build apps for others?</h2>
+        <p class="lede">Set your rate, create a profile, and start earning. <a href="https://console.proappstore.online/#/services" class="text-accent-bold">Open the console</a> to get started.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium apps for serious creators.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/docs">Docs</a>
+        <a href="/developers">Developers</a>
+        <a href="/services">Services</a>
+        <a href="https://console.proappstore.online">Console</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="https://freeappstore.online">FreeAppStore</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    var grid = document.getElementById('dev-grid');
+    fetch('https://api.proappstore.online/v1/services/developers')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var devs = data.developers || [];
+        if (!devs.length) {
+          grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--muted)">No developers available yet. Be the first — <a href="https://console.proappstore.online/#/services" style="color:var(--accent);font-weight:600">create a profile</a>.</p>';
+          return;
+        }
+        grid.innerHTML = devs.map(function(d) {
+          var name = d.login || d.creatorId;
+          var rate = (d.promptRateCents / 100).toFixed(2);
+          var avatar = d.avatarUrl
+            ? '<img class="dev-avatar" src="' + d.avatarUrl + '" alt="' + name + '" loading="lazy" />'
+            : '<div class="dev-avatar" style="background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.5rem">' + name.charAt(0).toUpperCase() + '</div>';
+          var quality = d.qualityScore ? d.qualityScore.toFixed(1) + '/10' : '—';
+          var rating = d.avgRating ? d.avgRating.toFixed(1) + '/5' : '—';
+          var apps = d.appCount || 0;
+          var bio = d.bioServices ? '<span class="dev-card-bio">' + d.bioServices + '</span>' : '';
+          return '<div class="dev-card">'
+            + avatar
+            + '<div class="dev-card-body">'
+            + '<span class="dev-card-name">' + name + '</span>'
+            + bio
+            + '<div class="dev-badges">'
+            + '<span class="dev-badge" style="background:var(--accent);color:#fff">$' + rate + '/prompt</span>'
+            + '<span class="dev-badge">' + apps + ' apps</span>'
+            + '</div>'
+            + '<span class="dev-card-stats">Quality: ' + quality + ' · Rating: ' + rating + ' · ' + d.completedEngagements + ' jobs done</span>'
+            + '</div>'
+            + '</div>';
+        }).join('');
+      })
+      .catch(function() {
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--muted)">Could not load developers. Try again later.</p>';
+      });
+  })();
+  </script>
+  <script src="/theme.js"></script>
+</body>
+</html>
