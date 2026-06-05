@@ -1,33 +1,34 @@
 /**
- * Proxy /app/* to the console CF Pages project (proappstore-console.pages.dev).
- * This lets the SPA live at proappstore.online/app/ while being deployed as a
- * separate CF Pages project. The proxy is transparent — the browser sees
- * proappstore.online/app/ as the origin, enabling shared auth (same origin =
- * shared localStorage, cookies, service worker scope).
+ * Proxy /app/* to the console CF Pages project.
  *
- * SPA fallback: any path under /app/ that doesn't match a static asset returns
- * the SPA's index.html (standard SPA routing behavior).
+ * The console SPA is built with `base: './'` (relative), so its HTML
+ * references assets as `./assets/...`. When served from /app/, the browser
+ * resolves these to /app/assets/..., which this proxy maps back to /assets/...
+ * on the console's Pages origin.
+ *
+ * Flow:
+ *   Browser: GET /app/assets/index-abc.js
+ *   Proxy:   GET proappstore-console.pages.dev/assets/index-abc.js
+ *   Browser: sees proappstore.online as the origin (shared auth)
  */
 
 const CONSOLE_ORIGIN = 'https://proappstore-console.pages.dev';
 
 export const onRequest: PagesFunction = async ({ request }) => {
   const url = new URL(request.url);
-  // Strip /app prefix — the console is deployed at the root of its Pages project
-  const path = url.pathname.replace(/^\/app\/?/, '/') || '/';
-  const proxyUrl = new URL(path, CONSOLE_ORIGIN);
-  proxyUrl.search = url.search;
+  // /app/foo → /foo on the console origin
+  const path = url.pathname.replace(/^\/app/, '') || '/';
+  const target = `${CONSOLE_ORIGIN}${path}${url.search}`;
 
-  const res = await fetch(proxyUrl.toString(), {
+  const res = await fetch(target, {
     method: request.method,
     headers: request.headers,
     body: request.method !== 'GET' && request.method !== 'HEAD' ? request.body : undefined,
   });
 
-  // If the console returned 404 (no matching static asset), serve index.html
-  // (SPA fallback — the React router handles client-side routing).
+  // SPA fallback: 404 on static assets → serve index.html
   if (res.status === 404) {
-    const fallback = await fetch(new URL('/index.html', CONSOLE_ORIGIN).toString());
+    const fallback = await fetch(`${CONSOLE_ORIGIN}/index.html`);
     return new Response(fallback.body, {
       status: 200,
       headers: {
@@ -37,17 +38,13 @@ export const onRequest: PagesFunction = async ({ request }) => {
     });
   }
 
-  // Pass through with appropriate caching
   const headers = new Headers(res.headers);
-  // Static assets (JS/CSS with hashes) get long cache; HTML gets no-cache
-  if (path.match(/\.(js|css|woff2|png|svg|ico|webp|json)$/)) {
+  // Hashed assets get long cache; everything else gets no-cache
+  if (/\.[0-9a-f]{8,}\.(js|css)$/.test(path) || /\.(woff2|png|svg|ico)$/.test(path)) {
     headers.set('Cache-Control', 'public, max-age=31536000, immutable');
-  } else {
+  } else if (path.endsWith('.html') || path === '/') {
     headers.set('Cache-Control', 'no-cache');
   }
 
-  return new Response(res.body, {
-    status: res.status,
-    headers,
-  });
+  return new Response(res.body, { status: res.status, headers });
 };
