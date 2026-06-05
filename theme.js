@@ -113,4 +113,30 @@
     overlay.addEventListener("click", closeMenu);
     nav.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", closeMenu); });
   }
+
+  // ── Cross-subdomain auth indicator ──
+  // Read the pas_token cookie (set by the console after sign-in) to show
+  // a signed-in state on the storefront. No API call — just a cookie check.
+  (function () {
+    var match = document.cookie.match(/(?:^|; )pas_token=([^;]*)/);
+    var headerRight = document.querySelector('.header-right');
+    if (!headerRight) return;
+    if (match && match[1]) {
+      // Signed in — show Console link
+      var link = document.createElement('a');
+      link.href = 'https://console.proappstore.online';
+      link.className = 'btn-primary';
+      link.style.cssText = 'font-size:0.8rem;padding:0.4rem 0.8rem';
+      link.textContent = 'Console';
+      headerRight.appendChild(link);
+    } else {
+      // Not signed in — show Sign In button
+      var btn = document.createElement('a');
+      btn.href = 'https://console.proappstore.online';
+      btn.className = 'btn-primary';
+      btn.style.cssText = 'font-size:0.8rem;padding:0.4rem 0.8rem';
+      btn.textContent = 'Sign In';
+      headerRight.appendChild(btn);
+    }
+  })();
 })();
