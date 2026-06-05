@@ -124,7 +124,7 @@
     if (match && match[1]) {
       // Signed in — show Console link
       var link = document.createElement('a');
-      link.href = 'https://console.proappstore.online';
+      link.href = '/app';
       link.className = 'btn-primary';
       link.style.cssText = 'font-size:0.8rem;padding:0.4rem 0.8rem';
       link.textContent = 'Console';
@@ -132,7 +132,7 @@
     } else {
       // Not signed in — show Sign In button
       var btn = document.createElement('a');
-      btn.href = 'https://console.proappstore.online';
+      btn.href = '/app';
       btn.className = 'btn-primary';
       btn.style.cssText = 'font-size:0.8rem;padding:0.4rem 0.8rem';
       btn.textContent = 'Sign In';
