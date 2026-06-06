@@ -593,34 +593,78 @@ app.usage.flush()</code></pre>
       </table>
       <p>The Build pipeline QA writes fast vitest tests (pure-function unit tests + jsdom component tests via <code>@testing-library/react</code>). These run in CI in seconds and gate the deploy. The Test tab's QA writes Playwright E2E specs against the live app &mdash; slower, more expensive, run on demand.</p>
 
-      <h3>Cost controls &amp; Spending tab</h3>
-      <p>Each project has a monthly cost cap (default $50). Token spend is tracked per ticket, per role, per model. When the cap is reached, active tickets auto-fail.</p>
-      <p>The <strong>Spending tab</strong> in the console shows:</p>
+      <h3>App scaffold (what you get on day one)</h3>
+      <p>Every new project starts with a <strong>fully functional app scaffold</strong> &mdash; not a blank page:</p>
       <ul>
-        <li>Total project spend (all time) with a role breakdown bar chart</li>
-        <li>Per-ticket cost with expandable per-role detail (Dev, QA, BA)</li>
-        <li>Full cost ledger: every agent action with timestamp, model, tokens in/out, and dollar cost</li>
+        <li><strong>Nav bar</strong> with app name, dark mode toggle, user avatar</li>
+        <li><strong>GitHub + Google sign-in</strong> buttons (platform handles OAuth)</li>
+        <li><strong>Profile page</strong> via SDK's <code>ProProfilePage</code></li>
+        <li><strong>Settings page</strong> with theme toggle + text size control</li>
+        <li><strong>Design system</strong> with 25+ CSS custom properties, dark mode, and component classes</li>
+        <li><strong>Vitest + Testing Library</strong> pre-configured</li>
+        <li><strong>CI/CD</strong> with deploy workflow, type-check on PR, VCQA code health scan</li>
       </ul>
-      <p>APIs: <code>GET /v1/projects/:slug/cost</code> (summary), <code>GET /v1/projects/:slug/cost/detail</code> (full breakdown).</p>
+      <p>The Dev agent writes your app features INTO this scaffold. No boilerplate to rebuild.</p>
+
+      <h3>Console tabs</h3>
+      <table>
+        <thead><tr><th>Tab</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Research</strong></td><td>Chat with the Architect to brainstorm and build the Knowledge Base (KNOWLEDGE.md + docs/). Live web search for market research.</td></tr>
+          <tr><td><strong>Build</strong></td><td>Kanban board with tasks. Chat with PO to create tickets. BA/Dev/QA run autonomously. Live agent text + elapsed timer + cost per ticket.</td></tr>
+          <tr><td><strong>Test</strong></td><td>QA agent chat + Playwright/vitest spec files. Click specs to preview code. Run Tests button triggers CI. Per-spec success rate trending.</td></tr>
+          <tr><td><strong>Control</strong></td><td>VCQA code health dashboard. 20+ checks (types, security, complexity, a11y, testing). Click "Fix" on any issue to create a ticket.</td></tr>
+          <tr><td><strong>Analytics</strong></td><td>Visitor analytics (Cloudflare Workers Analytics Engine, cookieless) + SDK usage stats.</td></tr>
+          <tr><td><strong>Spending</strong></td><td>Cost breakdown by role, ticket, and model. Full ledger with token counts. Pricing info popup.</td></tr>
+          <tr><td><strong>Style</strong></td><td>Visual design token configurator: accent color, fonts, border radius, dark mode preview. Generates CSS applied app-wide.</td></tr>
+          <tr><td><strong>Settings</strong></td><td>Storefront listing, publishing, agent config, integrations, domains, roles, danger zone.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Board controls</h3>
+      <p>The Build board header has inline controls for the entire agent team:</p>
+      <ul>
+        <li><strong>Model per role</strong> &mdash; set each agent (BA/Dev/QA) to a different model (Haiku/Sonnet/Opus/GPT-4o) with one-click presets (Cheap/Balanced/Smart)</li>
+        <li><strong>Run timeout</strong> &mdash; 5-60 min per agent turn (prevents runaway cost on large tasks)</li>
+        <li><strong>Monthly cost cap</strong> &mdash; $10-$1000 auto-pause threshold</li>
+        <li><strong>Max output tokens</strong> &mdash; per role (2k-32k)</li>
+        <li><strong>Live cost badge</strong> &mdash; real-time $ + token count, flashes on change</li>
+        <li><strong>Deploy banner</strong> &mdash; live timer + build history with pass/fail</li>
+      </ul>
+
+      <h3>Cost controls &amp; Spending tab</h3>
+      <p>Each project has a monthly cost cap (default $50). Token spend is tracked per ticket, per role, per model. When the cap is reached, active tickets auto-fail. Agents use your <strong>BYO API key</strong> (Anthropic or OpenAI) &mdash; ProAppStore charges nothing on top.</p>
+      <table>
+        <thead><tr><th>Model</th><th>Input (per 1M tokens)</th><th>Output (per 1M tokens)</th><th>Typical Dev run</th></tr></thead>
+        <tbody>
+          <tr><td>claude-haiku-4.5</td><td>$0.80</td><td>$4</td><td>~$0.08</td></tr>
+          <tr><td>claude-sonnet-4</td><td>$3</td><td>$15</td><td>~$0.35</td></tr>
+          <tr><td>claude-opus-4</td><td>$15</td><td>$75</td><td>~$4.00</td></tr>
+          <tr><td>gpt-4o</td><td>$2.50</td><td>$10</td><td>~$0.25</td></tr>
+        </tbody>
+      </table>
 
       <h3>Real-time streaming</h3>
-      <p>Connect via WebSocket to <code>/v1/projects/:slug/ws</code> for live updates: ticket transitions, agent messages, tool calls, deploy status. The console renders this as a live activity feed.</p>
+      <p>All agent responses stream live via WebSocket &mdash; you see the agent's text as it types, tool calls as they execute, and cost accumulate in real time. No waiting for a response to finish.</p>
 
       <h3>API</h3>
-      <pre><code>POST   /v1/projects                          # Create project
-GET    /v1/projects/:slug                     # Get project
-GET    /v1/projects/:slug/roles               # List role configs
-PUT    /v1/projects/:slug/roles               # Update role configs
-POST   /v1/projects/:slug/tickets             # Create ticket
-GET    /v1/projects/:slug/tickets             # List tickets (kanban)
-GET    /v1/projects/:slug/tickets/:id         # Get ticket details
-PATCH  /v1/projects/:slug/tickets/:id         # Update ticket
-POST   /v1/projects/:slug/tickets/:id/transition  # Transition status
-GET    /v1/projects/:slug/tickets/:id/messages    # Message history
-POST   /v1/projects/:slug/tickets/:id/messages    # Add message
+      <pre><code>POST   /v1/projects                              # Create project
+GET    /v1/projects/:slug                         # Get project
+GET    /v1/projects/:slug/roles                   # List role configs
+PUT    /v1/projects/:slug/roles                   # Update role configs
+PUT    /v1/projects/:slug/budget                  # Update timeout + cost cap
+POST   /v1/projects/:slug/tickets                 # Create ticket
+GET    /v1/projects/:slug/tickets                 # List tickets (kanban)
+PATCH  /v1/projects/:slug/tickets/:id             # Update ticket
 POST   /v1/projects/:slug/tickets/:id/run         # Run agent on ticket
+POST   /v1/projects/:slug/chat                    # Chat (PO, Architect, QA)
 GET    /v1/projects/:slug/cost                    # Cost summary
-GET    /v1/projects/:slug/cost/detail             # Full breakdown (by ticket, role, ledger)
+GET    /v1/projects/:slug/cost/detail             # Full breakdown
+GET    /v1/projects/:slug/test-history            # Test run history + trending
+POST   /v1/projects/:slug/run-tests              # Trigger Playwright run
+POST   /v1/projects/:slug/generate-listing        # AI-generate listing copy
+GET    /v1/projects/:slug/files                   # Working-tree file list
+GET    /v1/projects/:slug/files/content?path=     # File content
 WS     /v1/projects/:slug/ws                      # Real-time stream</code></pre>
 
       <h2>AI Agent Integration</h2>
