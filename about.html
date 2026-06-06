@@ -12,6 +12,47 @@
   <meta property="og:image" content="https://proappstore.online/icon-512.png" />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://proappstore.online/about" />
+  <script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://proappstore.online/"},
+          {"@type": "ListItem", "position": 2, "name": "About"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is ProAppStore?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ProAppStore is a collection of web apps that go beyond what a basic website can do. These apps have databases, file storage, real-time collaboration, maps, and payment processing built in. They run in your browser on any device."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does it work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Browse apps on the site, click Open to load instantly in your browser. Sign in once with GitHub — one sign-in works across every app. Your data lives in the cloud so you can use apps on any device."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What makes Pro apps different from Free apps?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Free apps on FreeAppStore store data locally on your device. Pro apps add cloud databases, real-time collaboration, file uploads, maps, and payment processing — features that require server infrastructure."
+            }
+          }
+        ]
+      }
+    ]
+  }</script>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <script>(function(){try{var p=localStorage.getItem('stores-theme');var d=p==='dark'||(!p||p==='system')&&matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.dataset.theme='dark';var t=localStorage.getItem('stores-text-size');if(t)document.documentElement.dataset.text=t;}catch(e){}})()</script>
