@@ -238,6 +238,32 @@ header .container {
 .btn-primary:hover { background: var(--accent-hover); text-decoration: none; color: #fff; }
 .btn-primary:active { transform: translateY(1px); }
 
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.6rem 1.35rem; border-radius: 10px;
+  font-size: 0.9rem; font-weight: 600;
+  color: var(--accent); background: transparent;
+  border: 2px solid var(--accent);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-outline:hover { background: var(--accent); color: #fff; text-decoration: none; }
+
+.dev-cta-box {
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  display: flex; align-items: center; gap: 2rem;
+  flex-wrap: wrap;
+}
+.dev-cta-box .dev-cta-text { flex: 1; min-width: 240px; }
+.dev-cta-box .dev-cta-text h2 { margin-bottom: 0.5rem; }
+.dev-cta-box .dev-cta-text p { color: var(--muted); line-height: 1.6; }
+.dev-cta-box .dev-cta-actions {
+  display: flex; gap: 0.75rem; flex-shrink: 0; flex-wrap: wrap;
+}
+
 /* Promote auth.js's Sign-in link to the same blue pill in the storefront header. */
 .header-right .nav-signin {
   display: inline-flex;
