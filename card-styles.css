@@ -9,3 +9,12 @@
 .app-card[data-id="timetrack"] .app-icon { background: #f0fdf4; }
 .app-card[data-id="bandmates"] .app-icon { background: #fef3c7; }
 .app-card[data-id="micro"] .app-icon { background: #eff6ff; }
+.app-card[data-id="clean-up"] .app-icon { background: #ecfdf5; }
+.app-card[data-id="dog-walking-app"] .app-icon { background: #fef3c7; }
+.app-card[data-id="doordrop"] .app-icon { background: #fce7f3; }
+.app-card[data-id="flights"] .app-icon { background: #eff6ff; }
+.app-card[data-id="interns"] .app-icon { background: #f5f3ff; }
+.app-card[data-id="jobs"] .app-icon { background: #ecfdf5; }
+.app-card[data-id="prolang"] .app-icon { background: #fef3c7; }
+.app-card[data-id="room-rent"] .app-icon { background: #fce7f3; }
+.app-card[data-id="tt"] .app-icon { background: #eff6ff; }

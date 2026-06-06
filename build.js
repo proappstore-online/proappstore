@@ -63,26 +63,19 @@ const cardIconBackgrounds = apps
 
 const cards = apps.map((app) => {
   const letter = esc((app.name || '?').trim().charAt(0).toUpperCase());
-  const pf = (app.proFeatures || [])
-    .slice(0, 3)
-    .map((f) => `<span class="pro-badge-sm">${esc(f)}</span>`)
-    .join('');
-  // Wrap the card body in an anchor to the detail page; keep the "Open" CTA
-  // going straight to the live subdomain so users can launch in one click.
-  return `        <div class="app-card compact" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
+  const desc = esc(app.description || '');
+  return `        <div class="app-card" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
           <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
             <div class="app-icon" data-letter="${letter}">
-              <img src="${esc(app.appUrl)}/apple-touch-icon.png" alt="" loading="lazy" />
+              <img src="${esc(app.appUrl)}/icon-192.png" alt="" loading="lazy" onerror="this.style.display='none'" />
             </div>
             <div class="app-body">
               <span class="app-name">${esc(app.name)}</span>
-              <span class="app-meta">${esc(app.category)}${pf ? ' · ' + pf : ''}</span>
+              <span class="app-category">${esc(app.category)}</span>
+              <span class="app-desc">${desc}</span>
             </div>
           </a>
-          <a href="${esc(app.appUrl)}" target="_blank" rel="noopener" class="app-cta" aria-label="Open ${esc(app.name)}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6,4 20,12 6,20"/></svg>
-            <span class="cta-label">Open</span>
-          </a>
+          <a href="${esc(app.appUrl)}" target="_blank" rel="noopener" class="app-cta" aria-label="Open ${esc(app.name)}">Open</a>
         </div>`;
 }).join('\n');
 
@@ -272,24 +265,19 @@ for (const dev of developers) {
   // Reuse the compact card markup from the main page
   const devAppsHtml = devApps.map(app => {
     const letter = esc((app.name || '?').trim().charAt(0).toUpperCase());
-    const pf = (app.proFeatures || [])
-      .slice(0, 3)
-      .map(f => `<span class="pro-badge-sm">${esc(f)}</span>`)
-      .join('');
-    return `        <div class="app-card compact" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
+    const desc = esc(app.description || '');
+    return `        <div class="app-card" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
           <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
             <div class="app-icon" data-letter="${letter}">
-              <img src="${esc(app.appUrl)}/apple-touch-icon.png" alt="" loading="lazy" />
+              <img src="${esc(app.appUrl)}/icon-192.png" alt="" loading="lazy" onerror="this.style.display='none'" />
             </div>
             <div class="app-body">
               <span class="app-name">${esc(app.name)}</span>
-              <span class="app-meta">${esc(app.category)}${pf ? ' · ' + pf : ''}</span>
+              <span class="app-category">${esc(app.category)}</span>
+              <span class="app-desc">${desc}</span>
             </div>
           </a>
-          <a href="${esc(app.appUrl)}" target="_blank" rel="noopener" class="app-cta" aria-label="Open ${esc(app.name)}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6,4 20,12 6,20"/></svg>
-            <span class="cta-label">Open</span>
-          </a>
+          <a href="${esc(app.appUrl)}" target="_blank" rel="noopener" class="app-cta" aria-label="Open ${esc(app.name)}">Open</a>
         </div>`;
   }).join('\n');
 
