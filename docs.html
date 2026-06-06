@@ -456,7 +456,42 @@ const all = await app.roles.listAll()
       <h2>UI Components</h2>
       <p>Drop-in React components. Import from <code>@proappstore/sdk/ui</code>. Components use CSS custom properties so they blend into your app's theme.</p>
       <p><a href="/docs/ui">Full UI component library &amp; design tokens &rarr;</a></p>
-      <pre><code>import { Avatar, SignInButton, ThemeToggle, TextSizeToggle, ProfileMenu, ProfilePage } from '@proappstore/sdk/ui'</code></pre>
+      <pre><code>import { Avatar, SignInButton, ThemeToggle, TextSizeToggle, ProfileMenu, ProProfilePage } from '@proappstore/sdk/ui'</code></pre>
+
+      <h2>Design System (CSS Classes)</h2>
+      <p>Every app ships with a design system in <code>src/index.css</code>. Use these CSS classes and tokens instead of hardcoding Tailwind colors. Configure them visually in the <strong>Style tab</strong> of the console.</p>
+
+      <h3>CSS Custom Properties</h3>
+      <pre><code>var(--paper)         /* background (light: white, dark: black) */
+var(--ink)           /* text color */
+var(--muted)         /* secondary text */
+var(--accent)        /* brand/primary color */
+var(--accent-hover)  /* hover state */
+var(--accent-soft)   /* subtle accent background */
+var(--line)          /* borders */
+var(--panel)         /* card/panel background (glassmorphism) */
+var(--error)         /* error red */
+var(--success)       /* success green */
+var(--radius)        /* border radius (default 12px) */
+var(--shadow)        /* subtle shadow */</code></pre>
+      <p>Dark mode is automatic &mdash; tokens swap via <code>[data-theme="dark"]</code> or <code>prefers-color-scheme</code>.</p>
+
+      <h3>Ready-to-use Classes</h3>
+      <table>
+        <thead><tr><th>Class</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>.card</code></td><td>Bordered panel with shadow and hover effect</td></tr>
+          <tr><td><code>.btn .btn-primary</code></td><td>Accent-colored filled button</td></tr>
+          <tr><td><code>.btn .btn-secondary</code></td><td>Outlined button</td></tr>
+          <tr><td><code>.btn .btn-ghost</code></td><td>Transparent button (text only)</td></tr>
+          <tr><td><code>.input</code></td><td>Styled text input with focus ring</td></tr>
+          <tr><td><code>.badge .badge-accent</code></td><td>Accent-colored pill tag</td></tr>
+          <tr><td><code>.badge-success</code></td><td>Green pill tag</td></tr>
+          <tr><td><code>.badge-error</code></td><td>Red pill tag</td></tr>
+          <tr><td><code>.empty-state</code></td><td>Centered placeholder message</td></tr>
+          <tr><td><code>.display-font</code></td><td>Serif heading font (Fraunces)</td></tr>
+        </tbody>
+      </table>
 
       <h2>ProShell Component</h2>
       <p>A convenience wrapper that handles auth gates, subscription checks, and renders a topbar. Use hooks or <code>./ui</code> primitives for more control.</p>
