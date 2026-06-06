@@ -33,7 +33,7 @@
         </span>
       </a>
 
-      <nav>
+      <nav aria-label="Main navigation">
         <a href="/">Apps</a>
         <a href="/about">About</a>
         <a href="/pricing">Pricing</a>
@@ -207,6 +207,7 @@
         <a href="/about">About</a>
         <a href="/docs">Docs</a>
         <a href="/docs/ui">UI Library</a>
+        <a href="/docs/recipes">Recipes</a>
         <a href="/developers">Developers</a>
         <a href="/services">Services</a>
         <a href="/capabilities">Capabilities</a>
@@ -253,7 +254,7 @@
       { type: 'pause', delay: 500 },
       { type: 'cmd', prompt: '~/my-app $', text: 'pnpm dev', delay: 40 },
       { type: 'output', text: '', delay: 200 },
-      { type: 'highlight', text: '  VITE v8.0.10  ready in 180ms', delay: 400 },
+      { type: 'highlight', text: '  VITE v6.0.0  ready in 180ms', delay: 400 },
       { type: 'output', text: '', delay: 100 },
       { type: 'url', text: '  ➜  Local:   http://localhost:5173/', delay: 300 },
       { type: 'url', text: '  ➜  Network: http://192.168.1.42:5173/', delay: 200 },
@@ -326,7 +327,5 @@
     });
   </script>
   <script src="/theme.js"></script>
-  <script src="/prism.js" defer></script>
-  <script src="/prism-autodetect.js" defer></script>
 </body>
 </html>
