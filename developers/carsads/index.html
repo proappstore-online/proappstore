@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carsads — ProAppStore Developer</title>
+  <meta name="description" content="Car classifieds marketplace. Browse listings, post your car for sale, and connect with buyers." />
+  <meta property="og:type" content="profile" />
+  <meta property="og:title" content="Carsads — ProAppStore Developer" />
+  <meta property="og:description" content="Car classifieds marketplace. Browse listings, post your car for sale, and connect with buyers." />
+  <meta property="og:url" content="https://proappstore.online/developers/carsads/" />
+  <meta property="og:image" content="https://github.com/carsads-online.png?size=400" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://proappstore.online/developers/carsads/" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  <script>
+    (function(){try{var p=localStorage.getItem('stores-theme');var d=p==='dark'||(!p||p==='system')&&matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.dataset.theme='dark';var t=localStorage.getItem('stores-text-size');if(t)document.documentElement.dataset.text=t;}catch(e){}})();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/card-styles.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="brand" aria-label="ProAppStore">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7"/><path d="M4 7l8 6 8-6"/><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2"/></svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">ProAppStore</span>
+          <span class="brand-tag">Premium Web Apps</span>
+        </span>
+      </a>
+
+      <nav>
+        <a href="/">Apps</a>
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/docs">Docs</a>
+        <a href="/developers">Developers</a>
+        <a href="/services">Services</a>
+        <a href="/app/">Console</a>
+        <a href="https://freeappstore.online">Free</a>
+      </nav>
+
+      <div class="header-right">
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container detail">
+    <p class="breadcrumb"><a href="/developers">Developers</a>
+        <a href="/services">Services</a> <span aria-hidden="true">&rsaquo;</span> Carsads</p>
+
+    <section class="dev-profile">
+      <img class="dev-avatar-lg" src="https://github.com/carsads-online.png?size=200" alt="Carsads" loading="lazy" />
+      <div class="dev-profile-info">
+        <h1>Carsads</h1>
+        <p class="dev-bio">Car classifieds marketplace. Browse listings, post your car for sale, and connect with buyers.</p>
+        <div class="dev-badges"><span class="dev-badge founding-developer">Founding Dev</span></div>
+        <div class="dev-meta-row">
+          <span class="dev-meta-item">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Joined May 2026
+          </span>
+          <span class="dev-meta-item">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            1 app
+          </span>
+          <a href="https://github.com/carsads-online" target="_blank" rel="noopener" class="dev-meta-item dev-meta-link">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="dev-apps">
+      <h2>Apps by Carsads</h2>
+      <div class="apps-grid compact">
+                <div class="app-card compact" data-id="carsads" data-category="marketplace">
+          <a class="app-card-body" href="/apps/carsads/" aria-label="View Carsads details">
+            <div class="app-icon" data-letter="C">
+              <img src="https://carsads.proappstore.online/apple-touch-icon.png" alt="" loading="lazy" />
+            </div>
+            <div class="app-body">
+              <span class="app-name">Carsads</span>
+              <span class="app-meta">marketplace · <span class="pro-badge-sm">Post listings with multiple photos and detailed specs</span><span class="pro-badge-sm">Filter by make, model, year, price range, and location</span><span class="pro-badge-sm">Embedded map per listing (geocoded automatically)</span></span>
+            </div>
+          </a>
+          <a href="https://carsads.proappstore.online" target="_blank" rel="noopener" class="app-cta" aria-label="Open Carsads">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6,4 20,12 6,20"/></svg>
+            <span class="cta-label">Open</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium apps for serious creators.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/docs">Docs</a>
+        <a href="/docs/ui">UI Library</a>
+        <a href="/developers">Developers</a>
+        <a href="/services">Services</a>
+        <a href="/capabilities">Capabilities</a>
+        <a href="/roadmap">Roadmap</a>
+        <a href="/app/">Console</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="https://freeappstore.online">FreeAppStore</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/theme.js" integrity="sha256-PsYPLIQlZkPHEV3pkzRdw50dwLPRT6jFHCfWWn2u3Zo="></script>
+</body>
+</html>

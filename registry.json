@@ -240,6 +240,186 @@
         "Auto-save with debounce",
         "Keyboard shortcuts for every tool"
       ]
+    },
+    {
+      "id": "clean-up",
+      "name": "CleanMarket",
+      "category": "business",
+      "icon": "&#128167;",
+      "iconBg": "#ecfdf5",
+      "description": "Marketplace for cleaning services. Find cleaners, book appointments, manage schedules.",
+      "appUrl": "https://clean-up.proappstore.online",
+      "repo": "proappstore-online/clean-up",
+      "type": "connected",
+      "developer": "Serge",
+      "proFeatures": [
+        "Browse and book cleaning services",
+        "Service provider profiles with ratings",
+        "Appointment scheduling and calendar",
+        "Real-time messaging with providers",
+        "Payment tracking and invoicing",
+        "Review and rating system"
+      ]
+    },
+    {
+      "id": "dog-walking-app",
+      "name": "Dog Walking App",
+      "category": "lifestyle",
+      "icon": "&#128054;",
+      "iconBg": "#fef3c7",
+      "description": "Find and book dog walkers in your area. Track walks in real-time with GPS.",
+      "appUrl": "https://dog-walking-app.proappstore.online",
+      "repo": "proappstore-online/dog-walking-app",
+      "type": "connected",
+      "developer": "Serge",
+      "proFeatures": [
+        "Search for dog walkers nearby",
+        "Real-time walk tracking with GPS",
+        "Walker profiles with reviews",
+        "Booking and scheduling",
+        "Push notifications for walk updates",
+        "Payment and tipping"
+      ]
+    },
+    {
+      "id": "doordrop",
+      "name": "DoorDrop",
+      "category": "logistics",
+      "icon": "&#128230;",
+      "iconBg": "#fce7f3",
+      "description": "Local delivery marketplace. Send packages across town with trusted couriers.",
+      "appUrl": "https://doordrop.proappstore.online",
+      "repo": "proappstore-online/doordrop",
+      "type": "connected",
+      "developer": "Serge",
+      "proFeatures": [
+        "Post delivery requests with pickup and dropoff",
+        "Browse available deliveries nearby",
+        "Real-time delivery tracking",
+        "Courier ratings and reviews",
+        "In-app messaging with couriers",
+        "Secure payment processing"
+      ]
+    },
+    {
+      "id": "flights",
+      "name": "Flights",
+      "category": "travel",
+      "icon": "&#9992;",
+      "iconBg": "#eff6ff",
+      "description": "Search and compare flights. Track prices, save itineraries, and get fare alerts.",
+      "appUrl": "https://flights.proappstore.online",
+      "repo": "proappstore-online/flights",
+      "type": "connected",
+      "developer": "Serge",
+      "proFeatures": [
+        "Search flights across airlines",
+        "Price comparison and fare tracking",
+        "Save and share itineraries",
+        "Push notifications for price drops",
+        "Calendar integration",
+        "Multi-city trip planning"
+      ]
+    },
+    {
+      "id": "interns",
+      "name": "Interns",
+      "category": "business",
+      "icon": "&#127891;",
+      "iconBg": "#f5f3ff",
+      "description": "Internship management platform. Post positions, track applications, and manage cohorts.",
+      "appUrl": "https://interns.proappstore.online",
+      "repo": "proappstore-online/interns",
+      "type": "connected",
+      "developer": "Serge",
+      "proFeatures": [
+        "Post internship positions",
+        "Application tracking and review",
+        "Cohort management dashboard",
+        "Intern progress tracking",
+        "Mentor-intern matching",
+        "Certificate generation"
+      ]
+    },
+    {
+      "id": "jobs",
+      "name": "Jobs",
+      "category": "business",
+      "icon": "&#128188;",
+      "iconBg": "#ecfdf5",
+      "description": "Job board for the Pro platform. Browse, search, and save jobs. Apply with one click.",
+      "appUrl": "https://jobs.proappstore.online",
+      "repo": "proappstore-online/jobs",
+      "type": "connected",
+      "developer": "Serge",
+      "proFeatures": [
+        "Browse and search job listings",
+        "Filter by category, location, salary",
+        "Save jobs and track applications",
+        "One-click apply with profile",
+        "Push notifications for new matches",
+        "Company profiles and reviews"
+      ]
+    },
+    {
+      "id": "prolang",
+      "name": "ProLang",
+      "category": "education",
+      "icon": "&#127760;",
+      "iconBg": "#fef3c7",
+      "description": "Language learning with spaced repetition. Practice vocabulary, grammar, and conversation.",
+      "appUrl": "https://prolang.proappstore.online",
+      "repo": "proappstore-online/prolang",
+      "type": "connected",
+      "developer": "Serge",
+      "proFeatures": [
+        "Spaced repetition flashcards",
+        "Vocabulary and grammar exercises",
+        "Progress tracking and streaks",
+        "Multiple language support",
+        "Daily practice reminders",
+        "Leaderboards and achievements"
+      ]
+    },
+    {
+      "id": "room-rent",
+      "name": "Room Rent",
+      "category": "real-estate",
+      "icon": "&#127968;",
+      "iconBg": "#fce7f3",
+      "description": "Find and list short-term rentals. Browse rooms, contact hosts, and book stays.",
+      "appUrl": "https://room-rent.proappstore.online",
+      "repo": "proappstore-online/room-rent",
+      "type": "connected",
+      "developer": "Serge",
+      "proFeatures": [
+        "Browse rooms with photos and details",
+        "Location-based search with maps",
+        "Direct messaging with hosts",
+        "Booking and availability calendar",
+        "Review and rating system",
+        "Price comparison tools"
+      ]
+    },
+    {
+      "id": "tt",
+      "name": "TT \u2014 Time Tracker",
+      "category": "productivity",
+      "icon": "&#8986;",
+      "iconBg": "#eff6ff",
+      "description": "Track time across projects and clients. Reports, invoicing, and team dashboards.",
+      "appUrl": "https://tt.proappstore.online",
+      "repo": "proappstore-online/tt",
+      "type": "connected",
+      "developer": "Serge",
+      "proFeatures": [
+        "One-click time tracking",
+        "Project and client organization",
+        "Weekly and monthly reports",
+        "Team time dashboards",
+        "Export for invoicing",
+        "Calendar view of tracked time"
+      ]
     }
   ],
   "developers": [

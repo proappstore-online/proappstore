@@ -3,48 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProAppStore — Premium Web Apps</title>
-  <meta name="description" content="Premium web apps with subscriptions, AI, real-time collaboration." />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="ProAppStore — Premium Web Apps" />
-  <meta property="og:description" content="Premium web apps with subscriptions, AI, real-time collaboration." />
-  <meta property="og:url" content="https://proappstore.online/" />
-  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <title>Serge — ProAppStore Developer</title>
+  <meta name="description" content="Platform team. Building the infrastructure, SDK, and first-party apps for proappstore.online." />
+  <meta property="og:type" content="profile" />
+  <meta property="og:title" content="Serge — ProAppStore Developer" />
+  <meta property="og:description" content="Platform team. Building the infrastructure, SDK, and first-party apps for proappstore.online." />
+  <meta property="og:url" content="https://proappstore.online/developers/proappstore/" />
+  <meta property="og:image" content="https://github.com/serge-ivo.png?size=400" />
   <meta name="twitter:card" content="summary" />
-  <link rel="canonical" href="https://proappstore.online/" />
-  <!-- WebSite + SearchAction JSON-LD for sitelinks search; Organization for
-       knowledge-panel signal. -->
-  <script type="application/ld+json">{
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://proappstore.online/#website",
-        "url": "https://proappstore.online/",
-        "name": "ProAppStore",
-        "description": "Premium web apps with subscriptions, AI, real-time collaboration.",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://proappstore.online/?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://proappstore.online/#org",
-        "name": "ProAppStore",
-        "url": "https://proappstore.online/",
-        "logo": "https://proappstore.online/icon-512.png",
-        "sameAs": ["https://github.com/proappstore-online"]
-      }
-    ]
-  }</script>
+  <link rel="canonical" href="https://proappstore.online/developers/proappstore/" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
-  <!-- CSP lives in _headers (HTTP-header source of truth). -->
   <script>
     (function(){try{var p=localStorage.getItem('stores-theme');var d=p==='dark'||(!p||p==='system')&&matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.dataset.theme='dark';var t=localStorage.getItem('stores-text-size');if(t)document.documentElement.dataset.text=t;}catch(e){}})();
   </script>
@@ -87,17 +59,36 @@
     </div>
   </header>
 
-  <main class="container">
-    <h1 class="sr-only">ProAppStore — Premium Web Apps</h1>
-    <section class="apps-section" id="apps">
-      <div class="apps-header flush">
-        <div class="apps-header-title">
-          <h2>Pro Apps</h2>
-          <div class="count" id="apps-count">Premium web apps with subscriptions, real-time collaboration, AI, and more. One SDK, full power. $9/mo for everything.</div>
+  <main class="container detail">
+    <p class="breadcrumb"><a href="/developers">Developers</a>
+        <a href="/services">Services</a> <span aria-hidden="true">&rsaquo;</span> Serge</p>
+
+    <section class="dev-profile">
+      <img class="dev-avatar-lg" src="https://github.com/serge-ivo.png?size=200" alt="Serge" loading="lazy" />
+      <div class="dev-profile-info">
+        <h1>Serge</h1>
+        <p class="dev-bio">Platform team. Building the infrastructure, SDK, and first-party apps for proappstore.online.</p>
+        <div class="dev-badges"><span class="dev-badge platform">Platform</span><span class="dev-badge founding-developer">Founding Dev</span></div>
+        <div class="dev-meta-row">
+          <span class="dev-meta-item">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Joined May 2026
+          </span>
+          <span class="dev-meta-item">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            19 apps
+          </span>
+          <a href="https://github.com/serge-ivo" target="_blank" rel="noopener" class="dev-meta-item dev-meta-link">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
         </div>
       </div>
+    </section>
 
-      <div class="apps-grid compact" id="apps-grid">
+    <section class="dev-apps">
+      <h2>Apps by Serge</h2>
+      <div class="apps-grid compact">
                 <div class="app-card compact" data-id="meet" data-category="social">
           <a class="app-card-body" href="/apps/meet/" aria-label="View Meet details">
             <div class="app-icon" data-letter="M">
@@ -124,21 +115,6 @@
             </div>
           </a>
           <a href="https://meetup.proappstore.online" target="_blank" rel="noopener" class="app-cta" aria-label="Open Meetup">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6,4 20,12 6,20"/></svg>
-            <span class="cta-label">Open</span>
-          </a>
-        </div>
-        <div class="app-card compact" data-id="carsads" data-category="marketplace">
-          <a class="app-card-body" href="/apps/carsads/" aria-label="View Carsads details">
-            <div class="app-icon" data-letter="C">
-              <img src="https://carsads.proappstore.online/apple-touch-icon.png" alt="" loading="lazy" />
-            </div>
-            <div class="app-body">
-              <span class="app-name">Carsads</span>
-              <span class="app-meta">marketplace · <span class="pro-badge-sm">Post listings with multiple photos and detailed specs</span><span class="pro-badge-sm">Filter by make, model, year, price range, and location</span><span class="pro-badge-sm">Embedded map per listing (geocoded automatically)</span></span>
-            </div>
-          </a>
-          <a href="https://carsads.proappstore.online" target="_blank" rel="noopener" class="app-cta" aria-label="Open Carsads">
             <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6,4 20,12 6,20"/></svg>
             <span class="cta-label">Open</span>
           </a>
@@ -400,140 +376,6 @@
         </div>
       </div>
     </section>
-
-    <section class="section-spaced">
-      <h2 class="section-h2 strong">Platform features</h2>
-      <p class="lede">All Pro apps share these capabilities through one SDK. <a href="/skills.md" class="text-accent-bold">Read the docs →</a></p>
-      <div class="features-grid">
-                <div class="feature-card"><strong>Per-app SQL Database</strong><p>Full D1 access. Custom schema, indexes, joins. Your own isolated database.</p></div>
-        <div class="feature-card"><strong>Auth (GitHub SSO)</strong><p>Platform-level sign-in. One account across all Pro apps.</p></div>
-        <div class="feature-card"><strong>Real-time Rooms</strong><p>WebSocket fan-out. Chat, presence, multiplayer. No connection limits.</p></div>
-        <div class="feature-card"><strong>Stripe Subscriptions</strong><p>Checkout, billing portal, webhooks. Platform handles all payment flows.</p></div>
-        <div class="feature-card"><strong>Per-user KV + Counters</strong><p>User storage + shared atomic counters for votes, views, leaderboards.</p></div>
-        <div class="feature-card"><strong>File Storage (R2)</strong><p>Upload images, videos, documents. 50 MB per file. SDK: app.storage.upload().</p></div>
-        <div class="feature-card"><strong>Maps + Geocoding + Routing</strong><p>Geocode addresses, driving directions, embed maps. OpenStreetMap powered, no Google keys.</p></div>
-        <div class="feature-card"><strong>Push Notifications</strong><p>Web Push via VAPID. Subscribe users, send targeted or broadcast pushes.</p></div>
-        <div class="feature-card"><strong>SMS</strong><p>Twilio-backed text messages. Send reminders, confirmations, broadcasts. Creator-only.</p></div>
-        <div class="feature-card"><strong>Server-side AI</strong><p>Workers AI text generation, chat, and embeddings. Two model tiers, included in subscription.</p></div>
-        <div class="feature-card"><strong>ProShell + Hooks</strong><p>Platform auth gate + subscription wall. ProShell or hooks — you control the UI.</p></div>
-      </div>
-    </section>
-
-    <section id="how-creators-get-paid" class="section-spaced">
-      <h2 class="section-h2 strong">How creators get paid</h2>
-      <p class="lede">One subscription, every app — fairly split by usage.</p>
-      <div class="tile-grid-narrow">
-        <div class="feature-card">
-          <strong>No per-app prices</strong>
-          <p>$9/mo unlocks every Pro app. Creators don't set a price; you don't pick which app to pay for.</p>
-        </div>
-        <div class="feature-card">
-          <strong>Pool split by usage</strong>
-          <p>Each month, your $9 (minus the 10% platform fee) is divided across the apps <em>you</em> actually used, proportional to how much you used each one.</p>
-        </div>
-        <div class="feature-card">
-          <strong>Spotify-style payouts</strong>
-          <p>A creator's monthly payout = the sum of their slice from every subscriber who used their app. Land in their Stripe Connect account at month end.</p>
-        </div>
-        <div class="feature-card">
-          <strong>What that means for builders</strong>
-          <p>Don't gate features. Don't show upgrade prompts. Build something people use — your earnings track usage, nothing else.</p>
-        </div>
-      </div>
-      <p class="foot-note">
-        Full math + edge cases on the <a href="/pricing" class="text-accent-bold">pricing page</a>.
-      </p>
-    </section>
-
-    <section id="where" class="section-spaced">
-      <h2 class="section-h2 strong">Where everything lives</h2>
-      <p class="lede">A map of every URL across the stores. Bookmark this page.</p>
-
-      <div class="tile-grid">
-
-        <div class="feature-card">
-          <strong>For users</strong>
-          <p class="mt-half">
-            <a href="https://proappstore.online" class="text-accent-bold">proappstore.online</a> — pro storefront (you are here)<br/>
-            <a href="https://dashboard.proappstore.online" class="text-accent-bold">dashboard.proappstore.online</a> — account, subscription, preferences
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <strong>For developers</strong>
-          <p class="mt-half">
-            <a href="/app/" class="text-accent-bold">proappstore.online/app</a> — manage your apps, submit new ones for review<br/>
-            <a href="https://api.proappstore.online" class="text-accent-bold">api.proappstore.online</a> — backend (auth, D1, R2, Stripe, AI, SMS)<br/>
-            <a href="/skills.md" class="text-accent-bold">/skills.md</a> — SDK reference (this site)<br/>
-            <a href="https://github.com/proappstore-online" class="text-accent-bold">github.com/proappstore-online</a> — source code
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <strong>CLI</strong>
-          <p class="mt-half-mono">
-            npm i -g @proappstore/cli<br/>
-            pas create &lt;id&gt;<br/>
-            pas publish<br/>
-            pas check
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <strong>Pro apps live now</strong>
-          <p class="mt-half">
-            <a href="https://meet.proappstore.online" class="text-accent-bold">meet</a> ·
-            <a href="https://meetup.proappstore.online" class="text-accent-bold">meetup</a> ·
-            <a href="https://carsads.proappstore.online" class="text-accent-bold">carsads</a> ·
-            <a href="https://dating.proappstore.online" class="text-accent-bold">dating</a> ·
-            <a href="https://loopride.proappstore.online" class="text-accent-bold">loopride</a> ·
-            <a href="https://studio.proappstore.online" class="text-accent-bold">studio</a> ·
-            <a href="https://grasskarma.proappstore.online" class="text-accent-bold">grasskarma</a> ·
-            <a href="https://kanban.proappstore.online" class="text-accent-bold">kanban</a> ·
-            <a href="https://timetrack.proappstore.online" class="text-accent-bold">timetrack</a> ·
-            <a href="https://bandmates.proappstore.online" class="text-accent-bold">bandmates</a> ·
-            <a href="https://micro.proappstore.online" class="text-accent-bold">micro</a>
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <strong>Free sister stores</strong>
-          <p class="mt-half">
-            <a href="https://freeappstore.online" class="text-accent-bold">freeappstore.online</a> — free apps (FAS)<br/>
-            <a href="https://freegamestore.online" class="text-accent-bold">freegamestore.online</a> — free games (FGS)<br/>
-            <a href="https://freewebstore.online" class="text-accent-bold">freewebstore.online</a> — free one-page sites (FWS)
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <strong>Pro sister stores</strong>
-          <p class="mt-half">
-            <a href="https://prowebstore.online" class="text-accent-bold">prowebstore.online</a> — knowledge-graph CMS for serious sites (PWS)<br/>
-            <em class="text-muted">progamestore — org doesn't exist yet</em>
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <strong>Admin / publishing portals</strong>
-          <p class="mt-half">
-            <a href="https://publish.freeappstore.online" class="text-accent-bold">publish.freeappstore.online</a> — self-service publishing for free apps<br/>
-            <a href="https://admin.freeappstore.online" class="text-accent-bold">admin.freeappstore.online</a> — admin UI (Google sign-in; also handles pro provisioning)
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <strong>Source orgs on GitHub</strong>
-          <p class="mt-half-mono">
-            github.com/freeappstore-online<br/>
-            github.com/freegamestore-online<br/>
-            github.com/proappstore-online<br/>
-            github.com/freewebstore-online<br/>
-            github.com/prowebstore-online
-          </p>
-        </div>
-
-      </div>
-    </section>
   </main>
 
   <footer>
@@ -560,7 +402,6 @@
     </div>
   </footer>
 
-  <script src="/storefront.js" integrity="sha256-eD7opdrOaBJ088RmIZAmvsEF/FK8SKqHymjZbjty8nI=" defer></script>
   <script src="/theme.js" integrity="sha256-PsYPLIQlZkPHEV3pkzRdw50dwLPRT6jFHCfWWn2u3Zo="></script>
 </body>
 </html>
