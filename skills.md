@@ -38,7 +38,7 @@ Keep it minimal — only what's unique to that repo:
 - Subdomain: `<name>.proappstore.online`
 - Dev:    `pnpm install && pnpm dev`
 - Build:  `pnpm build`
-- Deploy: `git push origin main` (auto-deploys via Cloudflare Pages)
+- Deploy: `git push origin main` (auto-deploys via Cloudflare R2)
 
 For platform conventions, read
 https://proappstore.online/skills.md
@@ -623,7 +623,7 @@ my-app/
 
 1. Developer runs `pas publish` → provisions CF Pages project, DNS, D1, Data Worker
 2. App is live at `<id>.proappstore.online` immediately
-3. Developer pushes to `main` → GitHub Actions builds and deploys to Cloudflare Pages
+3. Developer pushes to `main` → GitHub Actions builds and deploys to Cloudflare R2
 4. Every subsequent `git push` auto-deploys
 
 **Two distinct operations:**
