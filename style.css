@@ -264,6 +264,37 @@ header .container {
   display: flex; gap: 0.75rem; flex-shrink: 0; flex-wrap: wrap;
 }
 
+.hero-btn {
+  display: inline-block; padding: 0.6rem 1.35rem; border-radius: 10px;
+  font-size: 0.9rem; font-weight: 600; text-decoration: none;
+  background: var(--accent); color: #fff;
+  transition: background 0.15s;
+}
+.hero-btn:hover { background: var(--accent-hover); color: #fff; text-decoration: none; }
+
+.tier-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem; margin-bottom: 2rem;
+}
+.tier {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+  padding: 2rem; text-align: center;
+}
+.tier.pro { border-color: var(--accent); }
+.tier h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; }
+.tier .price { font-size: 2.5rem; font-weight: 800; color: var(--ink-strong); margin-bottom: 0.5rem; }
+.tier .price small { font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+.tier .blurb { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.5; }
+.tier ul { text-align: left; list-style: none; padding: 0; }
+.tier ul li { font-size: 0.9rem; padding: 0.3rem 0; color: var(--ink); }
+.tier ul li::before { content: "✓ "; color: var(--accent); font-weight: 700; }
+
+/* Focus-visible for keyboard navigation */
+.app-card:focus-visible, .btn-primary:focus-visible, .btn-outline:focus-visible,
+.hero-btn:focus-visible, .app-cta:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+
 /* Promote auth.js's Sign-in link to the same blue pill in the storefront header. */
 .header-right .nav-signin {
   display: inline-flex;
@@ -541,81 +572,7 @@ footer .container {
 }
 .app-card .app-cta:hover { background: var(--accent-hover); color: #fff; text-decoration: none; }
 
-/* Legacy card styles preserved for detail pages */
-
-
-.app-card-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.app-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  flex-shrink: 0;
-}
-
-.app-card h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.app-card .tag {
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  background: var(--accent-soft);
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  width: fit-content;
-}
-
-.app-card p {
-  font-size: 0.92rem;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.app-card .app-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: auto;
-  padding-top: 0.5rem;
-}
-
 .app-card[hidden] { display: none !important; }
-
-.app-card .app-link {
-  font-size: 0.85rem;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.app-card .app-btn-open {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: white;
-  background: var(--accent);
-  padding: 0.4rem 1rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  transition: opacity 0.15s;
-}
-
-.app-card .app-btn-open:hover {
-  opacity: 0.85;
-}
-
-.app-card[hidden] { display: none; }
 
 /* Page content */
 .page-header {

@@ -9,7 +9,7 @@
   <meta property="og:title" content="Dog Walking App — ProAppStore" />
   <meta property="og:description" content="Find and book dog walkers in your area. Track walks in real-time with GPS." />
   <meta property="og:url" content="https://proappstore.online/apps/dog-walking-app/" />
-  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <meta property="og:image" content="https://dog-walking-app.proappstore.online/icon-512.png" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
@@ -27,15 +27,27 @@
   <link rel="canonical" href="https://proappstore.online/apps/dog-walking-app/" />
   <script type="application/ld+json">{
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Dog Walking App",
-    "description": "Find and book dog walkers in your area. Track walks in real-time with GPS.",
-    "applicationCategory": "lifestyle",
-    "operatingSystem": "Web",
-    "url": "https://dog-walking-app.proappstore.online",
-    "image": "https://proappstore.online/icon-512.png",
-    "offers": {"@type": "Offer", "price": "9", "priceCurrency": "USD"},
-    "isPartOf": {"@id": "https://proappstore.online/#website"}
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://proappstore.online/"},
+          {"@type": "ListItem", "position": 2, "name": "Apps", "item": "https://proappstore.online/"},
+          {"@type": "ListItem", "position": 3, "name": "Dog Walking App"}
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Dog Walking App",
+        "description": "Find and book dog walkers in your area. Track walks in real-time with GPS.",
+        "applicationCategory": "lifestyle",
+        "operatingSystem": "Web",
+        "url": "https://dog-walking-app.proappstore.online",
+        "image": "https://dog-walking-app.proappstore.online/icon-512.png",
+        "offers": {"@type": "Offer", "price": "9", "priceCurrency": "USD"},
+        "isPartOf": {"@id": "https://proappstore.online/#website"}
+      }
+    ]
   }</script>
 </head>
 <body>

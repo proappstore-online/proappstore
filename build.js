@@ -81,8 +81,8 @@ const cards = apps.map((app) => {
 
 const platformFeatures = [
   ['Per-app SQL Database', 'Full D1 access. Custom schema, indexes, joins. Your own isolated database.'],
-  ['Auth (GitHub SSO)', 'Platform-level sign-in. One account across all Pro apps.'],
-  ['Real-time Rooms', 'WebSocket fan-out. Chat, presence, multiplayer. No connection limits.'],
+  ['Auth (GitHub + Google + Email)', 'Platform-level sign-in. One account across all Pro apps.'],
+  ['Real-time Rooms', 'WebSocket fan-out. Chat, presence, multiplayer. Uncapped on Pro.'],
   ['Stripe Subscriptions', 'Checkout, billing portal, webhooks. Platform handles all payment flows.'],
   ['Per-user KV + Counters', 'User storage + shared atomic counters for votes, views, leaderboards.'],
   ['File Storage (R2)', 'Upload images, videos, documents. 50 MB per file. SDK: app.storage.upload().'],

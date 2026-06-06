@@ -9,7 +9,7 @@
   <meta property="og:title" content="GrassKarma — ProAppStore" />
   <meta property="og:description" content="Hyper-local lawn care — neighbours share a mower, street by street." />
   <meta property="og:url" content="https://proappstore.online/apps/grasskarma/" />
-  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <meta property="og:image" content="https://grasskarma.proappstore.online/icon-512.png" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
@@ -27,15 +27,27 @@
   <link rel="canonical" href="https://proappstore.online/apps/grasskarma/" />
   <script type="application/ld+json">{
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "GrassKarma",
-    "description": "Hyper-local lawn care — neighbours share a mower, street by street.",
-    "applicationCategory": "marketplace",
-    "operatingSystem": "Web",
-    "url": "https://grasskarma.proappstore.online",
-    "image": "https://proappstore.online/icon-512.png",
-    "offers": {"@type": "Offer", "price": "9", "priceCurrency": "USD"},
-    "isPartOf": {"@id": "https://proappstore.online/#website"}
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://proappstore.online/"},
+          {"@type": "ListItem", "position": 2, "name": "Apps", "item": "https://proappstore.online/"},
+          {"@type": "ListItem", "position": 3, "name": "GrassKarma"}
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "GrassKarma",
+        "description": "Hyper-local lawn care — neighbours share a mower, street by street.",
+        "applicationCategory": "marketplace",
+        "operatingSystem": "Web",
+        "url": "https://grasskarma.proappstore.online",
+        "image": "https://grasskarma.proappstore.online/icon-512.png",
+        "offers": {"@type": "Offer", "price": "9", "priceCurrency": "USD"},
+        "isPartOf": {"@id": "https://proappstore.online/#website"}
+      }
+    ]
   }</script>
 </head>
 <body>
