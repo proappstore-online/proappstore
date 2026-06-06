@@ -516,9 +516,9 @@ app.usage.flush()</code></pre>
         <li><strong>BA agent</strong> refines it into a structured spec with acceptance criteria</li>
         <li><strong>PO approves</strong> the spec</li>
         <li><strong>Dev agent</strong> writes the code using PAS SDK, commits to GitHub</li>
-        <li><strong>QA agent</strong> reviews the code against acceptance criteria</li>
-        <li>If QA fails, it loops back to Dev (max 5 iterations)</li>
-        <li>When QA passes, the app deploys automatically</li>
+        <li><strong>QA agent</strong> writes vitest unit + integration tests from the acceptance criteria</li>
+        <li>If tests fail in CI, it loops back to Dev (max 5 iterations)</li>
+        <li>When tests pass and CI is green, the app deploys automatically</li>
       </ol>
 
       <h3>Ticket lifecycle (kanban)</h3>
@@ -534,7 +534,7 @@ app.usage.flush()</code></pre>
         <tbody>
           <tr><td><strong>BA</strong></td><td>Refine raw ideas into specs with acceptance criteria, SDK primitives, file lists, out-of-scope</td><td>Read-only</td></tr>
           <tr><td><strong>Dev</strong></td><td>Write app code using PAS SDK. React + Vite + TypeScript + Tailwind</td><td>write_file, batch_write_files, read_file, list_files, search_files, read_docs (deployment is an automatic system stage after QA — no deploy tools)</td></tr>
-          <tr><td><strong>QA</strong></td><td>Verify acceptance criteria. Check error handling, imports, dark mode, mobile, SDK usage. Ends with VERDICT: PASS / FAIL</td><td>read_file, list_files, search_files, read_docs</td></tr>
+          <tr><td><strong>QA</strong></td><td>Write vitest unit + integration tests from acceptance criteria. Tests run in CI and gate the deploy. Ends with VERDICT: READY / BLOCKED</td><td>write_file, read_file, list_files, search_files, read_docs</td></tr>
         </tbody>
       </table>
 
@@ -548,8 +548,25 @@ app.usage.flush()</code></pre>
       </table>
       <p>Each role can use a different runtime and model. BYO API keys from the PAS key vault.</p>
 
-      <h3>Cost controls</h3>
-      <p>Each project has a monthly cost cap (default $50). Token spend is tracked per ticket, per role. When the cap is reached, active tickets auto-fail. Cost summary available via <code>GET /v1/projects/:slug/cost</code>.</p>
+      <h3>Testing strategy (two layers)</h3>
+      <table>
+        <thead><tr><th>Layer</th><th>Location</th><th>Tool</th><th>Who writes</th><th>When it runs</th></tr></thead>
+        <tbody>
+          <tr><td>Unit + integration</td><td><code>tests/unit/*.test.ts</code>, <code>tests/integration/*.test.tsx</code></td><td>vitest</td><td>QA agent (Build pipeline)</td><td>CI on every push</td></tr>
+          <tr><td>End-to-end</td><td><code>e2e/specs/*.spec.ts</code></td><td>Playwright</td><td>QA agent (Test tab)</td><td>On demand from Test tab</td></tr>
+        </tbody>
+      </table>
+      <p>The Build pipeline QA writes fast vitest tests (pure-function unit tests + jsdom component tests via <code>@testing-library/react</code>). These run in CI in seconds and gate the deploy. The Test tab's QA writes Playwright E2E specs against the live app &mdash; slower, more expensive, run on demand.</p>
+
+      <h3>Cost controls &amp; Spending tab</h3>
+      <p>Each project has a monthly cost cap (default $50). Token spend is tracked per ticket, per role, per model. When the cap is reached, active tickets auto-fail.</p>
+      <p>The <strong>Spending tab</strong> in the console shows:</p>
+      <ul>
+        <li>Total project spend (all time) with a role breakdown bar chart</li>
+        <li>Per-ticket cost with expandable per-role detail (Dev, QA, BA)</li>
+        <li>Full cost ledger: every agent action with timestamp, model, tokens in/out, and dollar cost</li>
+      </ul>
+      <p>APIs: <code>GET /v1/projects/:slug/cost</code> (summary), <code>GET /v1/projects/:slug/cost/detail</code> (full breakdown).</p>
 
       <h3>Real-time streaming</h3>
       <p>Connect via WebSocket to <code>/v1/projects/:slug/ws</code> for live updates: ticket transitions, agent messages, tool calls, deploy status. The console renders this as a live activity feed.</p>
@@ -568,6 +585,7 @@ GET    /v1/projects/:slug/tickets/:id/messages    # Message history
 POST   /v1/projects/:slug/tickets/:id/messages    # Add message
 POST   /v1/projects/:slug/tickets/:id/run         # Run agent on ticket
 GET    /v1/projects/:slug/cost                    # Cost summary
+GET    /v1/projects/:slug/cost/detail             # Full breakdown (by ticket, role, ledger)
 WS     /v1/projects/:slug/ws                      # Real-time stream</code></pre>
 
       <h2>AI Agent Integration</h2>
