@@ -59,5 +59,20 @@ export const onRequest: PagesFunction = async ({ request }) => {
     headers.set('Cache-Control', 'no-cache');
   }
 
+  // Console CSP — must be set here (not _headers) because the proxy function
+  // bypasses CF Pages _headers rules. Allows fetches to all *.proappstore.online
+  // subdomains (VCQA reports, analytics, app previews).
+  headers.set('Content-Security-Policy',
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "font-src 'self' data: https://fonts.gstatic.com; " +
+    "img-src 'self' data: blob: https://*.proappstore.online https://avatars.githubusercontent.com; " +
+    "connect-src 'self' https://*.proappstore.online https://api.proappstore.online https://api.freeappstore.online https://agents.proappstore.online wss://agents.proappstore.online https://cloudflareinsights.com; " +
+    "frame-ancestors 'none'; base-uri 'self'; " +
+    "form-action 'self' https://api.proappstore.online; " +
+    "object-src 'none'; upgrade-insecure-requests"
+  );
+
   return new Response(res.body, { status: res.status, headers });
 };
