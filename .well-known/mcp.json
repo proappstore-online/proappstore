@@ -2,16 +2,33 @@
   "version": "1.0",
   "servers": [
     {
-      "name": "FreeAppStore Platform",
-      "description": "AI agent tools for the ProAppStore platform family. Deploy status, SDK reference, app info, platform guide.",
-      "endpoint": "https://mcp.freeappstore.online/mcp",
+      "name": "ProAppStore",
+      "description": "35 AI agent tools for the ProAppStore platform. Create apps, manage projects, chat with AI agents, read SDK docs, get code recipes, run tests, and query app databases.",
+      "endpoint": "https://mcp.proappstore.online/mcp",
       "transport": "streamable-http",
+      "auth": {
+        "type": "oauth2",
+        "flows": ["authorization_code"],
+        "authorization_url": "https://mcp.proappstore.online/authorize",
+        "token_url": "https://mcp.proappstore.online/token"
+      },
       "tools": [
-        {"name": "list_apps", "description": "List your published apps on FreeAppStore"},
-        {"name": "deploy_status", "description": "Check GitHub Actions deploy status for any app"},
-        {"name": "app_info", "description": "Get app URLs, repo, status, and store listing"},
-        {"name": "platform_guide", "description": "Fetch the full SKILLS.md platform guide"},
-        {"name": "sdk_reference", "description": "Quick SDK reference for auth, KV, counters, collections, rooms, proxy, hooks, and UI components"}
+        {"name": "list_apps", "description": "List your published Pro apps"},
+        {"name": "deploy_status", "description": "Check GitHub Actions deploy status"},
+        {"name": "app_info", "description": "Get app URLs, repo, data worker, status"},
+        {"name": "platform_guide", "description": "Fetch the full skills.md platform guide"},
+        {"name": "sdk_reference", "description": "SDK reference: auth, db, storage, maps, AI, rooms, hooks, UI, recipes, design system"},
+        {"name": "discover_tools", "description": "List per-app data tools registered via mcp.json"},
+        {"name": "recipe", "description": "Get pre-built code recipes (CRUD, forms, modals, maps, AI chat, etc.)"},
+        {"name": "scaffold_app", "description": "Create a new Pro app from template with GitHub repo + R2 hosting"},
+        {"name": "write_file", "description": "Create or overwrite a file in an app's GitHub repo"},
+        {"name": "read_file", "description": "Read a file from an app's GitHub repo"},
+        {"name": "create_app", "description": "Create an Agent Teams project (AI-powered build)"},
+        {"name": "chat_agent", "description": "Chat with PO (files tickets) or Architect (builds knowledge base)"},
+        {"name": "list_tickets", "description": "View the kanban board with ticket status"},
+        {"name": "add_ticket", "description": "Add a ticket to the backlog directly"},
+        {"name": "run_tests", "description": "Trigger Playwright E2E test run"},
+        {"name": "set_model", "description": "Set AI model per agent role (BA/Dev/QA)"}
       ]
     }
   ]
