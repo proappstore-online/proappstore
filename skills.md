@@ -705,7 +705,7 @@ Use MCP tools as your file system — no local clone needed:
 This is the most powerful mode for an AI agent: full SDK knowledge via `sdk_reference`, 19 recipes via `recipe`, and direct file writes via MCP. No local machine required.
 
 **2. Agent Teams (autonomous AI build).**
-Create a project, describe what you want, and AI agents (PO/BA/Dev/QA) build it:
+Create a project with `create_app`, describe what you want via `chat_agent`, and AI agents (PO/BA/Dev/QA) build it autonomously. The session token for Agent Teams tools is at `~/.proappstore/config.json` (field `session.token`, set by `pas login`). If the Console shows `project_not_initialized`, call `create_app` to initialize it.
 
 **3. Local development.**
 `pas create <id>` scaffolds locally, you code it, `git push` deploys.
