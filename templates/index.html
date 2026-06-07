@@ -97,9 +97,25 @@
         </div>
       </div>
 
+      <div class="search-bar">
+        <input type="search" id="app-search" placeholder="Search apps..." aria-label="Search apps" />
+      </div>
+
+      <div class="category-filter" id="categoryFilter" role="tablist" aria-label="Filter by category">
+        <button class="filter-btn active" data-category="all" role="tab" aria-selected="true">All</button>
+        <button class="filter-btn" data-category="productivity" role="tab">Productivity</button>
+        <button class="filter-btn" data-category="social" role="tab">Social</button>
+        <button class="filter-btn" data-category="business" role="tab">Business</button>
+        <button class="filter-btn" data-category="marketplace" role="tab">Marketplace</button>
+        <button class="filter-btn" data-category="travel" role="tab">Travel</button>
+        <button class="filter-btn" data-category="education" role="tab">Education</button>
+        <button class="filter-btn" data-category="lifestyle" role="tab">Lifestyle</button>
+      </div>
+
       <div class="apps-grid" id="apps-grid">
         {{APPS_GRID}}
       </div>
+      <p id="search-empty" hidden style="text-align:center; color:var(--muted); padding:2rem 0;">No apps match your search.</p>
     </section>
 
     <section class="section-spaced">

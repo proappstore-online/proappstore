@@ -97,6 +97,21 @@
         </div>
       </div>
 
+      <div class="search-bar">
+        <input type="search" id="app-search" placeholder="Search apps..." aria-label="Search apps" />
+      </div>
+
+      <div class="category-filter" id="categoryFilter" role="tablist" aria-label="Filter by category">
+        <button class="filter-btn active" data-category="all" role="tab" aria-selected="true">All</button>
+        <button class="filter-btn" data-category="productivity" role="tab">Productivity</button>
+        <button class="filter-btn" data-category="social" role="tab">Social</button>
+        <button class="filter-btn" data-category="business" role="tab">Business</button>
+        <button class="filter-btn" data-category="marketplace" role="tab">Marketplace</button>
+        <button class="filter-btn" data-category="travel" role="tab">Travel</button>
+        <button class="filter-btn" data-category="education" role="tab">Education</button>
+        <button class="filter-btn" data-category="lifestyle" role="tab">Lifestyle</button>
+      </div>
+
       <div class="apps-grid" id="apps-grid">
                 <div class="app-card" data-id="meet" data-category="social">
           <a class="app-card-body" href="/apps/meet/" aria-label="View Meet details">
@@ -359,6 +374,7 @@
           <a href="https://tt.proappstore.online" target="_blank" rel="noopener" class="app-cta" aria-label="Open TT — Time Tracker">Open</a>
         </div>
       </div>
+      <p id="search-empty" hidden style="text-align:center; color:var(--muted); padding:2rem 0;">No apps match your search.</p>
     </section>
 
     <section class="section-spaced">
@@ -489,7 +505,7 @@
     </div>
   </footer>
 
-  <script src="/storefront.js" integrity="sha256-eD7opdrOaBJ088RmIZAmvsEF/FK8SKqHymjZbjty8nI=" defer></script>
+  <script src="/storefront.js" integrity="sha256-KW6NHGkecORlBsu8ZrJQr8E2hG5drgah8XTm0nkU/7Y=" defer></script>
   <script src="/theme.js" integrity="sha256-PsYPLIQlZkPHEV3pkzRdw50dwLPRT6jFHCfWWn2u3Zo="></script>
 </body>
 </html>

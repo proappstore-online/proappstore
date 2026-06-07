@@ -7,6 +7,61 @@
  * Theme toggle + mobile nav are handled by theme.js so they apply on every page.
  * Vendored — each store ships its own copy.
  */
+// ─── Search + Category Filter ─────────────────────────────────────────────
+(function () {
+  var searchInput = document.getElementById('app-search');
+  var filterBar = document.getElementById('categoryFilter');
+  var grid = document.getElementById('apps-grid');
+  if (!grid) return;
+
+  var activeCategory = 'all';
+  var searchQuery = '';
+
+  function applyFilters() {
+    var cards = grid.querySelectorAll('.app-card');
+    var shown = 0;
+    var q = searchQuery.toLowerCase();
+    cards.forEach(function (card) {
+      var cat = (card.getAttribute('data-category') || '').toLowerCase();
+      var catMatch = activeCategory === 'all' || cat === activeCategory;
+      var name = (card.querySelector('.app-name') || {}).textContent || '';
+      var desc = (card.querySelector('.app-desc') || {}).textContent || '';
+      var searchMatch = !q || name.toLowerCase().includes(q) || desc.toLowerCase().includes(q) || cat.includes(q);
+      card.hidden = !catMatch || !searchMatch;
+      if (!card.hidden) shown++;
+    });
+    var empty = document.getElementById('search-empty');
+    if (empty) empty.hidden = shown > 0;
+  }
+
+  if (filterBar) {
+    filterBar.addEventListener('click', function (e) {
+      var btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      filterBar.querySelectorAll('.filter-btn').forEach(function (b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      activeCategory = btn.dataset.category || 'all';
+      applyFilters();
+    });
+  }
+
+  if (searchInput) {
+    var timer;
+    searchInput.addEventListener('input', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        searchQuery = searchInput.value.trim();
+        applyFilters();
+      }, 150);
+    });
+  }
+})();
+
+// ─── Split-pane preview + sort tabs ───────────────────────────────────────
 (function () {
   document.querySelectorAll('.apps-tab').forEach(function (tab) {
     tab.addEventListener('click', function () {
@@ -60,7 +115,7 @@
   }
 
   function activate(card) {
-    document.querySelectorAll('.app-card.compact.is-active').forEach(function (c) {
+    document.querySelectorAll('.app-card.is-active').forEach(function (c) {
       c.classList.remove('is-active');
     });
     if (card) card.classList.add('is-active');
@@ -152,7 +207,7 @@
     };
   }
 
-  document.querySelectorAll('#apps-grid .app-card.compact').forEach(function (card) {
+  document.querySelectorAll('#apps-grid .app-card').forEach(function (card) {
     card.style.cursor = 'pointer';
     card.addEventListener('click', function (e) {
       if (!SPLIT_MQ.matches) return; // default <a> behavior (new tab)
@@ -169,7 +224,7 @@
   try {
     var wantId = new URLSearchParams(window.location.search).get('app');
     if (wantId && SPLIT_MQ.matches) {
-      var match = document.querySelector('#apps-grid .app-card.compact[data-id="' + CSS.escape(wantId) + '"]');
+      var match = document.querySelector('#apps-grid .app-card[data-id="' + CSS.escape(wantId) + '"]');
       if (match) loadInPane(cardMeta(match), match);
     }
   } catch (e) {}
@@ -208,7 +263,7 @@
       if (!data || !Array.isArray(data.apps)) return;
       data.apps.forEach(function (app) {
         if (!app.iconUrl || !isAllowedIconUrl(app.iconUrl)) return;
-        var card = grid.querySelector('.app-card.compact[data-id="' + CSS.escape(app.appId) + '"]');
+        var card = grid.querySelector('.app-card[data-id="' + CSS.escape(app.appId) + '"]');
         if (!card) return;
         var img = card.querySelector('.app-icon img');
         if (img && img.getAttribute('src') !== app.iconUrl) {
