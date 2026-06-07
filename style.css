@@ -2478,6 +2478,8 @@ pre[class*="language-"] {
 .tool-card code { font-size: 0.75rem; background: var(--accent-soft); color: var(--accent); padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
 .ai-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.3rem; }
 .ai-h2 { font-size: 1.4rem; font-weight: 800; margin: 3rem 0 1rem; letter-spacing: -0.01em; }
+.ai-h3 { font-size: 1.1rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
+.tool-grid-compact { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
 .cmd-sm { font-size: 0.8rem; }
 .cmd-dashed { border-style: dashed; }
 .body-sm { font-size: 0.92rem; }

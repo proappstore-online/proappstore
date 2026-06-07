@@ -253,6 +253,46 @@ git push origin main
     <div class="cmd">See https://proappstore.online/skills.md for platform conventions.</div>
     <p class="body-xs-muted"><code>pas create</code> already adds this to <code>CLAUDE.md</code>. For other tools, create the appropriate file and add this line.</p>
 
+    <!-- ==================== MCP CONNECTION ==================== -->
+    <h2 class="ai-h2" id="mcp">Connect via MCP (most powerful)</h2>
+    <p class="body-sm-muted-wide">MCP gives your AI tool <strong>35 live tools</strong> — it can create apps, read/write files, manage tickets, run tests, chat with AI agents, and query the SDK docs. Much more powerful than just reading skills.md.</p>
+
+    <h3 class="ai-h3">Claude Code (recommended)</h3>
+    <p class="body-sm-muted">Add to <code>~/.claude/settings.json</code> (global) or <code>.claude/settings.json</code> (per-project):</p>
+    <div class="cmd">{
+  "mcpServers": {
+    "proappstore": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.proappstore.online/mcp"]
+    }
+  }
+}</div>
+    <p class="body-xs-muted">On first use, it opens a browser for GitHub sign-in. After that, Claude Code has full platform access.</p>
+
+    <h3 class="ai-h3">Cursor / Windsurf / any MCP-compatible editor</h3>
+    <p class="body-sm-muted">Add the same config to your editor's MCP settings. The MCP endpoint is:</p>
+    <div class="cmd">https://mcp.proappstore.online/mcp</div>
+
+    <h3 class="ai-h3">What the MCP tools can do</h3>
+    <div class="tool-grid tool-grid-compact">
+      <div class="tool-card">
+        <h4>Platform info</h4>
+        <p><code>sdk_reference</code>, <code>recipe</code>, <code>platform_guide</code>, <code>deploy_status</code></p>
+      </div>
+      <div class="tool-card">
+        <h4>Build apps</h4>
+        <p><code>scaffold_app</code>, <code>write_file</code>, <code>read_file</code>, <code>provision_app</code></p>
+      </div>
+      <div class="tool-card">
+        <h4>Agent Teams</h4>
+        <p><code>create_app</code>, <code>chat_agent</code>, <code>add_ticket</code>, <code>run_tests</code></p>
+      </div>
+      <div class="tool-card">
+        <h4>App data</h4>
+        <p>Per-app SQL tools from <code>mcp.json</code> — query any app's D1 database</p>
+      </div>
+    </div>
+
     <!-- ==================== WHAT YOU GET ==================== -->
     <h2 class="ai-h2">What your app gets automatically</h2>
     <p class="body-sm-muted">When you run <code>pas create</code>, the platform provisions all of this:</p>

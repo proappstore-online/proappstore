@@ -680,10 +680,24 @@ WS     /v1/projects/:slug/ws                      # Real-time stream</code></pre
       <p><a href="/docs/recipes">View all recipes &rarr;</a></p>
 
       <h2>AI Agent Integration</h2>
-      <p>Point your Claude Code, Codex, or other AI agent at the machine-readable guide:</p>
-      <pre><code># Add to your CLAUDE.md:
+
+      <h3>Option 1: MCP (recommended)</h3>
+      <p>Connect your AI tool via MCP for 35 live tools (create apps, manage projects, query SDK docs, run tests, chat with agents). Add to your Claude Code settings:</p>
+      <pre><code>{
+  "mcpServers": {
+    "proappstore": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.proappstore.online/mcp"]
+    }
+  }
+}</code></pre>
+      <p>Works with Claude Code, Cursor, Windsurf, and any MCP-compatible tool. <a href="/build-with-ai#mcp">Full MCP setup guide &rarr;</a></p>
+
+      <h3>Option 2: skills.md (any AI tool)</h3>
+      <p>Point your AI agent at the machine-readable guide:</p>
+      <pre><code># Add to your CLAUDE.md / .cursorrules / AGENTS.md:
 See https://proappstore.online/skills.md for platform skills.</code></pre>
-      <p><a href="/skills.md">View skills.md</a> for the full agent-readable reference.</p>
+      <p><a href="/skills.md">View skills.md</a> | <a href="/build-with-ai#other-tools">Per-tool setup instructions</a></p>
 
       <h2>Platform Limits</h2>
       <table>
