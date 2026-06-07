@@ -691,7 +691,28 @@ AI agents can connect to the ProAppStore MCP server for platform-aware tooling:
 }
 ```
 
-Platform tools: `list_apps`, `deploy_status`, `app_info`, `platform_guide`, `sdk_reference` (16 feature sections: auth, db, storage, maps, AI, subscriptions, rooms, hooks, UI, etc.), and `discover_tools` (list the per-app tools currently registered).
+### Three ways to build an app
+
+**1. Direct build via MCP (you are the developer).**
+Use MCP tools as your file system — no local clone needed:
+- `scaffold_app` — create a GitHub repo from the template
+- `sdk_reference` / `recipe` — read SDK docs and get copy-paste code patterns
+- `write_file` / `batch_write_files` — write app source code directly to the repo
+- `read_file` / `search_files` / `list_files` — inspect existing code
+- `provision_app` — register the R2 route + D1 database (makes it live)
+- Push to main triggers auto-deploy to R2 (the deploy workflow is in the template)
+
+This is the most powerful mode for an AI agent: full SDK knowledge via `sdk_reference`, 19 recipes via `recipe`, and direct file writes via MCP. No local machine required.
+
+**2. Agent Teams (autonomous AI build).**
+Create a project, describe what you want, and AI agents (PO/BA/Dev/QA) build it:
+
+**3. Local development.**
+`pas create <id>` scaffolds locally, you code it, `git push` deploys.
+
+---
+
+Platform tools: `list_apps`, `deploy_status`, `app_info`, `platform_guide`, `sdk_reference` (18 feature sections: auth, db, storage, maps, AI, subscriptions, rooms, hooks, UI, recipes, design_system, etc.), `discover_tools`, and `recipe` (19 pre-built code patterns).
 
 ### Drive the Agent Teams loop over MCP
 
