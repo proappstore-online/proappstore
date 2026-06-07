@@ -679,10 +679,30 @@ WS     /v1/projects/:slug/ws                      # Real-time stream</code></pre
       <p>19 pre-built code patterns covering CRUD, forms, modals, maps, AI chat, notifications, subscriptions, and more. Copy, paste, and adapt.</p>
       <p><a href="/docs/recipes">View all recipes &rarr;</a></p>
 
-      <h2>AI Agent Integration</h2>
+      <h2>Build with AI &mdash; 3 Paths</h2>
+      <table>
+        <thead><tr><th>Path</th><th>How it works</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong><a href="/build-with-ai#mcp-direct">MCP Direct</a></strong></td>
+            <td>AI writes code to GitHub via MCP tools (<code>scaffold_app</code> &rarr; <code>write_file</code> &rarr; auto-deploy)</td>
+            <td>Fastest. No local setup needed.</td>
+          </tr>
+          <tr>
+            <td><strong><a href="/build-with-ai#agent-teams">Agent Teams</a></strong></td>
+            <td>Describe your idea, AI agents build autonomously (PO/BA/Dev/QA)</td>
+            <td>Hands-off. Watch it build.</td>
+          </tr>
+          <tr>
+            <td><strong><a href="/build-with-ai#local">Local Dev</a></strong></td>
+            <td><code>pas create</code> &rarr; code locally &rarr; <code>git push</code></td>
+            <td>Full control. Works with any editor.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a href="/build-with-ai">Full build guide with step-by-step instructions &rarr;</a></p>
 
-      <h3>Option 1: MCP (recommended)</h3>
-      <p>Connect your AI tool via MCP for 35 live tools (create apps, manage projects, query SDK docs, run tests, chat with agents). Add to your Claude Code settings:</p>
+      <h3>Connect via MCP</h3>
       <pre><code>{
   "mcpServers": {
     "proappstore": {
@@ -691,13 +711,12 @@ WS     /v1/projects/:slug/ws                      # Real-time stream</code></pre
     }
   }
 }</code></pre>
-      <p>Works with Claude Code, Cursor, Windsurf, and any MCP-compatible tool. <a href="/build-with-ai#mcp">Full MCP setup guide &rarr;</a></p>
+      <p>35 tools. Works with Claude Code, Cursor, Windsurf, and any MCP client. <a href="/build-with-ai#mcp">Tool reference &rarr;</a></p>
 
-      <h3>Option 2: skills.md (any AI tool)</h3>
-      <p>Point your AI agent at the machine-readable guide:</p>
-      <pre><code># Add to your CLAUDE.md / .cursorrules / AGENTS.md:
+      <h3>Without MCP (any AI tool)</h3>
+      <pre><code># Add to CLAUDE.md / .cursorrules / AGENTS.md:
 See https://proappstore.online/skills.md for platform skills.</code></pre>
-      <p><a href="/skills.md">View skills.md</a> | <a href="/build-with-ai#other-tools">Per-tool setup instructions</a></p>
+      <p><a href="/skills.md">View skills.md</a> | <a href="/build-with-ai#other-tools">Per-tool setup</a></p>
 
       <h2>Platform Limits</h2>
       <table>

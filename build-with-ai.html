@@ -57,11 +57,94 @@
 
     <div class="ai-hero">
       <h1>Build a pro app with AI.</h1>
-      <p class="ai-lead">Follow these steps from zero to a deployed app with a database, auth, file storage, and maps. Works with Claude Code, Cursor, Copilot, or any AI coding tool.</p>
+      <p class="ai-lead">Three ways to go from idea to deployed app. Pick the one that fits how you work.</p>
     </div>
 
-    <!-- ==================== PREREQUISITES ==================== -->
-    <h2 class="ai-h2">Prerequisites</h2>
+    <!-- ==================== THREE PATHS ==================== -->
+    <div class="path-grid">
+      <a href="#mcp-direct" class="path-card path-featured">
+        <span class="path-label">Recommended</span>
+        <h3>MCP Direct</h3>
+        <p>Your AI tool writes code directly to GitHub via MCP. No local clone needed. Full SDK knowledge built in.</p>
+        <span class="path-prereq">Requires: Claude Code, Cursor, or any MCP client</span>
+      </a>
+      <a href="#agent-teams" class="path-card">
+        <h3>Agent Teams</h3>
+        <p>Describe what you want. A team of AI agents (PO, BA, Dev, QA) builds it autonomously.</p>
+        <span class="path-prereq">Requires: MCP connection + BYO Anthropic key</span>
+      </a>
+      <a href="#local" class="path-card">
+        <h3>Local Dev</h3>
+        <p>Scaffold with the CLI, code locally with any AI tool, git push to deploy.</p>
+        <span class="path-prereq">Requires: Node.js + pnpm + CLI</span>
+      </a>
+    </div>
+
+    <!-- ==================== PATH 1: MCP DIRECT ==================== -->
+    <h2 class="ai-h2" id="mcp-direct">Path 1: MCP Direct Build</h2>
+    <p class="body-sm-muted-wide">Your AI tool connects to ProAppStore via MCP and writes code directly to the repo. No local clone, no terminal, no deploy commands. The AI reads the SDK docs, gets code recipes, and pushes files — all through MCP tools.</p>
+
+    <ol class="steps">
+      <li>
+        <h3>Connect your AI tool via MCP</h3>
+        <p>Add to your Claude Code settings (<code>~/.claude/settings.json</code>):</p>
+        <div class="cmd">{
+  "mcpServers": {
+    "proappstore": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://mcp.proappstore.online/mcp"]
+    }
+  }
+}</div>
+        <p class="body-xs-muted">Works with Cursor, Windsurf, and any MCP-compatible editor too. On first use, it opens a browser for GitHub sign-in.</p>
+      </li>
+      <li>
+        <h3>Create your app</h3>
+        <p>Tell your AI tool: <em>"Create a Pro app called chess-academy"</em>. It will call <code>scaffold_app</code> to create the GitHub repo from the template, then <code>provision_app</code> to register the route and database.</p>
+      </li>
+      <li>
+        <h3>Build it</h3>
+        <p>Tell your AI tool what to build. It uses <code>sdk_reference</code> to understand the API, <code>recipe</code> to get copy-paste patterns (CRUD lists, forms, maps, AI chat), and <code>write_file</code> / <code>batch_write_files</code> to write the code directly to the repo.</p>
+        <div class="cmd cmd-dashed"><span class="comment"># Example prompts:</span>
+
+Build a chess academy app. Use app.db for puzzles and games.
+Add real-time game rooms with app.rooms. Show a leaderboard
+with app.counters. Use the crud-list recipe for the puzzle browser.</div>
+      </li>
+      <li>
+        <h3>It's live</h3>
+        <p>Every push to the repo auto-deploys to R2. Your app is live at <code>chess-academy.proappstore.online</code> within 30 seconds of the push.</p>
+      </li>
+    </ol>
+
+    <!-- ==================== PATH 2: AGENT TEAMS ==================== -->
+    <h2 class="ai-h2" id="agent-teams">Path 2: Agent Teams</h2>
+    <p class="body-sm-muted-wide">Describe your app idea. A team of AI agents builds it autonomously — the PO creates tickets, the BA writes specs, the Dev writes code, and QA writes tests. You watch the build in real-time on the Console.</p>
+
+    <ol class="steps">
+      <li>
+        <h3>Connect via MCP (same as Path 1)</h3>
+        <p>You need the MCP connection. You also need a BYO Anthropic API key stored in the <a href="https://console.proappstore.online">Console</a> key vault.</p>
+      </li>
+      <li>
+        <h3>Create a project</h3>
+        <p>Tell your AI: <em>"Create an Agent Teams project called chess-academy — a chess learning platform with puzzles, game rooms, and lessons."</em> It calls <code>create_app</code>.</p>
+      </li>
+      <li>
+        <h3>Chat with the PO</h3>
+        <p>The PO agent reads your idea and files tickets. Chat via <code>chat_agent(thread:'build')</code> to refine. Use <code>chat_agent(thread:'research')</code> to have the Architect research the market and build a Knowledge Base.</p>
+      </li>
+      <li>
+        <h3>Start the build</h3>
+        <p>Call <code>set_project_running(running: true)</code>. The BA/Dev/QA agents pick up tickets and build autonomously. Watch progress with <code>list_tickets</code> or in the <a href="https://console.proappstore.online">Console</a>.</p>
+      </li>
+    </ol>
+
+    <!-- ==================== PATH 3: LOCAL ==================== -->
+    <h2 class="ai-h2" id="local">Path 3: Local Development</h2>
+    <p class="body-sm-muted-wide">Scaffold locally with the CLI, open in your AI-powered editor, code it, and push to deploy. Full control over every file.</p>
+
+    <h3 class="ai-h3">Prerequisites</h3>
     <p class="body-sm-muted">You need Node.js and pnpm installed. If you already have them, skip to Step 1.</p>
 
     <div class="cmd"><span class="comment"># Check if Node is installed (need v22+)</span>
@@ -83,9 +166,8 @@ npm install -g pnpm
 pnpm --version
 <span class="output"># Should print 10.x.x</span></div>
 
-    <!-- ==================== STEP BY STEP ==================== -->
-    <h2 class="ai-h2">Step-by-step: Claude Code (terminal)</h2>
-    <p class="body-sm-muted-wide">This is the full walkthrough using Claude Code. Other tools follow the same pattern — see the <a href="#other-tools">tool-specific instructions</a> below.</p>
+    <h3 class="ai-h3">Step-by-step: Local + Claude Code</h3>
+    <p class="body-sm-muted-wide">Full walkthrough using Claude Code locally. Other tools follow the same pattern — see <a href="#other-tools">tool-specific setup</a> below.</p>
 
     <ol class="steps">
       <li>
@@ -253,45 +335,30 @@ git push origin main
     <div class="cmd">See https://proappstore.online/skills.md for platform conventions.</div>
     <p class="body-xs-muted"><code>pas create</code> already adds this to <code>CLAUDE.md</code>. For other tools, create the appropriate file and add this line.</p>
 
-    <!-- ==================== MCP CONNECTION ==================== -->
-    <h2 class="ai-h2" id="mcp">Connect via MCP (most powerful)</h2>
-    <p class="body-sm-muted-wide">MCP gives your AI tool <strong>35 live tools</strong> — it can create apps, read/write files, manage tickets, run tests, chat with AI agents, and query the SDK docs. Much more powerful than just reading skills.md.</p>
+    <!-- ==================== MCP REFERENCE ==================== -->
+    <h2 class="ai-h2" id="mcp">MCP Tools Reference</h2>
+    <p class="body-sm-muted-wide">All 35 MCP tools available when connected. Used by both Path 1 (Direct Build) and Path 2 (Agent Teams).</p>
 
-    <h3 class="ai-h3">Claude Code (recommended)</h3>
-    <p class="body-sm-muted">Add to <code>~/.claude/settings.json</code> (global) or <code>.claude/settings.json</code> (per-project):</p>
-    <div class="cmd">{
-  "mcpServers": {
-    "proappstore": {
-      "command": "npx",
-      "args": ["mcp-remote", "https://mcp.proappstore.online/mcp"]
-    }
-  }
-}</div>
-    <p class="body-xs-muted">On first use, it opens a browser for GitHub sign-in. After that, Claude Code has full platform access.</p>
-
-    <h3 class="ai-h3">Cursor / Windsurf / any MCP-compatible editor</h3>
-    <p class="body-sm-muted">Add the same config to your editor's MCP settings. The MCP endpoint is:</p>
-    <div class="cmd">https://mcp.proappstore.online/mcp</div>
-
-    <h3 class="ai-h3">What the MCP tools can do</h3>
     <div class="tool-grid tool-grid-compact">
       <div class="tool-card">
         <h4>Platform info</h4>
-        <p><code>sdk_reference</code>, <code>recipe</code>, <code>platform_guide</code>, <code>deploy_status</code></p>
+        <p><code>sdk_reference</code>, <code>recipe</code>, <code>platform_guide</code>, <code>deploy_status</code>, <code>app_info</code>, <code>list_apps</code>, <code>discover_tools</code></p>
       </div>
       <div class="tool-card">
         <h4>Build apps</h4>
-        <p><code>scaffold_app</code>, <code>write_file</code>, <code>read_file</code>, <code>provision_app</code></p>
+        <p><code>scaffold_app</code>, <code>write_file</code>, <code>batch_write_files</code>, <code>read_file</code>, <code>list_files</code>, <code>search_files</code>, <code>provision_app</code></p>
       </div>
       <div class="tool-card">
         <h4>Agent Teams</h4>
-        <p><code>create_app</code>, <code>chat_agent</code>, <code>add_ticket</code>, <code>run_tests</code></p>
+        <p><code>create_app</code>, <code>chat_agent</code>, <code>add_ticket</code>, <code>run_tests</code>, <code>set_model</code>, <code>set_project_running</code>, <code>list_tickets</code></p>
       </div>
       <div class="tool-card">
         <h4>App data</h4>
-        <p>Per-app SQL tools from <code>mcp.json</code> — query any app's D1 database</p>
+        <p>Per-app SQL tools from <code>mcp.json</code> — query any app's D1 database via <code>&lt;app&gt;/&lt;tool&gt;</code></p>
       </div>
     </div>
+
+    <p class="body-sm-muted">MCP endpoint: <code>https://mcp.proappstore.online/mcp</code> — connect from Claude Code, Cursor, Windsurf, or any MCP-compatible client.</p>
 
     <!-- ==================== WHAT YOU GET ==================== -->
     <h2 class="ai-h2">What your app gets automatically</h2>
