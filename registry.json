@@ -402,6 +402,27 @@
       ]
     },
     {
+      "id": "chess-academy",
+      "name": "Chess Academy",
+      "category": "education",
+      "icon": "&#9822;",
+      "iconBg": "#fef3c7",
+      "description": "Online chess teaching — real-time games with teacher oversight, Swiss tournaments, puzzle sets with scoring and hints.",
+      "about": "Chess Academy is an online teaching platform built for chess schools and academies. Teachers can monitor all active games in real-time, pause and resume boards, and manage Swiss-system tournaments with automatic pairings and colour balancing.\n\nStudents play rated or unrated games with configurable time controls, solve curated puzzle sets with progressive hints, and track their Glicko-2 ratings. Puzzle sets can be imported from PGN files and assigned to individual students.\n\nMulti-tenant by design — each academy runs as an isolated tenant with its own students, teachers, and data. Built on chessground (the Lichess board library) and chess.js for move validation, with Stockfish WASM for hints and puzzle analysis.",
+      "appUrl": "https://chess-academy.proappstore.online",
+      "repo": "proappstore-online/chess-academy",
+      "type": "connected",
+      "developer": "Serge",
+      "proFeatures": [
+        "Real-time chess games between students",
+        "Teacher live-view of all boards",
+        "Swiss-system tournaments with pairings",
+        "Puzzle sets with hints and scoring",
+        "Multi-tenant — one instance per academy",
+        "Glicko-2 ratings for games and puzzles"
+      ]
+    },
+    {
       "id": "tt",
       "name": "TT \u2014 Time Tracker",
       "category": "productivity",
