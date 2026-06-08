@@ -187,6 +187,20 @@ await app.webhooks.test(id)                   // fire test event
 await app.webhooks.remove(id)
 // Events: notification.sent, storage.uploaded
 // Headers: X-Webhook-Signature (HMAC-SHA256 hex), X-Webhook-Event, Content-Type: application/json
+
+// Invites (BUILT-IN platform feature — join codes + shareable link + QR).
+// Do NOT roll your own invite/join-code table; use this. One invite, three ways
+// in: say the CODE, send the LINK, or scan the QR. Redeem assigns the role via
+// app.roles and returns your pass-through metadata. group/metadata are opaque —
+// use them for org/team scoping and any app-specific data.
+const invite = await app.invites.create({ role: 'member', group: 'org-1', metadata: { schoolId: 's1' }, uses: 30, expiresIn: '7d' })
+// → { id, code, link, qr, role, group, maxUses, usedCount, expiresAt }
+//   code = "HKWX3P"; link = https://<appId>.proappstore.online/join/HKWX3P; qr = <svg> string (server-rendered).
+//   Defaults: role 'member', uses 1, expiresIn '7d'. Cannot invite role 'owner'. create/list/revoke need developer-level access.
+const list = await app.invites.list()           // → InviteListItem[] (no qr; has metadata, expired, exhausted)
+await app.invites.revoke(invite.id)
+const r = await app.invites.redeem('HKWX3P')     // any signed-in user → { ok, role, group, metadata, appId }
+// The /join/<code> landing is app-routed: read the code from the URL and call app.invites.redeem(code).
 ```
 
 ### React Hooks (recommended)
