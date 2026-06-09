@@ -781,7 +781,7 @@ parameterized SQL statement against your app's D1:
 the Agent Teams deploy stage registers an agent-built app's `mcp.json` after a
 green deploy. Then `discover_tools` shows it and `<app>/<tool>` calls it (tools
 with `requires_auth` run as the connected user). Full guide:
-[docs › MCP App Tools](https://proappstore.online/docs/mcp-app-tools).
+[docs › MCP App Tools](https://kb.proappstore.online/platform/mcp-app-tools/).
 
 ---
 
