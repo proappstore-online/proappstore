@@ -337,8 +337,6 @@ const sitemapEntries = [
   `  <url><loc>https://proappstore.online/get-started</loc><lastmod>${today}</lastmod><priority>0.9</priority></url>`,
   `  <url><loc>https://proappstore.online/build-with-ai</loc><lastmod>${today}</lastmod><priority>0.85</priority></url>`,
   `  <url><loc>https://proappstore.online/guidelines</loc><lastmod>${today}</lastmod><priority>0.7</priority></url>`,
-  `  <url><loc>https://proappstore.online/docs</loc><lastmod>${today}</lastmod><priority>0.8</priority></url>`,
-  `  <url><loc>https://proappstore.online/docs/ui</loc><lastmod>${today}</lastmod><priority>0.8</priority></url>`,
   `  <url><loc>https://proappstore.online/roadmap</loc><lastmod>${today}</lastmod><priority>0.7</priority></url>`,
   `  <url><loc>https://proappstore.online/privacy</loc><lastmod>${today}</lastmod><priority>0.5</priority></url>`,
   `  <url><loc>https://proappstore.online/terms</loc><lastmod>${today}</lastmod><priority>0.5</priority></url>`,

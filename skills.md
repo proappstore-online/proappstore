@@ -14,7 +14,7 @@ See https://proappstore.online/skills.md for platform skills.
 The paid counterpart to FreeAppStore. Premium web apps with subscriptions, real-time collaboration, AI features, and Stripe-powered billing. One SDK, one import — everything FreeAppStore has, plus subscription management and license keys.
 
 - **Store**: https://proappstore.online
-- **Docs**: https://proappstore.online/docs
+- **Docs**: https://kb.proappstore.online/platform/
 - **Roadmap**: https://proappstore.online/roadmap
 - **Pricing**: https://proappstore.online/pricing
 - **Dashboard**: https://dashboard.proappstore.online
@@ -367,7 +367,7 @@ const { permission, isSubscribed, subscribe, unsubscribe, loading } = useProNoti
                             SubscriptionStatus, UpgradeCard, BillingButton, GateScreen, ProProfilePage
 ```
 
-Full UI component docs: https://proappstore.online/docs/ui
+Full UI component docs: https://kb.proappstore.online/platform/ui/
 
 ---
 
@@ -674,7 +674,7 @@ my-app/
 - **Fonts:** Manrope (body), Fraunces (display headings)
 - **CSS tokens:** `--ink`, `--muted`, `--accent`, `--accent-soft`, `--border`, `--surface`, `--bg`, `--radius`
 - **Dark mode:** Via `data-theme="dark"` on `<html>` — SDK `useTheme()` handles it
-- Full design token reference: https://proappstore.online/docs/ui#design-tokens
+- Full design token reference: https://kb.proappstore.online/platform/ui/#design-tokens
 
 ---
 
@@ -736,7 +736,7 @@ run): `create_app`, `list_projects`, `get_project`, `build_knowledge_base`,
 `chat_agent` (`thread:'build'`→PO files tickets; `thread:'research'`→Architect
 revises the KB), `list_tickets`, `list_agents` (resolved agent catalog),
 `get_project_files`, `set_project_running` (play/pause), `set_project_budget`
-(monthly cost cap). See [Agent customization](https://proappstore.online/docs).
+(monthly cost cap). See [Agent customization](https://kb.proappstore.online/platform/).
 
 ### Your app can expose its own tools
 

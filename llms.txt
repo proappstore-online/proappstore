@@ -12,8 +12,8 @@
 ## SDK
 
 - [@proappstore/sdk on npm](https://www.npmjs.com/package/@proappstore/sdk): Platform SDK. `initPro()` gives you auth, per-app D1 database, R2 file storage, real-time rooms, Stripe subscriptions, AI, maps, push notifications, SMS, React hooks, and UI components.
-- [SDK Docs](https://proappstore.online/docs): Full SDK documentation with examples.
-- [UI Component Library](https://proappstore.online/docs/ui): Live preview of ProShell, ProBadge, SubscriptionStatus, UpgradeCard, BillingButton, GateScreen, and more.
+- [SDK Docs](https://kb.proappstore.online/platform/): Full SDK documentation with examples.
+- [UI Component Library](https://kb.proappstore.online/platform/ui/): Live preview of ProShell, ProBadge, SubscriptionStatus, UpgradeCard, BillingButton, GateScreen, and more.
 
 ## CLI
 
