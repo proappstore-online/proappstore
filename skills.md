@@ -718,7 +718,7 @@ Use MCP tools as your file system — no local clone needed:
 This is the most powerful mode for an AI agent: full SDK knowledge via `sdk_reference`, 19 recipes via `recipe`, and direct file writes via MCP. No local machine required.
 
 **2. Agent Teams (autonomous AI build).**
-Create a project with `create_app`, describe what you want via `chat_agent`, and AI agents (PO/BA/Dev/QA) build it autonomously. The session token for Agent Teams tools is at `~/.proappstore/config.json` (field `session.token`, set by `pas login`). Browser OAuth for auth-required MCP tool calls is not triggered automatically yet; see [platform issue #19](https://github.com/proappstore-online/platform/issues/19). If the Console shows `project_not_initialized`, call `create_app` to initialize it.
+Create a project with `create_app`, describe what you want via `chat_agent`, and AI agents (PO/BA/Dev/QA) build it autonomously. Auth-capable clients such as `mcp-remote` use browser OAuth on first connection. Clients that cannot run browser OAuth can send the PAS session token from `~/.proappstore/config.json` (field `session.token`, set by `pas login`). If the Console shows `project_not_initialized`, call `create_app` to initialize it.
 
 **3. Local development.**
 `pas create <id>` scaffolds locally, you code it, `git push` deploys.
@@ -779,9 +779,8 @@ parameterized SQL statement against your app's D1:
 **Registration is automatic.** `pas publish` registers a CLI app's `mcp.json`;
 the Agent Teams deploy stage registers an agent-built app's `mcp.json` after a
 green deploy. Then `discover_tools` shows it and `<app>/<tool>` calls it (tools
-with `requires_auth` need a PAS session token and run as the connected user).
-Unauthenticated connections may discover public/redacted tool metadata, but they
-cannot call private app-data tools. Full guide:
+with `requires_auth` run as the connected user). The MCP transport is
+authenticated, so tool discovery and calls are tied to a PAS user. Full guide:
 [docs › MCP App Tools](https://kb.proappstore.online/platform/mcp-app-tools/).
 
 ---
