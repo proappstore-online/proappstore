@@ -768,13 +768,20 @@ parameterized SQL statement against your app's D1:
   `integer` / `number` / `boolean`).
 - Magic placeholders (don't declare them): `:__user_id` (the caller — forces
   `requires_auth: true`), `:__now` (ms epoch), `:__uuid` (a fresh id).
+- App-data tools should be authenticated by default, including reads. Use
+  `requires_auth: true` unless the data is deliberately public.
+- Role and permission checks are enforced in SQL today: combine `:__user_id`
+  with app-domain tables such as memberships (`WHERE org_id = :org_id AND
+  user_id = :__user_id AND role = 'manager'`). Manifest-level `app_roles` /
+  `platform_roles` gates are the intended next extension, not yet enforced by
+  the production tool registry.
 - Max 50 tools per app.
 
 **Registration is automatic.** `pas publish` registers a CLI app's `mcp.json`;
 the Agent Teams deploy stage registers an agent-built app's `mcp.json` after a
 green deploy. Then `discover_tools` shows it and `<app>/<tool>` calls it (tools
 with `requires_auth` run as the connected user). Full guide:
-[docs › MCP App Tools](https://proappstore.online/docs).
+[docs › MCP App Tools](https://proappstore.online/docs/mcp-app-tools).
 
 ---
 
