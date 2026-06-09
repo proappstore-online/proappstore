@@ -244,7 +244,7 @@ Gate states: `'loading'` | `'signed-out'` | `'no-subscription'` | `'ready'`
 
 **Pro apps MUST use the SDK components for auth, profile, and subscription UI.** The SDK components enforce brand consistency and handle the full lifecycle.
 
-#### ProShell — zero-config app wrapper
+#### ProShell — app wrapper with optional custom chrome
 
 ```tsx
 import { initPro } from '@proappstore/sdk'
@@ -261,11 +261,33 @@ export default function App() {
 }
 ```
 
-Props: `app` (required), `children`, `appName`, `allowFree` (default true), `showThemeToggle` (default true).
+Props: `app` (required), `children`, `appName`, `allowFree` (default true), `showThemeToggle` (default true), `menuItems`, `hideTopbar`, `hideFooter`, `renderTopbar`, `renderFooter`.
+
+Use the default ProShell for simple apps that do not need app-level navigation. For apps with their own primary navigation, do **not** add a second navbar under ProShell. Replace the shell topbar and reuse the platform controls:
+
+```tsx
+<ProShell
+  app={app}
+  appName="My App"
+  renderTopbar={({ appName, profileMenu, textSizeToggle, proBadge }) => (
+    <header className="top-nav">
+      <a href="/">{appName}</a>
+      {proBadge}
+      <nav>{/* app navigation */}</nav>
+      {textSizeToggle}
+      {profileMenu}
+    </header>
+  )}
+>
+  <MyAppContent />
+</ProShell>
+```
+
+For apps that own all chrome, use `<ProShell app={app} hideTopbar hideFooter>` to keep the auth/subscription gates, or use hooks plus SDK UI primitives for a fully custom layout.
 
 #### Individual components
 
-Use these when you need more layout control than ProShell provides:
+Use these when you need more layout control than ProShell provides or when building custom app chrome:
 
 ```tsx
 import {
@@ -316,7 +338,7 @@ if (gate !== 'ready') return <GateScreen gate={gate} app={app} appName="My App" 
 These are the real signatures. Passing a prop not listed here is a compile error.
 
 ```ts
-<ProShell app appName? allowFree? showThemeToggle?>{children}</ProShell>
+<ProShell app appName? allowFree? showThemeToggle? menuItems? hideTopbar? hideFooter? renderTopbar? renderFooter?>{children}</ProShell>
 <Avatar user size? />                 // size defaults to 32
 <SignInButton app label? provider? /> // provider is 'github' | 'google'. NO `onClick`.
 <ThemeToggle />                       // no props
@@ -617,7 +639,7 @@ Every Pro app follows this layout (created by `pas create`):
 my-app/
 ├── web/
 │   ├── src/
-│   │   ├── App.tsx          ← your app (wrap in ProShell)
+│   │   ├── App.tsx          ← your app (ProShell or SDK auth/UI primitives)
 │   │   ├── main.tsx         ← entry point
 │   │   └── index.css        ← Tailwind + CSS custom properties
 │   ├── index.html
@@ -651,7 +673,7 @@ my-app/
 ## Platform Rules
 
 1. **One SDK import.** Use `@proappstore/sdk` — it includes all platform features.
-2. **ProShell or SDK components.** Use `<ProShell>` or individual `@proappstore/sdk/ui` components for auth/subscription UI. No custom sign-in buttons.
+2. **ProShell or SDK components.** Use `<ProShell>` or individual `@proappstore/sdk/ui` components for auth/subscription UI. If an app needs primary navigation, use `renderTopbar` or `hideTopbar`; do not stack a second navbar below the default shell. No custom sign-in buttons.
 3. **No inline secrets.** Use `app.proxy.fetch()` for third-party APIs — it injects keys server-side.
 4. **No in-app payments.** Monetization is through the platform subscription only. Don't gate features behind separate payments.
 5. **Mobile-first.** Test at 375px width. Touch targets ≥ 44px. No horizontal scroll.
@@ -683,7 +705,7 @@ my-app/
 - **Do NOT deploy manually.** Push to main = auto-deploy.
 - **Do NOT scaffold from scratch.** Use `pas create`.
 - **Do NOT import `@freeappstore/sdk` directly.** `@proappstore/sdk` includes everything.
-- **Do NOT build custom auth UI.** Use SDK components (ProShell, ProfileMenu, SignInButton).
+- **Do NOT build custom auth logic.** Use SDK components/hooks (`ProShell`, `ProfileMenu`, `SignInButton`, `useProAuth`). Custom app navigation is fine when it reuses SDK account controls.
 - **Do NOT add tracking.** No GA, no pixels, no third-party analytics.
 - **Do NOT gate features behind payments.** Platform subscription covers everything.
 
