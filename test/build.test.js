@@ -83,6 +83,10 @@ test('build.js HTML-escapes app fields (XSS injection)', () => {
 
     runBuild({ registryPath: fixtureRegistry, outDir: tmp });
     const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
+    const detailHtml = fs.readFileSync(
+      path.join(tmp, 'apps', 'xss-fixture', 'index.html'),
+      'utf8',
+    );
 
     // Escaped versions must appear — proves esc() ran on each rendered field.
     assert.ok(
@@ -94,8 +98,8 @@ test('build.js HTML-escapes app fields (XSS injection)', () => {
       'expected escaped <img> from category in output',
     );
     assert.ok(
-      html.includes('&lt;img src=x onerror=alert(2)&gt;'),
-      'expected escaped <img> from proFeatures in output',
+      detailHtml.includes('&lt;img src=x onerror=alert(2)&gt;'),
+      'expected escaped <img> from proFeatures in detail output',
     );
     // And the working tags must NOT appear anywhere — XSS leak guard.
     assert.ok(
@@ -107,7 +111,7 @@ test('build.js HTML-escapes app fields (XSS injection)', () => {
       'unescaped <img> tag from category leaked into output — XSS vulnerability',
     );
     assert.ok(
-      !html.includes('<img src=x onerror=alert(2)>'),
+      !detailHtml.includes('<img src=x onerror=alert(2)>'),
       'unescaped <img> tag from proFeatures leaked into output — XSS vulnerability',
     );
   } finally {

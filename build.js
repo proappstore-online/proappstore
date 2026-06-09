@@ -67,7 +67,7 @@ const cards = apps.map((app) => {
   return `        <div class="app-card" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
           <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
             <div class="app-icon" data-letter="${letter}">
-              <img src="${esc(app.appUrl)}/icon-192.png" alt="" loading="lazy" onerror="this.style.display='none'" />
+              <img src="${esc(app.appUrl)}/icon-192.png" alt="" loading="lazy" />
             </div>
             <div class="app-body">
               <span class="app-name">${esc(app.name)}</span>
@@ -269,7 +269,7 @@ for (const dev of developers) {
     return `        <div class="app-card" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
           <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
             <div class="app-icon" data-letter="${letter}">
-              <img src="${esc(app.appUrl)}/icon-192.png" alt="" loading="lazy" onerror="this.style.display='none'" />
+              <img src="${esc(app.appUrl)}/icon-192.png" alt="" loading="lazy" />
             </div>
             <div class="app-body">
               <span class="app-name">${esc(app.name)}</span>

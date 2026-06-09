@@ -559,6 +559,12 @@ footer .container {
   margin-top: 0.15rem;
 }
 
+.search-empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem 0;
+}
+
 .app-card .app-cta {
   display: block;
   text-align: center;
