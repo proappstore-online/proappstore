@@ -58,7 +58,7 @@ import { initPro } from '@proappstore/sdk'
 
 const app = initPro({ appId: 'my-app' })
 
-// Auth (GitHub OAuth — shared identity with FreeAppStore)
+// Auth (PAS-owned; GitHub OAuth is the default)
 await app.auth.init()
 app.auth.onChange(user => { ... })
 app.auth.signIn()           // GitHub OAuth (default)
@@ -318,20 +318,19 @@ These are the real signatures. Passing a prop not listed here is a compile error
 ```ts
 <ProShell app appName? allowFree? showThemeToggle?>{children}</ProShell>
 <Avatar user size? />                 // size defaults to 32
-<SignInButton app label? />           // ONLY app + label. NO `provider`, NO `onClick`.
+<SignInButton app label? provider? /> // provider is 'github' | 'google'. NO `onClick`.
 <ThemeToggle />                       // no props
 <TextSizeToggle />                    // no props
 <ProfileMenu app showThemeToggle? showBilling?>{children?}</ProfileMenu>
 <GateScreen gate app appName? />
 ```
 
-**Multi-provider sign-in — common mistake.** `<SignInButton>` always calls
-`app.auth.signIn()` (GitHub); it has **no `provider` prop**. For Google/Apple,
-render your own button calling the auth method directly:
+**Multi-provider sign-in.** `<SignInButton>` supports GitHub and Google through
+its `provider` prop:
 
 ```tsx
-<button onClick={() => app.auth.signIn('google')}>Sign in with Google</button>
-<button onClick={() => app.auth.signIn('apple')}>Sign in with Apple</button>
+<SignInButton app={app} provider="github" label="Sign in with GitHub" />
+<SignInButton app={app} provider="google" label="Sign in with Google" />
 ```
 
 Also note: the `useProAuth(app)` hook's `signIn` is **zero-arg** (GitHub only). To
@@ -719,7 +718,7 @@ Use MCP tools as your file system — no local clone needed:
 This is the most powerful mode for an AI agent: full SDK knowledge via `sdk_reference`, 19 recipes via `recipe`, and direct file writes via MCP. No local machine required.
 
 **2. Agent Teams (autonomous AI build).**
-Create a project with `create_app`, describe what you want via `chat_agent`, and AI agents (PO/BA/Dev/QA) build it autonomously. The session token for Agent Teams tools is at `~/.proappstore/config.json` (field `session.token`, set by `pas login`). If the Console shows `project_not_initialized`, call `create_app` to initialize it.
+Create a project with `create_app`, describe what you want via `chat_agent`, and AI agents (PO/BA/Dev/QA) build it autonomously. The session token for Agent Teams tools is at `~/.proappstore/config.json` (field `session.token`, set by `pas login`). Browser OAuth for auth-required MCP tool calls is not triggered automatically yet; see [platform issue #19](https://github.com/proappstore-online/platform/issues/19). If the Console shows `project_not_initialized`, call `create_app` to initialize it.
 
 **3. Local development.**
 `pas create <id>` scaffolds locally, you code it, `git push` deploys.
@@ -780,7 +779,9 @@ parameterized SQL statement against your app's D1:
 **Registration is automatic.** `pas publish` registers a CLI app's `mcp.json`;
 the Agent Teams deploy stage registers an agent-built app's `mcp.json` after a
 green deploy. Then `discover_tools` shows it and `<app>/<tool>` calls it (tools
-with `requires_auth` run as the connected user). Full guide:
+with `requires_auth` need a PAS session token and run as the connected user).
+Unauthenticated connections may discover public/redacted tool metadata, but they
+cannot call private app-data tools. Full guide:
 [docs › MCP App Tools](https://kb.proappstore.online/platform/mcp-app-tools/).
 
 ---
