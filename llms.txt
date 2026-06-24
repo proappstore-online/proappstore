@@ -9,6 +9,11 @@
 - **Agent customization**: Agent Teams build apps for you, and every agent's identity, system prompt, skills, and model are tunable per project (`GET /v1/projects/:slug/agents` to see them all; `PUT /v1/projects/:slug/roles` to tune the build roles). See skills.md › Agent Teams.
 - [Platform Skills (FAS)](https://freeappstore.online/skills.md): Shared platform guide covering conventions used across the store family.
 
+## REST API
+
+- [OpenAPI spec](https://api.proappstore.online/openapi.yaml): Full OpenAPI 3.1 spec for the platform REST API (`api.proappstore.online`) — 150+ endpoints across auth, apps, provisioning, per-app services (KV, counters, storage, rooms, secrets, AI, email/SMS, maps, push), submissions, billing, and creator payouts. Also at [/openapi.json](https://api.proappstore.online/openapi.json).
+- [API docs (Swagger UI)](https://api.proappstore.online/docs): Browsable interactive reference. Auth: `Authorization: Bearer <PAS session JWT>`.
+
 ## SDK
 
 - [@proappstore/sdk on npm](https://www.npmjs.com/package/@proappstore/sdk): Platform SDK. `initPro()` gives you auth, per-app D1 database, R2 file storage, real-time rooms, Stripe subscriptions, AI, maps, push notifications, SMS, React hooks, and UI components.
