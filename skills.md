@@ -121,8 +121,12 @@ const results = await app.maps.geocode('Sydney Opera House')  // → GeoResult[]
 const place = await app.maps.reverseGeocode(-33.856, 151.215)  // → { lat, lng, displayName, address }
 const route = await app.maps.route({ lat: -33.856, lng: 151.215 }, { lat: -33.870, lng: 151.209 })
 // route.geometry (GeoJSON LineString), route.distanceMeters, route.durationSeconds
-const mapUrl = app.maps.embedUrl(-33.856, 151.215)  // for <iframe>
-const tileUrl = app.maps.staticUrl(-33.856, 151.215) // for <img>
+const mapUrl = app.maps.embedUrl(-33.856, 151.215)  // for <iframe> — renders ONE marker only
+const tileUrl = app.maps.staticUrl(-33.856, 151.215) // for <img> — ONE marker only
+// CAPABILITY LIMIT: embedUrl/staticUrl show a SINGLE pin. There is NO multi-marker render.
+// For a map with MANY pins (e.g. one per place/result), build a CUSTOM map — Leaflet
+// (or MapLibre) + OSM tiles, drawing markers yourself from your own DB rows. Do NOT
+// describe a "map with a pin per X" flow as using embedUrl; it cannot do it.
 
 // Push notifications (Web Push)
 await app.notifications.subscribe()          // request permission + register SW
@@ -420,6 +424,9 @@ Full UI component docs: https://docs.proappstore.online/ui/
 |----------|-------|
 | **Storage** file size | 50 MB per file |
 | **Storage** blocked types | HTML, JS, SVG (security) |
+| **KV** per user | 1 MB total, 100 keys max |
+| **KV** value size | 64 KB per value |
+| **KV** key length | 128 chars |
 | **AI** prompt length | 16,000 chars |
 | **AI** max output tokens | 1,024 |
 | **AI** models | `fast` = Llama-3.1-8B, `smart` = Llama-3.3-70B |
@@ -438,6 +445,16 @@ Full UI component docs: https://docs.proappstore.online/ui/
 | **Listings** description | 5,000 chars |
 | **Listings** screenshots | 8 |
 | **Logs** per POST batch | 100 entries, 4 KB each |
+
+### Capability notes — what each primitive does NOT do
+
+A method existing isn't the same as it doing what your flow needs. Don't design a flow the SDK can't deliver — use the listed workaround instead:
+
+- **Maps:** `embedUrl`/`staticUrl` render ONE marker. There is **no multi-marker map** — a "pin per place" view needs a CUSTOM map (Leaflet/MapLibre + OSM tiles) drawing markers from your own DB rows.
+- **Rooms:** **ephemeral** — 32 peers/room, evicted after 24h idle. For real-time presence/chat/signaling only, NOT durable state or large multiplayer. Persist anything that must survive in `app.db`.
+- **AI:** ≤1,024 output tokens, models `fast`/`smart` (Llama) only. **No long-form generation, no Claude/GPT.** Need a bigger model? Proxy to a provider via `app.proxy.fetch` + a vault key.
+- **Storage:** **cannot serve HTML/JS/SVG** (blocked for security); 50 MB/file cap. Render user SVG as an `<img>` from an uploaded PNG/JPG instead.
+- **Proxy:** only calls hosts on the app's **allowlist**; the secret is injected server-side as `:KEY_NAME` and never reaches the browser.
 
 ---
 
