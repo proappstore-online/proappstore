@@ -44,8 +44,6 @@
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
-  <!-- Structured data — search/AI surfaces (the console + PAGS already have this). -->
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"ProAppStore","url":"https://proappstore.online","description":"Premium web apps with subscriptions, AI, real-time collaboration."}</script>
   <!-- CSP lives in _headers (HTTP-header source of truth). -->
   <script>
     (function(){try{var p=localStorage.getItem('stores-theme');var d=p==='dark'||(!p||p==='system')&&matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.dataset.theme='dark';var t=localStorage.getItem('stores-text-size');if(t)document.documentElement.dataset.text=t;}catch(e){}})();
