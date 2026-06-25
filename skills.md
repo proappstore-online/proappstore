@@ -808,6 +808,19 @@ revises the KB), `list_tickets`, `list_agents` (resolved agent catalog),
 `get_project_files`, `set_project_running` (play/pause), `set_project_budget`
 (monthly cost cap). See [Agent customization](https://docs.proappstore.online/).
 
+**Direct (agent-free) build — be the brain yourself, skip the BYO-key agents:**
+Write the project's working tree from YOUR client and deploy, paying only your own
+tokens instead of the metered agent key:
+- `set_project_running` `running:false` — PAUSE first (required; direct edits must
+  not race an agent run).
+- `get_project_files` — read context, especially `KNOWLEDGE.md` (the Architect's spec).
+- `write_project_files` (`files: [{path, content}]`) / `delete_project_files`
+  (`paths: [...]`) — edit the working tree directly.
+- `deploy_project` — push + CI, no LLM (provision the app's repo first).
+This keeps PAS as your hosting + SDK + deploy pipeline while you choose the coding
+brain. (For a standalone scaffolded app instead, `batch_write_files` commits to its
+own repo.)
+
 ### Your app can expose its own tools
 
 ProAppStore is **AI-first**: any app can publish tools to this MCP server, so an
