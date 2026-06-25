@@ -337,6 +337,38 @@ if (gate !== 'ready') return <GateScreen gate={gate} app={app} appName="My App" 
 <Route path="/profile" element={<ProProfilePage app={app} />} />
 ```
 
+#### Building-block primitives (`@proappstore/sdk/ui`)
+
+Plain, theme-aware primitives — **prefer these over hand-rolling buttons/cards/
+modals/inputs**, so apps stay visually consistent and you write less boilerplate.
+They style from the same CSS vars (`--accent`, `--ink`, `--surface`, `--border`,
+`--radius`) the platform already sets, so they match the app's theme + dark mode
+automatically. No Tailwind required (inline-styled).
+
+```tsx
+import { Button, Card, Input, Modal, Spinner, Tabs, Toast, EmptyState } from '@proappstore/sdk/ui'
+
+<Button variant="primary" size="md" loading={saving} onClick={save}>Save</Button>
+// variant: 'primary' | 'secondary' | 'ghost' | 'danger'; spreads all <button> props
+
+<Card padding="1.5rem">…</Card>                       // surface + border + radius
+<Input label="Title" value={t} onChange={e => setT(e.target.value)} error={err} />
+
+const [open, setOpen] = useState(false)
+<Modal open={open} onClose={() => setOpen(false)} title="Confirm">…</Modal>  // Esc + backdrop close
+
+<Spinner size={20} />                                  // inline loading (SMIL, no CSS keyframes)
+
+<Tabs tabs={[{ key:'a', label:'Overview', content:<Overview/> }, { key:'b', label:'Settings', content:<Settings/> }]} />
+
+<EmptyState title="No items yet" description="Create your first one." action={<Button onClick={create}>New</Button>} />
+
+const [toast, setToast] = useState(false)
+<Toast open={toast} message="Saved ✓" variant="success" onClose={() => setToast(false)} />  // auto-dismiss
+```
+
+> Build features by **composing** these — don't re-author a button/modal/spinner in raw CSS each time.
+
 #### Exact component props (do NOT pass undocumented props — it fails `tsc`)
 
 These are the real signatures. Passing a prop not listed here is a compile error.
