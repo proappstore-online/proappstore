@@ -845,7 +845,7 @@ footer .container {
   align-self: flex-end;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .nav-toggle { display: block; }
 
   header {
@@ -893,7 +893,6 @@ footer .container {
   .nav-overlay.open { display: block; }
 
   .hero { padding: 3.5rem 0 2.5rem; }
-  .apps-grid { grid-template-columns: 1fr; }
 }
 
 /* === App detail: published line === */
@@ -1737,6 +1736,14 @@ footer .container {
   .section-spaced { margin: 2.5rem 0; }
   .section-h2 { font-size: 1.3rem; }
   .lede { font-size: 0.9rem; }
+
+  /* Dev CTA box tighter on mobile */
+  .dev-cta-box { padding: 1.25rem; gap: 1rem; }
+
+  /* Footer: stack vertically */
+  footer { padding: 2rem 0; margin-top: 2.5rem; }
+  footer .container { flex-direction: column; gap: 1.25rem; }
+  .footer-links { gap: 0.75rem 1.25rem; }
 }
 
 /* =====================================================================
