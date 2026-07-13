@@ -324,7 +324,7 @@ import {
 <SubscriptionStatus app={app} />
 
 // Upgrade prompt card
-<UpgradeCard app={app} title="Go Pro" priceLabel="$9/month" features={['Cloud sync', 'AI', 'Support']} />
+<UpgradeCard app={app} title="Go Pro" priceLabel="$5/month" features={['Cloud sync', 'AI', 'Support']} />
 
 // Billing portal button
 <BillingButton app={app} variant="secondary" />

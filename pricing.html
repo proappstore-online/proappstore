@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Pricing — ProAppStore</title>
-  <meta name="description" content="FreeAppStore is free forever. ProAppStore is $9/month for all apps. Simple, transparent, fair." />
+  <meta name="description" content="FreeAppStore is free forever. ProAppStore is $5/month for all Pro apps. Simple, transparent, fair." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Pricing — ProAppStore" />
-  <meta property="og:description" content="Free forever or $9/month for everything. Simple, transparent." />
+  <meta property="og:description" content="Free forever or $5/month for every Pro app. Simple, transparent." />
   <meta property="og:url" content="https://proappstore.online/pricing" />
   <meta property="og:image" content="https://proappstore.online/icon-512.png" />
   <meta name="twitter:card" content="summary" />
@@ -29,7 +29,7 @@
         "brand": {"@type": "Organization", "@id": "https://proappstore.online/#org"},
         "offers": {
           "@type": "Offer",
-          "price": "9",
+          "price": "5",
           "priceCurrency": "USD",
           "priceValidUntil": "2027-12-31",
           "availability": "https://schema.org/InStock",
@@ -83,7 +83,7 @@
   <main class="container">
     <div class="page-header">
       <h1>Pricing</h1>
-      <p>Simple and transparent. Free apps are free forever. Pro apps are $9/month for everything.</p>
+      <p>Simple and transparent. Free apps are free forever. Pro apps are $5/month for everything.</p>
     </div>
 
     <div class="page-content">
@@ -105,7 +105,7 @@
         </div>
         <div class="tier pro">
           <h3>Pro</h3>
-          <div class="price">$9 <small>/month</small></div>
+          <div class="price">$5 <small>/month</small></div>
           <div class="blurb">Cloud-powered apps with databases, file storage, and collaboration. Everything included.</div>
           <ul>
             <li>Everything in Free, plus:</li>
@@ -116,7 +116,7 @@
         </div>
       </div>
 
-      <h2>Included in $9/mo — everything</h2>
+      <h2>Included in $5/mo — everything</h2>
       <p>One subscription unlocks every platform API. No per-feature charges, no usage tiers, no surprises.</p>
       <ul class="pro-features-list">
         <li>Auth (GitHub, Google, Apple, Email SSO)</li>
@@ -133,16 +133,12 @@
         <li>Roles &amp; Permissions (owner, member, moderator, editor, viewer + custom)</li>
         <li>License Keys</li>
         <li>Stripe Subscriptions + Billing Portal</li>
-        <li>Usage-based creator payouts</li>
       </ul>
 
       <h2>Frequently asked questions</h2>
 
-      <h3>What do I get for $9/month?</h3>
+      <h3>What do I get for $5/month?</h3>
       <p>Access to every Pro app on the platform. One subscription, all apps. No per-app charges, ever.</p>
-
-      <h3>Where does my $9 go?</h3>
-      <p>10% covers platform infrastructure (hosting, databases, file storage, real-time servers, payments). The other 90% goes to the creators of the apps you actually used that month — split in proportion to how much you used each one. <a href="#for-developers">See the math</a>.</p>
 
       <h3>Can I cancel?</h3>
       <p>Yes, anytime. You keep access until the end of your billing period. No cancellation fees.</p>
@@ -160,27 +156,14 @@
       <p>Not yet, but we're considering it. The free apps on FreeAppStore give you a good feel for the platform.</p>
 
       <h2>Why does Pro cost money?</h2>
-      <p>Running cloud infrastructure costs real money. Every Pro app gets its own database, file storage, and real-time servers. These cost us per-user, per-month. The $9 subscription covers those costs and funds platform development.</p>
+      <p>Running cloud infrastructure costs real money. Every Pro app gets its own database, file storage, and real-time servers. These cost us per-user, per-month. The $5 subscription covers those costs and funds platform development.</p>
       <p>We don't run ads. We don't sell data. We don't have investors pushing for growth-at-all-costs. The subscription is the business model.</p>
 
-      <h2>For developers — how you get paid</h2>
-      <p>There are <strong>no per-app prices</strong>. Subscribers pay one $9/mo fee for the whole catalogue. At the end of each month, the subscription pool — minus the 10% platform fee — is divided among creators in proportion to how much their app was actually used.</p>
-      <p>Think of it like Spotify or Substack's "boost" model: a subscriber who spends 80% of their time in one app sends roughly 80% of their subscription fee to that app's creator. A subscriber who uses ten apps evenly splits theirs ten ways.</p>
-
-      <h3>The math, made explicit</h3>
-      <p>For each subscriber, in each month:</p>
-      <ol>
-        <li>The platform records how much that subscriber used each app (session-minutes plus API calls, normalised).</li>
-        <li>The subscriber's $9 (minus the 10% platform fee) is split across the apps they used, proportional to that usage.</li>
-        <li>At the end of the month, each creator's payout is the sum of those slices across every subscriber who used their app. Payouts land via Stripe Connect.</li>
-      </ol>
-      <p>If your app gets 0% of any subscriber's time that month, you earn $0 that month. If your app is the only one a thousand subscribers use, you earn ~$8,100 that month (1,000 × $9 × 90%).</p>
-
-      <h3>What this means for what you build</h3>
+      <h2>For developers</h2>
       <ul>
-        <li><strong>Don't gate features behind payments.</strong> Every feature is included with the $9 sub. There's nothing to upgrade to inside your app.</li>
-        <li><strong>Don't show upgrade prompts.</strong> See above.</li>
-        <li><strong>Build something people use.</strong> That's the entire incentive — earnings track usage, not screenshots.</li>
+        <li><strong>Don't gate features behind payments.</strong> Every feature is included with the platform subscription. There's nothing to upgrade to inside your app.</li>
+        <li><strong>Don't show in-app upgrade prompts.</strong> The platform handles subscription and billing centrally.</li>
+        <li><strong>Build useful apps.</strong> The current priority is growing a strong Pro catalogue.</li>
       </ul>
 
       <p><a href="https://docs.proappstore.online/">Read the developer docs</a> for the SDK, hosting, and publishing flow.</p>

@@ -54,4 +54,4 @@ Favicon: Purple gradient "A" on rounded rect (512x512, rx=96, Manrope 800).
 - ZERO analytics, tracking, or third-party scripts
 - Pro features are about capability, not surveillance
 - All pro app code is private (not MIT like free tier)
-- Subscription pricing is developer-set with 10% platform commission
+- Subscription pricing is platform-level; apps do not set separate prices
