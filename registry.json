@@ -424,7 +424,7 @@
     },
     {
       "id": "tt",
-      "name": "TT \u2014 Time Tracker",
+      "name": "TT — Time Tracker",
       "category": "productivity",
       "icon": "&#8986;",
       "iconBg": "#eff6ff",
@@ -441,6 +441,25 @@
         "Export for invoicing",
         "Calendar view of tracked time"
       ]
+    },
+    {
+      "id": "codex-mcp-smoke-20260815",
+      "name": "Codex MCP Smoke 20260815",
+      "category": "tools",
+      "icon": "&#9881;",
+      "iconBg": "#e0f2fe",
+      "description": "Smoke test app provisioned and published through the ProAppStore MCP server.",
+      "appUrl": "https://codex-mcp-smoke-20260815.proappstore.online",
+      "repo": "proappstore-online/codex-mcp-smoke-20260815",
+      "hostedOn": "r2",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "proFeatures": [
+        "MCP provisioning smoke test",
+        "GitHub repo created server-side",
+        "D1 and data worker provisioned"
+      ],
+      "creatorGithub": "serge-ivo"
     }
   ],
   "developers": [
