@@ -460,6 +460,20 @@
         "D1 and data worker provisioned"
       ],
       "creatorGithub": "serge-ivo"
+    },
+    {
+      "id": "crm",
+      "name": "CRM",
+      "category": "productivity",
+      "icon": "&#128188;",
+      "iconBg": "#0f766e",
+      "description": "PAS-native CRM for companies, contacts, deals, projects, invoices, and time tracking.",
+      "appUrl": "https://crm.proappstore.online",
+      "repo": "proappstore-online/crm",
+      "hostedOn": "r2",
+      "type": "connected",
+      "developer": "ProAppStore",
+      "creatorGithub": "serge-ivo"
     }
   ],
   "developers": [
