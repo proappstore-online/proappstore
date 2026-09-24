@@ -337,12 +337,12 @@ git push origin main
 
     <!-- ==================== MCP REFERENCE ==================== -->
     <h2 class="ai-h2" id="mcp">MCP Tools Reference</h2>
-    <p class="body-sm-muted-wide">All 35 MCP tools available when connected. Used by both Path 1 (Direct Build) and Path 2 (Agent Teams).</p>
+    <p class="body-sm-muted-wide">All platform MCP tools available on the shared <code>/mcp</code> endpoint. Used by both Path 1 (Direct Build) and Path 2 (Agent Teams). Each published app also has its own endpoint, <code>/mcp/apps/&lt;app_id&gt;</code>, exposing only that app's tools.</p>
 
     <div class="tool-grid tool-grid-compact">
       <div class="tool-card">
         <h4>Platform info</h4>
-        <p><code>sdk_reference</code>, <code>recipe</code>, <code>platform_guide</code>, <code>deploy_status</code>, <code>app_info</code>, <code>list_apps</code>, <code>discover_tools</code></p>
+        <p><code>sdk_reference</code>, <code>recipe</code>, <code>platform_guide</code>, <code>deploy_status</code>, <code>app_info</code>, <code>list_apps</code>, <code>list_app_tools</code>, <code>call_app_tool</code></p>
       </div>
       <div class="tool-card">
         <h4>Build apps</h4>

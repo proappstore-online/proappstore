@@ -3,12 +3,14 @@
   "servers": [
     {
       "name": "ProAppStore",
-      "description": "35 AI agent tools for the ProAppStore platform. Create apps, manage projects, chat with AI agents, read SDK docs, get code recipes, run tests, and query app databases.",
+      "description": "AI agent tools for the ProAppStore platform. Create apps, manage projects, chat with AI agents, read SDK docs, get code recipes, run tests, and reach any published app's registered tools. Per-app endpoints: https://mcp.proappstore.online/mcp/apps/<app_id>.",
       "endpoint": "https://mcp.proappstore.online/mcp",
       "transport": "streamable-http",
       "auth": {
         "type": "oauth2",
-        "flows": ["authorization_code"],
+        "flows": [
+          "authorization_code"
+        ],
         "authorization_url": "https://mcp.proappstore.online/authorize",
         "token_url": "https://mcp.proappstore.online/token"
       },
@@ -18,7 +20,8 @@
         {"name": "app_info", "description": "Get app URLs, repo, data worker, status"},
         {"name": "platform_guide", "description": "Fetch the full skills.md platform guide"},
         {"name": "sdk_reference", "description": "SDK reference: auth, db, storage, maps, AI, rooms, hooks, UI, recipes, design system"},
-        {"name": "discover_tools", "description": "List per-app data tools registered via mcp.json"},
+        {"name": "list_app_tools", "description": "List one app's registered data tools (its mcp.json) — name, reads or writes, auth, description; never SQL"},
+        {"name": "call_app_tool", "description": "Call one app's registered tool by name from the shared endpoint; runs as the signed-in PAS user"},
         {"name": "recipe", "description": "Get pre-built code recipes (CRUD, forms, modals, maps, AI chat, etc.)"},
         {"name": "scaffold_app", "description": "Create a new Pro app from template with GitHub repo + R2 hosting"},
         {"name": "write_file", "description": "Create or overwrite a file in an app's GitHub repo"},

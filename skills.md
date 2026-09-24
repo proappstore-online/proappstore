@@ -796,7 +796,7 @@ Create a project with `create_app`, describe what you want via `chat_agent`, and
 
 ---
 
-Platform tools: `list_apps`, `deploy_status`, `app_info`, `platform_guide`, `sdk_reference` (18 feature sections: auth, db, storage, maps, AI, subscriptions, rooms, hooks, UI, recipes, design_system, etc.), `discover_tools`, and `recipe` (19 pre-built code patterns).
+Platform tools: `list_apps`, `deploy_status`, `app_info`, `platform_guide`, `sdk_reference` (18 feature sections: auth, db, storage, maps, AI, subscriptions, rooms, hooks, UI, recipes, design_system, etc.), `list_app_tools` / `call_app_tool` (one app's registered tools, from the shared endpoint), and `recipe` (19 pre-built code patterns).
 
 ### Drive the Agent Teams loop over MCP
 
@@ -823,8 +823,12 @@ own repo.)
 
 ### Your app can expose its own tools
 
-ProAppStore is **AI-first**: any app can publish tools to this MCP server, so an
-external AI can call the app's data operations as `<app_id>/<tool_name>`.
+ProAppStore is **AI-first**: any app can publish tools to the platform MCP
+server. Each app has its own endpoint, `https://mcp.proappstore.online/mcp/apps/<app_id>`,
+exposing exactly that app's tools under their manifest names (`list_items`, not
+`<app_id>/list_items`); the client's server name namespaces them. The shared
+`/mcp` endpoint registers no app tools — it reaches them through
+`list_app_tools(app_id)` and `call_app_tool(app_id, tool, params)`.
 
 Declare them in an **`mcp.json`** at the repo root — each tool is one
 parameterized SQL statement against your app's D1:
@@ -853,17 +857,18 @@ parameterized SQL statement against your app's D1:
   `requires_auth: true`), `:__now` (ms epoch), `:__uuid` (a fresh id).
 - App-data tools should be authenticated by default, including reads. Use
   `requires_auth: true` unless the data is deliberately public.
-- Role and permission checks are enforced in SQL today: combine `:__user_id`
-  with app-domain tables such as memberships (`WHERE org_id = :org_id AND
-  user_id = :__user_id AND role = 'manager'`). Manifest-level `app_roles` /
-  `platform_roles` gates are the intended next extension, not yet enforced by
-  the production tool registry.
-- Max 50 tools per app.
+- `auth.platform_roles` / `auth.app_roles` in the manifest are enforced by the
+  platform action executor before the SQL runs. Still scope rows in SQL:
+  combine `:__user_id` with app-domain tables such as memberships (`WHERE
+  org_id = :org_id AND user_id = :__user_id AND role = 'manager'`).
+- Max 120 tools per app.
 
 **Registration is automatic.** `pas publish` registers a CLI app's `mcp.json`;
 the Agent Teams deploy stage registers an agent-built app's `mcp.json` after a
-green deploy. Then `discover_tools` shows it and `<app>/<tool>` calls it (tools
-with `requires_auth` run as the connected user). The MCP transport is
+green deploy. Then connect to `https://mcp.proappstore.online/mcp/apps/<app_id>`
+to use that app's tools directly, or from the shared `/mcp` use
+`list_app_tools(app_id)` and `call_app_tool(app_id, tool, params)` (tools with
+`requires_auth` run as the connected user). The MCP transport is
 authenticated, so tool discovery and calls are tied to a PAS user. Full guide:
 [docs › MCP App Tools](https://docs.proappstore.online/mcp-app-tools/).
 
