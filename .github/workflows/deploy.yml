@@ -34,6 +34,7 @@ jobs:
           npm run build:marketing -- --snapshot marketing/fixtures/sample.json --assets-dir marketing/fixtures/sample/assets --out marketing/dist --preview --preview-base /preview/sample-app/
           mkdir -p preview/sample-app
           cp marketing/dist/index.html preview/sample-app/index.html
+          cp marketing/dist/preview-theme.css preview/sample-app/preview-theme.css
           cp -R marketing/dist/_astro marketing/dist/assets preview/sample-app/
 
       - name: Deploy to Cloudflare Pages

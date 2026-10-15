@@ -167,7 +167,6 @@ fs.writeFileSync(path.join(OUT_DIR, '_headers'), [
   '',
   '/preview/*',
   '  X-Robots-Tag: noindex, nofollow',
-  "  Content-Security-Policy: default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; base-uri 'self'; frame-ancestors 'none'",
   '',
 ].join('\n'));
 

@@ -68,7 +68,10 @@ test('public preview uses scoped assets and never links to the fixture app', () 
     assert.match(html, /content="noindex, nofollow"/);
     assert.match(html, /Template preview/);
     assert.match(html, /href="\/preview\/sample-app\/_astro\//);
+    assert.match(html, /href="\/preview\/sample-app\/preview-theme\.css"/);
     assert.match(html, /src="\/preview\/sample-app\/assets\/sample\.png"/);
+    assert.doesNotMatch(html, /<html[^>]* style=/);
+    assert.match(readFileSync(join(out, 'preview-theme.css'), 'utf8'), /--accent:#5431a8/);
     assert.doesNotMatch(html, /href="https:\/\/sample-app\.proappstore\.online\//);
     assert.doesNotMatch(html, /rel="canonical"/);
   } finally { rmSync(temp, { recursive: true, force: true }); }

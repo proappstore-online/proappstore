@@ -30,11 +30,12 @@ const legalLinks = [
 ].filter(Boolean);
 ---
 <!doctype html>
-<html lang="en" style={`--accent: ${content.theme.accent}`}>
+<html lang="en" style={preview ? undefined : `--accent: ${content.theme.accent}`}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content={content.theme.accent} />
+    {preview && <link rel="stylesheet" href={assetHref('/preview-theme.css')} />}
     <title>{content.name} — {content.headline}</title>
     <meta name="description" content={metaSummary} />
     <meta name="robots" content={preview ? 'noindex, nofollow' : 'index, follow'} />

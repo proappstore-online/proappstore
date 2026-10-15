@@ -61,6 +61,7 @@ try {
   const images = [snapshot.heroImage, ...snapshot.screenshots].filter(Boolean);
   if (images.length && !assetsDir) throw new Error('--assets-dir is required for snapshot images');
   mkdirSync(join(stage, 'assets'), { recursive: true });
+  if (preview) writeFileSync(join(stage, 'preview-theme.css'), `:root{--accent:${snapshot.theme.accent}}\n`);
   for (const image of images) {
     const name = basename(image.src);
     const source = join(resolve(assetsDir), name);
