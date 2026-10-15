@@ -52,7 +52,7 @@ const legalLinks = [
     {!preview && <script type="application/ld+json" set:html={structuredData} />}
   </head>
   <body>
-    {preview && <div class="preview-notice" id="preview-note">Template preview · sample content · app link unavailable</div>}
+    {preview && <div class="preview-notice" id="preview-note">{content.previewNotice}</div>}
     <a class="skip" href="#main">Skip to content</a>
     <header class="topbar wrap">
       <a class="brand" href={preview ? previewBase : '/'} aria-label={attributeText(`${content.name} home`)}><span class="brand-mark" aria-hidden="true"></span>{content.name}</a>
@@ -92,12 +92,12 @@ const legalLinks = [
       </section>
 
       {content.screenshots.length > 0 && (
-        <section class="section gallery" aria-labelledby="gallery-title"><div class="wrap"><p class="eyebrow">Inside the app</p><h2 id="gallery-title">Take a closer look</h2><div class="gallery-grid">{content.screenshots.map((image) => <img src={assetHref(image.src)} alt={attributeText(image.alt)} loading="lazy" />)}</div></div></section>
+        <section class="section gallery" aria-labelledby="gallery-title"><div class="wrap"><p class="eyebrow">{content.imagePresentation === 'editorial' ? 'Editorial photography' : 'Inside the app'}</p><h2 id="gallery-title">{content.imagePresentation === 'editorial' ? 'The idea in pictures' : 'Take a closer look'}</h2><div class="gallery-grid">{content.screenshots.map((image) => <img src={assetHref(image.src)} alt={attributeText(image.alt)} loading="lazy" />)}</div></div></section>
       )}
 
       <section class="closing wrap" aria-labelledby="closing-title"><p class="eyebrow">Ready when you are</p><h2 id="closing-title">Get started with {content.name}</h2><a class="button button-light" href={preview ? '#preview-note' : content.primaryCta.url}>{preview ? 'Preview only' : content.primaryCta.label}<span aria-hidden="true"> ↗</span></a></section>
     </main>
-    <footer class="wrap"><span>{content.name}</span><nav aria-label="Legal and support">{legalLinks.map((link) => <a href={link.url} rel="noopener noreferrer">{link.label}</a>)}</nav></footer>
+    <footer class="wrap"><span>{content.name}</span><nav aria-label="Legal, support and photo credits">{legalLinks.map((link) => <a href={link.url} rel="noopener noreferrer">{link.label}</a>)}{content.imageCredits.map((credit) => <a href={credit.url} rel="noopener noreferrer">{credit.label}</a>)}</nav></footer>
   </body>
 </html>
 

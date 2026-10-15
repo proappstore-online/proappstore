@@ -26,14 +26,14 @@ test('Astro builds a complete, revisioned static marketing site from approved co
     assert.match(html, /<h1[^>]*>Keep your project work in one place<\/h1>/);
     assert.match(html, /See the work/);
     assert.match(html, /How it works/);
-    assert.match(html, /Take a closer look/);
+    assert.match(html, /The idea in pictures/);
     assert.match(html, /href="https:\/\/sample-app\.proappstore\.online\/"/);
     assert.match(html, /rel="canonical" href="https:\/\/about-sample-app\.proappstore\.online\/"/);
     assert.match(html, /application\/ld\+json/);
     assert.doesNotMatch(html, /<script[^>]+src=/);
     const manifest = JSON.parse(readFileSync(join(out, 'artifact-manifest.json'), 'utf8'));
     assert.equal(manifest.appId, 'sample-app');
-    assert.equal(manifest.revision, 'fixture-v1');
+    assert.equal(manifest.revision, 'fixture-v2');
     assert.equal(manifest.preview, false);
     for (const file of manifest.files) {
       const bytes = readFileSync(join(out, file.path.slice(1)));
@@ -69,11 +69,33 @@ test('public preview uses scoped assets and never links to the fixture app', () 
     assert.match(html, /Template preview/);
     assert.match(html, /href="\/preview\/sample-app\/_astro\//);
     assert.match(html, /href="\/preview\/sample-app\/preview-theme\.css"/);
-    assert.match(html, /src="\/preview\/sample-app\/assets\/sample\.png"/);
+    assert.match(html, /src="\/preview\/sample-app\/assets\/planning-board\.jpg"/);
+    assert.match(html, /Editorial photography/);
+    assert.match(html, /Planning photos by Paymo on Unsplash/);
     assert.doesNotMatch(html, /<html[^>]* style=/);
     assert.match(readFileSync(join(out, 'preview-theme.css'), 'utf8'), /--accent:#5431a8/);
     assert.doesNotMatch(html, /href="https:\/\/sample-app\.proappstore\.online\//);
     assert.doesNotMatch(html, /rel="canonical"/);
+  } finally { rmSync(temp, { recursive: true, force: true }); }
+});
+
+test('listed app concepts build as isolated noindex previews with disabled app links', () => {
+  const temp = mkdtempSync(join(tmpdir(), 'pas-listed-previews-'));
+  try {
+    for (const id of ['kanban', 'micro']) {
+      const result = spawnSync(process.execPath, [join(root, 'marketing/build.mjs'),
+        '--snapshot', join(root, `marketing/fixtures/${id}.json`),
+        '--assets-dir', join(root, `marketing/fixtures/${id}/assets`),
+        '--out', join(temp, id), '--preview', '--preview-base', `/preview/${id}/`],
+      { cwd: root, encoding: 'utf8', env: { ...process.env, NO_COLOR: '1' } });
+      assert.equal(result.status, 0, result.stderr || result.stdout);
+      const html = readFileSync(join(temp, id, 'index.html'), 'utf8');
+      assert.match(html, /content="noindex, nofollow"/);
+      assert.match(html, /Website concept/);
+      assert.match(html, new RegExp(`/preview/${id}/assets/`));
+      assert.doesNotMatch(html, new RegExp(`href="https://${id}\\.proappstore\\.online/`));
+      assert.doesNotMatch(html, /rel="canonical"/);
+    }
   } finally { rmSync(temp, { recursive: true, force: true }); }
 });
 
@@ -95,7 +117,7 @@ test('incomplete content and unsafe asset paths cannot build an artifact', () =>
     assert.notEqual(result.status, 0);
     assert.match(result.stderr, /local PNG, JPEG or WebP asset/);
 
-    invalid.heroImage.src = '/assets/sample.png';
+    invalid.heroImage.src = '/assets/planning-board.jpg';
     invalid.theme.accent = '#ffffff';
     writeFileSync(snapshot, JSON.stringify(invalid));
     result = build(snapshot, join(temp, 'site'));

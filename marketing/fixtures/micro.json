@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "appId": "micro",
+  "revision": "preview-v1",
+  "appUrl": "https://micro.proappstore.online/",
+  "name": "Micro",
+  "headline": "Make room for every idea",
+  "summary": "Explore ideas on an infinite whiteboard with shapes, sticky notes, text, and freehand drawing. Save boards and return to your work anytime.",
+  "benefits": [
+    {
+      "title": "Think without edges",
+      "body": "Pan and zoom across an infinite canvas as your ideas grow."
+    },
+    {
+      "title": "Draw it your way",
+      "body": "Combine rectangles, lines, text, sticky notes, and freehand marks on one board."
+    },
+    {
+      "title": "Pick up where you left off",
+      "body": "Create multiple boards, rename them, and rely on automatic saving."
+    }
+  ],
+  "howItWorks": [
+    {
+      "title": "Create a board",
+      "body": "Open a new canvas for a brainstorm, wireframe, or visual plan."
+    },
+    {
+      "title": "Build your idea",
+      "body": "Add shapes, notes, text, and drawings; move and resize them as you work."
+    },
+    {
+      "title": "Return and refine",
+      "body": "Your board saves automatically so you can continue later."
+    }
+  ],
+  "primaryCta": {
+    "label": "Open Micro",
+    "url": "https://micro.proappstore.online/"
+  },
+  "heroImage": {
+    "src": "/assets/whiteboard.jpg",
+    "alt": "Photograph of a person sketching a checklist on a whiteboard"
+  },
+  "screenshots": [],
+  "imagePresentation": "editorial",
+  "imageCredits": [
+    {
+      "label": "Whiteboard photo by Jason Coudriet on Unsplash",
+      "url": "https://unsplash.com/photos/person-writing-on-whiteboard-c-7iDdmWvF4"
+    }
+  ],
+  "previewNotice": "Website concept \u00b7 based on the published app listing \u00b7 app link unavailable",
+  "theme": {
+    "accent": "#175f95"
+  }
+}

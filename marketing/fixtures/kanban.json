@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "appId": "kanban",
+  "revision": "preview-v1",
+  "appUrl": "https://kanban.proappstore.online/",
+  "name": "Kanban Pro",
+  "headline": "Keep the whole team on the same board",
+  "summary": "Plan work in shared kanban boards. Create workspaces, invite teammates, assign cards, and see changes together in real time.",
+  "benefits": [
+    {
+      "title": "See work move",
+      "body": "Drag cards across customizable columns as priorities change."
+    },
+    {
+      "title": "Work together live",
+      "body": "Presence indicators show who is viewing the board, while changes sync across connected browsers."
+    },
+    {
+      "title": "Give every task an owner",
+      "body": "Assign teammates to cards and keep status, ETA, requirements, and acceptance criteria close to the work."
+    }
+  ],
+  "howItWorks": [
+    {
+      "title": "Create a workspace",
+      "body": "Set up a board for your team and invite members with a shareable link."
+    },
+    {
+      "title": "Add and assign cards",
+      "body": "Organize tasks in columns and assign each card to a teammate."
+    },
+    {
+      "title": "Follow progress",
+      "body": "Move cards as work advances and see updates appear live."
+    }
+  ],
+  "primaryCta": {
+    "label": "Open Kanban Pro",
+    "url": "https://kanban.proappstore.online/"
+  },
+  "heroImage": {
+    "src": "/assets/planning-board.jpg",
+    "alt": "Photograph of a planning board with sticky notes in columns"
+  },
+  "screenshots": [
+    {
+      "src": "/assets/team-planning.jpg",
+      "alt": "Photograph of two people discussing a kanban-style whiteboard"
+    }
+  ],
+  "imagePresentation": "editorial",
+  "imageCredits": [
+    {
+      "label": "Planning photos by Paymo on Unsplash",
+      "url": "https://unsplash.com/photos/a-white-board-with-sticky-notes-attached-to-it-JXyY3jRV9oI"
+    },
+    {
+      "label": "Team photo by Paymo on Unsplash",
+      "url": "https://unsplash.com/photos/a-man-and-a-woman-standing-in-front-of-a-whiteboard-kjM2AxNsxNo"
+    }
+  ],
+  "previewNotice": "Website concept \u00b7 based on the published app listing \u00b7 app link unavailable",
+  "theme": {
+    "accent": "#5730a8"
+  }
+}

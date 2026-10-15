@@ -63,6 +63,9 @@ export function validateSnapshot(raw) {
   if (contrastWithWhite(theme.accent ?? '#6d28d9') < 4.5) throw new Error('theme.accent must contrast with white text');
   const screenshots = raw.screenshots ?? [];
   if (!Array.isArray(screenshots) || screenshots.length > 8) throw new Error('screenshots must have at most 8 images');
+  const imageCredits = raw.imageCredits ?? [];
+  if (!Array.isArray(imageCredits) || imageCredits.length > 8) throw new Error('imageCredits must have at most 8 items');
+  if (raw.imagePresentation != null && !['product', 'editorial'].includes(raw.imagePresentation)) throw new Error('invalid imagePresentation');
   return {
     schemaVersion: 1,
     appId: raw.appId,
@@ -76,6 +79,13 @@ export function validateSnapshot(raw) {
     primaryCta: { label: text(raw.primaryCta.label, 'primaryCta.label', 50), url: appUrl },
     heroImage: raw.heroImage == null ? null : asset(raw.heroImage, 'heroImage'),
     screenshots: screenshots.map((image, index) => asset(image, `screenshots[${index}]`)),
+    imagePresentation: raw.imagePresentation ?? 'product',
+    imageCredits: imageCredits.map((credit, index) => {
+      const url = httpsUrl(credit?.url, `imageCredits[${index}].url`);
+      if (!url) throw new Error(`imageCredits[${index}].url is required`);
+      return { label: text(credit?.label, `imageCredits[${index}].label`, 100), url };
+    }),
+    previewNotice: raw.previewNotice == null ? 'Template preview · sample content · app link unavailable' : text(raw.previewNotice, 'previewNotice', 160),
     supportUrl: httpsUrl(raw.supportUrl, 'supportUrl'),
     privacyPolicyUrl: httpsUrl(raw.privacyPolicyUrl, 'privacyPolicyUrl'),
     termsUrl: httpsUrl(raw.termsUrl, 'termsUrl'),

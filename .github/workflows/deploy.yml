@@ -29,13 +29,8 @@ jobs:
         # or detail pages.
         run: npm run build
 
-      - name: Build public sample preview
-        run: |
-          npm run build:marketing -- --snapshot marketing/fixtures/sample.json --assets-dir marketing/fixtures/sample/assets --out marketing/dist --preview --preview-base /preview/sample-app/
-          mkdir -p preview/sample-app
-          cp marketing/dist/index.html preview/sample-app/index.html
-          cp marketing/dist/preview-theme.css preview/sample-app/preview-theme.css
-          cp -R marketing/dist/_astro marketing/dist/assets preview/sample-app/
+      - name: Build public noindex previews
+        run: npm run build:previews
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy . --project-name=proappstore

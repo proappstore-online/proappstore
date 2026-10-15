@@ -1,24 +1,61 @@
 {
   "schemaVersion": 1,
   "appId": "sample-app",
-  "revision": "fixture-v1",
+  "revision": "fixture-v2",
   "appUrl": "https://sample-app.proappstore.online/",
   "name": "Sample App",
   "headline": "Keep your project work in one place",
   "summary": "An example of owner-approved copy for the reusable PAS marketing template. This fixture is never published as a real app.",
   "benefits": [
-    { "title": "See the work", "body": "Bring current tasks into one clear view." },
-    { "title": "Make a plan", "body": "Arrange the next steps for your project." },
-    { "title": "Share progress", "body": "Give collaborators a place to follow along." }
+    {
+      "title": "See the work",
+      "body": "Bring current tasks into one clear view."
+    },
+    {
+      "title": "Make a plan",
+      "body": "Arrange the next steps for your project."
+    },
+    {
+      "title": "Share progress",
+      "body": "Give collaborators a place to follow along."
+    }
   ],
   "howItWorks": [
-    { "title": "Open the app", "body": "Start from the main app to create a project." },
-    { "title": "Add your work", "body": "Collect tasks and arrange what comes next." }
+    {
+      "title": "Open the app",
+      "body": "Start from the main app to create a project."
+    },
+    {
+      "title": "Add your work",
+      "body": "Collect tasks and arrange what comes next."
+    }
   ],
-  "primaryCta": { "label": "Open Sample App", "url": "https://sample-app.proappstore.online/" },
-  "heroImage": { "src": "/assets/sample.png", "alt": "Sample fixture image for the marketing template" },
+  "primaryCta": {
+    "label": "Open Sample App",
+    "url": "https://sample-app.proappstore.online/"
+  },
+  "heroImage": {
+    "src": "/assets/planning-board.jpg",
+    "alt": "Photograph of a whiteboard with sticky notes arranged in columns"
+  },
   "screenshots": [
-    { "src": "/assets/sample.png", "alt": "Example screen image used only by the fixture" }
+    {
+      "src": "/assets/team-planning.jpg",
+      "alt": "Photograph of two people planning beside a whiteboard"
+    }
   ],
-  "theme": { "accent": "#5431a8" }
+  "theme": {
+    "accent": "#5431a8"
+  },
+  "imagePresentation": "editorial",
+  "imageCredits": [
+    {
+      "label": "Planning photos by Paymo on Unsplash",
+      "url": "https://unsplash.com/photos/a-white-board-with-sticky-notes-attached-to-it-JXyY3jRV9oI"
+    },
+    {
+      "label": "Team photo by Paymo on Unsplash",
+      "url": "https://unsplash.com/photos/a-man-and-a-woman-standing-in-front-of-a-whiteboard-kjM2AxNsxNo"
+    }
+  ]
 }

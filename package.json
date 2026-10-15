@@ -6,6 +6,7 @@
   "scripts": {
     "build": "node build.js",
     "build:marketing": "node marketing/build.mjs",
+    "build:previews": "node marketing/build-previews.mjs",
     "test": "node --test test/*.test.js"
   },
   "devDependencies": {
