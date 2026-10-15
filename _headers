@@ -8,3 +8,7 @@
   Reporting-Endpoints: csp-endpoint="/v1/csp-report"
   Content-Security-Policy: default-src 'self'; img-src 'self' https://*.proappstore.online https://github.com https://avatars.githubusercontent.com data:; script-src 'self' 'sha256-8nc+NVCvgs4LIIGn4Qa3EeFKb9dImOizDHpN+Wj6JjE='; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.proappstore.online https://api.proappstore.online; frame-src https://*.proappstore.online; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://api.proappstore.online; object-src 'none'; upgrade-insecure-requests; report-to csp-endpoint; report-uri /v1/csp-report
   Content-Security-Policy-Report-Only: default-src 'self'; img-src 'self' https://*.proappstore.online https://github.com https://avatars.githubusercontent.com data:; script-src 'self' 'sha256-8nc+NVCvgs4LIIGn4Qa3EeFKb9dImOizDHpN+Wj6JjE='; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.proappstore.online https://api.proappstore.online; frame-src https://*.proappstore.online; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://api.proappstore.online; object-src 'none'; upgrade-insecure-requests; report-to csp-endpoint; report-uri /v1/csp-report
+
+/preview/*
+  X-Robots-Tag: noindex, nofollow
+  Content-Security-Policy: default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; base-uri 'self'; frame-ancestors 'none'

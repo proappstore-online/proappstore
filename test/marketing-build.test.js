@@ -58,6 +58,22 @@ test('preview is noindex and absent from the sitemap', () => {
   } finally { rmSync(temp, { recursive: true, force: true }); }
 });
 
+test('public preview uses scoped assets and never links to the fixture app', () => {
+  const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-public-preview-'));
+  try {
+    const out = join(temp, 'site');
+    const result = build(fixture, out, ['--preview', '--preview-base', '/preview/sample-app/']);
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    const html = readFileSync(join(out, 'index.html'), 'utf8');
+    assert.match(html, /content="noindex, nofollow"/);
+    assert.match(html, /Template preview/);
+    assert.match(html, /href="\/preview\/sample-app\/_astro\//);
+    assert.match(html, /src="\/preview\/sample-app\/assets\/sample\.png"/);
+    assert.doesNotMatch(html, /href="https:\/\/sample-app\.proappstore\.online\//);
+    assert.doesNotMatch(html, /rel="canonical"/);
+  } finally { rmSync(temp, { recursive: true, force: true }); }
+});
+
 test('incomplete content and unsafe asset paths cannot build an artifact', () => {
   const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-invalid-'));
   try {

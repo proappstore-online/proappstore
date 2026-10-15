@@ -165,6 +165,10 @@ fs.writeFileSync(path.join(OUT_DIR, '_headers'), [
   `  Content-Security-Policy: ${csp}`,
   `  Content-Security-Policy-Report-Only: ${csp}`,
   '',
+  '/preview/*',
+  '  X-Robots-Tag: noindex, nofollow',
+  "  Content-Security-Policy: default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; base-uri 'self'; frame-ancestors 'none'",
+  '',
 ].join('\n'));
 
 // Per-app detail pages at /apps/{id}/. Each page is a static shell that

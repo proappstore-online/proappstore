@@ -16,7 +16,11 @@ const snapshotPath = option('--snapshot');
 const assetsDir = option('--assets-dir');
 const outDir = resolve(option('--out') ?? join(ROOT, 'marketing/dist'));
 const preview = args.includes('--preview');
+const previewBase = option('--preview-base');
 if (!snapshotPath) throw new Error('usage: npm run build:marketing -- --snapshot <approved.json> [--assets-dir <dir>] [--out <dir>] [--preview]');
+if (previewBase && (!preview || !/^\/[a-z0-9/-]+\/$/.test(previewBase) || previewBase.includes('//'))) {
+  throw new Error('--preview-base requires --preview and a safe absolute path');
+}
 
 // Astro empties its output directory before writing. Resolve symlinks and
 // refuse a destination that could erase source, a snapshot, or approved assets.
@@ -76,6 +80,7 @@ try {
       PAS_MARKETING_OUT_DIR: outDir,
       PAS_MARKETING_PUBLIC_DIR: stage,
       PAS_MARKETING_PREVIEW: preview ? '1' : '0',
+      PAS_MARKETING_PREVIEW_BASE: previewBase ?? '',
     },
   });
   if (result.error) throw result.error;

@@ -4,7 +4,11 @@ import { loadSnapshot } from '../../content.mjs';
 const content = loadSnapshot();
 const preview = process.env.PAS_MARKETING_PREVIEW === '1';
 const canonical = `https://about-${content.appId}.proappstore.online/`;
-const socialImage = content.heroImage ? new URL(content.heroImage.src, canonical).href : null;
+const previewBase = process.env.PAS_MARKETING_PREVIEW_BASE || '/';
+const previewOrigin = `https://proappstore.online${previewBase}`;
+const pageUrl = preview && previewBase !== '/' ? previewOrigin : canonical;
+const assetHref = (src) => preview && previewBase !== '/' ? `${previewBase}${src.replace(/^\//, '')}` : src;
+const socialImage = content.heroImage ? new URL(assetHref(content.heroImage.src), pageUrl).href : null;
 // Astro escapes & and quotes in attribute expressions, but leaves literal
 // angle brackets. Drop those only in attributes so owner copy is not double
 // escaped while markup-like text cannot appear in meta or alt attributes.
@@ -34,23 +38,24 @@ const legalLinks = [
     <title>{content.name} — {content.headline}</title>
     <meta name="description" content={metaSummary} />
     <meta name="robots" content={preview ? 'noindex, nofollow' : 'index, follow'} />
-    <link rel="canonical" href={canonical} />
+    {!preview && <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={metaTitle} />
     <meta property="og:description" content={metaSummary} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={pageUrl} />
     {socialImage && <meta property="og:image" content={socialImage} />}
     <meta name="twitter:card" content={socialImage ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={metaTitle} />
     <meta name="twitter:description" content={metaSummary} />
     {socialImage && <meta name="twitter:image" content={socialImage} />}
-    <script type="application/ld+json" set:html={structuredData} />
+    {!preview && <script type="application/ld+json" set:html={structuredData} />}
   </head>
   <body>
+    {preview && <div class="preview-notice" id="preview-note">Template preview · sample content · app link unavailable</div>}
     <a class="skip" href="#main">Skip to content</a>
     <header class="topbar wrap">
-      <a class="brand" href="/" aria-label={attributeText(`${content.name} home`)}><span class="brand-mark" aria-hidden="true"></span>{content.name}</a>
-      <a class="top-link" href={content.primaryCta.url}>{content.primaryCta.label}<span aria-hidden="true"> ↗</span></a>
+      <a class="brand" href={preview ? previewBase : '/'} aria-label={attributeText(`${content.name} home`)}><span class="brand-mark" aria-hidden="true"></span>{content.name}</a>
+      <a class="top-link" href={preview ? '#preview-note' : content.primaryCta.url}>{preview ? 'Preview only' : content.primaryCta.label}<span aria-hidden="true"> ↗</span></a>
     </header>
 
     <main id="main">
@@ -59,10 +64,10 @@ const legalLinks = [
           <p class="eyebrow">Meet {content.name}</p>
           <h1 id="hero-title">{content.headline}</h1>
           <p class="lead">{content.summary}</p>
-          <a class="button" href={content.primaryCta.url}>{content.primaryCta.label}<span aria-hidden="true"> ↗</span></a>
+          <a class="button" href={preview ? '#preview-note' : content.primaryCta.url}>{preview ? 'Preview only' : content.primaryCta.label}<span aria-hidden="true"> ↗</span></a>
         </div>
         {content.heroImage ? (
-          <div class="hero-media"><img src={content.heroImage.src} alt={attributeText(content.heroImage.alt)} width="640" height="480" /></div>
+          <div class="hero-media"><img src={assetHref(content.heroImage.src)} alt={attributeText(content.heroImage.alt)} width="640" height="480" /></div>
         ) : (
           <div class="hero-art" aria-hidden="true"><div class="art-window"><span></span><span></span><span></span><i></i><i></i><i></i></div></div>
         )}
@@ -86,16 +91,17 @@ const legalLinks = [
       </section>
 
       {content.screenshots.length > 0 && (
-        <section class="section gallery" aria-labelledby="gallery-title"><div class="wrap"><p class="eyebrow">Inside the app</p><h2 id="gallery-title">Take a closer look</h2><div class="gallery-grid">{content.screenshots.map((image) => <img src={image.src} alt={attributeText(image.alt)} loading="lazy" />)}</div></div></section>
+        <section class="section gallery" aria-labelledby="gallery-title"><div class="wrap"><p class="eyebrow">Inside the app</p><h2 id="gallery-title">Take a closer look</h2><div class="gallery-grid">{content.screenshots.map((image) => <img src={assetHref(image.src)} alt={attributeText(image.alt)} loading="lazy" />)}</div></div></section>
       )}
 
-      <section class="closing wrap" aria-labelledby="closing-title"><p class="eyebrow">Ready when you are</p><h2 id="closing-title">Get started with {content.name}</h2><a class="button button-light" href={content.primaryCta.url}>{content.primaryCta.label}<span aria-hidden="true"> ↗</span></a></section>
+      <section class="closing wrap" aria-labelledby="closing-title"><p class="eyebrow">Ready when you are</p><h2 id="closing-title">Get started with {content.name}</h2><a class="button button-light" href={preview ? '#preview-note' : content.primaryCta.url}>{preview ? 'Preview only' : content.primaryCta.label}<span aria-hidden="true"> ↗</span></a></section>
     </main>
     <footer class="wrap"><span>{content.name}</span><nav aria-label="Legal and support">{legalLinks.map((link) => <a href={link.url} rel="noopener noreferrer">{link.label}</a>)}</nav></footer>
   </body>
 </html>
 
 <style>
+  .preview-notice{background:#151a20;color:#fff;text-align:center;padding:10px 16px;font:700 13px/1.5 system-ui,sans-serif}
   :global(*){box-sizing:border-box} :global(html){scroll-behavior:smooth} :global(body){margin:0;background:#f8f6f2;color:#151a20;font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif} :global(a){color:inherit} :global(img){max-width:100%;height:auto} :global(:focus-visible){outline:3px solid var(--accent);outline-offset:4px}
   .wrap{width:min(1160px,calc(100% - 48px));margin-inline:auto}.skip{position:absolute;left:-999px;top:12px;background:white;padding:10px;z-index:5}.skip:focus{left:12px}.topbar{height:88px;display:flex;align-items:center;justify-content:space-between}.brand{display:inline-flex;align-items:center;gap:12px;font-weight:800;text-decoration:none;font-size:1.15rem;letter-spacing:-.025em}.brand-mark{width:24px;height:24px;border-radius:7px;background:var(--accent);box-shadow:8px 8px 0 #d8d4e8}.top-link{font-weight:700;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:3px}.hero{min-height:580px;display:grid;grid-template-columns:1fr 1fr;gap:7%;align-items:center;padding-block:52px 90px}.eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;font-weight:800;color:var(--accent);margin:0 0 24px}.hero h1{font-size:clamp(3rem,6vw,5.8rem);line-height:1.02;letter-spacing:-.07em;max-width:700px;margin:0}.lead{font-size:clamp(1.08rem,2vw,1.35rem);line-height:1.6;color:#4c5862;max-width:570px;margin:28px 0 36px}.button{display:inline-flex;align-items:center;justify-content:center;gap:24px;background:var(--accent);color:white;border-radius:8px;padding:16px 22px;font-weight:750;text-decoration:none;box-shadow:0 12px 24px #20144822}.button:hover{filter:brightness(.92)}.hero-media,.hero-art{min-height:400px;border-radius:22px;background:#e7e2ee;display:grid;place-items:center;overflow:hidden;box-shadow:0 25px 65px #1c21321c}.hero-media img{width:100%;height:100%;object-fit:cover}.hero-art{background:radial-gradient(circle at 75% 20%,#ffffffbb 0 20%,transparent 20.5%),linear-gradient(140deg,var(--accent),#212637);padding:45px}.art-window{background:#fff;border-radius:12px;width:min(350px,100%);min-height:260px;box-shadow:16px 18px 0 #ffffff33;display:flex;gap:8px;align-content:flex-start;flex-wrap:wrap;padding:20px;transform:rotate(-4deg)}.art-window span{width:10px;height:10px;border-radius:50%;background:#d2cddb}.art-window i{display:block;flex-basis:100%;height:28px;border-radius:5px;background:#ece9f1}.art-window i:nth-of-type(2){width:70%;flex-basis:70%;background:#d9d2ed}.art-window i:nth-of-type(3){width:88%;flex-basis:88%}.section{padding-block:108px}.section h2,.closing h2{font-size:clamp(2.25rem,4vw,4rem);line-height:1.1;letter-spacing:-.055em;margin:0 0 42px}.benefits{background:#fff}.benefit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.benefit{padding:28px;border:1px solid #e2e1df;border-radius:14px;background:#fbfaf8}.number{display:block;font-size:.8rem;font-weight:800;color:var(--accent);margin-bottom:36px}.benefit h3,.steps h3{font-size:1.25rem;letter-spacing:-.03em;margin:0 0 10px}.benefit p,.steps p{color:#58616a;line-height:1.65;margin:0}.steps{display:grid;grid-template-columns:.8fr 1.2fr;gap:10%}.steps ol{list-style:none;counter-reset:step;margin:0;padding:0}.steps li{counter-increment:step;padding:0 0 28px 62px;margin-bottom:28px;border-bottom:1px solid #d8d8d6;position:relative}.steps li:before{content:counter(step);position:absolute;left:0;top:0;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:#e9e4f0;color:var(--accent);font-weight:800}.gallery{background:#ece9e3}.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}.gallery img{display:block;width:100%;border-radius:12px;box-shadow:0 18px 30px #1b1e271c}.closing{background:#1b2230;color:white;text-align:center;border-radius:20px;padding:75px 30px;margin-block:60px}.closing .eyebrow{color:#c8b6ff}.closing h2{margin-bottom:30px}.button-light{background:#fff;color:#1b2230}footer{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-block:36px 55px;color:#59636c;font-size:.9rem}footer span{font-weight:800;color:#151a20}footer nav{display:flex;flex-wrap:wrap;gap:24px}footer a{text-decoration:none}footer a:hover{text-decoration:underline}
   @media(max-width:760px){.wrap{width:min(100% - 32px,600px)}.topbar{height:72px}.hero{grid-template-columns:1fr;padding-block:44px 65px;gap:42px;min-height:0}.hero h1{font-size:clamp(2.8rem,11vw,4.5rem)}.hero-media,.hero-art{min-height:290px}.benefit-grid{grid-template-columns:1fr}.benefit .number{margin-bottom:20px}.section{padding-block:70px}.steps{grid-template-columns:1fr;gap:0}.closing{margin-block:30px}footer{align-items:flex-start;flex-direction:column}}

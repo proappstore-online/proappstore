@@ -241,6 +241,7 @@ test('_headers ships X-Frame-Options + HSTS + COOP + frame-ancestors', () => {
     assert.match(headers, /Cross-Origin-Opener-Policy:\s*same-origin/);
     assert.match(csp, /frame-ancestors 'none'/);
     assert.match(csp, /object-src 'none'/);
+    assert.match(headers, /\/preview\/\*\n  X-Robots-Tag: noindex, nofollow/);
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }
