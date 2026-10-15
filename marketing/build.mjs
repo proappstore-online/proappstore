@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
-import { existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, copyFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, copyFileSync, rmSync, statSync, writeFileSync, realpathSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { basename, extname, join, resolve, relative } from 'node:path';
+import { basename, dirname, extname, isAbsolute, join, resolve, relative, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { loadSnapshot } from './content.mjs';
@@ -17,7 +17,30 @@ const assetsDir = option('--assets-dir');
 const outDir = resolve(option('--out') ?? join(ROOT, 'marketing/dist'));
 const preview = args.includes('--preview');
 if (!snapshotPath) throw new Error('usage: npm run build:marketing -- --snapshot <approved.json> [--assets-dir <dir>] [--out <dir>] [--preview]');
-if (outDir === ROOT || outDir === resolve('/')) throw new Error('unsafe output directory');
+
+// Astro empties its output directory before writing. Resolve symlinks and
+// refuse a destination that could erase source, a snapshot, or approved assets.
+function canonical(path) {
+  const absolute = resolve(path);
+  if (existsSync(absolute)) return realpathSync(absolute);
+  const parent = dirname(absolute);
+  return parent === absolute ? absolute : join(canonical(parent), basename(absolute));
+}
+function contains(parent, child) {
+  const rest = relative(parent, child);
+  return rest === '' || (rest !== '..' && !rest.startsWith(`..${sep}`) && !isAbsolute(rest));
+}
+const output = canonical(outDir);
+const source = canonical(ROOT);
+// Keep this expected path lexical: canonicalizing it would follow a malicious
+// marketing/dist symlink into source and incorrectly mark that target as safe.
+const allowedInSource = join(source, 'marketing/dist');
+if (contains(output, source)
+  || (contains(source, output) && !contains(allowedInSource, output))
+  || contains(output, canonical(snapshotPath))
+  || (assetsDir && contains(output, canonical(assetsDir)))) {
+  throw new Error('unsafe output directory');
+}
 
 process.env.PAS_MARKETING_SNAPSHOT = resolve(snapshotPath);
 const snapshot = loadSnapshot();

@@ -2,7 +2,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { spawnSync } = require('node:child_process');
 const { createHash } = require('node:crypto');
-const { mkdtempSync, readFileSync, writeFileSync, rmSync } = require('node:fs');
+const { mkdtempSync, readFileSync, writeFileSync, rmSync, symlinkSync } = require('node:fs');
 const { tmpdir } = require('node:os');
 const { join, resolve } = require('node:path');
 
@@ -102,5 +102,44 @@ test('owner-authored text cannot inject HTML or a JSON-LD script', () => {
     assert.doesNotMatch(html, / onerror="alert\(3\)"/);
     assert.match(html, /&lt;\/script&gt;/);
     assert.match(html, /\\u003c\/script>/);
+  } finally { rmSync(temp, { recursive: true, force: true }); }
+});
+
+test('Astro escapes owner copy once in metadata and image attributes', () => {
+  const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-entities-'));
+  try {
+    const snapshot = join(temp, 'input.json');
+    const content = JSON.parse(readFileSync(fixture, 'utf8'));
+    content.name = 'A & B';
+    content.summary = 'Plan & share';
+    content.heroImage.alt = 'Tasks & people';
+    writeFileSync(snapshot, JSON.stringify(content));
+    const out = join(temp, 'site');
+    const result = build(snapshot, out);
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    const html = readFileSync(join(out, 'index.html'), 'utf8');
+    assert.match(html, /content="Plan &amp; share"/);
+    assert.match(html, /aria-label="A &amp; B home"/);
+    assert.match(html, /alt="Tasks &amp; people"/);
+    assert.doesNotMatch(html, /&amp;amp;/);
+  } finally { rmSync(temp, { recursive: true, force: true }); }
+});
+
+test('output cannot erase its input snapshot, including through a symlink', () => {
+  const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-output-'));
+  try {
+    const snapshot = join(temp, 'input.json');
+    writeFileSync(snapshot, readFileSync(fixture));
+    const direct = build(snapshot, temp);
+    assert.notEqual(direct.status, 0);
+    assert.match(direct.stderr, /unsafe output directory/);
+    assert.equal(readFileSync(snapshot, 'utf8'), readFileSync(fixture, 'utf8'));
+
+    const alias = join(temp, 'alias');
+    symlinkSync(temp, alias, 'dir');
+    const linked = build(snapshot, alias);
+    assert.notEqual(linked.status, 0);
+    assert.match(linked.stderr, /unsafe output directory/);
+    assert.equal(readFileSync(snapshot, 'utf8'), readFileSync(fixture, 'utf8'));
   } finally { rmSync(temp, { recursive: true, force: true }); }
 });

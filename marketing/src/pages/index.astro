@@ -5,9 +5,12 @@ const content = loadSnapshot();
 const preview = process.env.PAS_MARKETING_PREVIEW === '1';
 const canonical = `https://about-${content.appId}.proappstore.online/`;
 const socialImage = content.heroImage ? new URL(content.heroImage.src, canonical).href : null;
-const attribute = (value) => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-const metaTitle = attribute(`${content.name} — ${content.headline}`);
-const metaSummary = attribute(content.summary);
+// Astro escapes & and quotes in attribute expressions, but leaves literal
+// angle brackets. Drop those only in attributes so owner copy is not double
+// escaped while markup-like text cannot appear in meta or alt attributes.
+const attributeText = (value) => String(value).replace(/[<>]/g, '');
+const metaTitle = attributeText(`${content.name} — ${content.headline}`);
+const metaSummary = attributeText(content.summary);
 const structuredData = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
@@ -46,7 +49,7 @@ const legalLinks = [
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <header class="topbar wrap">
-      <a class="brand" href="/" aria-label={attribute(`${content.name} home`)}><span class="brand-mark" aria-hidden="true"></span>{content.name}</a>
+      <a class="brand" href="/" aria-label={attributeText(`${content.name} home`)}><span class="brand-mark" aria-hidden="true"></span>{content.name}</a>
       <a class="top-link" href={content.primaryCta.url}>{content.primaryCta.label}<span aria-hidden="true"> ↗</span></a>
     </header>
 
@@ -59,7 +62,7 @@ const legalLinks = [
           <a class="button" href={content.primaryCta.url}>{content.primaryCta.label}<span aria-hidden="true"> ↗</span></a>
         </div>
         {content.heroImage ? (
-          <div class="hero-media"><img src={content.heroImage.src} alt={attribute(content.heroImage.alt)} width="640" height="480" /></div>
+          <div class="hero-media"><img src={content.heroImage.src} alt={attributeText(content.heroImage.alt)} width="640" height="480" /></div>
         ) : (
           <div class="hero-art" aria-hidden="true"><div class="art-window"><span></span><span></span><span></span><i></i><i></i><i></i></div></div>
         )}
@@ -83,7 +86,7 @@ const legalLinks = [
       </section>
 
       {content.screenshots.length > 0 && (
-        <section class="section gallery" aria-labelledby="gallery-title"><div class="wrap"><p class="eyebrow">Inside the app</p><h2 id="gallery-title">Take a closer look</h2><div class="gallery-grid">{content.screenshots.map((image) => <img src={image.src} alt={attribute(image.alt)} loading="lazy" />)}</div></div></section>
+        <section class="section gallery" aria-labelledby="gallery-title"><div class="wrap"><p class="eyebrow">Inside the app</p><h2 id="gallery-title">Take a closer look</h2><div class="gallery-grid">{content.screenshots.map((image) => <img src={image.src} alt={attributeText(image.alt)} loading="lazy" />)}</div></div></section>
       )}
 
       <section class="closing wrap" aria-labelledby="closing-title"><p class="eyebrow">Ready when you are</p><h2 id="closing-title">Get started with {content.name}</h2><a class="button button-light" href={content.primaryCta.url}>{content.primaryCta.label}<span aria-hidden="true"> ↗</span></a></section>
