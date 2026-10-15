@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "appId": "sample-app",
+  "revision": "fixture-v1",
+  "appUrl": "https://sample-app.proappstore.online/",
+  "name": "Sample App",
+  "headline": "Keep your project work in one place",
+  "summary": "An example of owner-approved copy for the reusable PAS marketing template. This fixture is never published as a real app.",
+  "benefits": [
+    { "title": "See the work", "body": "Bring current tasks into one clear view." },
+    { "title": "Make a plan", "body": "Arrange the next steps for your project." },
+    { "title": "Share progress", "body": "Give collaborators a place to follow along." }
+  ],
+  "howItWorks": [
+    { "title": "Open the app", "body": "Start from the main app to create a project." },
+    { "title": "Add your work", "body": "Collect tasks and arrange what comes next." }
+  ],
+  "primaryCta": { "label": "Open Sample App", "url": "https://sample-app.proappstore.online/" },
+  "heroImage": { "src": "/assets/sample.png", "alt": "Sample fixture image for the marketing template" },
+  "screenshots": [
+    { "src": "/assets/sample.png", "alt": "Example screen image used only by the fixture" }
+  ],
+  "theme": { "accent": "#5431a8" }
+}

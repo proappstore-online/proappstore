@@ -5,6 +5,10 @@
   "description": "Static storefront for ProAppStore. index.html and manifest.json are built from registry.json by build.js (run on Cloudflare Pages).",
   "scripts": {
     "build": "node build.js",
-    "test": "node --test test/build.test.js"
+    "build:marketing": "node marketing/build.mjs",
+    "test": "node --test test/*.test.js"
+  },
+  "devDependencies": {
+    "astro": "7.3.8"
   }
 }
