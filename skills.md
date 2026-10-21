@@ -762,34 +762,48 @@ my-app/
 
 ## MCP Server
 
-AI agents can connect to the ProAppStore MCP server for platform-aware tooling:
+The general PAS MCP server exposes 68 platform tools for app discovery, SDK guidance,
+files, builds, deployment, Agent Teams, QA, admin consoles and ownership. Each app
+can also expose its own registered tools.
 
-```json
-{
-  "mcpServers": {
-    "proappstore": {
-      "command": "npx",
-      "args": ["mcp-remote", "https://mcp.proappstore.online/mcp"]
-    }
-  }
-}
+Connect globally in Codex:
+
+```bash
+codex mcp add proappstore --url https://mcp.proappstore.online/mcp
+codex mcp login proappstore
 ```
+
+Or in Claude Code:
+
+```bash
+claude mcp add --transport http --scope user proappstore https://mcp.proappstore.online/mcp
+```
+
+Complete browser OAuth with your PAS account (GitHub or Google where enabled),
+then call `whoami` to verify the account. Tools use connection authentication;
+never put credentials in prompts or tool arguments. Other clients can use their
+remote HTTP connector or `npx mcp-remote https://mcp.proappstore.online/mcp`.
+The transport requires PAS MCP OAuth credentials; clients must support OAuth.
+
+A registered MCP server gives tools to the assistant. An `@` mention additionally
+requires a plugin installed and enabled in that client. The ProAppStore plugin is
+general PAS access; provisioning is one workflow within it.
 
 ### Three ways to build an app
 
 **1. Direct build via MCP (you are the developer).**
 Use MCP tools as your file system — no local clone needed:
-- `scaffold_app` — create a GitHub repo from the template
+- `list_templates` — choose an approved template
+- `provision_pas_app` — preview with `dry_run:true`, then confirm the intended repo and infrastructure change with `dry_run:false`
 - `sdk_reference` / `recipe` — read SDK docs and get copy-paste code patterns
 - `write_file` / `batch_write_files` — write app source code directly to the repo
 - `read_file` / `search_files` / `list_files` — inspect existing code
-- `provision_app` — register the R2 route + D1 database (makes it live)
 - Push to main triggers auto-deploy to R2 (the deploy workflow is in the template)
 
 This is the most powerful mode for an AI agent: full SDK knowledge via `sdk_reference`, 19 recipes via `recipe`, and direct file writes via MCP. No local machine required.
 
 **2. Agent Teams (autonomous AI build).**
-Create a project with `create_app`, describe what you want via `chat_agent`, and AI agents (PO/BA/Dev/QA) build it autonomously. Auth-capable clients such as `mcp-remote` use browser OAuth on first connection. Clients that cannot run browser OAuth can send the PAS session token from `~/.proappstore/config.json` (field `session.token`, set by `pas login`). If the Console shows `project_not_initialized`, call `create_app` to initialize it.
+Create a project with `create_app`, describe what you want via `chat_agent`, and AI agents (PO/BA/Dev/QA) build it autonomously. Connect with browser OAuth and verify `whoami` before account actions. If the Console shows `project_not_initialized`, call `create_app` to initialize it.
 
 **3. Local development.**
 `pas create <id>` scaffolds locally, you code it, `git push` deploys.
@@ -800,9 +814,8 @@ Platform tools: `list_apps`, `deploy_status`, `app_info`, `platform_guide`, `sdk
 
 ### Drive the Agent Teams loop over MCP
 
-You can build an app end-to-end from your own AI client. Each tool takes a PAS
-session `token` (the owner's; the account needs a BYO Anthropic key for agents to
-run): `create_app`, `list_projects`, `get_project`, `build_knowledge_base`,
+You can build an app end-to-end from your own AI client. Tools use the connected
+owner account; the account needs a BYO Anthropic key for agents to run: `create_app`, `list_projects`, `get_project`, `build_knowledge_base`,
 `chat_agent` (`thread:'build'`→PO files tickets; `thread:'research'`→Architect
 revises the KB), `list_tickets`, `list_agents` (resolved agent catalog),
 `get_project_files`, `set_project_running` (play/pause), `set_project_budget`
@@ -878,11 +891,10 @@ authenticated, so tool discovery and calls are tied to a PAS user. Full guide:
 
 ```
 ~/dev/stores/pas/
-├── platform/       → proappstore-online/platform (sdk, cli, backend)
+├── platform/       → proappstore-online/platform (sdk, cli, backend, packages/mcp)
 ├── proappstore/    → proappstore-online/proappstore (store site)
 ├── console/        → proappstore-online/console (creator portal)
 ├── dashboard/      → proappstore-online/dashboard (user account)
-├── mcp/            → proappstore-online/mcp (MCP server for AI agents)
 ├── apps/
 │   ├── meetup/     → proappstore-online/meetup (platform default apps)
 │   ├── carsads/    → carsads-online/carsads (third-party creator)

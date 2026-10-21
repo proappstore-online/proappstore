@@ -87,20 +87,16 @@
     <ol class="steps">
       <li>
         <h3>Connect your AI tool via MCP</h3>
-        <p>Add to your Claude Code settings (<code>~/.claude/settings.json</code>):</p>
-        <div class="cmd">{
-  "mcpServers": {
-    "proappstore": {
-      "command": "npx",
-      "args": ["mcp-remote", "https://mcp.proappstore.online/mcp"]
-    }
-  }
-}</div>
-        <p class="body-xs-muted">Works with Cursor, Windsurf, and any MCP-compatible editor too. On first connection, auth-capable clients open browser sign-in. Clients without browser OAuth can send a PAS session token from <code>pas login</code>.</p>
+        <p>Connect globally in Claude Code:</p>
+        <div class="cmd">claude mcp add --transport http --scope user proappstore https://mcp.proappstore.online/mcp</div>
+        <p>Or in Codex:</p>
+        <div class="cmd">codex mcp add proappstore --url https://mcp.proappstore.online/mcp
+codex mcp login proappstore</div>
+        <p class="body-xs-muted">Complete browser OAuth with your PAS account, then call <code>whoami</code>. Tools use the signed-in connection automatically. Other OAuth-capable clients can connect to the same URL. An @ mention requires the ProAppStore plugin to be installed and enabled in that client.</p>
       </li>
       <li>
         <h3>Create your app</h3>
-        <p>Tell your AI tool: <em>"Create a Pro app called chess-academy"</em>. It will call <code>scaffold_app</code> to create the GitHub repo from the template, then <code>provision_app</code> to register the route and database.</p>
+        <p>Tell your AI tool: <em>"Create a Pro app called chess-academy"</em>. It will inspect <code>list_templates</code> and preview <code>provision_pas_app</code> with <code>dry_run:true</code>. After you confirm the repo and infrastructure plan, it applies the workflow with <code>dry_run:false</code> and checks <code>provisioning_status</code>.</p>
       </li>
       <li>
         <h3>Build it</h3>
@@ -346,7 +342,7 @@ git push origin main
       </div>
       <div class="tool-card">
         <h4>Build apps</h4>
-        <p><code>scaffold_app</code>, <code>write_file</code>, <code>batch_write_files</code>, <code>read_file</code>, <code>list_files</code>, <code>search_files</code>, <code>provision_app</code></p>
+        <p><code>list_templates</code>, <code>provision_pas_app</code>, <code>write_file</code>, <code>batch_write_files</code>, <code>read_file</code>, <code>list_files</code>, <code>search_files</code>, <code>provision_app</code></p>
       </div>
       <div class="tool-card">
         <h4>Agent Teams</h4>
@@ -354,7 +350,7 @@ git push origin main
       </div>
       <div class="tool-card">
         <h4>App data</h4>
-        <p>Per-app SQL tools from <code>mcp.json</code> — query any app's D1 database via <code>&lt;app&gt;/&lt;tool&gt;</code></p>
+        <p>Per-app SQL tools from <code>mcp.json</code> — call an app's registered tools under their manifest names at <code>/mcp/apps/&lt;app_id&gt;</code>, or use <code>list_app_tools</code> / <code>call_app_tool</code> from the shared endpoint</p>
       </div>
     </div>
 
