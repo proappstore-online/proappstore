@@ -16,3 +16,20 @@ test('a transient service failure aborts the build instead of deleting approved 
   await assert.rejects(reconcile({ apps: [app('public')] }, inventory('public'), async () => response(503)), /retry instead of silently delisting/);
   await assert.rejects(reconcile({ apps: [app('public')] }, { apps: [] }), /refusing a destructive rebuild/);
 });
+
+test('placeholder owner copy cannot replace an approved catalogue description', async () => {
+  const result = await reconcile({ apps: [app('public')] }, { apps: [{ appId: 'public', tagline: 'x'.repeat(60) }] }, async () => response());
+  assert.equal(result.registry.apps[0].description, 'Approved description');
+  const realCopy = await reconcile({ apps: [app('public')] }, { apps: [{ appId: 'public', tagline: '  Organize your community events.  ' }] }, async () => response());
+  assert.equal(realCopy.registry.apps[0].description, 'Organize your community events.');
+});
+
+test('app sitemap discovery follows public readiness and canonical ownership', async () => {
+  const result = await reconcile({ apps: [...['primary', 'custom', 'hidden', 'empty'].map(app), { ...app('custom-primary'), sitemapUrl: null }] }, inventory('primary', 'custom', 'hidden', 'empty', 'custom-primary'), async url => {
+    if (url.includes('empty')) return response(404);
+    if (url.includes('hidden')) return response(200, '<meta name="robots" content="noindex">');
+    if (url.includes('custom.')) return response(200, '<link href="https://custom.example/" rel="canonical">');
+    return response(200, '<link rel="canonical" href="/">');
+  });
+  assert.deepEqual(result.registry.apps.map(a => [a.id, a.sitemapUrl]), [['primary', 'https://primary.proappstore.online/sitemap.xml'], ['custom', null], ['custom-primary', null]]);
+});

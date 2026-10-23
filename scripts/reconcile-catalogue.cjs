@@ -2,6 +2,28 @@ const fs = require('node:fs');
 const path = require('node:path');
 const ROOT = path.resolve(__dirname, '..');
 
+// Legacy listing rows can predate copy moderation. A repeated-character test
+// value must not replace reviewed product copy in cards or the host SEO feed.
+function usableTagline(value) {
+  if (typeof value !== 'string') return null;
+  const text = value.trim();
+  return text && !/^(.)\1{11,}$/u.test(text) ? text : null;
+}
+
+/** A secondary launch host must not advertise an app-owned canonical elsewhere. */
+function hasPrimaryCanonical(html, launchUrl) {
+  for (const [tag] of html.matchAll(/<link\b[^>]*>/gi)) {
+    const rel = tag.match(/\brel\s*=\s*["']([^"']*)["']/i)?.[1];
+    if (!rel?.split(/\s+/).some(value => value.toLowerCase() === 'canonical')) continue;
+    const href = tag.match(/\bhref\s*=\s*["']([^"']*)["']/i)?.[1];
+    if (!href?.trim()) continue; // The host injects a missing canonical for an approved root.
+    try {
+      if (new URL(href, launchUrl).href !== launchUrl.href) return false;
+    } catch { return false; }
+  }
+  return true;
+}
+
 /** The API is authoritative for public visibility, not copy approval. A row
  * without a curated listing is not permission to publish a draft/internal app. */
 async function reconcile(registry, inventory, get = fetch) {
@@ -20,7 +42,9 @@ async function reconcile(registry, inventory, get = fetch) {
     const noindex = /\bnoindex\b/i.test(response.headers.get('x-robots-tag') || '') || [...html.matchAll(/<meta\b[^>]*>/gi)].some(([tag]) => /name\s*=\s*["'](?:robots|googlebot)["']/i.test(tag) && /content\s*=\s*["'][^"']*\bnoindex\b/i.test(tag));
     if (noindex) { excluded.push({ id: app.id, reason: 'explicit noindex' }); continue; }
     const live = byId.get(app.id);
-    apps.push({ ...app, ...(typeof live.tagline === 'string' && live.tagline.trim() ? { description: live.tagline.trim() } : {}) });
+    const tagline = usableTagline(live.tagline);
+    const sitemapUrl = app.sitemapUrl !== null && hasPrimaryCanonical(html, url) ? new URL('/sitemap.xml', url).href : null;
+    apps.push({ ...app, ...(tagline ? { description: tagline } : {}), sitemapUrl });
   }
   const approved = new Set(registry.apps.map(app => app.id));
   for (const app of inventory.apps) if (!approved.has(app.appId)) pending.push({ id: app.appId, reason: 'no approved catalogue copy; keep out of generated discovery' });

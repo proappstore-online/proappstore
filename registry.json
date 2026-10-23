@@ -367,6 +367,7 @@
       "description": "Online chess teaching \u2014 real-time games with teacher oversight, Swiss tournaments, puzzle sets with scoring and hints.",
       "about": "Chess Academy is an online teaching platform built for chess schools and academies. Teachers can monitor all active games in real-time, pause and resume boards, and manage Swiss-system tournaments with automatic pairings and colour balancing.\n\nStudents play rated or unrated games with configurable time controls, solve curated puzzle sets with progressive hints, and track their Glicko-2 ratings. Puzzle sets can be imported from PGN files and assigned to individual students.\n\nMulti-tenant by design \u2014 each academy runs as an isolated tenant with its own students, teachers, and data. Built on chessground (the Lichess board library) and chess.js for move validation, with Stockfish WASM for hints and puzzle analysis.",
       "appUrl": "https://chess-academy.proappstore.online",
+      "sitemapUrl": null,
       "repo": "proappstore-online/chess-academy",
       "type": "connected",
       "developer": "Serge",
@@ -460,6 +461,45 @@
       "repo": "proappstore-online/tennis-clubs",
       "type": "connected",
       "developer": "ProAppStore creators"
+    },
+    {
+      "type": "connected",
+      "developer": "ProAppStore creators",
+      "id": "tradies",
+      "name": "Tradies",
+      "category": "marketplace",
+      "icon": "&#128296;",
+      "iconBg": "#eff6ff",
+      "description": "Find local tradespeople, post jobs, compare private quotes and coordinate agreed work.",
+      "about": "Tradies connects customers with local tradespeople. Browse public service profiles, publish a job or send a direct enquiry, then compare quotes and coordinate work in participant-only conversations.\n\nPayment is arranged directly between the participants. Tradies does not provide checkout, payment processing or escrow.",
+      "appUrl": "https://tradies.proappstore.online",
+      "repo": "proappstore-online/tradies"
+    },
+    {
+      "type": "connected",
+      "developer": "ProAppStore creators",
+      "id": "stash",
+      "name": "Stash",
+      "category": "lifestyle",
+      "icon": "&#128230;",
+      "iconBg": "#fef3c7",
+      "description": "Share sealed, in-date packaged goods with neighbours. Browse, order and arrange nearby collection.",
+      "about": "Stash helps neighbours share sealed, in-date packaged goods. Hosts choose whether their listings are discoverable inside an invite-only pocket, in the neighbourhood, or both. Buyers browse, order and arrange collection.\n\nPayment is arranged directly between host and buyer; Stash takes no payments. Exact host addresses are shown only to buyers with an active order.",
+      "appUrl": "https://stash.proappstore.online",
+      "repo": "proappstore-online/stash"
+    },
+    {
+      "type": "connected",
+      "developer": "ProAppStore creators",
+      "id": "leads",
+      "name": "Leads",
+      "category": "business",
+      "icon": "&#128210;",
+      "iconBg": "#f5f3ff",
+      "description": "Organize contacts, social profiles and lead lists in one workspace, with a lead reusable across multiple lists.",
+      "about": "Leads brings contact details, websites and social profiles together in one lead-management workspace. Organize contacts into lists for different projects, roles or purposes, and reuse a lead across several lists.",
+      "appUrl": "https://leads.proappstore.online",
+      "repo": "proappstore-online/leads"
     }
   ],
   "developers": [

@@ -16,3 +16,4 @@ node_modules/
 /catalogue.json
 /.catalogue-build.json
 /catalogue-report.json
+/sitemap-index.xml

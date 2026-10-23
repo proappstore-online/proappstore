@@ -35,6 +35,12 @@ function validateRegistry(items) {
     if (a.repo != null && (typeof a.repo !== 'string' || a.repo.length > 100 || !/^[\w.-]+\/[\w.-]+$/.test(a.repo))) {
       errors.push(`${a.id}: repo must be "owner/name", got ${JSON.stringify(a.repo)}`);
     }
+    if (a.sitemapUrl != null) {
+      try {
+        const sitemapUrl = new URL(a.sitemapUrl);
+        if (sitemapUrl.href !== new URL('/sitemap.xml', a.appUrl).href) errors.push(`${a.id}: sitemapUrl must be the approved PAS launch host's /sitemap.xml`);
+      } catch { errors.push(`${a.id}: invalid sitemapUrl`); }
+    }
   }
   if (errors.length) {
     console.error('Registry validation failed:\n  - ' + errors.join('\n  - '));
@@ -361,3 +367,18 @@ ${sitemapEntries.join('\n')}
 fs.writeFileSync(path.join(OUT_DIR, 'sitemap.xml'), sitemap);
 fs.writeFileSync(path.join(OUT_DIR, 'catalogue.json'), JSON.stringify({ apps }, null, 2) + '\n');
 console.log(`Generated sitemap.xml (${sitemapEntries.length} URLs)`);
+
+// One Search Console Domain property and this submitted index cover approved
+// public app subdomains. Reconciliation withholds alternate-canonical hosts.
+// Google cross-site submission requires verified ownership of every child site.
+const childSitemaps = [...new Set([
+  'https://proappstore.online/sitemap.xml',
+  ...apps.filter(app => app.sitemapUrl !== null).map(app => app.sitemapUrl || new URL('/sitemap.xml', app.appUrl).href),
+])];
+const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${childSitemaps.map(url => `  <sitemap><loc>${esc(url)}</loc></sitemap>`).join('\n')}
+</sitemapindex>
+`;
+fs.writeFileSync(path.join(OUT_DIR, 'sitemap-index.xml'), sitemapIndex);
+console.log(`Generated sitemap-index.xml (${childSitemaps.length} sitemaps)`);

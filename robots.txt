@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://proappstore.online/sitemap.xml
+Sitemap: https://proappstore.online/sitemap-index.xml

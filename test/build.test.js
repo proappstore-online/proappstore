@@ -27,6 +27,26 @@ function makeTmpDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'pas-build-test-'));
 }
 
+test('sitemap index keeps the storefront map and only eligible PAS app maps', () => {
+  const tmp = makeTmpDir();
+  try {
+    const registry = JSON.parse(fs.readFileSync(REAL_REGISTRY, 'utf8'));
+    registry.apps = [
+      { ...registry.apps[0], id: 'public', appUrl: 'https://public.proappstore.online', sitemapUrl: 'https://public.proappstore.online/sitemap.xml' },
+      { ...registry.apps[0], id: 'secondary', appUrl: 'https://secondary.proappstore.online', sitemapUrl: null },
+    ];
+    const fixture = path.join(tmp, 'registry.json');
+    fs.writeFileSync(fixture, JSON.stringify(registry));
+    runBuild({ registryPath: fixture, outDir: tmp });
+    const index = fs.readFileSync(path.join(tmp, 'sitemap-index.xml'), 'utf8');
+    assert.match(index, /<sitemapindex xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9">/);
+    assert.deepEqual([...index.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]), ['https://proappstore.online/sitemap.xml', 'https://public.proappstore.online/sitemap.xml']);
+    registry.apps[0].sitemapUrl = 'https://unverified.example/sitemap.xml';
+    fs.writeFileSync(fixture, JSON.stringify(registry));
+    assert.throws(() => runBuild({ registryPath: fixture, outDir: tmp }), /Command failed/);
+  } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+});
+
 test('build.js writes index.html containing every app id from registry.json', () => {
   const tmp = makeTmpDir();
   try {
