@@ -176,6 +176,8 @@ fs.writeFileSync(path.join(OUT_DIR, '_headers'), [
 // the PAS API. That way the page is meaningful even before the live
 // fetch completes — and CDN-cacheable.
 const appsDir = path.join(OUT_DIR, 'apps');
+// This directory contains generated pages only. Retired/private entries must not survive a rebuild.
+fs.rmSync(appsDir, { recursive: true, force: true });
 fs.mkdirSync(appsDir, { recursive: true });
 for (const app of apps) {
   const dir = path.join(appsDir, app.id);
@@ -332,23 +334,23 @@ fs.writeFileSync(
 // --- Generate sitemap.xml ---
 // Lists every top-level marketing page + every per-app detail page so Google
 // can discover them all from one URL. Linked from robots.txt.
-const today = new Date().toISOString().split('T')[0];
+
 const sitemapEntries = [
-  `  <url><loc>https://proappstore.online/</loc><lastmod>${today}</lastmod><priority>1.0</priority></url>`,
-  `  <url><loc>https://proappstore.online/about</loc><lastmod>${today}</lastmod><priority>0.8</priority></url>`,
-  `  <url><loc>https://proappstore.online/pricing</loc><lastmod>${today}</lastmod><priority>0.9</priority></url>`,
-  `  <url><loc>https://proappstore.online/get-started</loc><lastmod>${today}</lastmod><priority>0.9</priority></url>`,
-  `  <url><loc>https://proappstore.online/build-with-ai</loc><lastmod>${today}</lastmod><priority>0.85</priority></url>`,
-  `  <url><loc>https://proappstore.online/guidelines</loc><lastmod>${today}</lastmod><priority>0.7</priority></url>`,
-  `  <url><loc>https://proappstore.online/roadmap</loc><lastmod>${today}</lastmod><priority>0.7</priority></url>`,
-  `  <url><loc>https://proappstore.online/privacy</loc><lastmod>${today}</lastmod><priority>0.5</priority></url>`,
-  `  <url><loc>https://proappstore.online/terms</loc><lastmod>${today}</lastmod><priority>0.5</priority></url>`,
-  `  <url><loc>https://proappstore.online/developers</loc><lastmod>${today}</lastmod><priority>0.8</priority></url>`,
+  `  <url><loc>https://proappstore.online/</loc><priority>1.0</priority></url>`,
+  `  <url><loc>https://proappstore.online/about</loc><priority>0.8</priority></url>`,
+  `  <url><loc>https://proappstore.online/pricing</loc><priority>0.9</priority></url>`,
+  `  <url><loc>https://proappstore.online/get-started</loc><priority>0.9</priority></url>`,
+  `  <url><loc>https://proappstore.online/build-with-ai</loc><priority>0.85</priority></url>`,
+  `  <url><loc>https://proappstore.online/guidelines</loc><priority>0.7</priority></url>`,
+  `  <url><loc>https://proappstore.online/roadmap</loc><priority>0.7</priority></url>`,
+  `  <url><loc>https://proappstore.online/privacy</loc><priority>0.5</priority></url>`,
+  `  <url><loc>https://proappstore.online/terms</loc><priority>0.5</priority></url>`,
+  `  <url><loc>https://proappstore.online/developers</loc><priority>0.8</priority></url>`,
   ...developers.map((dev) =>
-    `  <url><loc>https://proappstore.online/developers/${dev.id}/</loc><lastmod>${today}</lastmod><priority>0.7</priority></url>`,
+    `  <url><loc>https://proappstore.online/developers/${dev.id}/</loc><priority>0.7</priority></url>`,
   ),
   ...apps.map((app) =>
-    `  <url><loc>https://proappstore.online/apps/${app.id}/</loc><lastmod>${today}</lastmod><priority>0.9</priority></url>`,
+    `  <url><loc>https://proappstore.online/apps/${app.id}/</loc><priority>0.9</priority></url>`,
   ),
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -357,4 +359,5 @@ ${sitemapEntries.join('\n')}
 </urlset>
 `;
 fs.writeFileSync(path.join(OUT_DIR, 'sitemap.xml'), sitemap);
+fs.writeFileSync(path.join(OUT_DIR, 'catalogue.json'), JSON.stringify({ apps }, null, 2) + '\n');
 console.log(`Generated sitemap.xml (${sitemapEntries.length} URLs)`);

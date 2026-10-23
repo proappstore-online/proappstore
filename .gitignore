@@ -12,3 +12,7 @@ node_modules/
 
 # vcqa run artifacts
 .vibe-check/
+
+/catalogue.json
+/.catalogue-build.json
+/catalogue-report.json

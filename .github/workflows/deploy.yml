@@ -3,6 +3,8 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -21,6 +23,12 @@ jobs:
       - name: Install Astro builder
         run: npm ci
 
+      - name: Reconcile approved catalogue with public inventory and live apps
+        run: node scripts/reconcile-catalogue.cjs --out .catalogue-build.json
+
+      - name: Test storefront
+        run: npm test
+
       - name: Build storefront
         # Generates index.html and apps/{id}/index.html from registry.json
         # via build.js. Build artifacts are gitignored, so we produce them
@@ -28,9 +36,14 @@ jobs:
         # the source files and the deployment ends up with no landing page
         # or detail pages.
         run: npm run build
+        env:
+          REGISTRY_PATH: .catalogue-build.json
 
       - name: Build public noindex previews
         run: npm run build:previews
+
+      - name: Publish reconciled public registry
+        run: cp .catalogue-build.json registry.json
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy . --project-name=proappstore
