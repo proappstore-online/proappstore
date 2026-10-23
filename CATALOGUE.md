@@ -25,3 +25,8 @@ Local builds/tests remain deterministic. To build the current public inventory:
 node scripts/reconcile-catalogue.cjs --out .catalogue-build.json
 REGISTRY_PATH=.catalogue-build.json npm run build
 ```
+
+The Pages detail route checks the compiled `catalogue.json` before serving a
+static listing. This prevents cached copies of withdrawn/fixture/private detail
+pages surviving a catalogue rebuild. Missing entries return 404 with no-store
+and noindex; eligible detail pages keep normal Pages behavior.
