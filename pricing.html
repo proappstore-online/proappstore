@@ -23,18 +23,25 @@
         ]
       },
       {
-        "@type": "Product",
+        "@type": "Service",
+        "@id": "https://proappstore.online/pricing#subscription",
+        "url": "https://proappstore.online/pricing",
+        "serviceType": "Premium web app subscription",
         "name": "ProAppStore Subscription",
         "description": "Access all premium web apps on ProAppStore. Cloud databases, file storage, real-time collaboration, maps, AI, push notifications, and more.",
-        "brand": {"@type": "Organization", "@id": "https://proappstore.online/#org"},
+        "provider": {"@type": "Organization", "@id": "https://proappstore.online/#org", "name": "ProAppStore", "url": "https://proappstore.online/"},
         "offers": {
           "@type": "Offer",
           "price": "5",
           "priceCurrency": "USD",
-          "priceValidUntil": "2027-12-31",
-          "availability": "https://schema.org/InStock",
           "url": "https://proappstore.online/pricing",
-          "eligibleRegion": {"@type": "Place", "name": "Worldwide"}
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "5",
+            "priceCurrency": "USD",
+            "unitText": "month",
+            "billingDuration": "P1M"
+          }
         }
       }
     ]
