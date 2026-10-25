@@ -3,6 +3,10 @@ const path = require('node:path');
 const ROOT = path.resolve(__dirname, '..');
 const { enrichListingImages } = require('./listing-images.cjs');
 
+function excludesIndexing(value) {
+  return value.toLowerCase().split(/[,\s]+/).some(token => token === 'noindex' || token === 'none');
+}
+
 // Legacy listing rows can predate copy moderation. A repeated-character test
 // value must not replace reviewed product copy in cards or the host SEO feed.
 function usableTagline(value) {
@@ -40,7 +44,11 @@ async function reconcile(registry, inventory, get = fetch) {
     if (!response.ok) throw new Error(`${app.id}: launch HTTP ${response.status}; retry instead of silently delisting a transient outage`);
     if (!response.headers.get('content-type')?.includes('text/html')) throw new Error(`${app.id}: launch is not HTML`);
     const html = await response.text();
-    const noindex = /\b(?:noindex|none)\b/i.test(response.headers.get('x-robots-tag') || '') || [...html.matchAll(/<meta\b[^>]*>/gi)].some(([tag]) => /name\s*=\s*["'](?:robots|googlebot)["']/i.test(tag) && /content\s*=\s*["'][^"']*\b(?:noindex|none)\b/i.test(tag));
+    // A standalone `none` excludes indexing; max-image-preview:none does not.
+    const header = (response.headers.get('x-robots-tag') || '').replace(/(^|,)\s*(?:googlebot|googlebot-news|bingbot)\s*:\s*/gi, '$1');
+    const noindex = excludesIndexing(header) || [...html.matchAll(/<meta\b[^>]*>/gi)].some(([tag]) =>
+      /name\s*=\s*["'](?:robots|googlebot)["']/i.test(tag) &&
+      excludesIndexing(tag.match(/\bcontent\s*=\s*["']([^"']*)["']/i)?.[1] || ''));
     if (noindex) { excluded.push({ id: app.id, reason: 'explicit noindex' }); continue; }
     const live = byId.get(app.id);
     const tagline = usableTagline(live.tagline);

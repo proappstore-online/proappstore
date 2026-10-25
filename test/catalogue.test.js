@@ -23,10 +23,19 @@ test('robots none is an index exclusion in supported meta and header contexts', 
     () => response(200, '<META CONTENT="NoNe" NAME="GoOgLeBoT">'),
     () => new Response('<html>Excluded</html>', { headers: { 'content-type': 'text/html', 'X-Robots-Tag': 'none' } }),
     () => new Response('<html>Excluded</html>', { headers: { 'content-type': 'text/html', 'X-Robots-Tag': 'googlebot: NONE' } }),
+    () => new Response('<html>Excluded</html>', { headers: { 'content-type': 'text/html', 'X-Robots-Tag': 'googlebot:none' } }),
   ]) {
     const result = await reconcile({ apps: [app('public'), app('excluded')] }, inventory('public', 'excluded'), async url => url.includes('excluded') ? excludedResponse() : response());
     assert.deepEqual(result.registry.apps.map(a => a.id), ['public']);
     assert.equal(result.report.excluded[0].reason, 'explicit noindex');
+  }
+});
+
+test('preview restrictions and unrelated words do not exclude indexing', async () => {
+  for (const html of ['<meta name="robots" content="max-image-preview:none, follow">', '<meta name="robots" content="noindex-example">']) {
+    const result = await reconcile({ apps: [app('public')] }, inventory('public'), async () =>
+      new Response(html, { headers: { 'content-type': 'text/html', 'X-Robots-Tag': 'googlebot:max-image-preview:none' } }));
+    assert.deepEqual(result.report.published, ['public']);
   }
 });
 
