@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { FALLBACK, ownedUrl } = require('./scripts/listing-images.cjs');
+const { subscriptionPlan, jsonLd } = require('./scripts/subscription-plan.cjs');
 const ROOT = __dirname;
 const REGISTRY_PATH = process.env.REGISTRY_PATH || path.join(ROOT, 'registry.json');
 const OUT_DIR = process.env.OUT_DIR || ROOT;
@@ -60,6 +61,7 @@ const indexTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'index.html')
 const detailTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'app-detail.html'), 'utf8');
 const developersTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'developers.html'), 'utf8');
 const developerDetailTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'developer-detail.html'), 'utf8');
+const plan = subscriptionPlan(fs.readFileSync(path.join(ROOT, 'pricing.html'), 'utf8'));
 
 function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -219,7 +221,7 @@ for (const app of apps) {
     .replaceAll('{{FIRST_LETTER}}', firstLetter)
     .replaceAll('{{APP_URL}}', esc(app.appUrl))
     .replaceAll('{{SOCIAL_IMAGE}}', esc(app.socialImageUrl || FALLBACK))
-    .replaceAll('{{SOCIAL_IMAGE_JSON}}', JSON.stringify(app.socialImageUrl || FALLBACK).replace(/</g, '\\u003c'))
+    .replaceAll('{{PLAN_PRICE_LABEL}}', esc(plan.label))
     .replaceAll('{{APP_HOST}}', esc(appHost))
     .replaceAll('{{REPO_URL}}', esc(repoUrl))
     .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<div class="pro-feature-card">Premium features included</div>')
@@ -230,6 +232,31 @@ for (const app of apps) {
   for (const [k, v] of Object.entries(sriHashes)) {
     detail = detail.replaceAll(`{{SRI_${k}}}`, v);
   }
+  detail = detail.replace('{{DETAIL_SCHEMA}}', jsonLd({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://proappstore.online/' },
+          { '@type': 'ListItem', position: 2, name: 'Apps', item: 'https://proappstore.online/' },
+          { '@type': 'ListItem', position: 3, name: app.name },
+        ],
+      },
+      {
+        '@type': 'SoftwareApplication', name: app.name, description: app.description || '',
+        applicationCategory: app.category || '', operatingSystem: 'Web', url: app.appUrl,
+        image: app.socialImageUrl || FALLBACK, isAccessibleForFree: false,
+        isPartOf: { '@id': 'https://proappstore.online/#website' },
+        potentialAction: {
+          '@type': 'SubscribeAction', target: plan.service.url,
+          object: { '@id': plan.service['@id'] },
+        },
+      },
+      // The recurring shared Service owns its offer; there is no individual app purchase.
+      plan.service,
+    ],
+  }));
   fs.writeFileSync(path.join(dir, 'index.html'), detail);
 }
 console.log(`Built ${apps.length} app detail pages under apps/`);

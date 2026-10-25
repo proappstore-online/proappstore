@@ -154,6 +154,27 @@ test('build.js writes manifest.json with PWA fields', () => {
   }
 });
 
+test('every generated listing describes the shared monthly Service without a per-app offer', () => {
+  const tmp = makeTmpDir();
+  try {
+    runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
+    const registry = JSON.parse(fs.readFileSync(REAL_REGISTRY, 'utf8'));
+    for (const app of registry.apps) {
+      const html = fs.readFileSync(path.join(tmp, 'apps', app.id, 'index.html'), 'utf8');
+      const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+      const software = graph.find(node => node['@type'] === 'SoftwareApplication');
+      const service = graph.find(node => node['@type'] === 'Service');
+      assert.equal(software.name, app.name);
+      assert.equal(software.offers, undefined);
+      assert.equal(software.potentialAction.object['@id'], service['@id']);
+      assert.equal(service.offers.price, '5');
+      assert.equal(service.offers.priceSpecification.billingDuration, 'P1M');
+      assert.ok(html.includes('$5/mo subscription'));
+      assert.ok(!/"price"\s*:\s*"9"/.test(html));
+    }
+  } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+});
+
 // ── Validator + security-regression tests ──
 
 const VALID_APP = {
