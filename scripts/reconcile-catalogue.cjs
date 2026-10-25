@@ -40,7 +40,7 @@ async function reconcile(registry, inventory, get = fetch) {
     if (!response.ok) throw new Error(`${app.id}: launch HTTP ${response.status}; retry instead of silently delisting a transient outage`);
     if (!response.headers.get('content-type')?.includes('text/html')) throw new Error(`${app.id}: launch is not HTML`);
     const html = await response.text();
-    const noindex = /\bnoindex\b/i.test(response.headers.get('x-robots-tag') || '') || [...html.matchAll(/<meta\b[^>]*>/gi)].some(([tag]) => /name\s*=\s*["'](?:robots|googlebot)["']/i.test(tag) && /content\s*=\s*["'][^"']*\bnoindex\b/i.test(tag));
+    const noindex = /\b(?:noindex|none)\b/i.test(response.headers.get('x-robots-tag') || '') || [...html.matchAll(/<meta\b[^>]*>/gi)].some(([tag]) => /name\s*=\s*["'](?:robots|googlebot)["']/i.test(tag) && /content\s*=\s*["'][^"']*\b(?:noindex|none)\b/i.test(tag));
     if (noindex) { excluded.push({ id: app.id, reason: 'explicit noindex' }); continue; }
     const live = byId.get(app.id);
     const tagline = usableTagline(live.tagline);

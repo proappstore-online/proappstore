@@ -17,6 +17,19 @@ test('a transient service failure aborts the build instead of deleting approved 
   await assert.rejects(reconcile({ apps: [app('public')] }, { apps: [] }), /refusing a destructive rebuild/);
 });
 
+test('robots none is an index exclusion in supported meta and header contexts', async () => {
+  for (const excludedResponse of [
+    () => response(200, '<meta name="robots" content="none">'),
+    () => response(200, '<META CONTENT="NoNe" NAME="GoOgLeBoT">'),
+    () => new Response('<html>Excluded</html>', { headers: { 'content-type': 'text/html', 'X-Robots-Tag': 'none' } }),
+    () => new Response('<html>Excluded</html>', { headers: { 'content-type': 'text/html', 'X-Robots-Tag': 'googlebot: NONE' } }),
+  ]) {
+    const result = await reconcile({ apps: [app('public'), app('excluded')] }, inventory('public', 'excluded'), async url => url.includes('excluded') ? excludedResponse() : response());
+    assert.deepEqual(result.registry.apps.map(a => a.id), ['public']);
+    assert.equal(result.report.excluded[0].reason, 'explicit noindex');
+  }
+});
+
 test('placeholder owner copy cannot replace an approved catalogue description', async () => {
   const result = await reconcile({ apps: [app('public')] }, { apps: [{ appId: 'public', tagline: 'x'.repeat(60) }] }, async () => response());
   assert.equal(result.registry.apps[0].description, 'Approved description');
