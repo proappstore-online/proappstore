@@ -185,6 +185,22 @@ function runBuildExpectFail(apps) {
   }
 }
 
+test('listing image URL survives HTML and JSON contexts and replaces guessed icon paths', () => {
+  const tmp = makeTmpDir();
+  try {
+    const image = 'https://valid.proappstore.online/assets/icons/brand.png?v=1&size=512';
+    const fixture = path.join(tmp, 'registry.json');
+    fs.writeFileSync(fixture, JSON.stringify({ apps: [{ ...VALID_APP, socialImageUrl: image }] }));
+    runBuild({ registryPath: fixture, outDir: tmp });
+    const html = fs.readFileSync(path.join(tmp, 'apps/valid-app/index.html'), 'utf8');
+    const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+    assert.equal(graph.find(item => item['@type'] === 'SoftwareApplication').image, image);
+    assert.ok(html.includes(`content="${image.replace(/&/g, '&amp;')}"`));
+    assert.ok(!html.includes('https://valid.proappstore.online/icon-512.png'));
+    assert.ok(!html.includes('https://valid.proappstore.online/apple-touch-icon.png'));
+  } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+});
+
 test('validator rejects wrong-host appUrl', () => {
   const { ok, stderr, tmp } = runBuildExpectFail([
     { ...VALID_APP, appUrl: 'https://evil.example.com' },

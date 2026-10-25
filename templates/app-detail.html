@@ -9,7 +9,8 @@
   <meta property="og:title" content="{{NAME}} — ProAppStore" />
   <meta property="og:description" content="{{DESCRIPTION}}" />
   <meta property="og:url" content="https://proappstore.online/apps/{{ID}}/" />
-  <meta property="og:image" content="{{APP_URL}}/icon-512.png" />
+  <meta property="og:image" content="{{SOCIAL_IMAGE}}" />
+  <meta name="twitter:image" content="{{SOCIAL_IMAGE}}" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
@@ -43,7 +44,7 @@
         "applicationCategory": "{{CATEGORY}}",
         "operatingSystem": "Web",
         "url": "{{APP_URL}}",
-        "image": "{{APP_URL}}/icon-512.png",
+        "image": {{SOCIAL_IMAGE_JSON}},
         "offers": {"@type": "Offer", "price": "9", "priceCurrency": "USD"},
         "isPartOf": {"@id": "https://proappstore.online/#website"}
       }
@@ -89,7 +90,7 @@
     <!-- Hero -->
     <div class="app-hero">
       <div class="app-hero-icon" data-id="{{ID}}" style="background: {{ICON_BG}};">
-        <img src="{{APP_URL}}/apple-touch-icon.png" alt="" onerror="this.style.display='none'" />
+        <img src="{{SOCIAL_IMAGE}}" alt="" onerror="this.style.display='none'" />
         <span class="app-hero-letter" aria-hidden="true">{{FIRST_LETTER}}</span>
       </div>
       <div>

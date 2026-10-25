@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { FALLBACK, ownedUrl } = require('./scripts/listing-images.cjs');
 const ROOT = __dirname;
 const REGISTRY_PATH = process.env.REGISTRY_PATH || path.join(ROOT, 'registry.json');
 const OUT_DIR = process.env.OUT_DIR || ROOT;
@@ -41,6 +42,10 @@ function validateRegistry(items) {
         if (sitemapUrl.href !== new URL('/sitemap.xml', a.appUrl).href) errors.push(`${a.id}: sitemapUrl must be the approved PAS launch host's /sitemap.xml`);
       } catch { errors.push(`${a.id}: invalid sitemapUrl`); }
     }
+    if (a.socialImageUrl != null && (typeof a.socialImageUrl !== 'string' ||
+        a.socialImageUrl !== ownedUrl(a.socialImageUrl, a.appUrl, a.appUrl))) {
+      errors.push(`${a.id}: socialImageUrl must use the approved launch or store origin`);
+    }
   }
   if (errors.length) {
     console.error('Registry validation failed:\n  - ' + errors.join('\n  - '));
@@ -73,7 +78,7 @@ const cards = apps.map((app) => {
   return `        <div class="app-card" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
           <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
             <div class="app-icon" data-letter="${letter}">
-              <img src="${esc(app.appUrl)}/icon-192.png" alt="" loading="lazy" />
+              <img src="${esc(app.socialImageUrl || FALLBACK)}" alt="" loading="lazy" />
             </div>
             <div class="app-body">
               <span class="app-name">${esc(app.name)}</span>
@@ -213,6 +218,8 @@ for (const app of apps) {
     .replaceAll('{{ICON_BG}}', esc(app.iconBg || '#7c3aed'))
     .replaceAll('{{FIRST_LETTER}}', firstLetter)
     .replaceAll('{{APP_URL}}', esc(app.appUrl))
+    .replaceAll('{{SOCIAL_IMAGE}}', esc(app.socialImageUrl || FALLBACK))
+    .replaceAll('{{SOCIAL_IMAGE_JSON}}', JSON.stringify(app.socialImageUrl || FALLBACK).replace(/</g, '\\u003c'))
     .replaceAll('{{APP_HOST}}', esc(appHost))
     .replaceAll('{{REPO_URL}}', esc(repoUrl))
     .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<div class="pro-feature-card">Premium features included</div>')

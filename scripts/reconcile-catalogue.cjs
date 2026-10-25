@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const ROOT = path.resolve(__dirname, '..');
+const { enrichListingImages } = require('./listing-images.cjs');
 
 // Legacy listing rows can predate copy moderation. A repeated-character test
 // value must not replace reviewed product copy in cards or the host SEO feed.
@@ -29,7 +30,7 @@ function hasPrimaryCanonical(html, launchUrl) {
 async function reconcile(registry, inventory, get = fetch) {
   if (!Array.isArray(inventory.apps) || !inventory.apps.length) throw new Error('Public inventory is empty or invalid; refusing a destructive rebuild');
   const byId = new Map(inventory.apps.map(app => [app.appId, app]));
-  const apps = [], excluded = [], pending = [];
+  const apps = [], excluded = [], pending = [], pages = new Map();
   for (const app of registry.apps) {
     if (!byId.has(app.id)) { excluded.push({ id: app.id, reason: 'not in public inventory' }); continue; }
     const url = new URL(app.appUrl);
@@ -44,18 +45,21 @@ async function reconcile(registry, inventory, get = fetch) {
     const live = byId.get(app.id);
     const tagline = usableTagline(live.tagline);
     const sitemapUrl = app.sitemapUrl !== null && hasPrimaryCanonical(html, url) ? new URL('/sitemap.xml', url).href : null;
-    apps.push({ ...app, ...(tagline ? { description: tagline } : {}), sitemapUrl });
+    apps.push({ ...app, ...(tagline ? { description: tagline } : {}),
+      ...((app.socialImageUrl || live.iconUrl) ? { socialImageUrl: app.socialImageUrl || live.iconUrl } : {}), sitemapUrl });
+    pages.set(app.id, html);
   }
   const approved = new Set(registry.apps.map(app => app.id));
   for (const app of inventory.apps) if (!approved.has(app.appId)) pending.push({ id: app.appId, reason: 'no approved catalogue copy; keep out of generated discovery' });
   if (!apps.length) throw new Error('No eligible apps; refusing empty catalogue deployment');
-  return { registry: { ...registry, apps }, report: { published: apps.map(app => app.id), excluded, pending } };
+  return { registry: { ...registry, apps }, report: { published: apps.map(app => app.id), excluded, pending }, pages };
 }
 
 if (require.main === module) (async () => {
   const response = await fetch('https://api.proappstore.online/v1/storefront/apps', { signal: AbortSignal.timeout(20000) });
   if (!response.ok) throw new Error(`Public inventory HTTP ${response.status}`);
   const result = await reconcile(JSON.parse(fs.readFileSync(path.join(ROOT, 'registry.json'), 'utf8')), await response.json());
+  result.registry = await enrichListingImages(result.registry, result.pages);
   const out = process.argv.indexOf('--out');
   if (out < 0 || !process.argv[out + 1]) throw new Error('--out path required');
   fs.writeFileSync(process.argv[out + 1], JSON.stringify(result.registry, null, 2) + '\n');
