@@ -341,9 +341,9 @@ if (gate !== 'ready') return <GateScreen gate={gate} app={app} appName="My App" 
 
 Plain, theme-aware primitives — **prefer these over hand-rolling buttons/cards/
 modals/inputs**, so apps stay visually consistent and you write less boilerplate.
-They style from the same CSS vars (`--accent`, `--ink`, `--surface`, `--border`,
+They style from the same CSS vars (`--accent`, `--ink`, `--panel`, `--line`,
 `--radius`) the platform already sets, so they match the app's theme + dark mode
-automatically. No Tailwind required (inline-styled).
+automatically. Inline-styled, so they work with or without Tailwind and follow the tokens.
 
 ```tsx
 import { Button, Card, Input, Modal, Spinner, Tabs, Toast, EmptyState } from '@proappstore/sdk/ui'
@@ -690,7 +690,7 @@ my-app/
 │   ├── src/
 │   │   ├── App.tsx          ← your app (ProShell or SDK auth/UI primitives)
 │   │   ├── main.tsx         ← entry point
-│   │   └── index.css        ← Tailwind + CSS custom properties
+│   │   └── index.css        ← tokens, @theme and @layer base only (no feature classes)
 │   ├── index.html
 │   ├── vite.config.ts
 │   ├── tsconfig.json
@@ -726,6 +726,7 @@ my-app/
 3. **No inline secrets.** Use `app.proxy.fetch()` for third-party APIs — it injects keys server-side.
 4. **No in-app payments.** Monetization is through the platform subscription only. Don't gate features behind separate payments.
 5. **Mobile-first.** Test at 375px width. Touch targets ≥ 44px. No horizontal scroll.
+6. **Styling: Tailwind 4 utilities on PAS tokens** (ADR-011), in this order: (1) components for anything that repeats (`@proappstore/sdk/ui`, or app-local components); (2) Tailwind utilities on token colours (`text-ink bg-panel border-line`) written in the component's `className`; (3) `web/src/index.css` holds only `@import "tailwindcss"`, `@source`, the token blocks, `@theme` and `@layer base`/`@layer components` — no unlayered rules, no feature classes, no hex outside the token blocks. Your palette lives in the **values** of the tokens (`--accent: #d86f4d`); migrating to this model changes how tokens are used, never what they are set to.
 
 ---
 
@@ -742,7 +743,7 @@ my-app/
 
 - **Accent color:** Purple `#7c3aed` (light), `#a78bfa` (dark)
 - **Fonts:** Manrope (body), Fraunces (display headings)
-- **CSS tokens:** `--ink`, `--muted`, `--accent`, `--accent-soft`, `--border`, `--surface`, `--bg`, `--radius`
+- **CSS tokens:** `--paper`, `--ink`, `--muted`, `--line`, `--panel`, `--accent`, `--accent-soft`, `--danger`, `--radius` — use them as Tailwind colours (`text-ink`, `bg-panel`, `border-line`). Never `--bg`, `--surface`, `--border`, `--glass`, `--error`.
 - **Dark mode:** Via `data-theme="dark"` on `<html>` — SDK `useTheme()` handles it
 - Full design token reference: https://docs.proappstore.online/ui/#design-tokens
 
