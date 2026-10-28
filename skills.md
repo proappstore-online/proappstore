@@ -100,6 +100,14 @@ const sub = await app.subscription.status()
 await app.subscription.openCheckout({ priceId, successUrl, cancelUrl })
 await app.subscription.openPortal(returnUrl)
 
+// App products (what YOUR app sells, declared in mcp.json `billing`; see platform docs/app-billing.md). Every call is the signed-in user's own.
+const products = await app.billing.products()   // → BillingProduct[] { key, name, amount, currency, modes, interval, graceDays, subject }; 403 until an admin enables billing for the app
+const { url } = await app.billing.checkout({ product: 'child_term', subjects: ['kid-a', 'kid-b'], renew: true, successUrl, cancelUrl })  // → { url, purchaseId }; location.assign(url). successUrl/cancelUrl must be on the app's own origins
+const mine = await app.billing.entitlements({ subjects: ['kid-a'] })  // → BillingEntitlement[] { product, subject, status: 'active'|'grace'|'expired'|'refunded'|'canceled', periodEnd, graceUntil, renews }. For showing state; ENFORCE access in your SQL: JOIN _pas_entitlements (read-only, platform-written) on product + subject, status IN ('active','grace')
+const receipts = await app.billing.purchases()  // → BillingPurchase[] the user's own purchases in this app
+const { url: portal } = await app.billing.portal(returnUrl)  // Stripe customer portal for the caller's own customer: cancel a renewal, receipts
+// CLI (app owner only): pas billing products|purchases|entitlements --app <id>  (purchases = revenue ledger: gross, refunded, Stripe fee, net)
+
 // Per-app SQL database (full D1 access)
 await app.db.execute('CREATE TABLE events (id TEXT PK, title TEXT, city TEXT)')
 const { rows } = await app.db.query<Event>('SELECT * FROM events WHERE city = ?', ['SF'])  // → { rows: Event[]; meta }. PASS <T> or rows are Record<string,unknown>[] (row.title is unknown → tsc errors).
