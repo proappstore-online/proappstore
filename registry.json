@@ -19,7 +19,8 @@
         "Availability toggle",
         "Shareable room links",
         "Real-time presence (WebSocket rooms)"
-      ]
+      ],
+      "websiteUrl": "https://about-meet.proappstore.online"
     },
     {
       "id": "meetup",
@@ -127,7 +128,8 @@
         "Shareable invite links for teams",
         "Status, ETA, requirements, acceptance criteria per card",
         "Board filters: assignee, status, text search"
-      ]
+      ],
+      "websiteUrl": "https://about-kanban.proappstore.online"
     },
     {
       "id": "timetrack",
@@ -436,7 +438,8 @@
       "appUrl": "https://bookkeeper.proappstore.online",
       "repo": "proappstore-online/bookkeeper",
       "type": "connected",
-      "developer": "ProAppStore creators"
+      "developer": "ProAppStore creators",
+      "websiteUrl": "https://about-bookkeeper.proappstore.online"
     },
     {
       "id": "queueflow",
@@ -448,7 +451,8 @@
       "appUrl": "https://queueflow.proappstore.online",
       "repo": "proappstore-online/queueflow",
       "type": "connected",
-      "developer": "ProAppStore creators"
+      "developer": "ProAppStore creators",
+      "websiteUrl": "https://about-queueflow.proappstore.online"
     },
     {
       "id": "tennis-clubs",

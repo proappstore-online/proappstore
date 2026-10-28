@@ -200,6 +200,20 @@ for (const app of apps) {
     try { return new URL(app.appUrl).host; } catch { return app.appUrl; }
   })();
   const repoUrl = app.repo ? `https://github.com/${app.repo}` : 'https://github.com/proappstore-online';
+  // An app's marketing website lives on an about-<app>.proappstore.online host; anything else is refused.
+  const websiteUrl = app.websiteUrl || null;
+  if (websiteUrl && !/^https:\/\/about-[a-z0-9-]+\.proappstore\.online\/?$/.test(websiteUrl)) {
+    throw new Error(`${app.id}: websiteUrl must be an https://about-<app>.proappstore.online site`);
+  }
+  const websiteButtonHtml = websiteUrl
+    ? `<a href="${esc(websiteUrl)}" target="_blank" rel="noopener" class="app-btn-secondary">Website</a>`
+    : '';
+  const websiteMetaHtml = websiteUrl
+    ? `<div class="app-meta-item">
+        <div class="label">Website</div>
+        <div class="value"><a href="${esc(websiteUrl)}" target="_blank" rel="noopener" style="font-size: 0.85rem; word-break: break-all;">${esc(new URL(websiteUrl).host)}</a></div>
+      </div>`
+    : '';
   const proFeaturesHtml = (app.proFeatures || [])
     .map((f) => `<div class="pro-feature-card"><span class="pro-feature-check">+</span> ${esc(f)}</div>`)
     .join('\n        ');
@@ -224,6 +238,8 @@ for (const app of apps) {
     .replaceAll('{{PLAN_PRICE_LABEL}}', esc(plan.label))
     .replaceAll('{{APP_HOST}}', esc(appHost))
     .replaceAll('{{REPO_URL}}', esc(repoUrl))
+    .replaceAll('{{WEBSITE_BUTTON_HTML}}', websiteButtonHtml)
+    .replaceAll('{{WEBSITE_META_HTML}}', websiteMetaHtml)
     .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<div class="pro-feature-card">Premium features included</div>')
     .replaceAll('{{ABOUT_HTML}}', (app.about || app.description || '')
       .split('\n\n')
@@ -246,6 +262,7 @@ for (const app of apps) {
       {
         '@type': 'SoftwareApplication', name: app.name, description: app.description || '',
         applicationCategory: app.category || '', operatingSystem: 'Web', url: app.appUrl,
+        ...(websiteUrl ? { sameAs: [websiteUrl] } : {}),
         image: app.socialImageUrl || FALLBACK, isAccessibleForFree: false,
         isPartOf: { '@id': 'https://proappstore.online/#website' },
         potentialAction: {

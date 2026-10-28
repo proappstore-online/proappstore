@@ -431,3 +431,26 @@ test('detail pages render expected name + escape XSS in description', () => {
 function escapeRegExp(s) {
   return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
+test('app detail pages link the app website only when websiteUrl is set, and refuse foreign hosts', () => {
+  const tmp = makeTmpDir();
+  try {
+    const registry = JSON.parse(fs.readFileSync(REAL_REGISTRY, 'utf8'));
+    registry.apps = [
+      { ...registry.apps[0], id: 'withsite', appUrl: 'https://withsite.proappstore.online', sitemapUrl: null, websiteUrl: 'https://about-withsite.proappstore.online' },
+      { ...registry.apps[0], id: 'nosite', appUrl: 'https://nosite.proappstore.online', sitemapUrl: null, websiteUrl: undefined },
+    ];
+    const fixture = path.join(tmp, 'registry.json');
+    fs.writeFileSync(fixture, JSON.stringify(registry));
+    runBuild({ registryPath: fixture, outDir: tmp });
+    const withSite = fs.readFileSync(path.join(tmp, 'apps', 'withsite', 'index.html'), 'utf8');
+    assert.match(withSite, /href="https:\/\/about-withsite\.proappstore\.online"[^>]*>Website<\/a>/);
+    assert.match(withSite, /"sameAs":\["https:\/\/about-withsite\.proappstore\.online"\]/);
+    const noSite = fs.readFileSync(path.join(tmp, 'apps', 'nosite', 'index.html'), 'utf8');
+    assert.doesNotMatch(noSite, /about-nosite|>Website</);
+    assert.doesNotMatch(noSite, /\{\{WEBSITE_/);
+    registry.apps[0].websiteUrl = 'https://evil.example';
+    fs.writeFileSync(fixture, JSON.stringify(registry));
+    assert.throws(() => runBuild({ registryPath: fixture, outDir: tmp }), /Command failed/);
+  } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+});
