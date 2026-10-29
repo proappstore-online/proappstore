@@ -60,18 +60,24 @@
     <section class="hero ideas-hero">
       <h1>Build the apps that need a backend</h1>
       <p>
-        Marketplaces, bookings, team workspaces, AI tools and paid apps need
-        more than a browser. ProAppStore gives you a private database with roles,
-        file storage, built-in AI and payments. Pick a proven app type and build it here.
+        Team workspaces, bookings, client portals and AI tools need more than a
+        browser. ProAppStore gives you a private database with roles, file storage
+        and built-in AI. Pick a proven app type and build it here.
       </p>
       <div class="ideas-stats" aria-label="Summary">
         <div><strong>{{IDEAS_COUNT}}</strong><span>app ideas</span></div>
         <div><strong>{{IDEAS_EXCLUSIVE_COUNT}}</strong><span>only possible on ProAppStore</span></div>
         <div><strong>{{IDEAS_READY_COUNT}}</strong><span>buildable on ProAppStore</span></div>
       </div>
+      <ol class="ideas-steps" aria-label="How to take an idea">
+        <li><strong>Pick an idea</strong><span>Start with one only ProAppStore can build, and press <em>I'm building this</em> so others know.</span></li>
+        <li><strong>Copy the build prompt</strong><span>Paste it into your AI coding tool. It names the apps to beat and the limits to design for. Then run <code>pas create &lt;name&gt;</code>.</span></li>
+        <li><strong>Publish it</strong><span>Run <code>pas check</code>, then <code>pas publish</code>. <a href="/get-started">Get started</a> covers the setup.</span></li>
+      </ol>
       <p class="ideas-caps-note">
         Each card is checked against what ProAppStore can do today
-        (<a href="https://docs.proappstore.online/app-capabilities/">capabilities</a>, verified {{IDEAS_CAPS_VERIFIED}}).
+        (<a href="https://docs.proappstore.online/app-capabilities/">capabilities</a>, verified {{IDEAS_CAPS_VERIFIED}}),
+        and says what a limit means for that idea. Selling inside an app needs billing switched on for it by the platform team.
         Ideas that need nothing paid also link to FreeAppStore, where you can publish them free.
       </p>
     </section>
@@ -82,7 +88,7 @@
       <div class="ideas-controls">
         <label class="ideas-search">
           <span class="sr-only">Search ideas</span>
-          <input type="search" id="ideasSearch" placeholder="Search ideas, e.g. booking, alerts, marketplace" autocomplete="off" />
+          <input type="search" id="ideasSearch" placeholder="Search ideas, e.g. booking, CRM, team" autocomplete="off" />
         </label>
 
         <div class="filter-bar" id="ideasStatus" role="toolbar" aria-label="Filter by status">
@@ -112,13 +118,7 @@
       <p class="ideas-empty" id="ideasEmpty" hidden>No ideas match. Try another filter, or <a href="/get-started">start your own app</a>.</p>
     </section>
 
-    <section class="ideas-howto" aria-labelledby="howto-heading">
-      <h2 id="howto-heading">How to take an idea</h2>
-      <ol>
-        <li><strong>Pick an idea.</strong> Press <em>Copy build prompt</em> on a card. It copies a brief for your AI coding tool with the leaders to beat and the ProAppStore capabilities to use, with their limits.</li>
-        <li><strong>Scaffold it.</strong> Run <code>pas create &lt;name&gt;</code>. See <a href="/get-started">Get started</a>.</li>
-        <li><strong>Publish it.</strong> Run <code>pas check</code> and then <code>pas publish</code>.</li>
-      </ol>
+    <section class="ideas-howto" aria-label="About this data">
       <p class="ideas-note">
         Market data comes from FreeAppStore's research of the Google Play and Apple App Store charts on {{IDEAS_RESEARCH_DATE}}, plus research into backend-heavy app types.
         Install counts, ratings and chart positions change daily, so check the store listing before you rely on a number.
