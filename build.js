@@ -133,6 +133,7 @@ const sriHashes = {
   PRISM_JS: sriHash('prism.js'),
   PRISM_AUTODETECT_JS: sriHash('prism-autodetect.js'),
   IDEAS_JS: sriHash('ideas.js'),
+  IDEAS_CLAIMS_JS: sriHash('ideas-claims.js'),
 };
 
 let html = indexTemplate

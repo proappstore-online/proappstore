@@ -47,6 +47,7 @@ test('build writes /ideas with every idea, FAS cross-links and SRI for ideas.js'
     for (const i of ideas) assert.ok(html.includes(`id="idea-${i.id}"`), i.id);
     assert.ok(!/{{[A-Z_]+}}/.test(html), 'no unsubstituted placeholders');
     assert.match(html, /<script src="\/ideas\.js" integrity="sha256-[^"]+"><\/script>/);
+    assert.match(html, /<script src="\/ideas-claims\.js" integrity="sha256-[^"]+"><\/script>/);
     assert.ok(html.includes('https://freeappstore.online/ideas#idea-'), 'links ideas FAS can build to FreeAppStore');
     assert.ok(fs.readFileSync(path.join(out, 'sitemap.xml'), 'utf8').includes('https://proappstore.online/ideas</loc>'));
   } finally {
