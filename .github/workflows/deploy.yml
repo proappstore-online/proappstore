@@ -26,6 +26,11 @@ jobs:
       - name: Reconcile approved catalogue with public inventory and live apps
         run: node scripts/reconcile-catalogue.cjs --out .catalogue-build.json
 
+      - name: Sync App ideas data from FreeAppStore
+        # Shared ideas + FAS capabilities from the FAS platform repo's main;
+        # keeps the committed copies if FAS is unreachable or the data is invalid.
+        run: node scripts/sync-ideas.cjs
+
       - name: Test storefront
         run: npm test
 

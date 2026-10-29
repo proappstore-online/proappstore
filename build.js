@@ -132,6 +132,7 @@ const sriHashes = {
   DETAIL_PAGE_JS: sriHash('detail-page.js'),
   PRISM_JS: sriHash('prism.js'),
   PRISM_AUTODETECT_JS: sriHash('prism-autodetect.js'),
+  IDEAS_JS: sriHash('ideas.js'),
 };
 
 let html = indexTemplate
@@ -388,6 +389,43 @@ fs.writeFileSync(
   ),
 );
 
+// --- App ideas (/ideas) ---
+// The same ideas FreeAppStore shows (data/app-ideas.json, synced from the FAS
+// repo by scripts/sync-ideas.cjs), with each card's verdict computed from
+// ProAppStore's own data/capabilities.json. Pro-only ideas come first; ideas
+// that need nothing paid point to FreeAppStore. Bad data fails the build.
+const { validateIdeas, validateCapabilities, renderIdeasPage } = require('./scripts/ideas.cjs');
+const readData = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f), 'utf8'));
+const ideasData = process.env.IDEAS_PATH ? JSON.parse(fs.readFileSync(process.env.IDEAS_PATH, 'utf8')) : readData('app-ideas.json');
+const pasCapabilities = readData('capabilities.json');
+const fasCapabilities = readData('fas-capabilities.json');
+const ideasErrors = [...validateIdeas(ideasData), ...validateCapabilities(pasCapabilities), ...validateCapabilities(fasCapabilities)];
+if (ideasErrors.length) {
+  console.error('App ideas validation failed:\n  - ' + ideasErrors.join('\n  - '));
+  process.exit(1);
+}
+let ideasHtml = renderIdeasPage(fs.readFileSync(path.join(ROOT, 'templates', 'ideas.html'), 'utf8'), ideasData, {
+  key: 'pas',
+  name: 'ProAppStore',
+  caps: pasCapabilities,
+  apps,
+  appsField: 'pasApps',
+  appHref: (id) => `/apps/${encodeURIComponent(id)}/`,
+  initCommand: (id) => `pas create ${id}`,
+  buildHint: 'Scaffold with `pas create`, run `pas check` before `pas publish`. Guide: https://proappstore.online/skills.md',
+  edgeLabel: 'Your edge:',
+}, {
+  key: 'fas',
+  name: 'FreeAppStore',
+  caps: fasCapabilities,
+  ideasUrl: 'https://freeappstore.online/ideas',
+}, esc);
+for (const [k, v] of Object.entries(sriHashes)) {
+  ideasHtml = ideasHtml.replaceAll(`{{SRI_${k}}}`, v);
+}
+fs.writeFileSync(path.join(OUT_DIR, 'ideas.html'), ideasHtml);
+console.log(`Built /ideas (${ideasData.ideas.length} ideas)`);
+
 // --- Generate sitemap.xml ---
 // Lists every top-level marketing page + every per-app detail page so Google
 // can discover them all from one URL. Linked from robots.txt.
@@ -403,6 +441,7 @@ const sitemapEntries = [
   `  <url><loc>https://proappstore.online/privacy</loc><priority>0.5</priority></url>`,
   `  <url><loc>https://proappstore.online/terms</loc><priority>0.5</priority></url>`,
   `  <url><loc>https://proappstore.online/developers</loc><priority>0.8</priority></url>`,
+  `  <url><loc>https://proappstore.online/ideas</loc><priority>0.8</priority></url>`,
   ...developers.map((dev) =>
     `  <url><loc>https://proappstore.online/developers/${dev.id}/</loc><priority>0.7</priority></url>`,
   ),
