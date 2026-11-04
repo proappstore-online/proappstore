@@ -56,17 +56,17 @@
   <main class="container">
     <div class="page-header">
       <h1>Privacy Policy</h1>
-      <p>Last updated: May 2026</p>
+      <p>Last updated: November 2026</p>
     </div>
 
     <div class="page-content">
       <h2>What We Collect</h2>
-      <p>When you sign in via GitHub OAuth, we store:</p>
+      <p>When you sign in via GitHub or Google, we store:</p>
       <ul>
-        <li>Your GitHub user ID and login (username)</li>
+        <li>Your provider user ID and, for GitHub, your login (username)</li>
         <li>Your avatar URL</li>
-        <li>Your email address (if provided by GitHub)</li>
-        <li>Your display name (if provided by GitHub)</li>
+        <li>Your email address (if provided by your sign-in provider)</li>
+        <li>Your display name (if provided by your sign-in provider)</li>
       </ul>
       <p>When you use Pro apps, we store:</p>
       <ul>
@@ -85,11 +85,20 @@
 
       <h2>How We Use Your Data</h2>
       <ul>
-        <li><strong>Authentication</strong> — Your GitHub identity lets you sign in across all apps.</li>
+        <li><strong>Authentication</strong> — Your GitHub or Google identity lets you sign in across apps. Signing in with Google requests only your basic identity; connecting Google Calendar and Meet is a separate permission step.</li>
         <li><strong>App data</strong> — Your KV entries, database rows, and files are stored so your apps work. Each app's data is isolated.</li>
         <li><strong>Billing</strong> — Stripe handles payment processing. We store your Stripe customer ID to manage your subscription.</li>
         <li><strong>Usage reporting</strong> — Coarse usage counts (session-minutes, API calls per app per day) help operate the platform and may support creator reporting. See below.</li>
       </ul>
+
+      <h2 id="google-data">Google Calendar and Meet Connections</h2>
+      <p>Some Pro apps offer an optional Google Calendar and Meet connection, for example to show meeting attendance. When you connect your Google account, ProAppStore requests read-only access to your calendar list, calendar events, and Google Meet spaces and conference records, alongside your Google account ID and email address.</p>
+      <ul>
+        <li><strong>Access and use.</strong> We list calendars so you can select one for the app. For the selected calendar, we read event IDs, titles, status, times, recurring-series information, and meeting links. For related Meet conferences, we read conference times, participant identities and display names (including anonymous or phone participant labels), and joining and leaving times. These records support the app's visible meeting and attendance features. The connector does not request calendar editing, Gmail, Drive, recording, or transcript access.</li>
+        <li><strong>Storage and sharing.</strong> ProAppStore stores your connected Google account ID and email, calendar authorization metadata, and encrypted access and refresh tokens on Cloudflare. Connection credentials are retained while the account remains connected in ProAppStore. Tokens stay within the platform and are not returned to app workers. Calendar and Meet records are returned to the app you authorize; that app may store records and display them to users allowed by its organization roles. Review the app's privacy notice for its record retention and audience.</li>
+        <li><strong>Your controls.</strong> An app can revoke its selected calendar grant to stop further reads through that grant. Disconnecting the shared Google account erases its stored tokens and connected identity and invalidates its existing calendar grants across Pro apps. You can also revoke ProAppStore access in your <a href="https://myaccount.google.com/connections">Google Account connections</a>. Disconnecting or revoking access does not automatically delete records already saved by an app; contact the app operator for deletion of those records, or use the privacy contact below for platform data requests.</li>
+      </ul>
+      <p>ProAppStore's use and transfer of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including its Limited Use requirements. Google user data is used to provide the connected features you authorize, and is not sold, used for advertising, or used to train generalized AI or machine-learning models.</p>
 
       <h2 id="usage-analytics">Usage Analytics</h2>
       <p>ProAppStore is a single subscription that unlocks every Pro app. We keep coarse per-app usage counts so the platform can operate, debug capacity, and support creator-facing reporting without tracking detailed behavior.</p>
@@ -112,13 +121,13 @@
         <li><strong>Stripe</strong> receives the payout amount, not the underlying usage data, when the monthly payout runs.</li>
         <li><strong>No one else.</strong> We don't sell, share, or use usage data for advertising.</li>
       </ul>
-      <p>To opt out: don't sign in (the apps still work for free where applicable on <a href="https://freeappstore.online">FreeAppStore</a>), or delete your account from the <a href="https://dashboard.proappstore.online">Dashboard</a> — usage rows are removed with the rest of your account data.</p>
+      <p>Usage heartbeats stop when you sign out. To request deletion of existing usage data, contact us as described under Data Deletion. Free apps are also available where applicable on <a href="https://freeappstore.online">FreeAppStore</a>.</p>
 
       <h2>Data Storage</h2>
-      <p>All data is stored on Cloudflare's global network (D1 databases, R2 storage, KV). Data is encrypted at rest by Cloudflare. We do not transfer your data to any third parties except Stripe for payment processing.</p>
+      <p>Platform data is stored on Cloudflare's global network (D1 databases, R2 storage, KV). Data is encrypted at rest by Cloudflare. We use Stripe for payment processing and GitHub or Google for sign-in. Optional Google connections share the selected records with the app you authorize as described above.</p>
 
-      <h2>Data Deletion</h2>
-      <p>You can delete your account at any time from the <a href="https://dashboard.proappstore.online">Dashboard</a>. Account deletion removes all your KV data, database entries, uploaded files, and subscription records. This action is irreversible.</p>
+      <h2 id="data-deletion">Data Deletion</h2>
+      <p>To request deletion of your platform account or stored platform data, email <a href="mailto:serge.the.dev@gmail.com">serge.the.dev@gmail.com</a>. The current <a href="https://dashboard.proappstore.online">Dashboard</a> clear-data action clears its own app KV data and signs you out; it does not delete your platform account, other apps' records, uploaded files, or subscription records. For data retained by a particular app or organization, contact its operator. Disconnecting Google stops future connector access as described above, but does not automatically erase previously saved records.</p>
 
       <h2>Cookies</h2>
       <p>We use a single session cookie for authentication. No tracking cookies, no analytics cookies, no third-party cookies.</p>
@@ -126,6 +135,7 @@
       <h2>Third-Party Services</h2>
       <ul>
         <li><strong>GitHub</strong> — OAuth identity provider. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a></li>
+        <li><strong>Google</strong> — Sign-in and optional Calendar and Meet connections. <a href="https://policies.google.com/privacy">Google Privacy Policy</a></li>
         <li><strong>Stripe</strong> — Payment processing. <a href="https://stripe.com/privacy">Stripe Privacy Policy</a></li>
         <li><strong>Cloudflare</strong> — Hosting and data storage. <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a></li>
       </ul>
@@ -145,7 +155,7 @@
       </p>
 
       <h2>Contact</h2>
-      <p>Questions about privacy: <a href="https://github.com/proappstore-online/platform/issues">open an issue on GitHub</a>.</p>
+      <p>Questions about privacy or requests to delete Google connection data: <a href="mailto:serge.the.dev@gmail.com">serge.the.dev@gmail.com</a>. For non-sensitive platform questions, you can also <a href="https://github.com/proappstore-online/platform/issues">open an issue on GitHub</a>.</p>
     </div>
   </main>
 
