@@ -21,6 +21,13 @@ Use the Google Cloud project containing the **deployed PAS OAuth client**, rathe
 than assuming the Cloud console's last-selected project is correct. Compare its
 public client ID with the `client_id` on the PAS Google sign-in redirect.
 
+The live redirect checked on 2026-11-05 uses public client ID
+`497096575078-blahvieuhk2j6g6h4i1d2nj5rcbtqgqp.apps.googleusercontent.com`, scope
+`openid email profile`, and sign-in callback
+`https://api.proappstore.online/v1/auth/google/callback`. The Cloud console's
+last-selected project was an unrelated project; PAS's project and verification
+status still need to be inspected. No console settings were changed.
+
 - [ ] Confirm the project's current publishing and verification status.
 - [ ] Confirm brand name, support email, and developer contacts are current.
 - [ ] Set homepage to `https://proappstore.online/` and privacy policy to
