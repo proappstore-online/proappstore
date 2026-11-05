@@ -32,3 +32,10 @@ jobs:
         with:
           name: sample-marketing-site
           path: marketing/dist/
+      - name: Build synthetic Storefront candidate
+        run: node scripts/build-candidate.cjs "$RUNNER_TEMP/storefront-candidate"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: storefront-candidate-${{ github.sha }}
+          path: ${{ runner.temp }}/storefront-candidate/
+          if-no-files-found: error
