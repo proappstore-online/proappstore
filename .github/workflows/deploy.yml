@@ -4,8 +4,17 @@ on:
   push:
     branches: [main]
   schedule:
+    # Backstop: whatever else happens, a visibility change reaches the storefront within about an hour.
     - cron: '17 * * * *'
+  repository_dispatch:
+    # Sent by the platform when an app's visibility changes, for an immediate rebuild.
+    types: [app-visibility-changed]
   workflow_dispatch:
+
+concurrency:
+  # One deploy at a time; a burst of dispatches queues instead of racing wrangler.
+  group: deploy-storefront
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -50,6 +59,9 @@ jobs:
         run: npm run build
         env:
           REGISTRY_PATH: .catalogue-build.json
+          # Re-read the public inventory at build time: private apps never render, and an
+          # unreadable API fails the build instead of listing everything (issue #3).
+          PUBLIC_INVENTORY: live
 
       - name: Build public noindex previews
         run: npm run build:previews

@@ -7,7 +7,37 @@ const ROOT = __dirname;
 const REGISTRY_PATH = process.env.REGISTRY_PATH || path.join(ROOT, 'registry.json');
 const OUT_DIR = process.env.OUT_DIR || ROOT;
 const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
-const apps = registry.apps;
+
+// Private apps never render (issue #3). Everything below derives from `apps`, so dropping
+// them here keeps them out of cards, apps/<id>/ pages, the sitemap, catalogue.json,
+// /promoters and /ideas. PUBLIC_INVENTORY=live fetches the platform's public list now;
+// PUBLIC_INVENTORY_PATH reads a saved response. Either failing to load fails the build.
+// With neither set (local/test builds) only entries explicitly marked private are dropped.
+const publicInventory = require('./scripts/public-inventory.cjs');
+function loadPublicIds() {
+  try {
+    if (process.env.PUBLIC_INVENTORY_PATH) {
+      return publicInventory.parseInventory(publicInventory.readInventoryFile(process.env.PUBLIC_INVENTORY_PATH));
+    }
+    if (process.env.PUBLIC_INVENTORY === 'live') {
+      const stdout = require('child_process').execFileSync(process.execPath, [path.join(ROOT, 'scripts', 'public-inventory.cjs')], {
+        env: process.env, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 1 << 26,
+      });
+      return publicInventory.parseInventory(JSON.parse(stdout));
+    }
+  } catch (error) {
+    console.error(`Public inventory unavailable, refusing to build with every registry app: ${String(error.stderr || error.message).trim()}`);
+    process.exit(1);
+  }
+  console.warn('Public inventory not loaded (set PUBLIC_INVENTORY=live to filter private apps); only entries marked private are dropped');
+  return null;
+}
+const { kept: apps, dropped: droppedApps } = publicInventory.filterPublic(registry.apps, loadPublicIds());
+for (const d of droppedApps) console.log(`Not rendering ${d.id}: ${d.reason}`);
+if (!apps.length) {
+  console.error('No public apps left to render; refusing to publish an empty storefront');
+  process.exit(1);
+}
 
 // Registry shape validator — stop malformed/malicious entries at build time.
 const ID_RE = /^[a-z0-9][a-z0-9-]*$/;

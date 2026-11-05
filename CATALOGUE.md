@@ -18,6 +18,9 @@ launch error aborts deployment rather than silently removing healthy apps.
 `catalogue-report.json` distinguishes excluded entries from API records awaiting
 approved listing copy. Complete and review that copy before adding those entries
 to the source catalogue. Visibility/unpublishing changes reconcile within an hour.
+`build.js` also re-reads the public inventory itself (`PUBLIC_INVENTORY=live` in deployment) and
+fails closed, so a private app cannot render even if it slipped into the reconciled registry.
+See README.md for the rebuild triggers and the stated flip-to-storefront time.
 
 Local builds/tests remain deterministic. To build the current public inventory:
 
