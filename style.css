@@ -2831,3 +2831,31 @@ pre[class*="language-"] {
 .promo-app-cat { font-size: 0.8rem; color: var(--muted); }
 .promo-app-link { align-self: center; font-size: 0.85rem; padding: 0.5rem 0.25rem; min-height: 44px; display: inline-flex; align-items: center; }
 .promo-selected { font-weight: 600; color: var(--ink); }
+
+/* App detail: "Team behind this app" and the request-to-join form. Tokens only; mobile first. */
+/* Author display rules below would otherwise beat the UA [hidden] rule (retry button on a 404, form after sending). */
+.team-section [hidden] { display: none !important; }
+.team-status { color: var(--muted); line-height: 1.6; margin: 0.5rem 0; }
+.team-list { list-style: none; display: grid; gap: 0.6rem; margin: 0.75rem 0; padding: 0; }
+.team-member { display: flex; align-items: center; gap: 0.75rem; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.65rem 0.85rem; min-height: 44px; }
+.team-avatar { flex: none; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+.team-member-text { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.5rem; min-width: 0; }
+.team-name { font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+.team-badge { font-size: 0.75rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 0.1rem 0.5rem; }
+.team-label { font-size: 0.85rem; color: var(--muted); overflow-wrap: anywhere; }
+.team-join { margin-top: 1rem; }
+.team-form { display: grid; gap: 0.35rem; margin-top: 0.75rem; max-width: 36rem; }
+.team-form-lead { color: var(--muted); line-height: 1.6; margin-bottom: 0.5rem; }
+.team-form label { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-top: 0.5rem; }
+.team-form input, .team-form textarea { width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.75rem; min-height: 44px; }
+.team-form input:focus-visible, .team-form textarea:focus-visible, .team-join button:focus-visible, #teamRetry:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.team-form [aria-invalid="true"] { border-color: #dc2626; }
+.team-error { color: #dc2626; font-size: 0.85rem; margin: 0; }
+:root[data-theme="dark"] .team-form [aria-invalid="true"] { border-color: #f87171; }
+:root[data-theme="dark"] .team-error { color: #f87171; }
+.team-form .btn-primary { justify-self: start; margin-top: 0.75rem; min-height: 44px; }
+.team-form .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.team-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.team-sent { margin-top: 0.75rem; padding: 1rem; background: var(--accent-soft); border: 1px solid var(--line); border-radius: var(--radius); }
+.team-sent h3 { color: var(--ink); margin-bottom: 0.25rem; }
+.team-sent p { color: var(--muted); line-height: 1.6; }

@@ -148,6 +148,40 @@
       </div>
     </section>
 
+    <!-- Team (hydrated from the platform by team.js; nothing about the team is static) -->
+    <section class="app-section team-section" id="team" data-app-id="{{ID}}" aria-labelledby="teamHeading" aria-busy="false">
+      <h2 id="teamHeading">Team behind this app</h2>
+      <noscript><p class="team-status">The team list and the request form need JavaScript.</p></noscript>
+      <p id="teamStatus" class="team-status" role="status" hidden></p>
+      <ul id="teamList" class="team-list" aria-label="Team members" hidden></ul>
+      <button type="button" id="teamRetry" class="app-btn-secondary" hidden>Try again</button>
+      <div id="teamJoin" class="team-join" hidden>
+        <button type="button" id="teamJoinToggle" class="app-btn-secondary" aria-expanded="false" aria-controls="teamJoinForm">Request to join</button>
+        <form id="teamJoinForm" class="team-form" novalidate hidden>
+          <p class="team-form-lead">Say a little about you. The owner reads requests in their ProAppStore inbox. A request does not make you a member.</p>
+          <label for="teamName">Name</label>
+          <input id="teamName" name="name" type="text" maxlength="100" autocomplete="name" required aria-describedby="teamNameErr" />
+          <p id="teamNameErr" class="team-error" hidden></p>
+          <label for="teamEmail">Email</label>
+          <input id="teamEmail" name="email" type="email" maxlength="254" autocomplete="email" required aria-describedby="teamEmailErr" />
+          <p id="teamEmailErr" class="team-error" hidden></p>
+          <label for="teamMessage">Message</label>
+          <textarea id="teamMessage" name="message" rows="4" maxlength="5000" required aria-describedby="teamMessageErr"></textarea>
+          <p id="teamMessageErr" class="team-error" hidden></p>
+          <div class="team-hp" aria-hidden="true">
+            <label for="teamWebsite">Leave this empty</label>
+            <input id="teamWebsite" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <button type="submit" id="teamSubmit" class="btn-primary">Send request</button>
+          <p id="teamFormStatus" class="team-status" role="status" aria-live="polite"></p>
+        </form>
+        <div id="teamSent" class="team-sent" tabindex="-1" hidden>
+          <h3>Request sent</h3>
+          <p id="teamSentText"></p>
+        </div>
+      </div>
+    </section>
+
     <!-- CTA -->
     <div class="cta-box" style="border-color: color-mix(in srgb, var(--accent) 30%, transparent); background: var(--accent-soft);">
       <h3 style="margin: 0 0 0.5rem; color: var(--ink);">Try {{NAME}}</h3>
@@ -182,5 +216,6 @@
   </footer>
 
   <script src="/theme.js" integrity="{{SRI_THEME_JS}}"></script>
+  <script src="/team.js" integrity="{{SRI_TEAM_JS}}"></script>
 </body>
 </html>
