@@ -67,11 +67,11 @@ app.auth.signIn('google')   // Google OAuth
 await app.auth.signInWithEmail(email)  // Magic-link email sign-in
 app.auth.signOut()
 app.auth.user                        // Current user (or null)
-// The User is EXACTLY: { id: string; login: string; avatarUrl: string | null; dateOfBirth: string | null }
-// There is NO `name` and NO `email`. Use `user.login` to display, `user.id` (e.g. "gh:123") as the key.
-// `user.name` / `user.email` / `user.name ?? user.email` do NOT exist → they fail tsc and break the deploy.
-app.auth.token                       // Session token (for API calls)
+// The User is: { id: string; name: string; login: string /* deprecated alias of name */; avatarUrl: string | null; dateOfBirth: string | null; isChild: boolean }
+// There is NO `email`. Display `user.name`; key rows by `user.id` (e.g. "gh:123"). Do not use `user.login` in new code.
+// `user.email` / `user.name ?? user.email` do NOT exist → they fail tsc and break the deploy.
 await app.auth.setDateOfBirth('2000-01-15')  // Set DOB (set-once, age >= 13)
+// Never read app.auth.token — it is null in platform-cookie mode (PAS-AUTH-003). The SDK attaches the session for you.
 
 // Per-user KV storage
 await app.kv.set('key', value)
@@ -230,7 +230,7 @@ function App() {
   const { user, loading, signIn, signOut, deleteAccount } = useProAuth(app)
   if (loading) return <p>Loading...</p>
   if (!user) return <button onClick={signIn}>Sign in</button>
-  return <p>Welcome, {user.login}!</p>
+  return <p>Welcome, {user.name}!</p>
 }
 
 // useProSubscription — subscription state
@@ -246,7 +246,7 @@ function GatedApp() {
   if (gate === 'loading') return <p>Loading...</p>
   if (gate === 'signed-out') return <button onClick={signIn}>Sign in</button>
   if (gate === 'no-subscription') return <button onClick={() => upgrade()}>Upgrade</button>
-  return <p>Welcome, {user?.login}!</p>
+  return <p>Welcome, {user?.name}!</p>
 }
 ```
 
@@ -456,7 +456,7 @@ Full UI component docs: https://docs.proappstore.online/ui/
 | Transactional email | No | Yes (Resend-backed, 100/day) |
 | Outbound webhooks | No | Yes (HMAC-signed, Zapier/Make/n8n) |
 | Custom domain | No | Yes |
-| Cron/scheduled | No | Coming |
+| Cron/scheduled | No | Yes — scheduled registered actions (5 per app, ≥ 5-minute UTC cron) |
 
 ### Platform limits
 
@@ -741,7 +741,7 @@ my-app/
 ## Privacy Rules
 
 - **No tracking.** No Google Analytics, no Facebook Pixel, no third-party trackers.
-- **No cookies.** Use `localStorage` (via SDK KV) for persistence.
+- **No app cookies.** The platform's HttpOnly session cookie is the only cookie; do not set your own (PAS-AUTH-012). Persist per-user state with `app.kv` (PAS-STACK-009); `localStorage` only for pre-sign-in UI preferences such as the theme.
 - **No data selling.** User data stays on the platform.
 - **Delete account = delete data.** `deleteAccount()` in SDK hooks wipes all KV data.
 
@@ -883,7 +883,7 @@ parameterized SQL statement against your app's D1:
   platform action executor before the SQL runs. Still scope rows in SQL:
   combine `:__user_id` with app-domain tables such as memberships (`WHERE
   org_id = :org_id AND user_id = :__user_id AND role = 'manager'`).
-- Max 120 tools per app.
+- Max 500 tools per app (registration warns from 400). Consolidate near-duplicate list actions with optional filters.
 
 **Registration is automatic.** `pas publish` registers a CLI app's `mcp.json`;
 the Agent Teams deploy stage registers an agent-built app's `mcp.json` after a
