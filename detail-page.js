@@ -6,6 +6,47 @@
  * id="page-data">) so the page is pure-static and CSP stays locked.
  */
 (function () {
+  function validRef(ref) {
+    return typeof ref === "string" && ref.length > 0 && ref.length <= 64 && !/[\s<>\u0026"'\u0000-\u001f\u007f]/.test(ref);
+  }
+
+  // Return the original value for invalid codes or unsafe launch destinations.
+  function appendRef(href, ref) {
+    if (!validRef(ref) || typeof href !== "string" || /[\u0000-\u0020\u007f\\]/.test(href)) return href;
+    try {
+      var url = new URL(href);
+      if (url.protocol !== "https:" || url.username || url.password || url.port) return href;
+      url.searchParams.set("ref", ref);
+      return url.href;
+    } catch (e) { return href; }
+  }
+
+  function propagateRef(doc, search) {
+    var refs = new URLSearchParams(search).getAll("ref");
+    if (refs.length !== 1 || !validRef(refs[0])) return;
+    var pageId = doc.querySelector("#team[data-app-id]")?.getAttribute("data-app-id");
+    if (!pageId || !/^[a-z0-9][a-z0-9-]{0,63}$/.test(pageId)) return;
+    doc.querySelectorAll("a[data-launch-link]").forEach(function (link) {
+      var href = link.getAttribute("href");
+      try {
+        // Never leak a referral to another app, even if markup is misconfigured.
+        if (new URL(href).hostname !== pageId + ".proappstore.online") return;
+      } catch (e) { return; }
+      var updated = appendRef(href, refs[0]);
+      if (updated !== href) link.setAttribute("href", updated);
+    });
+  }
+
+  if (typeof module === "object" && module.exports) {
+    module.exports = { appendRef: appendRef, propagateRef: propagateRef };
+    return;
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () { propagateRef(document, window.location.search); });
+  } else {
+    propagateRef(document, window.location.search);
+  }
+
   var APP_ID = "";
   try {
     var raw = document.getElementById("page-data")?.textContent;

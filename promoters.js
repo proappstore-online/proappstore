@@ -10,26 +10,37 @@
  * Also loaded by build.js and tests (CommonJS) for buildDestination().
  */
 (function () {
-  var ID_RE = /^[a-z0-9][a-z0-9-]{0,63}$/;
-  var STOREFRONT_ORIGIN = "https://proappstore.online";
-  var HOST_RE = /^[a-z0-9-]+\.proappstore\.online$/;
-  var APP_PARAM = "app"; // provisional until Console #14 fixes the entry contract
+  var ID_RE = /^[a-z0-9][a-z0-9-]{0,55}$/;
+  var CONSOLE_ORIGIN = "https://console.proappstore.online";
+  var APP_PARAM = "app";
+  function validId(id) {
+    return typeof id === "string" && ID_RE.test(id) && !/[^a-z0-9-]/.test(id);
+  }
 
-  // Returns a safe destination (relative for the storefront origin, absolute for
-  // *.proappstore.online), or null when `base` is not an approved destination.
-  // `appId` is only attached when it is well formed AND one of `validIds`.
+  // Console entry/return routes only. App context belongs inside the hash.
+  // The optional public list constrains caller-supplied and embedded app IDs.
   function buildDestination(base, appId, validIds) {
-    if (typeof base !== "string" || base.length === 0 || base.length > 300) return null;
-    if (/[\u0000-\u001f\u007f\\]/.test(base)) return null;
+    function refuse() { throw new RangeError("Invalid Console promoter destination"); }
+    if (typeof base !== "string" || !base || base.length > 300) return refuse();
+    if (/[\u0000-\u0020\u007f\\]/.test(base)) return refuse();
+    if (validId(base)) base = CONSOLE_ORIGIN + "/#/promoter?app=" + base;
     var url;
-    try { url = new URL(base, STOREFRONT_ORIGIN); } catch (e) { return null; }
-    if (url.protocol !== "https:" || url.username || url.password || url.port) return null;
-    if (url.origin !== STOREFRONT_ORIGIN && !HOST_RE.test(url.hostname)) return null;
-    if (url.hash) return null;
-    if (typeof appId === "string" && ID_RE.test(appId) && Array.isArray(validIds) && validIds.indexOf(appId) !== -1) {
-      url.searchParams.set(APP_PARAM, appId);
+    try { url = new URL(base); } catch (e) { return refuse(); }
+    if (url.origin !== CONSOLE_ORIGIN || url.username || url.password || url.port || url.pathname !== "/" || url.search) return refuse();
+    var parts = url.hash.split("?");
+    if (parts.length > 2 || (parts[0] !== "#/promoter" && parts[0] !== "#/promoter/return")) return refuse();
+    var params = new URLSearchParams(parts[1] || "");
+    if (Array.from(params.keys()).some(function (key) { return key !== APP_PARAM; }) || params.getAll(APP_PARAM).length > 1) return refuse();
+    var embedded = params.get(APP_PARAM);
+    if (embedded !== null && !validId(embedded)) return refuse();
+    var id = arguments.length > 1 ? appId : embedded;
+    if (id !== null && id !== undefined && id !== "") {
+      if (!validId(id) || (validIds !== undefined && (!Array.isArray(validIds) || validIds.indexOf(id) === -1))) return refuse();
+    } else {
+      id = "";
     }
-    return url.origin === STOREFRONT_ORIGIN ? url.pathname + url.search : url.href;
+    url.hash = parts[0] + (id ? "?app=" + id : "");
+    return url.href;
   }
 
   function init(doc) {
@@ -54,8 +65,12 @@
           : "No app selected. You can choose one now or after signing in.";
       }
       links.forEach(function (a) {
-        var dest = buildDestination(a.getAttribute("data-destination"), id, ids);
-        if (dest) a.setAttribute("href", dest);
+        try {
+          a.setAttribute("href", buildDestination(a.getAttribute("data-destination"), id, ids));
+        } catch (e) {
+          a.removeAttribute("href");
+          a.setAttribute("aria-disabled", "true");
+        }
       });
       if (announce && doc.defaultView && doc.defaultView.history && doc.defaultView.history.replaceState) {
         var u = new URL(doc.defaultView.location.href);
@@ -73,7 +88,7 @@
 
     var requested = new URL(doc.defaultView.location.href).searchParams.get(APP_PARAM);
     var note = doc.getElementById("promoNote");
-    if (requested && ID_RE.test(requested) && ids.indexOf(requested) !== -1) {
+    if (requested && validId(requested) && ids.indexOf(requested) !== -1) {
       select(requested, false);
     } else if (requested && note) {
       note.textContent = "That app is not in the current list, so no app is selected.";

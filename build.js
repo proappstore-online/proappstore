@@ -471,9 +471,11 @@ if (typeof promoterDestination.ready !== 'boolean') {
   console.error('promoter-destination.json: "ready" must be true or false');
   process.exit(1);
 }
-const promoterUrl = promoterDestination.ready ? buildDestination(promoterDestination.url, null, []) : null;
-if (promoterDestination.ready && !promoterUrl) {
-  console.error('promoter-destination.json: ready=true needs a same-site or https://*.proappstore.online "url"');
+let promoterUrl = null;
+try {
+  if (promoterDestination.ready) promoterUrl = buildDestination(promoterDestination.url, null, []);
+} catch (error) {
+  console.error('promoter-destination.json: ready=true needs a valid Console promoter URL: ' + error.message);
   process.exit(1);
 }
 const promoCtas = [['btn-primary', 'Get started'], ['btn-outline', 'Promoter sign in']];

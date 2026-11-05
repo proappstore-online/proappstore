@@ -95,12 +95,12 @@ test('unavailable state: both CTAs are inert aria-disabled buttons with no link 
   } finally { cleanup(out); }
 });
 
-test('ready state (synthetic fixture): CTAs become real same-site links and nothing is aria-disabled', () => {
+test('ready state (synthetic fixture): CTAs become real Console links and nothing is aria-disabled', () => {
   const { out, failed, stderr } = build({ destination: READY_DESTINATION });
   try {
     assert.equal(failed, false, stderr);
     const html = read(out, 'promoters.html');
-    assert.equal((html.match(/<a class="btn-(?:primary|outline) promo-cta" href="\/app\/promoter" data-destination="\/app\/promoter">/g) || []).length, 4);
+    assert.equal((html.match(/<a class="btn-(?:primary|outline) promo-cta" href="https:\/\/console\.proappstore\.online\/#\/promoter" data-destination="https:\/\/console\.proappstore\.online\/#\/promoter">/g) || []).length, 4);
     assert.doesNotMatch(html, /aria-disabled/);
     assert.doesNotMatch(html, /Promoter sign-in is not open yet/);
   } finally { cleanup(out); }
@@ -218,36 +218,38 @@ test('the Promote link sits in the header and footer navigation of every storefr
   } finally { cleanup(out); }
 });
 
-test('buildDestination keeps the selected app only when it is well formed and in the current list', () => {
-  const valid = ['alpha', 'beta-2'];
-  assert.equal(buildDestination('/app/promoter', 'alpha', valid), '/app/promoter?app=alpha');
-  assert.equal(buildDestination('/app/promoter', 'beta-2', valid), '/app/promoter?app=beta-2');
-  assert.equal(buildDestination('/app/promoter', null, valid), '/app/promoter');
-  assert.equal(buildDestination('/app/promoter', undefined, valid), '/app/promoter');
-  assert.equal(buildDestination('/app/promoter?mode=x', 'alpha', valid), '/app/promoter?mode=x&app=alpha');
-  assert.equal(buildDestination('https://promoters.proappstore.online/start', 'alpha', valid), 'https://promoters.proappstore.online/start?app=alpha');
+const CONSOLE = 'https://console.proappstore.online/';
+const ENTRY = CONSOLE + '#/promoter';
+
+test('buildDestination accepts Console entry, return, and raw app IDs with hash context', () => {
+  assert.equal(buildDestination(ENTRY), ENTRY);
+  assert.equal(buildDestination('alpha'), ENTRY + '?app=alpha');
+  assert.equal(buildDestination(ENTRY + '?app=alpha'), ENTRY + '?app=alpha');
+  assert.equal(buildDestination(ENTRY, 'beta-2', ['beta-2']), ENTRY + '?app=beta-2');
+  assert.equal(buildDestination(ENTRY + '?app=alpha', '', ['alpha']), ENTRY);
+  assert.equal(buildDestination(ENTRY + '/return?app=alpha'), ENTRY + '/return?app=alpha');
+  assert.equal(buildDestination('a'.repeat(56)), ENTRY + '?app=' + 'a'.repeat(56));
 });
 
-test('buildDestination drops hostile or unknown app ids instead of passing them to the auth URL', () => {
-  const valid = ['alpha', 'x'.repeat(65), 'a/../b', 'a%2f..%2fb'];
-  const hostile = [
-    'unknown', 'ALPHA', 'alpha ', ' alpha', 'alpha&next=https://evil.example', 'alpha#frag', 'alpha?x=1',
-    '../alpha', '..%2falpha', '%2e%2e%2f', 'a/../b', 'a%2f..%2fb', 'alpha\n', 'alpha\u0000',
-    'x'.repeat(65), '', '-alpha', 'javascript:alert(1)', '//evil.example', '\\\\evil.example', 123, {}, ['alpha'], null,
-  ];
-  for (const id of hostile) {
-    assert.equal(buildDestination('/app/promoter', id, valid), '/app/promoter', `kept ${JSON.stringify(id)}`);
+test('buildDestination throws RangeError for malformed or non-public app selections', () => {
+  for (const id of ['unknown', 'ALPHA', 'alpha ', 'alpha\n', 'alpha&next=x', '../alpha', 'a%2fb', 'a'.repeat(57), 123, {}]) {
+    assert.throws(() => buildDestination(ENTRY, id, ['alpha']), RangeError);
   }
-  assert.equal(buildDestination('/app/promoter', 'alpha', 'alpha'), '/app/promoter', 'non-array list must not validate');
-  assert.equal(buildDestination('/app/promoter', 'alpha', []), '/app/promoter');
+  for (const id of ['', 'ALPHA', 'a b', 'alpha\n', 'a/b', 'x'.repeat(57)]) {
+    assert.throws(() => buildDestination(ENTRY + '?app=' + encodeURIComponent(id)), RangeError);
+  }
+  assert.throws(() => buildDestination(ENTRY, 'alpha', []), RangeError);
+  assert.throws(() => buildDestination(ENTRY, 'alpha', 'alpha'), RangeError);
 });
 
-test('buildDestination refuses destinations that are not the storefront or a proappstore.online https host', () => {
-  const bad = [
-    'javascript:alert(1)', 'data:text/html,x', 'http://proappstore.online/app/', 'https://evil.example/app/promoter',
-    '//evil.example/app/promoter', '///evil.example', '/\\evil.example', '\\\\evil.example', 'https://proappstore.online.evil.example/',
-    'https://evil.example/?u=https://proappstore.online/', 'https://user:pw@promoters.proappstore.online/', 'https://x.proappstore.online:8443/',
-    'https://promoters.proappstore.online/#token', '/app/promoter\n', '/app/promoter\u0000', '', 'x'.repeat(301), null, undefined, 42,
-  ];
-  for (const base of bad) assert.equal(buildDestination(base, 'alpha', ['alpha']), null, `accepted ${JSON.stringify(base)}`);
+test('buildDestination rejects hostile origins, outer queries, credentials and unrecognized routes', () => {
+  for (const base of [
+    'https://evil.example/#/promoter', 'https://proappstore.online/#/promoter',
+    'https://other.proappstore.online/#/promoter', 'http://console.proappstore.online/#/promoter',
+    'https://user:pw@console.proappstore.online/#/promoter', 'https://console.proappstore.online:8443/#/promoter',
+    CONSOLE + '?next=https://evil.example#/promoter', CONSOLE + '?app=alpha#/promoter',
+    CONSOLE + 'elsewhere#/promoter', CONSOLE + '#/promoter-evil', CONSOLE + '#/promoter/other',
+    ENTRY + '?next=evil', ENTRY + '?app=alpha&app=beta', ENTRY + '?app=alpha#evil',
+    ENTRY + '\n', ENTRY + '\\', 'javascript:alert(1)', '/app/promoter', '', null, undefined, 42,
+  ]) assert.throws(() => buildDestination(base), RangeError, String(base));
 });

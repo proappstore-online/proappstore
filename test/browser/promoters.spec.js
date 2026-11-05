@@ -3,6 +3,7 @@ const { test, expect } = require('@playwright/test');
 // Synthetic fixture registry only (test/fixtures). No real apps, users, sign-ins or messages.
 const UNAVAILABLE = 'http://127.0.0.1:4173';
 const READY = 'http://127.0.0.1:4174';
+const ENTRY = 'https://console.proappstore.online/#/promoter';
 
 test.beforeEach(async ({ context }) => {
   // The pages reference Google Fonts and the live listing API; nothing external is needed or contacted.
@@ -125,21 +126,34 @@ test.describe('promoter destination unavailable (staged state)', () => {
   });
 });
 
-test.describe('promoter destination ready (synthetic same-site destination)', () => {
+test.describe('promoter destination ready (synthetic Console destination)', () => {
+  test('changing and clearing the selection isolates app context inside the hash', async ({ page }) => {
+    await page.goto(`${READY}/promoters?app=synthetic-one`);
+    const cta = page.locator('a.promo-cta').first();
+    await expect(cta).toHaveAttribute('href', ENTRY + '?app=synthetic-one');
+    await appButton(page, 'synthetic-two').click();
+    await expect(cta).toHaveAttribute('href', ENTRY + '?app=synthetic-two');
+    const destination = new URL(await cta.getAttribute('href'));
+    expect(destination.search).toBe('');
+    expect(destination.hash).toBe('#/promoter?app=synthetic-two');
+    await appButton(page, 'synthetic-two').click();
+    await expect(cta).toHaveAttribute('href', ENTRY);
+  });
+
   test('CTAs are real links that carry only a validated app id, and navigate there and back', async ({ page }) => {
-    await page.route(`${READY}/app/promoter**`, (route) => route.fulfill({ contentType: 'text/html', body: '<title>stub</title>stub console' }));
+    await page.route('https://console.proappstore.online/**', (route) => route.fulfill({ contentType: 'text/html', body: '<title>stub</title>stub console' }));
     await page.goto(`${READY}/promoters`);
     const ctas = page.locator('a.promo-cta');
     await expect(ctas).toHaveCount(4);
-    await expect(ctas.first()).toHaveAttribute('href', '/app/promoter');
+    await expect(ctas.first()).toHaveAttribute('href', ENTRY);
     expect(await page.locator('.promo-cta[aria-disabled]').count()).toBe(0);
 
     await appButton(page, 'synthetic-two').click();
-    await expect(ctas.first()).toHaveAttribute('href', '/app/promoter?app=synthetic-two');
-    await expect(ctas.last()).toHaveAttribute('href', '/app/promoter?app=synthetic-two');
+    await expect(ctas.first()).toHaveAttribute('href', ENTRY + '?app=synthetic-two');
+    await expect(ctas.last()).toHaveAttribute('href', ENTRY + '?app=synthetic-two');
 
     await page.getByRole('link', { name: 'Get started' }).first().click();
-    await expect(page).toHaveURL(`${READY}/app/promoter?app=synthetic-two`);
+    await expect(page).toHaveURL(ENTRY + '?app=synthetic-two');
     await page.goBack();
     await expect(page).toHaveURL(/\/promoters\?app=synthetic-two/);
     await expect(appButton(page, 'synthetic-two')).toHaveAttribute('aria-pressed', 'true');
@@ -149,13 +163,13 @@ test.describe('promoter destination ready (synthetic same-site destination)', ()
     for (const bad of ['synthetic-one%26next%3Dhttps%3A%2F%2Fevil.example', '%2F%2Fevil.example', 'javascript%3Aalert(1)', 'unknown']) {
       await page.goto(`${READY}/promoters?app=${bad}`);
       for (const href of await page.locator('a.promo-cta').evaluateAll((els) => els.map((e) => e.getAttribute('href')))) {
-        expect(href).toBe('/app/promoter');
+        expect(href).toBe(ENTRY);
       }
     }
   });
 
   test('keyboard activation of the Get started link follows the destination', async ({ page, browserName }) => {
-    await page.route(`${READY}/app/promoter**`, (route) => route.fulfill({ contentType: 'text/html', body: '<title>stub</title>stub console' }));
+    await page.route('https://console.proappstore.online/**', (route) => route.fulfill({ contentType: 'text/html', body: '<title>stub</title>stub console' }));
     await page.goto(`${READY}/promoters?app=synthetic-one`);
     if (!(await tabToFirstCta(page))) {
       // Some WebKit builds (observed: Playwright WebKit on Windows) never Tab onto links; that is a browser
@@ -167,6 +181,6 @@ test.describe('promoter destination ready (synthetic same-site destination)', ()
       expect(await page.evaluate(() => document.activeElement?.classList.contains('promo-cta'))).toBe(true);
     }
     await page.keyboard.press('Enter');
-    await expect(page).toHaveURL(`${READY}/app/promoter?app=synthetic-one`);
+    await expect(page).toHaveURL(ENTRY + '?app=synthetic-one');
   });
 });
