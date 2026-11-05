@@ -2804,3 +2804,30 @@ pre[class*="language-"] {
 .ideas-cap-limited strong { color: var(--ink); text-decoration: underline dotted; }
 .ideas-note { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; max-width: 40rem; }
 .ideas-howto h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+
+/* /promoters — recruitment page. Tokens only; mirrors the ideas page rhythm. */
+.promo-hero p { max-width: 42rem; margin-left: auto; margin-right: auto; color: var(--muted); line-height: 1.7; }
+.promo-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0 0.75rem; }
+.promo-cta[aria-disabled="true"] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+.promo-cta[aria-disabled="true"]:hover { background: var(--accent); color: #fff; }
+.btn-outline.promo-cta[aria-disabled="true"] { background: transparent; color: var(--accent); }
+.promo-cta { font-family: inherit; }
+.promo-cta:focus-visible, .promo-app:focus-visible, .promo-app-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.promo-status { max-width: 42rem; margin: 0.5rem auto 0; padding: 0.75rem 1rem; background: var(--accent-soft); border: 1px solid var(--line); border-radius: var(--radius); color: var(--ink); line-height: 1.6; }
+.promo-section { max-width: 48rem; margin: 0 auto 2.5rem; }
+.promo-section h2 { margin-bottom: 0.75rem; color: var(--ink-strong); }
+.promo-section p { color: var(--muted); line-height: 1.7; margin-bottom: 0.75rem; }
+.promo-list, .promo-steps { margin: 0 0 1rem 1.25rem; color: var(--muted); line-height: 1.7; }
+.promo-list li, .promo-steps li { margin-bottom: 0.6rem; }
+.promo-list strong, .promo-steps strong { color: var(--ink); }
+.promo-steps span { display: block; }
+.promo-note { font-size: 0.9rem; }
+.promo-apps { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: 0.6rem; margin: 1rem 0; padding: 0; }
+.promo-apps li { display: flex; align-items: stretch; gap: 0.4rem; }
+.promo-app { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 0.1rem; text-align: left; font-family: inherit; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.65rem 0.85rem; cursor: pointer; min-height: 44px; }
+.promo-app:hover { border-color: var(--accent); }
+.promo-app[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.promo-app-name { font-weight: 600; }
+.promo-app-cat { font-size: 0.8rem; color: var(--muted); }
+.promo-app-link { align-self: center; font-size: 0.85rem; padding: 0.5rem 0.25rem; min-height: 44px; display: inline-flex; align-items: center; }
+.promo-selected { font-weight: 600; color: var(--ink); }

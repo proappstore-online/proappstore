@@ -34,6 +34,13 @@ jobs:
       - name: Test storefront
         run: npm test
 
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Mobile browser suite (synthetic fixtures)
+        # Same gate as browser.yml: a failing browser suite blocks deployment.
+        run: npm run test:browser
+
       - name: Build storefront
         # Generates index.html and apps/{id}/index.html from registry.json
         # via build.js. Build artifacts are gitignored, so we produce them

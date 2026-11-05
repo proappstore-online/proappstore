@@ -1,0 +1,6 @@
+{
+  "apps": [
+    { "id": "synthetic-one", "name": "Synthetic One", "category": "productivity", "description": "Synthetic fixture app one.", "appUrl": "https://synthetic-one.proappstore.online", "repo": "proappstore-online/synthetic-one", "developer": "ProAppStore" },
+    { "id": "synthetic-two", "name": "Synthetic Two", "category": "social", "description": "Synthetic fixture app two.", "appUrl": "https://synthetic-two.proappstore.online", "repo": "proappstore-online/synthetic-two", "developer": "ProAppStore" }
+  ]
+}

@@ -1,0 +1,34 @@
+name: Browser
+
+# Mobile Chromium + WebKit coverage for the storefront, built from synthetic
+# fixtures only (test/fixtures). Required on every push to main and every PR;
+# deploy.yml runs the same suite before publishing.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: browser-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
+      - name: Mobile browser suite
+        run: npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: ${{ runner.temp }}/pas-playwright-results/

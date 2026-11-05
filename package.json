@@ -7,9 +7,11 @@
     "build": "node build.js",
     "build:marketing": "node marketing/build.mjs",
     "build:previews": "node marketing/build-previews.mjs",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "test:browser": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "astro": "7.3.8"
   }
 }

@@ -134,6 +134,7 @@ const sriHashes = {
   PRISM_AUTODETECT_JS: sriHash('prism-autodetect.js'),
   IDEAS_JS: sriHash('ideas.js'),
   IDEAS_CLAIMS_JS: sriHash('ideas-claims.js'),
+  PROMOTERS_JS: sriHash('promoters.js'),
 };
 
 let html = indexTemplate
@@ -427,6 +428,44 @@ for (const [k, v] of Object.entries(sriHashes)) {
 fs.writeFileSync(path.join(OUT_DIR, 'ideas.html'), ideasHtml);
 console.log(`Built /ideas (${ideasData.ideas.length} ideas)`);
 
+// --- Promoter recruitment page (/promoters) ---
+// The app list is rendered from the same reconciled registry as the storefront
+// (no second roster). The CTAs are links only when data/promoter-destination.json
+// says the Console promoter workspace is ready; otherwise they are inert,
+// aria-disabled buttons with an honest status. A bad destination fails the build.
+const { buildDestination } = require('./promoters.js');
+const destinationPath = process.env.PROMOTER_DESTINATION_PATH || path.join(ROOT, 'data', 'promoter-destination.json');
+const promoterDestination = JSON.parse(fs.readFileSync(destinationPath, 'utf8'));
+if (typeof promoterDestination.ready !== 'boolean') {
+  console.error('promoter-destination.json: "ready" must be true or false');
+  process.exit(1);
+}
+const promoterUrl = promoterDestination.ready ? buildDestination(promoterDestination.url, null, []) : null;
+if (promoterDestination.ready && !promoterUrl) {
+  console.error('promoter-destination.json: ready=true needs a same-site or https://*.proappstore.online "url"');
+  process.exit(1);
+}
+const promoCtas = [['btn-primary', 'Get started'], ['btn-outline', 'Promoter sign in']];
+const promoCtaHtml = promoCtas.map(([cls, label]) => promoterUrl
+  ? `<a class="${cls} promo-cta" href="${esc(promoterUrl)}" data-destination="${esc(promoterUrl)}">${label}</a>`
+  : `<button type="button" class="${cls} promo-cta" aria-disabled="true" aria-describedby="promoStatus">${label}</button>`
+).join('\n        ');
+const promoStatusHtml = promoterUrl
+  ? '<p class="promo-status" id="promoStatus">Choose an app below first if you already know which one you want to promote.</p>'
+  : '<p class="promo-status" id="promoStatus" role="status">Promoter sign-in is not open yet, so there is nothing to sign in to today. This page explains how promotion will work. Check back, or read about <a href="/developers">building an app</a> if you would rather contribute code.</p>';
+const promoAppsHtml = apps.map((app) =>
+  `<li><button type="button" class="promo-app" data-app-id="${esc(app.id)}" data-app-name="${esc(app.name)}" aria-pressed="false"><span class="promo-app-name">${esc(app.name)}</span><span class="promo-app-cat">${esc(app.category || '')}</span></button> <a class="promo-app-link" href="/apps/${esc(app.id)}/" aria-label="About ${esc(app.name)}">About</a></li>`
+).join('\n        ');
+let promotersHtml = fs.readFileSync(path.join(ROOT, 'templates', 'promoters.html'), 'utf8')
+  .replaceAll('{{PROMO_CTAS}}', promoCtaHtml)
+  .replaceAll('{{PROMO_STATUS}}', promoStatusHtml)
+  .replaceAll('{{PROMO_APPS}}', promoAppsHtml);
+for (const [k, v] of Object.entries(sriHashes)) {
+  promotersHtml = promotersHtml.replaceAll(`{{SRI_${k}}}`, v);
+}
+fs.writeFileSync(path.join(OUT_DIR, 'promoters.html'), promotersHtml);
+console.log(`Built /promoters (${apps.length} apps, destination ${promoterUrl ? 'ready' : 'unavailable'})`);
+
 // --- Generate sitemap.xml ---
 // Lists every top-level marketing page + every per-app detail page so Google
 // can discover them all from one URL. Linked from robots.txt.
@@ -443,6 +482,7 @@ const sitemapEntries = [
   `  <url><loc>https://proappstore.online/terms</loc><priority>0.5</priority></url>`,
   `  <url><loc>https://proappstore.online/developers</loc><priority>0.8</priority></url>`,
   `  <url><loc>https://proappstore.online/ideas</loc><priority>0.8</priority></url>`,
+  `  <url><loc>https://proappstore.online/promoters</loc><priority>0.8</priority></url>`,
   ...developers.map((dev) =>
     `  <url><loc>https://proappstore.online/developers/${dev.id}/</loc><priority>0.7</priority></url>`,
   ),
