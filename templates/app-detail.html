@@ -182,6 +182,18 @@
       </div>
     </section>
 
+    <section class="app-section" id="contributors" data-app-id="{{ID}}" aria-labelledby="contributorsHeading" aria-busy="true">
+      <h2 id="contributorsHeading">Promotion contributors</h2>
+      <p>Promotion / Marketing recognises confirmed referrals, separately from code contributions and <a href="#team">team membership</a>.</p>
+      <p>Share is among all promoters' confirmed referrals for this app and reporting period, including promoters who keep their profiles private. Public cards may not sum to 100%. Earlier users are not reconstructed.</p>
+      <noscript><p>Enable JavaScript to load public contributors.</p></noscript>
+      <p id="contributorsPeriod"></p>
+      <p id="contributorsStatus" class="team-status" role="status">Loading public contributors…</p>
+      <ul id="contributorsList" class="team-list" aria-label="Promotion contributors" hidden></ul>
+      <button id="contributorsRetry" type="button" class="app-btn-secondary" hidden>Try again</button>
+      <p><a href="/promoters?app={{ID}}#choose">Explore the promotion opportunity</a></p>
+    </section>
+
     <!-- CTA -->
     <div class="cta-box" style="border-color: color-mix(in srgb, var(--accent) 30%, transparent); background: var(--accent-soft);">
       <h3 style="margin: 0 0 0.5rem; color: var(--ink);">Try {{NAME}}</h3>
@@ -217,6 +229,7 @@
 
   <script src="/theme.js" integrity="{{SRI_THEME_JS}}"></script>
   <script src="/team.js" integrity="{{SRI_TEAM_JS}}"></script>
+  <script src="/contributors.js" integrity="{{SRI_CONTRIBUTORS_JS}}"></script>
   <script src="/detail-page.js" integrity="{{SRI_DETAIL_PAGE_JS}}"></script>
 </body>
 </html>

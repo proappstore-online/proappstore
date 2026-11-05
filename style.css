@@ -2859,3 +2859,5 @@ pre[class*="language-"] {
 .team-sent { margin-top: 0.75rem; padding: 1rem; background: var(--accent-soft); border: 1px solid var(--line); border-radius: var(--radius); }
 .team-sent h3 { color: var(--ink); margin-bottom: 0.25rem; }
 .team-sent p { color: var(--muted); line-height: 1.6; }
+.contributor-card { padding: 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); overflow-wrap: anywhere; min-width: 0; }
+.contributor-card p { margin-top: 0.4rem; }

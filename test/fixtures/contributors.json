@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "app_id": "synthetic-one",
+  "period": { "from": null, "to": null, "from_iso": null, "to_iso": null },
+  "contributors": [{
+    "display_name": "Synthetic promoter",
+    "label": "Community outreach",
+    "contributions": {
+      "promotion": {
+        "type": "promotion_marketing", "label": "Promotion / Marketing", "recorded": true,
+        "confirmed_referrals": 2,
+        "share_of_referred_users": { "numerator": 2, "denominator": 10, "ratio": 0.2, "percent": 20,
+          "basis": "This promoter's confirmed referrals divided by all promoters' confirmed referrals for this app in this period. It is not a share of all users." }
+      },
+      "code": { "type": "code", "available": false }
+    }
+  }]
+}

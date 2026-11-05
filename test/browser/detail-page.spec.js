@@ -12,7 +12,7 @@ test('landing referral reaches all three canonical launch links and no unrelated
   for (const link of await links.all()) {
     await expect(link).toHaveAttribute('href', 'https://synthetic-one.proappstore.online/?ref=testcode');
   }
-  for (const href of await page.locator('a:not([data-launch-link])').evaluateAll(els => els.map(el => el.href))) {
+  for (const href of await page.locator('a:not([data-launch-link])').evaluateAll(els => els.filter(el => !el.getAttribute('href').startsWith('#')).map(el => el.href))) {
     expect(new URL(href).searchParams.has('ref')).toBe(false);
   }
   await page.goto(SITE + '/apps/synthetic-two/');

@@ -187,7 +187,7 @@ test('every app detail page links to /promoters?app=<its own id>#choose', () => 
     for (const id of ids) {
       const html = read(out, path.join('apps', id, 'index.html'));
       assert.ok(html.includes(`<a href="/promoters?app=${id}#choose" class="app-btn-secondary">Help promote `), id);
-      assert.equal((html.match(/\/promoters\?app=/g) || []).length, 1);
+      assert.equal((html.match(/\/promoters\?app=/g) || []).length, 2);
     }
   } finally { cleanup(out); }
 });

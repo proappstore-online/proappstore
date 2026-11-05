@@ -166,6 +166,7 @@ const sriHashes = {
   IDEAS_CLAIMS_JS: sriHash('ideas-claims.js'),
   PROMOTERS_JS: sriHash('promoters.js'),
   TEAM_JS: sriHash('team.js'),
+  CONTRIBUTORS_JS: sriHash('contributors.js'),
 };
 
 let html = indexTemplate
