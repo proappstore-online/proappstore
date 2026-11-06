@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fair pricing & shared rewards — ProAppStore</title>
+  <meta name="description" content="A proposed cost-based payment formula: pay for intentional use, see every allocation, and reward founders, contributors, and direct promoters." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Fair pricing & shared rewards — ProAppStore" />
+  <meta property="og:description" content="Explore our proposed usage pricing formula and shared rewards calculator." />
+  <meta property="og:url" content="https://proappstore.online/fair-pricing" />
+  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://proappstore.online/fair-pricing" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <script>(function(){try{var p=localStorage.getItem('stores-theme');var d=p==='dark'||(!p||p==='system')&&matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.dataset.theme='dark';var t=localStorage.getItem('stores-text-size');if(t)document.documentElement.dataset.text=t;}catch(e){}})()</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/fair-pricing.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="brand" aria-label="ProAppStore">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7"/><path d="M4 7l8 6 8-6"/><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2"/></svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">ProAppStore</span>
+          <span class="brand-tag">Premium Web Apps</span>
+        </span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <a href="/">Apps</a>
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="https://docs.proappstore.online/">Docs</a>
+        <a href="/developers">Developers</a>
+        <a href="/promoters">Promote</a>
+        <a href="/services">Services</a>
+        <a href="/app/">Console</a>
+        <a href="https://freeappstore.online">Free</a>
+      </nav>
+
+      <div class="header-right">
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container fair-page" id="main">
+    <section class="fair-hero">
+      <span class="fair-eyebrow">OPEN PRICING PROPOSAL · VERSION 1 · 6 NOVEMBER 2026</span>
+      <h1>Pay for what you use.<br>Share in what you build.</h1>
+      <p class="fair-lead">Real costs. A visible reward pool. A share for the people who make each app possible.</p>
+      <p class="fair-status"><strong>Proposed model, not live billing.</strong> These are proposed launch defaults, not a promise of current charges or payouts. The <a href="/pricing">current $5/month platform subscription</a> remains in effect. Moving to this model requires a working meter, an auditable ledger, and explicit customer acceptance.</p>
+      <div class="fair-principles"><span>No intentional use → $0</span><span>A spending limit you choose</span><span>Every allocation explained</span></div>
+      <a class="hero-btn" href="#calculator">Try the numbers ↓</a>
+    </section>
+
+    <section class="fair-section" aria-labelledby="formula-title">
+      <span class="fair-eyebrow">01 / THE FORMULA</span><h2 id="formula-title">Your cost share + your benefit share.</h2>
+      <p>Calculate each app separately for one calendar month, then combine the results into one platform statement. All examples use US dollars, before any applicable tax.</p>
+      <div class="fair-formula"><p>C = S + Σ dᵢ &nbsp; · &nbsp; R = m × C &nbsp; · &nbsp; wᵢ = bᵢ / Σ b</p><p><strong>Quoted chargeᵢ = dᵢ + wᵢ × S + wᵢ × R</strong></p><p>Charge before rebatesᵢ = min(quoted chargeᵢ, agreed capᵢ)</p></div>
+      <dl class="fair-definitions">
+        <div><dt>dᵢ · Your direct cost</dt><dd>Verified, attributable service costs from your intentional activity: database work, storage operations, or an explicitly requested AI task.</dd></div>
+        <div><dt>S · Shared operating cost</dt><dd>The app’s approved share of hosting and shared services, after provider credits. Shared invoices are allocated once using a published usage rule, never charged in full to every app.</dd></div>
+        <div><dt>bᵢ · Benefit units</dt><dd>A published proxy for useful activity. Launch default: one unit per UTC day with at least one qualifying, intentional foreground action; at most one per day. Inactivity, background jobs, notifications, and open tabs earn zero.</dd></div>
+        <div><dt>wᵢ · Your relative share</dt><dd>Your benefit units divided by everyone’s eligible benefit units in that app. Include sponsored and capped participants before applying discounts so their shortfall is not shifted to others.</dd></div>
+        <div><dt>R · Reward pool</dt><dd>Proposed default m = 1: rewards equal 100% of operating cost. Before caps and rebates, users collectively fund 2 × C: half costs, half rewards. This is a 100% markup on cost, not a 100% profit margin.</dd></div>
+      </dl>
+      <p><strong>Benefit is not objectively measurable.</strong> Active days are an understandable starting proxy, not a claim that we know someone’s happiness, income, or relationship success. Each app must publish its qualifying actions before charging. For dating, this could be an intentional browse, like, or message action; message content is not scored.</p>
+      <p><strong>Zero use means zero charge.</strong> If bᵢ = 0, that person’s charge is zero. Their dormant storage and unsolicited background work are sponsor-funded, outside C. If nobody uses the app, all costs are sponsor-funded and there is no user-funded reward pool. A free launch is an explicit subsidy with a published budget, not a debt to recover from future users.</p>
+    </section>
+
+    <section class="fair-section" aria-labelledby="split-title">
+      <span class="fair-eyebrow">02 / WHERE THE MONEY GOES</span><h2 id="split-title">One pool. Four visible shares.</h2>
+      <p>These percentages apply to the reward portion actually collected, after caps, refunds and settlement—not to gross revenue. Operating costs are reimbursed separately.</p>
+      <div class="fair-split" role="img" aria-label="Reward pool: 10 percent platform, 15 percent app founders, 60 percent contributors, 15 percent direct promoters"><span>10%</span><span>15%</span><span>60%</span><span>15%</span></div>
+      <div class="fair-cards">
+        <article><strong>10%</strong><h3>Platform commission</h3><p>Funds platform stewardship and operating margin. This is the platform’s only reward share; costs cannot also hide a commission.</p></article>
+        <article><strong>15%</strong><h3>App founders</h3><p>Recognizes creating and launching the app. Named founders and their fixed split are published. This share continues while this policy is in effect; it is not an ownership stake.</p></article>
+        <article><strong>60%</strong><h3>Contributors</h3><p>Rewards accepted development, design, tests, documentation, accessibility, security, maintenance, and moderation work.</p></article>
+        <article><strong>15%</strong><h3>Direct promoters</h3><p>Rewards the person who directly introduced a real user, from that user’s own collected reward contribution, for a limited time.</p></article>
+      </div>
+      <p>With $100 of costs and 1,000 equally active users with equal direct costs, the uncapped charge is <strong>$0.20 each</strong>. If all rewards are eligible, the $200 collected funds $100 of costs, $10 for the platform, $15 for founders, $60 for contributors, and $15 for promoters.</p>
+      <p>If a reward has no eligible recipient, that share is rebated to the users who funded it. It is never silently absorbed by the platform or another pool. An unreferred user therefore receives their entire promoter portion back.</p>
+    </section>
+
+    <section class="fair-section fair-calculator" id="calculator" aria-labelledby="calculator-title">
+      <span class="fair-eyebrow">03 / TRY THE NUMBERS</span><h2 id="calculator-title">See your proposed monthly share.</h2>
+      <p>A simplified single-app model: direct costs are equal per active person; benefit units vary. Real statements would use each person’s measured direct costs. The other users’ average excludes you.</p>
+      <noscript><p>The calculator needs JavaScript. The worked example above and complete formula remain available without it.</p></noscript>
+      <form id="fair-calculator" class="fair-fields">
+        <label>Total direct costs ($)<input name="direct" type="number" min="0" max="1000000" step="0.01" value="60" required></label>
+        <label>Shared costs ($)<input name="shared" type="number" min="0" max="1000000" step="0.01" value="40" required></label>
+        <label>Other active users<input name="others" type="number" min="0" max="10000000" step="1" value="999" required></label>
+        <label>Others’ average active days<input name="average" type="number" min="1" max="31" step="0.1" value="10" required></label>
+        <label>Your active days<input name="days" type="number" min="0" max="31" step="1" value="10" required></label>
+        <label>Your agreed monthly cap ($)<input name="cap" type="number" min="0" max="1000000" step="0.01" value="5" required></label>
+        <label class="fair-check"><input name="referred" type="checkbox" checked> You have an eligible direct promoter</label>
+      </form>
+      <p id="fair-error" role="alert"></p>
+      <div id="fair-results" aria-live="polite" aria-atomic="true">
+        <div class="fair-total"><span>Your payment after rebate</span><strong id="fair-total">$0.20</strong><span id="fair-share">10 of 10,000 benefit units · 0.10% share</span></div>
+        <dl class="fair-ledger">
+          <div><dt>Operating costs funded</dt><dd id="fair-cost">$0.1000</dd></div>
+          <div><dt>Platform commission</dt><dd id="fair-platform">$0.0100</dd></div>
+          <div><dt>App founder reward</dt><dd id="fair-founder">$0.0150</dd></div>
+          <div><dt>Contributor pool</dt><dd id="fair-team">$0.0600</dd></div>
+          <div><dt>Direct promoter reward</dt><dd id="fair-promoter">$0.0150</dd></div>
+          <div><dt>Rebate already deducted</dt><dd id="fair-rebate">$0.0000</dd></div>
+          <div><dt>Sponsor-funded cost shortfall</dt><dd id="fair-shortfall">$0.0000</dd></div>
+        </dl>
+        <p class="fair-small">Assumes eligible founders and contributors. Allocations show four decimals for explanation; a real ledger retains precision, aggregates monthly, and rounds once with a disclosed remainder rule. This calculator does not charge you.</p>
+      </div>
+    </section>
+
+    <section class="fair-section" aria-labelledby="contributor-title">
+      <span class="fair-eyebrow">04 / REWARD USEFUL WORK</span><h2 id="contributor-title">Code counts. Impact counts more.</h2>
+      <p>Paying directly per raw line encourages bloated code and penalizes a small, excellent fix. We include code volume as a limited signal alongside reviewed contribution points.</p>
+      <div class="fair-formula"><p>Contributor weightⱼ = 0.75 × (Pⱼ / Σ P) + 0.25 × (√Lⱼ / Σ √L)</p><p><strong>Contributor rewardⱼ = collected contributor pool × weightⱼ</strong></p></div>
+      <p><strong>Pⱼ</strong> is the sum of accepted contribution points in the trailing 12 months. Each work item gets a public scope and a reviewer-agreed score before work begins: 1 for a small bounded improvement, 3 for a substantial fix or feature, 5 for a major milestone. Completion evidence is required. Non-code work uses the same scale. Work cannot be split into artificial tickets to increase points.</p>
+      <p><strong>Lⱼ</strong> is eligible changed lines from accepted work in the same window: additions plus useful deletions, excluding generated code, vendored files, lockfiles, formatting-only changes, duplicates, and reverted work. A replacement counts once, not once for deletion and again for addition. Squashed diffs and semantic review prevent repeated churn from earning credit. AI-generated volume alone earns no lines credit; reviewed integration, tests and outcomes can earn points.</p>
+      <p>The square root reduces the advantage of volume. If two contributors have equal points but 900 versus 100 eligible lines, their shares are <strong>56.25% and 43.75%</strong>, not 90% and 10%. If no eligible lines exist, points receive 100% of the weight. If there are no accepted points, no contributor rewards are paid and that pool is rebated.</p>
+      <p>Named reviewers cannot approve their own rewards. Co-authors agree the point and line split once, before acceptance. Founders can also earn contributor rewards for distinct accepted work; all roles are disclosed. The same expense or work item cannot be reimbursed as a direct cost and rewarded again as a contribution.</p>
+    </section>
+
+    <section class="fair-section" aria-labelledby="referral-title">
+      <span class="fair-eyebrow">05 / REWARD REAL INTRODUCTIONS</span><h2 id="referral-title">A direct referral, not a recruitment chain.</h2>
+      <p><strong>Promoter reward = 15% × the referred user’s settled reward contribution.</strong> One direct promoter per user per app, confirmed by that user before their first qualifying use. Attribution lasts 12 months from that first use; it cannot be restarted with another account.</p>
+      <p>Sign-ups alone earn nothing. Payments start only after genuine activity produces a settled payment. No self-referrals, duplicate identities, bots, unsolicited bulk invitations, or rewards on someone else’s recruits. Refunds reverse the related reward. Unreferred users and users past the 12-month window receive this portion back.</p>
+      <p>Promoters must disclose their reward relationship when sharing an invitation. Personal identities and private activity are not published in the public ledger.</p>
+    </section>
+
+    <section class="fair-section" aria-labelledby="guardrails-title">
+      <span class="fair-eyebrow">06 / MAKE FAIRNESS CHECKABLE</span><h2 id="guardrails-title">Rules that make the formula accountable.</h2>
+      <div class="fair-rules">
+        <article><h3>Caps are real</h3><p>When a cap reduces a charge, cost and reward components shrink by the same factor. Sponsors cover any cost shortfall; uncollected rewards are not owed. No shortfall is redistributed to other users. Across apps, agreed app budgets must fit inside the user’s platform-wide cap.</p></article>
+        <article><h3>No surprise price changes</h3><p>Show the approved cost categories, benefit rule, reward multiplier, founder split, referral terms, estimate, and maximum before enrollment. Policy changes apply prospectively with acceptance, never retroactively. Pause additional paid activity before its budget is exhausted; account access and data export remain available.</p></article>
+        <article><h3>Real costs, counted once</h3><p>Use net provider invoices and verifiable attribution. Exclude waste, abuse, avoidable idle connections, unapproved expenses, and charges already reimbursed elsewhere. Payment processing is absorbed by the platform’s commission; any applicable tax is itemized separately and included in the approved payment ceiling.</p></article>
+        <article><h3>Receipts for everyone</h3><p>The proposed monthly statement shows your direct cost, benefit units, denominator, shared costs, credits, cap, rebates, and every reward allocation. Publish aggregate costs and reward totals with a versioned policy and contribution register. Provider evidence is redacted where needed; private user activity stays private.</p></article>
+        <article><h3>Reconcile before paying out</h3><p>Server-verified events use unique IDs to prevent duplicate billing. Finalize invoices and payments before rewards settle. Refunds reverse the original allocations. Record sub-cent credits and fractional allocations rather than charging a minimum for unused apps. Never present estimated earnings as money already owed.</p></article>
+        <article><h3>A way to challenge the result</h3><p>Users and contributors get 30 days after a statement to dispute attribution, costs, or points with evidence. A reviewer without a financial interest decides, logs the reason, and issues a correction. Hold disputed rewards until resolved. This workflow must exist before the model launches.</p></article>
+      </div>
+    </section>
+
+    <section class="fair-section fair-bottom" aria-labelledby="limits-title"><h2 id="limits-title">Transparent by design. Open to improvement.</h2>
+      <p>No formula can prove that it is the fairest for every person. This proposal makes its assumptions visible and its arithmetic reproducible.</p>
+      <p>Cost-based rewards also have a limit: an efficient, nearly free app generates a small reward pool, even if it is valuable. At zero cost, this formula generates zero user-funded rewards. Grants or voluntary support could fund more work, but any different reward basis must be published and accepted separately. Spending more must never become a route to bigger rewards.</p>
+      <p><strong>Before launch:</strong> measure costs in a shadow-billing trial, test the benefit proxy, implement caps and sponsor budgets, validate contributor and referral attribution, and reconcile sample statements. Billing and payouts do not change merely because this page exists.</p>
+      <a href="/pricing">See current pricing →</a>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium apps for serious creators.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="https://docs.proappstore.online/">Docs</a>
+        <a href="https://docs.proappstore.online/ui/">UI Library</a>
+        <a href="https://docs.proappstore.online/recipes/">Recipes</a>
+        <a href="/developers">Developers</a>
+        <a href="/promoters">Promote</a>
+        <a href="/services">Services</a>
+        <a href="/capabilities">Capabilities</a>
+        <a href="/roadmap">Roadmap</a>
+        <a href="/app/">Console</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/fair-pricing">Fair pricing proposal</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="https://freeappstore.online">FreeAppStore</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+  <script src="/theme.js"></script>
+  <script src="/fair-pricing.js"></script>
+</body>
+</html>

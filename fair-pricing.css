@@ -1,0 +1,41 @@
+.fair-page { max-width: 1080px; }
+.fair-hero { padding: 4rem 0 3rem; max-width: 880px; }
+.fair-eyebrow { display: block; color: var(--accent); font-size: .75rem; font-weight: 700; letter-spacing: .1em; margin-bottom: 1rem; }
+.fair-hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 4.5rem); line-height: 1.1; letter-spacing: -.04em; color: var(--ink-strong); }
+.fair-lead { font-size: 1.2rem; margin: 1.5rem 0; max-width: 650px; }
+.fair-status { padding: 1rem 1.25rem; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: var(--radius-sm); }
+.fair-principles { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; margin: 1.5rem 0 2rem; font-size: .85rem; font-weight: 700; }
+.fair-hero .hero-btn { display: inline-block; }
+.fair-section { padding: 3rem 0; border-top: 1px solid var(--line); scroll-margin-top: 1rem; }
+.fair-section h2 { font-family: var(--font-display); font-size: clamp(1.7rem, 4vw, 2.4rem); color: var(--ink-strong); line-height: 1.2; margin-bottom: 1rem; }
+.fair-section p { margin: 0 0 1.1rem; max-width: 880px; line-height: 1.75; }
+.fair-formula { margin: 1.5rem 0; padding: 1.5rem; background: var(--panel-alt); border: 1px solid var(--line); border-radius: var(--radius); font-family: var(--font-mono); overflow-wrap: anywhere; }
+.fair-formula p:last-child { margin-bottom: 0; }
+.fair-definitions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.5rem; margin: 2rem 0; }
+.fair-definitions dt { font-weight: 700; margin-bottom: .4rem; }
+.fair-definitions dd { color: var(--muted); line-height: 1.65; }
+.fair-split { display: grid; grid-template-columns: 10fr 15fr 60fr 15fr; border-radius: var(--radius-sm); overflow: hidden; margin: 1.5rem 0; color: #fff; font-size: .8rem; font-weight: 700; }
+.fair-split span { padding: .9rem 0; text-align: center; background: #5b21b6; }
+.fair-split span:nth-child(2) { background: #4338ca; }.fair-split span:nth-child(3) { background: #0f766e; }.fair-split span:nth-child(4) { background: #9a3412; }
+.fair-cards { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.fair-cards article { padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.fair-cards article > strong { color: var(--accent); font-size: 1.8rem; }
+.fair-cards h3, .fair-rules h3 { font-size: 1rem; margin: .5rem 0; }
+.fair-cards p { font-size: .85rem; margin-bottom: 0; }
+.fair-fields { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin: 1.5rem 0; }
+.fair-fields label { font-size: .85rem; font-weight: 700; }
+.fair-fields input[type=number] { display: block; margin-top: .5rem; width: 100%; min-height: 48px; padding: .65rem .75rem; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: var(--panel); color: var(--ink); font: inherit; font-size: 1rem; }
+.fair-fields input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.fair-fields .fair-check { grid-column: 1/-1; display: flex; align-items: center; gap: .6rem; min-height: 44px; }
+.fair-check input { width: 20px; height: 20px; accent-color: var(--accent); }
+.fair-total { display: flex; flex-direction: column; padding: 1.5rem; background: var(--accent-soft); border-radius: var(--radius); }
+.fair-total strong { font-size: 3rem; font-family: var(--font-display); color: var(--accent); }
+.fair-total span:last-child { font-size: .85rem; }
+.fair-ledger { margin: 1rem 0; }
+.fair-ledger div { display: flex; justify-content: space-between; gap: 1rem; padding: .7rem 0; border-bottom: 1px solid var(--line); }
+.fair-ledger dd { font-variant-numeric: tabular-nums; font-weight: 700; }
+.fair-small { font-size: .8rem; color: var(--muted); }
+.fair-rules { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem 2rem; }
+.fair-rules p { font-size: .9rem; }.fair-bottom { padding-bottom: 4rem; }
+@media(max-width: 760px) { .fair-cards { grid-template-columns: repeat(2,minmax(0,1fr)); } .fair-fields { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media(max-width: 480px) { .fair-hero { padding-top: 2.5rem; } .fair-definitions,.fair-rules,.fair-fields,.fair-cards { grid-template-columns: 1fr; } .fair-section { padding: 2rem 0; } .fair-formula { padding: 1rem; font-size: .85rem; } }
