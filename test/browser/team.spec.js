@@ -15,7 +15,6 @@ const GOOD = { name: 'Sam Lee', email: 'sam@example.com', message: 'I would like
 async function installApi(page, behaviour = {}) {
   const api = {
     team: { status: 200, body: { members: [] } },
-    teamDelayMs: 0,
     join: { status: 201, body: { ok: true }, headers: {} },
     teamCalls: 0,
     joinCalls: [],
@@ -30,7 +29,7 @@ async function installApi(page, behaviour = {}) {
     if (url.pathname === `/v1/storefront/apps/${APP}/team` && req.method() === 'GET') {
       api.teamCalls++;
       if (api.team.status === 0) return route.abort('failed');
-      if (api.teamDelayMs) await new Promise((r) => setTimeout(r, api.teamDelayMs));
+      await api.teamReady; // The loading-state test explicitly releases this response.
       return route.fulfill({ status: api.team.status, headers: { ...CORS, 'content-type': 'application/json' }, body: JSON.stringify(api.team.body) });
     }
     if (url.pathname === `/v1/storefront/apps/${APP}/enquiries/team-join` && req.method() === 'POST') {
@@ -59,13 +58,17 @@ const openForm = async (page) => {
 
 test.describe('team list states', () => {
   test('loading, then members rendered as text with a creator badge and label', async ({ page }) => {
-    const api = await installApi(page, { teamDelayMs: 600, team: { status: 200, body: { members: [
+    let releaseTeam;
+    const teamReady = new Promise(resolve => { releaseTeam = resolve; });
+    const api = await installApi(page, { teamReady, team: { status: 200, body: { members: [
       { display_name: 'Ada L.', label: 'Maintainer', is_creator: true },
       { display_name: 'Bo', label: '', is_creator: false },
     ] } } });
     await open(page, api);
-    await expect(page.locator('#teamStatus')).toHaveText('Loading the team…');
-    await expect(page.locator('#team')).toHaveAttribute('aria-busy', 'true');
+    try {
+      await expect(page.locator('#teamStatus')).toHaveText('Loading the team…');
+      await expect(page.locator('#team')).toHaveAttribute('aria-busy', 'true');
+    } finally { releaseTeam(); }
     const items = page.locator('#teamList .team-member');
     await expect(items).toHaveCount(2);
     await expect(page.locator('#team')).toHaveAttribute('aria-busy', 'false');

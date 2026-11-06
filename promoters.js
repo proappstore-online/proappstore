@@ -61,7 +61,7 @@
       buttons.forEach(function (b) { if (b.getAttribute("data-app-id") === id) name = b.getAttribute("data-app-name") || id; });
       if (selectedEl) {
         selectedEl.textContent = id
-          ? "Selected app: " + name + ". It will be kept when promoter sign-in is available."
+          ? "Selected app: " + name + (links.length ? ". Continue to promoter sign-in." : ". It will be kept when promoter sign-in is available.")
           : "No app selected. You can choose one now or after signing in.";
       }
       links.forEach(function (a) {

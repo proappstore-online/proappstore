@@ -487,9 +487,24 @@ const promoCtaHtml = promoCtas.map(([cls, label]) => promoterUrl
 const promoStatusHtml = promoterUrl
   ? '<p class="promo-status" id="promoStatus">Choose an app below first if you already know which one you want to promote.</p>'
   : '<p class="promo-status" id="promoStatus" role="status">Promoter sign-in is not open yet, so there is nothing to sign in to today. This page explains how promotion will work. Check back, or read about <a href="/developers">building an app</a> if you would rather contribute code.</p>';
-const promoAppsHtml = apps.map((app) =>
+// Production always filters recruitment through the readiness API. Tests may
+// supply an isolated snapshot; unavailable/invalid discovery never lists all apps.
+let promoApps = apps;
+try {
+  let inventory;
+  if (process.env.PROMOTER_INVENTORY_PATH) inventory = JSON.parse(fs.readFileSync(process.env.PROMOTER_INVENTORY_PATH, 'utf8'));
+  else if (process.env.PUBLIC_INVENTORY === 'live') inventory = JSON.parse(require('child_process').execFileSync(process.execPath, [path.join(ROOT, 'scripts/promoter-inventory.cjs')], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }));
+  else if (promoterUrl && !process.env.REGISTRY_PATH) throw new Error('Ready production destination requires live promoter discovery');
+  if (inventory) {
+    require('./scripts/promoter-inventory.cjs').parsePage(inventory);
+    if (inventory.next !== null) throw new Error('Incomplete promoter inventory');
+    const ids = new Set(inventory.apps.map(a => a.appId));
+    promoApps = apps.filter(a => ids.has(a.id));
+  }
+} catch (error) { console.error('Promoter discovery unavailable: ' + error.message); process.exit(1); }
+const promoAppsHtml = promoApps.length ? promoApps.map((app) =>
   `<li><button type="button" class="promo-app" data-app-id="${esc(app.id)}" data-app-name="${esc(app.name)}" aria-pressed="false"><span class="promo-app-name">${esc(app.name)}</span><span class="promo-app-cat">${esc(app.category || '')}</span></button> <a class="promo-app-link" href="/apps/${esc(app.id)}/" aria-label="About ${esc(app.name)}">About</a></li>`
-).join('\n        ');
+).join('\n        ') : '<li>No apps are accepting promoters right now. Please check back soon.</li>';
 let promotersHtml = fs.readFileSync(path.join(ROOT, 'templates', 'promoters.html'), 'utf8')
   .replaceAll('{{PROMO_CTAS}}', promoCtaHtml)
   .replaceAll('{{PROMO_STATUS}}', promoStatusHtml)

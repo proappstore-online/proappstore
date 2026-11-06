@@ -6,6 +6,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { build } = require('../scripts/build-candidate.cjs');
 test('candidate is reproducible, complete, isolated, and preserves actual consumer/SRI', async () => {
+  const productionDestination = fs.readFileSync(path.join(__dirname, '../data/promoter-destination.json'), 'utf8');
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'pas-candidate-'));
   try {
     const out = path.join(temp, 'one');
@@ -24,7 +25,7 @@ test('candidate is reproducible, complete, isolated, and preserves actual consum
     for (const match of page.matchAll(/src="\/([^"]+)" integrity="([^"]+)"/g)) assert.equal(match[2], manifest.sri[match[1]]);
     assert.deepEqual(fs.readFileSync(path.join(out, 'contributors.js')), fs.readFileSync(path.join(__dirname, '../contributors.js')));
     assert.match(fs.readFileSync(path.join(out, 'promoters.html'), 'utf8'), /console\.proappstore\.online/);
-    assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, '../data/promoter-destination.json'))).ready, false);
+    assert.equal(fs.readFileSync(path.join(__dirname, '../data/promoter-destination.json'), 'utf8'), productionDestination);
     const { server, resolve } = require(path.join(out, 'serve.cjs'));
     assert.equal(resolve('/build.js'), null);
     assert.equal(resolve('/test/fixtures/contributors.json'), null);

@@ -2,7 +2,7 @@
 
 This handoff contains recruitment, app detail referral propagation, and the unchanged
 #14 contributors browser consumer. It does not assert joint platform acceptance.
-Production signup and data/promoter-destination.json remain unchanged (ready:false).
+Candidate activation is independent of the production flag: ready and unavailable fixtures exercise both states. Production discovery uses the referral-readiness catalogue.
 
 ## Reproduce on Node 22 / POSIX
 

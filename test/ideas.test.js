@@ -41,7 +41,7 @@ test('scripts/ideas.cjs and ideas.js match the FreeAppStore originals', (t) => {
 test('build writes /ideas with every idea, FAS cross-links and SRI for ideas.js', () => {
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'pas-ideas-'));
   try {
-    execFileSync(process.execPath, ['build.js'], { cwd: ROOT, env: { ...process.env, OUT_DIR: out }, stdio: 'pipe' });
+    execFileSync(process.execPath, ['build.js'], { cwd: ROOT, env: { ...process.env, OUT_DIR: out, PROMOTER_DESTINATION_PATH: path.join(ROOT, 'test/fixtures/promoter-destination-unavailable.json') }, stdio: 'pipe' });
     const html = fs.readFileSync(path.join(out, 'ideas.html'), 'utf8');
     const ideas = readJson('data/app-ideas.json').ideas;
     for (const i of ideas) assert.ok(html.includes(`id="idea-${i.id}"`), i.id);

@@ -6,7 +6,7 @@ const root = path.resolve(__dirname, '..');
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 function build(out, mode = 'ready') {
   if (!['ready', 'unavailable'].includes(mode)) throw new Error('Invalid candidate mode');
-  const destination = mode === 'ready' ? 'test/fixtures/promoter-destination-ready.json' : 'data/promoter-destination.json';
+  const destination = mode === 'ready' ? 'test/fixtures/promoter-destination-ready.json' : 'test/fixtures/promoter-destination-unavailable.json';
   out = path.resolve(out);
   if (out === root || out.startsWith(root + path.sep)) throw new Error('Candidate output must be outside the checkout');
   fs.mkdirSync(out, { recursive: true });

@@ -16,7 +16,7 @@ function build({ registry = FIXTURE_REGISTRY, destination } = {}) {
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'pas-promoters-test-'));
   const env = { ...process.env, REGISTRY_PATH: registry, OUT_DIR: out };
   if (destination) env.PROMOTER_DESTINATION_PATH = destination;
-  else delete env.PROMOTER_DESTINATION_PATH;
+  else env.PROMOTER_DESTINATION_PATH = path.join(ROOT, 'test/fixtures/promoter-destination-unavailable.json');
   try {
     execFileSync(process.execPath, [BUILD_JS], { env, cwd: ROOT, stdio: 'pipe' });
     return { out, failed: false, stderr: '' };
@@ -125,10 +125,11 @@ test('a ready destination that is missing, off-site or not https fails the build
   }
 });
 
-test('the committed destination file is the staged-unavailable state until the Console route is verified', () => {
+test('the committed destination has a valid activation flag and Console URL', () => {
   const data = JSON.parse(read(ROOT, 'data/promoter-destination.json'));
   assert.equal(typeof data.ready, 'boolean');
   if (!data.ready) assert.equal(data.url, null);
+  else assert.equal(buildDestination(data.url), data.url);
 });
 
 test('promoters.js is loaded with a matching SRI hash; the page has no inline script beyond the theme bootstrap and no inline style', () => {
