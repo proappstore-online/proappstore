@@ -58,7 +58,7 @@
 
   <main class="container fair-page" id="main">
     <section class="fair-hero">
-      <span class="fair-eyebrow">OPEN PRICING PROPOSAL · VERSION 1 · 6 NOVEMBER 2026</span>
+      <span class="fair-eyebrow">OPEN PRICING PROPOSAL · VERSION 2 · 6 NOVEMBER 2026</span>
       <h1>Pay for what you use.<br>Share in what you build.</h1>
       <p class="fair-lead">Real costs. A visible reward pool. A share for the people who make each app possible.</p>
       <p class="fair-status"><strong>Proposed model, not live billing.</strong> These are proposed launch defaults, not a promise of current charges or payouts. The <a href="/pricing">current $5/month platform subscription</a> remains in effect. Moving to this model requires a working meter, an auditable ledger, and explicit customer acceptance.</p>
@@ -82,22 +82,21 @@
     </section>
 
     <section class="fair-section" aria-labelledby="split-title">
-      <span class="fair-eyebrow">02 / WHERE THE MONEY GOES</span><h2 id="split-title">One pool. Four visible shares.</h2>
+      <span class="fair-eyebrow">02 / WHERE THE MONEY GOES</span><h2 id="split-title">One pool. Three visible shares.</h2>
       <p>These percentages apply to the reward portion actually collected, after caps, refunds and settlement—not to gross revenue. Operating costs are reimbursed separately.</p>
-      <div class="fair-split" role="img" aria-label="Reward pool: 10 percent platform, 15 percent app founders, 60 percent contributors, 15 percent direct promoters"><span>10%</span><span>15%</span><span>60%</span><span>15%</span></div>
+      <div class="fair-split" role="img" aria-label="Reward pool: 10 percent platform, 10 percent app founders, 80 percent shared by developers and promoters"><span>10%</span><span>10%</span><span>80%</span></div>
       <div class="fair-cards">
         <article><strong>10%</strong><h3>Platform commission</h3><p>Funds platform stewardship and operating margin. This is the platform’s only reward share; costs cannot also hide a commission.</p></article>
-        <article><strong>15%</strong><h3>App founders</h3><p>Recognizes creating and launching the app. Named founders and their fixed split are published. This share continues while this policy is in effect; it is not an ownership stake.</p></article>
-        <article><strong>60%</strong><h3>Contributors</h3><p>Rewards accepted development, design, tests, documentation, accessibility, security, maintenance, and moderation work.</p></article>
-        <article><strong>15%</strong><h3>Direct promoters</h3><p>Rewards the person who directly introduced a real user, from that user’s own collected reward contribution, for a limited time.</p></article>
+        <article><strong>10%</strong><h3>App founders</h3><p>Recognizes creating and launching the app. Named founders and their fixed split are published. This share continues while this policy is in effect; it is not an ownership stake.</p></article>
+        <article><strong>80%</strong><h3>Developers &amp; promoters</h3><p>Shared rewards for the people who build, improve, maintain, and bring real users to the app.</p></article>
       </div>
-      <p>With $100 of costs and 1,000 equally active users with equal direct costs, the uncapped charge is <strong>$0.20 each</strong>. If all rewards are eligible, the $200 collected funds $100 of costs, $10 for the platform, $15 for founders, $60 for contributors, and $15 for promoters.</p>
-      <p>If a reward has no eligible recipient, that share is rebated to the users who funded it. It is never silently absorbed by the platform or another pool. An unreferred user therefore receives their entire promoter portion back.</p>
+      <p>With $100 of costs and 1,000 equally active users with equal direct costs, the uncapped charge is <strong>$0.20 each</strong>. If all rewards are eligible, the $200 collected funds $100 of costs, $10 for the platform, $10 for founders, and $80 shared by developers and promoters.</p>
+      <p>If a reward has no eligible recipient, that share is rebated to the users who funded it. It is never silently absorbed by the platform or another pool. The 80% pool is shared by eligible contributors across the app, including developers and promoters. An individual user having no referrer does not trigger a rebate; if the entire shared pool has no eligible recipients, its 80% is rebated.</p>
     </section>
 
     <section class="fair-section fair-calculator" id="calculator" aria-labelledby="calculator-title">
       <span class="fair-eyebrow">03 / TRY THE NUMBERS</span><h2 id="calculator-title">See your proposed monthly share.</h2>
-      <p>A simplified single-app model: direct costs are equal per active person; benefit units vary. Real statements would use each person’s measured direct costs. The other users’ average excludes you.</p>
+      <p>A simplified single-app model: direct costs are equal per active person; benefit units vary. Real statements would use each person’s measured direct costs. The other users’ average excludes you. Development and promotion weights below are illustrative aggregate weights after contribution scoring, not fixed percentages. A person working in both roles is counted once, with their work attributed to the relevant role.</p>
       <noscript><p>The calculator needs JavaScript. The worked example above and complete formula remain available without it.</p></noscript>
       <form id="fair-calculator" class="fair-fields">
         <label>Total direct costs ($)<input name="direct" type="number" min="0" max="1000000" step="0.01" value="60" required></label>
@@ -106,7 +105,8 @@
         <label>Others’ average active days<input name="average" type="number" min="1" max="31" step="0.1" value="10" required></label>
         <label>Your active days<input name="days" type="number" min="0" max="31" step="1" value="10" required></label>
         <label>Your agreed monthly cap ($)<input name="cap" type="number" min="0" max="1000000" step="0.01" value="5" required></label>
-        <label class="fair-check"><input name="referred" type="checkbox" checked> You have an eligible direct promoter</label>
+        <label>Development contribution weight<input name="devWeight" type="number" min="0" max="1000000" step="0.01" value="1" required></label>
+        <label>Promotion contribution weight<input name="promoWeight" type="number" min="0" max="1000000" step="0.01" value="1" required></label>
       </form>
       <p id="fair-error" role="alert"></p>
       <div id="fair-results" aria-live="polite" aria-atomic="true">
@@ -114,30 +114,30 @@
         <dl class="fair-ledger">
           <div><dt>Operating costs funded</dt><dd id="fair-cost">$0.1000</dd></div>
           <div><dt>Platform commission</dt><dd id="fair-platform">$0.0100</dd></div>
-          <div><dt>App founder reward</dt><dd id="fair-founder">$0.0150</dd></div>
-          <div><dt>Contributor pool</dt><dd id="fair-team">$0.0600</dd></div>
-          <div><dt>Direct promoter reward</dt><dd id="fair-promoter">$0.0150</dd></div>
+          <div><dt>App founder reward</dt><dd id="fair-founder">$0.0100</dd></div>
+          <div><dt>Development share of the 80% pool</dt><dd id="fair-team">$0.0400</dd></div>
+          <div><dt>Promotion share of the 80% pool</dt><dd id="fair-promoter">$0.0400</dd></div>
           <div><dt>Rebate already deducted</dt><dd id="fair-rebate">$0.0000</dd></div>
           <div><dt>Sponsor-funded cost shortfall</dt><dd id="fair-shortfall">$0.0000</dd></div>
         </dl>
-        <p class="fair-small">Assumes eligible founders and contributors. Allocations show four decimals for explanation; a real ledger retains precision, aggregates monthly, and rounds once with a disclosed remainder rule. This calculator does not charge you.</p>
+        <p class="fair-small">Assumes eligible founders. Set both contribution weights to zero to see the shared-pool rebate. Allocations show four decimals for explanation; a real ledger retains precision, aggregates monthly, and rounds once with a disclosed remainder rule. This calculator does not charge you.</p>
       </div>
     </section>
 
     <section class="fair-section" aria-labelledby="contributor-title">
-      <span class="fair-eyebrow">04 / REWARD USEFUL WORK</span><h2 id="contributor-title">Code counts. Impact counts more.</h2>
-      <p>Paying directly per raw line encourages bloated code and penalizes a small, excellent fix. We include code volume as a limited signal alongside reviewed contribution points.</p>
-      <div class="fair-formula"><p>Contributor weightⱼ = 0.75 × (Pⱼ / Σ P) + 0.25 × (√Lⱼ / Σ √L)</p><p><strong>Contributor rewardⱼ = collected contributor pool × weightⱼ</strong></p></div>
-      <p><strong>Pⱼ</strong> is the sum of accepted contribution points in the trailing 12 months. Each work item gets a public scope and a reviewer-agreed score before work begins: 1 for a small bounded improvement, 3 for a substantial fix or feature, 5 for a major milestone. Completion evidence is required. Non-code work uses the same scale. Work cannot be split into artificial tickets to increase points.</p>
+      <span class="fair-eyebrow">04 / REWARD USEFUL WORK</span><h2 id="contributor-title">One contribution pool for building and growing.</h2>
+      <p>Paying directly per raw line encourages bloated code and penalizes a small, excellent fix. We include code volume as a limited signal alongside reviewed contribution points for development, non-code work, and verified direct promotion.</p>
+      <div class="fair-formula"><p>Contributor weightⱼ = 0.75 × (Pⱼ / Σ P) + 0.25 × (√Lⱼ / Σ √L)</p><p><strong>Contributor rewardⱼ = 80% × collected reward pool × weightⱼ</strong></p></div>
+      <p><strong>Pⱼ</strong> combines accepted work points from the trailing 12 months with qualified referral points for the current statement month. For development and other reviewed work, each work item gets a public scope and a reviewer-agreed score before work begins: 1 for a small bounded improvement, 3 for a substantial fix or feature, 5 for a major milestone. Completion evidence is required. Non-code work uses the same scale. Work cannot be split into artificial tickets to increase points. Proposed promotion scoring: one point per distinct directly referred user with qualifying activity and a settled positive payment in the statement month, during their first 12 months. Referral points are recalculated each month, not accumulated again over the trailing year. Both roles enter the same points denominator. This starting calibration must be validated and published before launch; point units are a policy choice, not an objective measure of value.</p>
       <p><strong>Lⱼ</strong> is eligible changed lines from accepted work in the same window: additions plus useful deletions, excluding generated code, vendored files, lockfiles, formatting-only changes, duplicates, and reverted work. A replacement counts once, not once for deletion and again for addition. Squashed diffs and semantic review prevent repeated churn from earning credit. AI-generated volume alone earns no lines credit; reviewed integration, tests and outcomes can earn points.</p>
-      <p>The square root reduces the advantage of volume. If two contributors have equal points but 900 versus 100 eligible lines, their shares are <strong>56.25% and 43.75%</strong>, not 90% and 10%. If no eligible lines exist, points receive 100% of the weight. If there are no accepted points, no contributor rewards are paid and that pool is rebated.</p>
+      <p>The sums include all eligible developers, other contributors, and promoters. A promoter can earn points without writing code. There is no fixed developer/promoter split; it follows the combined weights. The square root reduces the advantage of volume. If the only two contributors have equal points but 900 versus 100 eligible lines, their shares are <strong>56.25% and 43.75%</strong>, not 90% and 10%. If no eligible lines exist, points receive 100% of the weight. Only people with accepted points can receive weight, including code weight. If there are no accepted points, the entire 80% shared pool is rebated. For example, aggregate final weights of 3 for development and 1 for promotion divide an $80 pool into $60 and $20; equal weights divide it into $40 each.</p>
       <p>Named reviewers cannot approve their own rewards. Co-authors agree the point and line split once, before acceptance. Founders can also earn contributor rewards for distinct accepted work; all roles are disclosed. The same expense or work item cannot be reimbursed as a direct cost and rewarded again as a contribution.</p>
     </section>
 
     <section class="fair-section" aria-labelledby="referral-title">
       <span class="fair-eyebrow">05 / REWARD REAL INTRODUCTIONS</span><h2 id="referral-title">A direct referral, not a recruitment chain.</h2>
-      <p><strong>Promoter reward = 15% × the referred user’s settled reward contribution.</strong> One direct promoter per user per app, confirmed by that user before their first qualifying use. Attribution lasts 12 months from that first use; it cannot be restarted with another account.</p>
-      <p>Sign-ups alone earn nothing. Payments start only after genuine activity produces a settled payment. No self-referrals, duplicate identities, bots, unsolicited bulk invitations, or rewards on someone else’s recruits. Refunds reverse the related reward. Unreferred users and users past the 12-month window receive this portion back.</p>
+      <p><strong>Promoter reward = 80% × collected reward pool × the promoter’s contribution weight.</strong> Promotion earns points in the same pool as development, rather than a fixed commission on one user’s payment. One direct promoter per user per app, confirmed by that user before their first qualifying use. Attribution lasts 12 months from that first use; it cannot be restarted with another account.</p>
+      <p>Sign-ups alone earn nothing. Payments start only after genuine activity produces a settled payment. No self-referrals, duplicate identities, bots, unsolicited bulk invitations, or rewards on someone else’s recruits. Refunds remove the related referral points and require the affected monthly allocation to be recalculated and corrected before settlement. Users without a referrer still support the shared contribution pool; no personal referral rebate applies. After 12 months, that referral no longer earns promotion points.</p>
       <p>Promoters must disclose their reward relationship when sharing an invitation. Personal identities and private activity are not published in the public ledger.</p>
     </section>
 

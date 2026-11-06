@@ -1,8 +1,8 @@
-/* Proposed policy v1. Educational calculator only: no billing or tracking. */
+/* Proposed policy v2. Educational calculator only: no billing or tracking. */
 (function () {
   'use strict';
-  function calculate({ direct, shared, others, average, days, cap, referred = true }) {
-    for (const value of [direct, shared, others, average, days, cap]) {
+  function calculate({ direct, shared, others, average, days, cap, devWeight = 1, promoWeight = 1 }) {
+    for (const value of [direct, shared, others, average, days, cap, devWeight, promoWeight]) {
       if (!Number.isFinite(value) || value < 0) throw new RangeError('Use finite, nonnegative values.');
     }
     if (!Number.isInteger(others) || !Number.isInteger(days) || days > 31 || average < 1 || average > 31) {
@@ -15,13 +15,15 @@
     const quoted = cost + reward;
     const factor = quoted ? Math.min(1, cap / quoted) : 0;
     const collectedReward = reward * factor;
-    const rebate = referred ? 0 : collectedReward * 0.15;
+    const combinedWeight = devWeight + promoWeight;
+    const contributionPool = collectedReward * 0.80;
+    const rebate = combinedWeight ? 0 : contributionPool;
     return {
       units, share, quoted, cost: cost * factor,
       platform: collectedReward * 0.10,
-      founder: collectedReward * 0.15,
-      team: collectedReward * 0.60,
-      promoter: referred ? collectedReward * 0.15 : 0,
+      founder: collectedReward * 0.10,
+      team: combinedWeight ? contributionPool * devWeight / combinedWeight : 0,
+      promoter: combinedWeight ? contributionPool * promoWeight / combinedWeight : 0,
       rebate, shortfall: cost * (1 - factor),
       total: quoted * factor - rebate,
     };
@@ -40,8 +42,7 @@
       return;
     }
     const data = {};
-    for (const name of ['direct', 'shared', 'others', 'average', 'days', 'cap']) data[name] = Number(form.elements[name].value);
-    data.referred = form.elements.referred.checked;
+    for (const name of ['direct', 'shared', 'others', 'average', 'days', 'cap', 'devWeight', 'promoWeight']) data[name] = Number(form.elements[name].value);
     const result = calculate(data);
     error.textContent = '';
     results.hidden = false;

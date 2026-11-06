@@ -7,7 +7,7 @@ function conserved(r) { close(r.total, r.cost + r.platform + r.founder + r.team 
 test('equal use funds costs and the complete published reward split', () => {
   const r = calculate(base);
   close(r.total, .2); close(r.cost, .1);
-  close(r.platform, .01); close(r.founder, .015); close(r.team, .06); close(r.promoter, .015);
+  close(r.platform, .01); close(r.founder, .01); close(r.team, .04); close(r.promoter, .04);
   conserved(r);
 });
 test('inactive, empty, free and capped cases never create charges or unfunded payouts', () => {
@@ -15,13 +15,13 @@ test('inactive, empty, free and capped cases never create charges or unfunded pa
     const r = calculate({ ...base, ...overrides }); close(r.total, 0); conserved(r);
   }
   const r = calculate({ ...base, cap: .1 });
-  close(r.total, .1); close(r.cost, .05); close(r.shortfall, .05); close(r.team, .03); conserved(r);
+  close(r.total, .1); close(r.cost, .05); close(r.shortfall, .05); close(r.team, .02); conserved(r);
 });
-test('missing referral is rebated to its user, including after a cap', () => {
-  const r = calculate({ ...base, referred: false });
-  close(r.total, .185); close(r.rebate, .015); close(r.promoter, 0); conserved(r);
-  const capped = calculate({ ...base, cap: .1, referred: false });
-  close(capped.total, .0925); close(capped.rebate, .0075); conserved(capped);
+test('empty contribution pool is rebated, including after a cap', () => {
+  const r = calculate({ ...base, devWeight: 0, promoWeight: 0 });
+  close(r.total, .12); close(r.rebate, .08); close(r.promoter, 0); conserved(r);
+  const capped = calculate({ ...base, cap: .1, devWeight: 0, promoWeight: 0 });
+  close(capped.total, .06); close(capped.rebate, .04); conserved(capped);
 });
 test('relative benefit allocations conserve the complete app budget across unequal users', () => {
   const days = [1, 10, 31];
@@ -36,4 +36,13 @@ test('one active user owns the entire allocation; invalid numbers fail explicitl
   for (const overrides of [{ direct: NaN }, { shared: Infinity }, { days: -1 }, { days: 32 }, { days: .5 }, { others: .5 }, { average: 0 }]) {
     assert.throws(() => calculate({ ...base, ...overrides }), RangeError);
   }
+});
+
+test('the full 80 percent follows contribution weights without changing the user bill', () => {
+  for (const [devWeight, promoWeight] of [[3, 1], [0, 1], [1, 0]]) {
+    const r = calculate({ ...base, devWeight, promoWeight });
+    close(r.total, .2); close(r.team + r.promoter, .08);
+    close(r.team, .08 * devWeight / (devWeight + promoWeight)); conserved(r);
+  }
+  for (const value of [-1, NaN, Infinity]) assert.throws(() => calculate({ ...base, devWeight: value }), RangeError);
 });

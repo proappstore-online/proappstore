@@ -14,10 +14,10 @@
 .fair-definitions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.5rem; margin: 2rem 0; }
 .fair-definitions dt { font-weight: 700; margin-bottom: .4rem; }
 .fair-definitions dd { color: var(--muted); line-height: 1.65; }
-.fair-split { display: grid; grid-template-columns: 10fr 15fr 60fr 15fr; border-radius: var(--radius-sm); overflow: hidden; margin: 1.5rem 0; color: #fff; font-size: .8rem; font-weight: 700; }
+.fair-split { display: grid; grid-template-columns: 10fr 10fr 80fr; border-radius: var(--radius-sm); overflow: hidden; margin: 1.5rem 0; color: #fff; font-size: .8rem; font-weight: 700; }
 .fair-split span { padding: .9rem 0; text-align: center; background: #5b21b6; }
 .fair-split span:nth-child(2) { background: #4338ca; }.fair-split span:nth-child(3) { background: #0f766e; }.fair-split span:nth-child(4) { background: #9a3412; }
-.fair-cards { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.fair-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin-bottom: 1.5rem; }
 .fair-cards article { padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
 .fair-cards article > strong { color: var(--accent); font-size: 1.8rem; }
 .fair-cards h3, .fair-rules h3 { font-size: 1rem; margin: .5rem 0; }
