@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dating: from launch to one million active users — ProAppStore</title>
+  <meta name="description" content="A hypothetical Dating growth example: active users, operating costs, sponsorship, contributor rewards, and funding decisions." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Dating: from launch to one million active users — ProAppStore" />
+  <meta property="og:description" content="A hypothetical Dating growth example: active users, operating costs, sponsorship, contributor rewards, and funding decisions." />
+  <meta property="og:url" content="https://proappstore.online/dating-economics" />
+  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://proappstore.online/dating-economics" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <script>(function(){try{var p=localStorage.getItem('stores-theme');var d=p==='dark'||(!p||p==='system')&&matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.dataset.theme='dark';var t=localStorage.getItem('stores-text-size');if(t)document.documentElement.dataset.text=t;}catch(e){}})()</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/fair-pricing.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="brand" aria-label="ProAppStore">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7"/><path d="M4 7l8 6 8-6"/><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2"/></svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">ProAppStore</span>
+          <span class="brand-tag">Premium Web Apps</span>
+        </span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <a href="/">Apps</a>
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="https://docs.proappstore.online/">Docs</a>
+        <a href="/developers">Developers</a>
+        <a href="/promoters">Promote</a>
+        <a href="/services">Services</a>
+        <a href="/app/">Console</a>
+        <a href="https://freeappstore.online">Free</a>
+      </nav>
+
+      <div class="header-right">
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container fair-page">
+
+<section class="fair-hero"><span class="fair-eyebrow">DATING / WORKED EXAMPLE / 6 NOVEMBER 2026</span>
+<h1>From the first match<br>to a million active users.</h1><p class="fair-lead">Who pays for growth, who earns rewards, and when the app needs funding.</p>
+<p class="fair-status"><strong>Illustrative scenario, not a forecast or investment offer.</strong> These numbers are assumptions, not live usage or invoices. The usage-pricing and ownership mechanisms described here are proposed; current billing has not changed.</p>
+<div class="fair-toc" role="navigation" aria-label="On this page"><a href="#assumptions">Assumptions</a><a href="#growth">Growth table</a><a href="#funding">Funding calculator</a><a href="#roadmap">Roadmap</a><a href="/ownership">Ownership &amp; app charters →</a></div></section>
+<section class="fair-section" id="assumptions"><h2>Count active people. Measure actual costs.</h2>
+<p><strong>MAU</strong> means distinct people with qualifying activity in the last 30 days. <strong>DAU</strong> means distinct active people in a day; use an average over the period when comparing it with MAU. Registered accounts include inactive people. Peak concurrent users measure simultaneous load. They are not interchangeable.</p>
+<p>In this example, 1,000 MAU and 100 average DAU means 10% of the monthly audience is active on an average day. This is an assumption, not a measured retention rate. Hosting bills depend on messages, room duration, storage, and queries, not simply accounts.</p>
+<p>We use an <strong>optimized infrastructure planning target of US$0.05 per MAU/month</strong>, equal activity among users, and a reward pool equal to operating costs. This target needs validation. It excludes staff salaries, moderation operations, acquisition, payment fees, and taxes. There are no video, SMS, or AI-heavy features in the baseline. Dormant storage still needs sponsor funding where it incurs costs.</p>
+<p>At $0.02 per MAU, infrastructure costs are 40% of the baseline; at $0.20, they are four times larger. Costs need not scale linearly: retention, peak traffic, database limits, and staffing change the model. The current app’s idle chat connections must be optimized and load-tested before relying on the target. Cloudflare bills non-hibernating room duration; see <a href="https://developers.cloudflare.com/durable-objects/platform/pricing/">the provider’s pricing</a>.</p></section>
+<section class="fair-section" id="growth"><h2>Scale is a funding decision, not a billing trigger.</h2>
+<p>All values below are monthly US dollars. “All pay” assumes every active user accepts their full usage charge, with no caps or rebates reducing collections. “20% pay” assumes payers represent 20% of costs and benefit units; other users are explicitly sponsored.</p>
+<p class="fair-table-hint">Swipe or scroll the table horizontally to see every column →</p>
+<div class="fair-table-wrap" tabindex="0" role="region" aria-label="Monthly growth scenarios"><table class="fair-table"><caption>Baseline at $0.05 infrastructure cost per MAU</caption><thead><tr><th scope="col">MAU</th><th scope="col">Infrastructure</th><th scope="col">Collected if all pay</th><th scope="col">Collected if 20% pay</th><th scope="col">Subsidy if 20% pay</th></tr></thead><tbody>
+<tr><th scope="row">1,000</th><td>$50</td><td>$100</td><td>$20</td><td>$40</td></tr><tr><th scope="row">10,000</th><td>$500</td><td>$1,000</td><td>$200</td><td>$400</td></tr><tr><th scope="row">100,000</th><td>$5,000</td><td>$10,000</td><td>$2,000</td><td>$4,000</td></tr><tr><th scope="row">1,000,000</th><td>$50,000</td><td>$100,000</td><td>$20,000</td><td>$40,000</td></tr></tbody></table></div>
+<p>At 1,000 MAU, an equally active paying user’s modeled charge is $0.10/month. With only 20% paying, the $20 collected funds $10 of costs and $10 of rewards; a sponsor covers the remaining $40 of infrastructure. If everyone is free, the sponsor covers the full $50 and no user-funded rewards accrue.</p>
+<p>At one million MAU with 20% paying, the $10,000 collected reward pool pays $1,000 to the platform, $1,000 to founders, and $8,000 to developers and promoters by contribution weight. Infrastructure subsidy is $40,000/month or $480,000/year. If all users pay, the reward pool is $50,000: $5,000 platform, $5,000 founder, $40,000 shared. These are pool totals, not salaries or guaranteed returns.</p></section>
+<section class="fair-section" id="funding"><h2>Try a different funding scenario.</h2><p>The model keeps the <a href="/fair-pricing">10% platform / 10% founder / 80% contribution split</a>. Additional approved operating costs enter the same cost base; do not include contributor work already rewarded from the pool. Payment fees and taxes remain outside this simplified calculation.</p>
+<form id="growth-calculator" class="fair-fields">
+<label>Monthly active users<input name="mau" type="number" min="0" max="100000000" step="1" value="1000" required></label>
+<label>Infrastructure cost per MAU ($)<input name="unitCost" type="number" min="0" max="1000" step="0.01" value="0.05" required></label>
+<label>Additional approved costs/month ($)<input name="overhead" type="number" min="0" max="100000000" step="0.01" value="0" required></label>
+<label>Paying share of equal usage (%)<input name="payPercent" type="number" min="0" max="100" step="1" value="20" required></label>
+<label>Committed platform subsidy/month ($)<input name="sponsor" type="number" min="0" max="100000000" step="0.01" value="0" required></label>
+<label>Available external funding reserve ($)<input name="reserve" type="number" min="0" max="1000000000" step="0.01" value="0" required></label></form>
+<p id="growth-error" role="alert"></p><noscript><p>The calculator requires JavaScript; the growth table and formula remain readable without it.</p></noscript>
+<div id="growth-results" aria-live="polite" aria-atomic="true"><div class="fair-total"><span>External funding still needed each month</span><strong id="growth-gap">$40.00</strong><span id="growth-runway">0.0 months of reserve at this constant burn rate</span></div>
+<dl class="fair-ledger"><div><dt>Total operating costs</dt><dd id="growth-cost">$50.00</dd></div><div><dt>Payments collected</dt><dd id="growth-revenue">$20.00</dd></div><div><dt>Costs reimbursed by users</dt><dd id="growth-reimbursement">$10.00</dd></div><div><dt>Platform reward, before fees</dt><dd id="growth-platform">$1.00</dd></div><div><dt>Founder reward</dt><dd id="growth-founder">$1.00</dd></div><div><dt>Shared developer/promoter rewards</dt><dd id="growth-contributors">$8.00</dd></div><div><dt>Platform subsidy actually needed</dt><dd id="growth-subsidy">$0.00</dd></div></dl></div>
+<div class="fair-formula"><p>C = MAU × unit cost + approved additional costs</p><p>Collections = 2 × C × paying share</p><p>Cost reimbursement = rewards = C × paying share</p><p>External funding gap = max(0, C − reimbursement − committed platform subsidy)</p></div>
+<p>When MAU is zero, collections and rewards are zero; sponsors cover any remaining overhead. Runway assumes constant costs, usage and committed monthly subsidy. It does not predict future growth. The platform subsidy is a separate committed budget; platform commission is not silently counted a second time as funding.</p></section>
+<section class="fair-section" id="roadmap"><h2>A roadmap with explicit decision points.</h2>
+<div class="fair-rules"><article><h3>Now → month six</h3><p>Keep launch access sponsored within a written budget. Measure invoices, messages, active days and room duration; fix idle connections. Publish the founder’s charter and role terms before contributions are accepted. Show example statements without collecting usage payments.</p></article><article><h3>At 1,000 MAU</h3><p>Compare the $50 target against real costs. Review useful matches, two-way conversations, retention and moderation needs. An illustrative $100 monthly platform budget supports this baseline without an investor. There is no automatic switch to paid access.</p></article><article><h3>At 10,000 MAU</h3><p>The baseline is $500/month. With 20% paying and a $100 platform subsidy, another $300/month is needed. Founders choose funded free access, accepted paid usage, or a slower rollout before the budget is exhausted.</p></article><article><h3>At 100,000 → one million MAU</h3><p>Rebuild the budget from measured unit costs, staffing and capacity. Secure committed funding for any subsidy. Review a six-month runway threshold monthly; if funding is insufficient, limit new sponsored enrollment rather than create unexpected user debt.</p></article></div>
+<p><strong>Who covers the gap?</strong> Founders, the platform, or an outside sponsor can fund it. State whether money is a grant, loan, equity investment, or an advance against a named recipient’s future rewards. Funding costs does not automatically buy ownership or control. Sponsors must explicitly accept any arrangement that distributes collected rewards while they cover a deficit.</p>
+<p>Under the baseline, a $100/month platform budget supports 2,000 MAU entirely free, or 2,500 MAU with 20% paying. With additional costs, these thresholds fall. Remaining reserve divided by the unfunded monthly gap gives runway; when the gap is zero, no reserve draw is needed for modeled costs.</p>
+<p>Aggregate small charges across apps or billing periods rather than charging each tiny amount separately. Card processing includes fixed transaction fees; see <a href="https://stripe.com/au/pricing">Stripe’s Australian pricing</a>. Payment fees come from the platform’s commission under the proposed model and must be checked for viability before launch.</p></section>
+<section class="fair-section fair-bottom"><h2>Before anyone contributes or invests.</h2><p>Read the app’s charter, the evidence behind its costs, your exact rights, and how you can leave. The next page explains how founders define the rules and how the proposed platform enforcement would work.</p><a class="hero-btn" href="/ownership">Ownership, buyouts &amp; founder-defined rules →</a></section>
+
+  </main>
+  <footer>
+    <div class="container">
+      <div class="footer-left">
+        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <p>Premium apps for serious creators.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="https://docs.proappstore.online/">Docs</a>
+        <a href="https://docs.proappstore.online/ui/">UI Library</a>
+        <a href="https://docs.proappstore.online/recipes/">Recipes</a>
+        <a href="/developers">Developers</a>
+        <a href="/promoters">Promote</a>
+        <a href="/services">Services</a>
+        <a href="/capabilities">Capabilities</a>
+        <a href="/roadmap">Roadmap</a>
+        <a href="/app/">Console</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/fair-pricing">Fair pricing proposal</a>
+        <a href="/dating-economics">Dating growth example</a>
+        <a href="/ownership">Ownership &amp; rules</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="https://freeappstore.online">FreeAppStore</a>
+        <a href="https://github.com/proappstore-online">GitHub</a>
+      </div>
+    </div>
+  </footer>
+  <script src="/theme.js"></script>
+  <script src="/dating-economics.js"></script>
+</body>
+</html>
