@@ -28,13 +28,13 @@ jobs:
       - run: npm test
       - name: Build sample marketing artifact
         run: npm run build:marketing -- --snapshot marketing/fixtures/sample.json --assets-dir marketing/fixtures/sample/assets --out marketing/dist
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: sample-marketing-site
           path: marketing/dist/
       - name: Build synthetic Storefront candidate
         run: node scripts/build-candidate.cjs "$RUNNER_TEMP/storefront-candidate"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: storefront-candidate-${{ github.sha }}
           path: ${{ runner.temp }}/storefront-candidate/
