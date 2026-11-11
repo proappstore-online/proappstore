@@ -49,10 +49,15 @@ function safeText(s, max) {
 function validateRegistry(items) {
   const errors = [];
   const seenIds = new Set();
+  const seenSlugs = new Set();
   for (const a of items) {
     if (!a.id || !ID_RE.test(a.id)) errors.push(`bad id: ${JSON.stringify(a.id)}`);
     else if (seenIds.has(a.id)) errors.push(`duplicate id: ${JSON.stringify(a.id)}`);
     else seenIds.add(a.id);
+    const slug = a.publicSlug || a.id;
+    if (!ID_RE.test(slug)) errors.push(`${a.id}: invalid publicSlug`);
+    else if (seenSlugs.has(slug)) errors.push(`${a.id}: duplicate public listing slug`);
+    else seenSlugs.add(slug);
     if (!safeText(a.name, 80)) errors.push(`${a.id}: name must be 1-80 chars without control chars`);
     if (!a.appUrl || !URL_RE.test(a.appUrl)) errors.push(`${a.id}: appUrl must be https://*.proappstore.online, got ${JSON.stringify(a.appUrl)}`);
     if (a.iconBg && !COLOR_RE.test(a.iconBg)) errors.push(`${a.id}: iconBg must be a #hex color, got ${JSON.stringify(a.iconBg)}`);
@@ -70,7 +75,7 @@ function validateRegistry(items) {
       } catch { errors.push(`${a.id}: invalid sitemapUrl`); }
     }
     if (a.socialImageUrl != null && (typeof a.socialImageUrl !== 'string' ||
-        a.socialImageUrl !== ownedUrl(a.socialImageUrl, a.appUrl, a.appUrl))) {
+        a.socialImageUrl !== ownedUrl(a.socialImageUrl, a.appUrl, a.appUrl, a.id))) {
       errors.push(`${a.id}: socialImageUrl must use the approved launch or store origin`);
     }
   }
@@ -100,7 +105,7 @@ const cards = apps.map((app) => {
   const letter = esc((app.name || '?').trim().charAt(0).toUpperCase());
   const desc = esc(app.description || '');
   return `        <div class="app-card" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
-          <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
+          <a class="app-card-body" href="/apps/${esc(app.publicSlug || app.id)}/" aria-label="View ${esc(app.name)} details">
             <div class="app-icon" data-letter="${letter}">
               <img src="${esc(app.socialImageUrl || FALLBACK)}" alt="" loading="lazy" />
             </div>
@@ -220,7 +225,7 @@ const appsDir = path.join(OUT_DIR, 'apps');
 fs.rmSync(appsDir, { recursive: true, force: true });
 fs.mkdirSync(appsDir, { recursive: true });
 for (const app of apps) {
-  const dir = path.join(appsDir, app.id);
+  const dir = path.join(appsDir, app.publicSlug || app.id);
   fs.mkdirSync(dir, { recursive: true });
   const firstLetter = (app.name || '?').trim().charAt(0).toUpperCase().replace(/[\\']/g, '\\$&');
   const appHost = (() => {
@@ -245,6 +250,7 @@ for (const app of apps) {
     .join('\n        ');
   let detail = detailTemplate
     .replaceAll('{{ID}}', esc(app.id))
+    .replaceAll('{{SLUG}}', esc(app.publicSlug || app.id))
     .replaceAll('{{NAME}}', esc(app.name))
     .replaceAll('{{DESCRIPTION}}', esc(app.description || ''))
     .replaceAll('{{CATEGORY}}', esc(app.category || ''))
@@ -335,7 +341,7 @@ let ideasHtml = renderIdeasPage(fs.readFileSync(path.join(ROOT, 'templates', 'id
   caps: pasCapabilities,
   apps,
   appsField: 'pasApps',
-  appHref: (id) => `/apps/${encodeURIComponent(id)}/`,
+  appHref: (id) => `/apps/${encodeURIComponent(apps.find(app => app.id === id)?.publicSlug || id)}/`,
   initCommand: (id) => `pas create ${id}`,
   buildHint: 'Scaffold with `pas create`, run `pas check` before `pas publish`. Guide: https://proappstore.online/skills.md',
   edgeLabel: 'Your edge:',
@@ -394,7 +400,7 @@ try {
   }
 } catch (error) { console.error('Promoter discovery unavailable: ' + error.message); process.exit(1); }
 const promoAppsHtml = promoApps.length ? promoApps.map((app) =>
-  `<li><button type="button" class="promo-app" data-app-id="${esc(app.id)}" data-app-name="${esc(app.name)}" aria-pressed="false"><span class="promo-app-name">${esc(app.name)}</span><span class="promo-app-cat">${esc(app.category || '')}</span></button> <a class="promo-app-link" href="/apps/${esc(app.id)}/" aria-label="About ${esc(app.name)}">About</a></li>`
+  `<li><button type="button" class="promo-app" data-app-id="${esc(app.id)}" data-app-name="${esc(app.name)}" aria-pressed="false"><span class="promo-app-name">${esc(app.name)}</span><span class="promo-app-cat">${esc(app.category || '')}</span></button> <a class="promo-app-link" href="/apps/${esc(app.publicSlug || app.id)}/" aria-label="About ${esc(app.name)}">About</a></li>`
 ).join('\n        ') : '<li>No apps are accepting promoters right now. Please check back soon.</li>';
 let promotersHtml = fs.readFileSync(path.join(ROOT, 'templates', 'promoters.html'), 'utf8')
   .replaceAll('{{PROMO_CTAS}}', promoCtaHtml)
@@ -426,7 +432,7 @@ const sitemapEntries = [
   `  <url><loc>https://proappstore.online/ideas</loc><priority>0.8</priority></url>`,
   `  <url><loc>https://proappstore.online/promoters</loc><priority>0.8</priority></url>`,
   ...apps.map((app) =>
-    `  <url><loc>https://proappstore.online/apps/${app.id}/</loc><priority>0.9</priority></url>`,
+    `  <url><loc>https://proappstore.online/apps/${app.publicSlug || app.id}/</loc><priority>0.9</priority></url>`,
   ),
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

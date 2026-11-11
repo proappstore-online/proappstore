@@ -60,13 +60,13 @@
     },
     {
       "id": "loopride",
-      "name": "Loopride",
+      "name": "Rideshare",
       "category": "transport",
       "icon": "&#128260;",
       "iconBg": "#ecfdf5",
       "description": "Recurring rides \u2014 set up a route, days and time once, and your driver shows up week after week. Live GPS tracking when the trip starts.",
-      "about": "Loopride solves the problem of recurring trips \u2014 school runs, commute shares, weekly errands. Set up a route with pickup and dropoff points, choose which days and times, and your driver follows the same schedule every week.\n\nRoutes are geocoded using the platform's maps API. Driving directions render as a real route on the map (not a straight line). When a trip starts, the driver's GPS position is tracked live and shared with passengers via WebSocket rooms.\n\nDesigned for small groups who ride together regularly. Not a ride-hailing service \u2014 no surge pricing, no matching algorithms, no marketplace dynamics. Just a shared schedule for people who already know each other.",
-      "appUrl": "https://loopride.proappstore.online",
+      "about": "Rideshare solves the problem of recurring trips \u2014 school runs, commute shares, weekly errands. Set up a route with pickup and dropoff points, choose which days and times, and your driver follows the same schedule every week.\n\nRoutes are geocoded using the platform's maps API. Driving directions render as a real route on the map (not a straight line). When a trip starts, the driver's GPS position is tracked live and shared with passengers via WebSocket rooms.\n\nDesigned for small groups who ride together regularly. Not a ride-hailing service \u2014 no surge pricing, no matching algorithms, no marketplace dynamics. Just a shared schedule for people who already know each other.",
+      "appUrl": "https://rideshare.proappstore.online",
       "type": "connected",
       "proFeatures": [
         "Set up recurring routes with days and times",
@@ -75,7 +75,8 @@
         "Driving route directions (OSRM-powered)",
         "Push notifications for trip reminders",
         "Small group management (driver + passengers)"
-      ]
+      ],
+      "publicSlug": "rideshare"
     },
     {
       "id": "grasskarma",

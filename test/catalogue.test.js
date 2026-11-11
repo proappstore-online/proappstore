@@ -62,3 +62,32 @@ test('the published registry names no one: developer, repo, creatorGithub and de
   assert.ok(!('developers' in result.registry));
   assert.deepEqual(Object.keys(result.registry.apps[0]).filter(k => ['developer', 'repo', 'creatorGithub'].includes(k)), []);
 });
+
+test('a public listing slug preserves backend identity and visibility filtering', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const os = require('node:os');
+  const { execFileSync } = require('node:child_process');
+  const { filterPublic } = require('../scripts/public-inventory.cjs');
+  const root = path.resolve(__dirname, '..');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'pas-rename-'));
+  const entry = { ...app('stable-id'), name: 'Rideshare', publicSlug: 'rideshare', appUrl: 'https://rideshare.proappstore.online' };
+  try {
+    assert.deepEqual(filterPublic([entry], new Set(['rideshare'])).kept, []);
+    assert.equal(filterPublic([entry], new Set(['stable-id'])).kept.length, 1);
+    const registryPath = path.join(tmp, 'registry.json');
+    const out = path.join(tmp, 'out');
+    fs.mkdirSync(out);
+    fs.writeFileSync(registryPath, JSON.stringify({ apps: [entry] }));
+    execFileSync(process.execPath, [path.join(root, 'build.js')], { cwd: root, stdio: 'pipe', env: {
+      ...process.env, REGISTRY_PATH: registryPath, OUT_DIR: out,
+      PROMOTER_DESTINATION_PATH: path.join(__dirname, 'fixtures', 'promoter-destination-unavailable.json'),
+    } });
+    const detail = fs.readFileSync(path.join(out, 'apps/rideshare/index.html'), 'utf8');
+    assert.match(detail, /canonical" href="https:\/\/proappstore.online\/apps\/rideshare\//);
+    assert.match(detail, /data-app-id="stable-id"/);
+    assert.ok(!fs.existsSync(path.join(out, 'apps/stable-id')));
+    assert.match(fs.readFileSync(path.join(out, 'index.html'), 'utf8'), /href="\/apps\/rideshare\//);
+    assert.match(fs.readFileSync(path.join(out, 'sitemap.xml'), 'utf8'), /\/apps\/rideshare\//);
+  } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+});

@@ -160,7 +160,7 @@ test('every generated listing describes the shared monthly Service without a per
     runBuild({ registryPath: REAL_REGISTRY, outDir: tmp });
     const registry = JSON.parse(fs.readFileSync(REAL_REGISTRY, 'utf8'));
     for (const app of registry.apps) {
-      const html = fs.readFileSync(path.join(tmp, 'apps', app.id, 'index.html'), 'utf8');
+      const html = fs.readFileSync(path.join(tmp, 'apps', app.publicSlug || app.id, 'index.html'), 'utf8');
       const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
       const software = graph.find(node => node['@type'] === 'SoftwareApplication');
       const service = graph.find(node => node['@type'] === 'Service');

@@ -57,3 +57,8 @@ repository. Until the platform sends it, the hourly schedule is what bounds the 
 Cached copies of a withdrawn detail page cannot outlive a rebuild either: the Pages route in
 `functions/apps/[[path]].js` checks the compiled `catalogue.json` and answers 404 with
 `no-store` for anything not in it. See `CATALOGUE.md` for how listings are approved.
+
+A catalogue entry may set `publicSlug` for its public `/apps/<slug>/` address.
+Its `id` remains the platform identity used for visibility filtering, team and
+contributor APIs. Rideshare uses this to rename public links without moving
+existing app data. Old listing addresses redirect through `_redirects`.

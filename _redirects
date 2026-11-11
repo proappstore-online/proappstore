@@ -9,3 +9,6 @@
 /developers / 301
 /developers/ / 301
 /developers/* / 301
+
+/apps/loopride /apps/rideshare/ 301
+/apps/loopride/ /apps/rideshare/ 301

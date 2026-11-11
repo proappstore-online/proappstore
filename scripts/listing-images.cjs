@@ -1,10 +1,10 @@
 const FALLBACK = 'https://proappstore.online/icon-512.png';
 
-function ownedUrl(value, base, appUrl) {
+function ownedUrl(value, base, appUrl, appId) {
   try {
     const url = new URL(value, base);
     const publicUpload = url.origin === 'https://api.proappstore.online' &&
-      url.pathname.startsWith(`/v1/apps/${new URL(appUrl).hostname.split('.')[0]}/public/`);
+      url.pathname.startsWith(`/v1/apps/${appId || new URL(appUrl).hostname.split('.')[0]}/public/`);
     if (url.protocol !== 'https:' || url.username || url.password ||
         (!publicUpload && ![new URL(appUrl).origin, 'https://proappstore.online'].includes(url.origin))) return null;
     return url.href;
@@ -38,13 +38,13 @@ async function enrichListingImages(registry, pages, get = fetch) {
   for (const app of registry.apps) {
     const candidates = [];
     if (app.socialImageUrl) {
-      const explicit = ownedUrl(app.socialImageUrl, app.appUrl, app.appUrl);
+      const explicit = ownedUrl(app.socialImageUrl, app.appUrl, app.appUrl, app.id);
       if (explicit) candidates.push(explicit);
     }
     const html = pages.get(app.id) || '';
     const manifest = [...html.matchAll(/<link\b[^>]*>/gi)].map(match => attributes(match[0]))
       .find(attrs => attrs.rel?.toLowerCase().split(/\s+/).includes('manifest'));
-    const manifestUrl = manifest?.href && ownedUrl(manifest.href, app.appUrl, app.appUrl);
+    const manifestUrl = manifest?.href && ownedUrl(manifest.href, app.appUrl, app.appUrl, app.id);
     if (manifestUrl) {
       try {
         const response = await load(manifestUrl);
@@ -53,7 +53,7 @@ async function enrichListingImages(registry, pages, get = fetch) {
           const icons = Array.isArray(data.icons) ? data.icons.filter(icon => typeof icon.src === 'string') : [];
           icons.sort((a, b) => (Number.parseInt(b.sizes, 10) || 0) - (Number.parseInt(a.sizes, 10) || 0));
           for (const icon of icons.slice(0, 4)) {
-            const image = ownedUrl(icon.src, manifestUrl, app.appUrl);
+            const image = ownedUrl(icon.src, manifestUrl, app.appUrl, app.id);
             if (image) candidates.push(image);
           }
         }

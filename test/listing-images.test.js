@@ -44,3 +44,9 @@ test('approved API uploads are scoped to the same app public-file namespace', ()
   assert.equal(ownedUrl('https://api.proappstore.online/v1/admin/something', registry.apps[0].appUrl, registry.apps[0].appUrl), null);
   assert.equal(ownedUrl('https://api.proappstore.online/v1/apps/another/public/icon.png', registry.apps[0].appUrl, registry.apps[0].appUrl), null);
 });
+
+test('renamed hosts keep uploads scoped to their stable platform identity', () => {
+  const host = 'https://rideshare.proappstore.online';
+  assert.equal(ownedUrl('https://api.proappstore.online/v1/apps/stable-id/public/icon.png', host, host, 'stable-id'), 'https://api.proappstore.online/v1/apps/stable-id/public/icon.png');
+  assert.equal(ownedUrl('https://api.proappstore.online/v1/apps/rideshare/public/icon.png', host, host, 'stable-id'), null);
+});
