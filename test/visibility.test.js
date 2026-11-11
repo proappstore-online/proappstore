@@ -45,7 +45,7 @@ const cleanup = (...dirs) => dirs.forEach((d) => fs.rmSync(d, { recursive: true,
 function leaks(out, id) {
   const found = [];
   if (fs.existsSync(path.join(out, 'apps', id))) found.push(`apps/${id}/ page`);
-  for (const file of ['index.html', 'sitemap.xml', 'sitemap-index.xml', 'catalogue.json', 'promoters.html', 'ideas.html', 'developers.html', 'card-styles.css']) {
+  for (const file of ['index.html', 'sitemap.xml', 'sitemap-index.xml', 'catalogue.json', 'promoters.html', 'ideas.html', 'card-styles.css']) {
     if (fs.existsSync(path.join(out, file)) && read(out, file).includes(id)) found.push(file);
   }
   return found;

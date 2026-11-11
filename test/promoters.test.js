@@ -194,12 +194,11 @@ test('every app detail page links to /promoters?app=<its own id>#choose', () => 
 });
 
 test('the Promote link sits in the header and footer navigation of every storefront page', () => {
-  const nav = '<a href="/developers">Developers</a>';
+  const nav = '<a href="/promoters">Promote</a>';
   const files = [
     ...fs.readdirSync(ROOT).filter((f) => f.endsWith('.html')),
     ...fs.readdirSync(path.join(ROOT, 'templates')).map((f) => path.join('templates', f)),
     ...fs.readdirSync(path.join(ROOT, 'apps')).map((d) => path.join('apps', d, 'index.html')).filter((f) => fs.existsSync(path.join(ROOT, f))),
-    ...fs.readdirSync(path.join(ROOT, 'developers')).map((d) => path.join('developers', d, 'index.html')),
   ];
   let checked = 0;
   for (const f of files) {
@@ -207,13 +206,12 @@ test('the Promote link sits in the header and footer navigation of every storefr
     lines.forEach((line, i) => {
       if (line.trim() !== nav) return;
       checked++;
-      assert.equal(lines[i + 1].trim(), '<a href="/promoters">Promote</a>', `${f}:${i + 1} has Developers without Promote`);
     });
   }
   assert.ok(checked >= 60, `only ${checked} nav entries checked`);
   const { out } = build();
   try {
-    for (const f of ['index.html', 'ideas.html', 'developers.html', 'promoters.html']) {
+    for (const f of ['index.html', 'ideas.html', 'promoters.html']) {
       assert.equal((read(out, f).match(/<a href="\/promoters">Promote<\/a>/g) || []).length, 2, f);
     }
   } finally { cleanup(out); }

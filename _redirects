@@ -6,3 +6,6 @@
 /docs/mcp-app-tools/ https://docs.proappstore.online/mcp-app-tools/ 301
 /docs https://docs.proappstore.online/ 301
 /docs/ https://docs.proappstore.online/ 301
+/developers / 301
+/developers/ / 301
+/developers/* / 301

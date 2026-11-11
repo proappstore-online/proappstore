@@ -57,7 +57,6 @@
         <a href="/about">About</a>
         <a href="/pricing">Pricing</a>
         <a href="https://docs.proappstore.online/">Docs</a>
-        <a href="/developers">Developers</a>
         <a href="/promoters">Promote</a>
         <a href="/services">Services</a>
         <a href="/app/">Console</a>
@@ -114,8 +113,7 @@
             <p>Create a free account (GitHub sign-in). Add at least $10 to your balance via Stripe. Your money sits in your account until a developer works &mdash; unused balance stays yours.</p>
           </div>
           <div class="feature-card">
-            <strong>2. Find a developer or post a request</strong>
-            <p><strong>Browse:</strong> Check the developer directory below. See their rate, quality score, portfolio, and ratings. Click &ldquo;Hire&rdquo; on the one you like.</p>
+            <strong>2. Post a request</strong>
             <p><strong>Post:</strong> Describe what you want built. Developers see your request and the best match accepts.</p>
           </div>
           <div class="feature-card">
@@ -212,15 +210,6 @@
         <a href="/app/#/services" class="hero-btn" style="display:inline-block;margin-top:1.25rem;font-size:1rem">Open the Console</a>
       </section>
 
-      <!-- Developer directory -->
-      <section class="section-spaced">
-        <h2 class="section-h2 strong">Available developers</h2>
-        <p class="lede">Quality-scored and rated by clients. All build with the ProAppStore SDK.</p>
-        <div id="dev-grid" class="developers-grid" style="min-height:120px">
-          <p style="grid-column:1/-1;text-align:center;color:var(--muted)">Loading developers...</p>
-        </div>
-      </section>
-
       <!-- For developers -->
       <section class="section-spaced">
         <h2 class="section-h2 strong">Build apps for clients &mdash; earn per prompt</h2>
@@ -262,7 +251,6 @@
         <a href="https://docs.proappstore.online/">Docs</a>
         <a href="https://docs.proappstore.online/ui/">UI Library</a>
         <a href="https://docs.proappstore.online/recipes/">Recipes</a>
-        <a href="/developers">Developers</a>
         <a href="/promoters">Promote</a>
         <a href="/services">Services</a>
         <a href="/capabilities">Capabilities</a>
@@ -277,52 +265,6 @@
     </div>
   </footer>
 
-  <script>
-  (function() {
-    function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-    function escAttr(s) { return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-    var grid = document.getElementById('dev-grid');
-    fetch('https://api.proappstore.online/v1/services/developers')
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var devs = data.developers || [];
-        if (!devs.length) {
-          grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--muted)">No developers available yet. Be the first \u2014 <a href="/app/#/services" style="color:var(--accent);font-weight:600">create a profile</a>.</p>';
-          return;
-        }
-        grid.innerHTML = devs.map(function(d) {
-          var name = esc(d.login || d.creatorId);
-          var rate = (d.promptRateCents / 100).toFixed(2);
-          var avatar = d.avatarUrl
-            ? '<img class="dev-avatar" src="' + escAttr(d.avatarUrl) + '" alt="' + escAttr(d.login || d.creatorId) + '" loading="lazy" />'
-            : '<div class="dev-avatar" style="background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.5rem">' + name.charAt(0) + '</div>';
-          var quality = d.qualityScore ? d.qualityScore.toFixed(1) + '/10' : '\u2014';
-          var rating = d.avgRating ? d.avgRating.toFixed(1) + '/5' : '\u2014';
-          var apps = parseInt(d.appCount) || 0;
-          var badges = (d.badges || []).map(function(b) {
-            return '<span class="dev-badge" style="background:#dcfce7;color:#166534;font-size:0.65rem">' + esc(b.replace('-',' ')) + '</span>';
-          }).join('');
-          var bio = d.bioServices ? '<span class="dev-card-bio">' + esc(d.bioServices) + '</span>' : '';
-          return '<a class="dev-card" href="/app/#/services" style="text-decoration:none">'
-            + avatar
-            + '<div class="dev-card-body">'
-            + '<span class="dev-card-name">' + name + '</span>'
-            + bio
-            + '<div class="dev-badges">'
-            + '<span class="dev-badge" style="background:var(--accent);color:#fff">$' + esc(rate) + '/prompt</span>'
-            + '<span class="dev-badge">' + apps + ' apps</span>'
-            + badges
-            + '</div>'
-            + '<span class="dev-card-stats">Quality: ' + esc(quality) + ' \u00b7 Rating: ' + esc(rating) + ' \u00b7 ' + parseInt(d.completedEngagements || 0) + ' jobs</span>'
-            + '</div>'
-            + '</a>';
-        }).join('');
-      })
-      .catch(function() {
-        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--muted)">Could not load developers. Try again later.</p>';
-      });
-  })();
-  </script>
   <script src="/theme.js"></script>
 </body>
 </html>

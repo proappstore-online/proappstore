@@ -10,6 +10,15 @@ npm run test:browser   # mobile Chromium + WebKit (npx playwright install chromi
 npm run build          # offline build from registry.json
 ```
 
+## The storefront is anonymous
+
+No public page or public data file says who built an app: no developer names, avatars, GitHub
+profile or source links, bios, badges, or `/developers` pages. `registry.json` (deployed as a public
+file) has no `developer`, `repo` or `developers[]` fields, and `build.js` strips them from
+`catalogue.json` even if a stale registry still carries them. Ownership, auth, payouts and admin
+views stay in the backend. Old `/developers` URLs 301 to `/` (`_redirects`).
+`test/anonymous.test.js` fails the build if that regresses.
+
 ## Private apps are never rendered
 
 A private app is reachable only by its team, so it must not appear on the storefront. The

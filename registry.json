@@ -9,10 +9,8 @@
       "description": "Instant 1-on-1 video meetings with push notifications. Go available, share your link, get notified when someone joins.",
       "about": "Meet is a zero-install video calling app. Toggle your availability, share a link, and get a push notification when someone joins your room. Video and audio are peer-to-peer via WebRTC \u2014 no media server, no latency, no data collection.\n\nDesigned for quick 1-on-1 calls, not large meetings. The availability toggle lets contacts see when you're free without messaging you first. Push notifications ensure you never miss a join \u2014 even if the tab is closed.",
       "appUrl": "https://meet.proappstore.online",
-      "repo": "proappstore-online/meet",
       "cfProject": "proappstore-meet",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "WebRTC video and audio calls",
         "Push notifications on join",
@@ -31,9 +29,7 @@
       "description": "Create events, groups, and real-time chat. RSVP tracking, attendee counts, and community management.",
       "about": "Meetup is a full-featured event management platform. Create public or private events with location, date/time, and capacity limits. Organize recurring groups around shared interests \u2014 book clubs, running groups, tech meetups, language exchanges.\n\nEvery event gets its own real-time chat room powered by WebSocket rooms, so attendees can coordinate before, during, and after the event. RSVP tracking shows who's coming, who's maybe, and how many spots are left.\n\nBuilt for community organizers who need more than a shared calendar but less than a full social network. No ads, no algorithmic feed \u2014 just events and the people going to them.",
       "appUrl": "https://meetup.proappstore.online",
-      "repo": "proappstore-online/meetup",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Create events with date, time, location, capacity",
         "Organize recurring groups around shared interests",
@@ -52,9 +48,7 @@
       "description": "Swipe-style dating \u2014 build a profile, swipe through people nearby, and chat in real-time when you both like each other.",
       "about": "A swipe-based dating app built entirely on the ProAppStore SDK. Create a profile with photos, bio, and preferences. Browse through potential matches with swipe-left/right gestures. When two people both swipe right, a match is created and a real-time chat room opens.\n\nPhotos are stored on R2. Profile data lives in D1. The mutual-match detection uses atomic counter increments to prevent race conditions. Chat is powered by WebSocket rooms \u2014 one room per match, created on-demand.\n\nPrivacy-first: no tracking, no algorithmic manipulation, no dark patterns. Your data stays on the platform and is deleted when you delete your account.",
       "appUrl": "https://dating.proappstore.online",
-      "repo": "proappstore-online/dating",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Swipe-style browsing with profile photos",
         "Mutual-match detection (both must like)",
@@ -73,9 +67,7 @@
       "description": "Recurring rides \u2014 set up a route, days and time once, and your driver shows up week after week. Live GPS tracking when the trip starts.",
       "about": "Loopride solves the problem of recurring trips \u2014 school runs, commute shares, weekly errands. Set up a route with pickup and dropoff points, choose which days and times, and your driver follows the same schedule every week.\n\nRoutes are geocoded using the platform's maps API. Driving directions render as a real route on the map (not a straight line). When a trip starts, the driver's GPS position is tracked live and shared with passengers via WebSocket rooms.\n\nDesigned for small groups who ride together regularly. Not a ride-hailing service \u2014 no surge pricing, no matching algorithms, no marketplace dynamics. Just a shared schedule for people who already know each other.",
       "appUrl": "https://loopride.proappstore.online",
-      "repo": "proappstore-online/loopride",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Set up recurring routes with days and times",
         "Geocoded pickup/dropoff points on real maps",
@@ -94,10 +86,8 @@
       "description": "Hyper-local lawn care \u2014 neighbours share a mower, street by street.",
       "about": "GrassKarma is a hyper-local lawn care sharing platform. Streets organize into groups. Someone in the group owns a mower and offers to cut lawns for neighbours. Karma points track who's contributing and who's receiving.\n\nEach street group is geocoded to a real address range. Members join by entering their street address \u2014 the platform matches them to the nearest group or creates a new one. Reviews and karma scores build trust within the group.\n\nBuilt on the premise that most suburban streets have 3-4 lawnmowers for 20+ houses. One shared mower, maintained by the group, cuts everyone's lawn on rotation. The app just coordinates who, when, and tracks the karma.",
       "appUrl": "https://grasskarma.proappstore.online",
-      "repo": "proappstore-online/grasskarma",
       "cfProject": "proappstore-grasskarma",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Street-level group formation (geocoded)",
         "Mower discovery \u2014 who has one nearby",
@@ -116,10 +106,8 @@
       "description": "Team kanban boards with real-time presence, assignees, and live collaboration.",
       "about": "Kanban Pro is a real-time collaborative kanban board. Create workspaces, invite team members via shareable links, and manage tasks across customizable columns. See who's looking at the board right now with live presence indicators.\n\nEvery action \u2014 moving a card, editing a title, assigning a member \u2014 syncs instantly across all connected browsers via WebSocket rooms. No refresh needed. Drag-and-drop cards between columns. Assign team members to cards. Add status, ETA, requirements, and acceptance criteria.\n\nCards support @mentions that trigger push notifications. Filter the board by assignee, status, or search text. The \"Launched\" column auto-caps at 10 cards with an expand toggle to keep the board fast.",
       "appUrl": "https://kanban.proappstore.online",
-      "repo": "proappstore-online/kanban",
       "cfProject": "proappstore-kanban",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Real-time collaboration (WebSocket rooms)",
         "Live presence \u2014 see who's on the board",
@@ -140,10 +128,8 @@
       "description": "Track time, manage projects, send invoices. Timers, day/week views, expense tracking, reports, and billing.",
       "about": "TimeTrack is a time tracking and invoicing app inspired by Harvest. Start a timer or log hours manually against any project and task combination. Switch between day view (entry list with inline editing) and week view (spreadsheet grid with daily totals).\n\nOrganize work by clients, projects, and tasks. Set billing rates at the project, task, or user level. Track budgets with visual progress bars.\n\nLog expenses with categories (including unit-based pricing like mileage), attach receipt photos via R2 storage, and mark them billable. Create invoices from unbilled time and expenses, add tax and discounts, record payments.\n\nRun reports by client, project, task, or team member across any date range. See total hours, billable hours, and billable amounts. Export to CSV.",
       "appUrl": "https://timetrack.proappstore.online",
-      "repo": "proappstore-online/timetrack",
       "cfProject": "proappstore-timetrack",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Running timers with live elapsed display",
         "Day view and week view (spreadsheet grid)",
@@ -164,11 +150,9 @@
       "description": "Find musicians, manage bands, discover events.",
       "about": "Bandmates helps musicians find each other. Create a profile with your instruments, genres, experience level, and location. Browse other musicians in your area. Form bands, manage rehearsal schedules, and discover local music events.\n\nEach band gets a shared space with member management, a setlist builder, and a rehearsal calendar. Band members can chat in real-time. Event discovery shows local gigs, open mics, and jam sessions \u2014 searchable by genre, venue, and date.\n\nBuilt for the musician who just moved to a new city, the drummer looking for a weekend cover band, or the singer-songwriter who wants to find a guitarist for a duo.",
       "appUrl": "https://bandmates.proappstore.online",
-      "repo": "proappstore-online/bandmates",
       "cfProject": "proappstore-bandmates",
       "hostedOn": "r2",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Musician profiles with instruments and genres",
         "Location-based musician discovery",
@@ -187,9 +171,7 @@
       "description": "Collaborative whiteboard \u2014 infinite canvas with shapes, sticky notes, freehand drawing, and real-time sync.",
       "about": "Micro is a collaborative whiteboard inspired by Miro. An infinite SVG canvas with pan, zoom, and a full shape toolkit: rectangles, ellipses, lines, freehand drawing, text, and sticky notes.\n\nSelect, move, and resize shapes with precision handles. Undo/redo with Cmd+Z. Boards auto-save to D1 \u2014 create multiple boards, rename them, and pick up where you left off. Keyboard shortcuts for every tool make it fast to switch between drawing modes.\n\nBuilt for brainstorming, wireframing, and visual collaboration. Real-time multiplayer with cursor presence is coming next.",
       "appUrl": "https://micro.proappstore.online",
-      "repo": "proappstore-online/micro",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Infinite SVG canvas with pan and zoom",
         "6 drawing tools: rect, ellipse, line, freehand, text, sticky",
@@ -208,9 +190,7 @@
       "iconBg": "#ecfdf5",
       "description": "Marketplace for cleaning services. Find cleaners, book appointments, manage schedules.",
       "appUrl": "https://clean-up.proappstore.online",
-      "repo": "proappstore-online/clean-up",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Browse and book cleaning services",
         "Service provider profiles with ratings",
@@ -228,9 +208,7 @@
       "iconBg": "#fef3c7",
       "description": "Find and book dog walkers in your area. Track walks in real-time with GPS.",
       "appUrl": "https://dog-walking-app.proappstore.online",
-      "repo": "proappstore-online/dog-walking-app",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Search for dog walkers nearby",
         "Real-time walk tracking with GPS",
@@ -248,9 +226,7 @@
       "iconBg": "#fce7f3",
       "description": "Local delivery marketplace. Send packages across town with trusted couriers.",
       "appUrl": "https://doordrop.proappstore.online",
-      "repo": "proappstore-online/doordrop",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Post delivery requests with pickup and dropoff",
         "Browse available deliveries nearby",
@@ -268,9 +244,7 @@
       "iconBg": "#eff6ff",
       "description": "Search and compare flights. Track prices, save itineraries, and get fare alerts.",
       "appUrl": "https://flights.proappstore.online",
-      "repo": "proappstore-online/flights",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Search flights across airlines",
         "Price comparison and fare tracking",
@@ -288,9 +262,7 @@
       "iconBg": "#f5f3ff",
       "description": "Internship management platform. Post positions, track applications, and manage cohorts.",
       "appUrl": "https://interns.proappstore.online",
-      "repo": "proappstore-online/interns",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Post internship positions",
         "Application tracking and review",
@@ -308,9 +280,7 @@
       "iconBg": "#ecfdf5",
       "description": "Job board for the Pro platform. Browse, search, and save jobs. Apply with one click.",
       "appUrl": "https://jobs.proappstore.online",
-      "repo": "proappstore-online/jobs",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Browse and search job listings",
         "Filter by category, location, salary",
@@ -328,9 +298,7 @@
       "iconBg": "#fef3c7",
       "description": "Language learning with spaced repetition. Practice vocabulary, grammar, and conversation.",
       "appUrl": "https://prolang.proappstore.online",
-      "repo": "proappstore-online/prolang",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Spaced repetition flashcards",
         "Vocabulary and grammar exercises",
@@ -348,9 +316,7 @@
       "iconBg": "#fce7f3",
       "description": "Find and list short-term rentals. Browse rooms, contact hosts, and book stays.",
       "appUrl": "https://room-rent.proappstore.online",
-      "repo": "proappstore-online/room-rent",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Browse rooms with photos and details",
         "Location-based search with maps",
@@ -370,9 +336,7 @@
       "about": "Chess Academy is an online teaching platform built for chess schools and academies. Teachers can monitor all active games in real-time, pause and resume boards, and manage Swiss-system tournaments with automatic pairings and colour balancing.\n\nStudents play rated or unrated games with configurable time controls, solve curated puzzle sets with progressive hints, and track their Glicko-2 ratings. Puzzle sets can be imported from PGN files and assigned to individual students.\n\nMulti-tenant by design \u2014 each academy runs as an isolated tenant with its own students, teachers, and data. Built on chessground (the Lichess board library) and chess.js for move validation, with Stockfish WASM for hints and puzzle analysis.",
       "appUrl": "https://chess-academy.proappstore.online",
       "sitemapUrl": null,
-      "repo": "proappstore-online/chess-academy",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "Real-time chess games between students",
         "Teacher live-view of all boards",
@@ -390,9 +354,7 @@
       "iconBg": "#eff6ff",
       "description": "Track time across projects and clients. Reports, invoicing, and team dashboards.",
       "appUrl": "https://tt.proappstore.online",
-      "repo": "proappstore-online/tt",
       "type": "connected",
-      "developer": "Serge",
       "proFeatures": [
         "One-click time tracking",
         "Project and client organization",
@@ -410,10 +372,8 @@
       "iconBg": "#0f766e",
       "description": "PAS-native CRM for companies, contacts, deals, projects, invoices, and time tracking.",
       "appUrl": "https://crm.proappstore.online",
-      "repo": "proappstore-online/crm",
       "hostedOn": "r2",
       "type": "connected",
-      "developer": "ProAppStore",
       "creatorGithub": "serge-ivo"
     },
     {
@@ -424,9 +384,7 @@
       "iconBg": "#f5f3ff",
       "description": "A B2B trade marketplace for supplier profiles, product catalogues, buy leads and company inquiries.",
       "appUrl": "https://tradeport.proappstore.online",
-      "repo": "proappstore-online/tradeport",
-      "type": "connected",
-      "developer": "ProAppStore creators"
+      "type": "connected"
     },
     {
       "id": "bookkeeper",
@@ -436,9 +394,7 @@
       "iconBg": "#f5f3ff",
       "description": "Import financial records, review transactions and export reconciled bookkeeping records with source provenance.",
       "appUrl": "https://bookkeeper.proappstore.online",
-      "repo": "proappstore-online/bookkeeper",
       "type": "connected",
-      "developer": "ProAppStore creators",
       "websiteUrl": "https://about-bookkeeper.proappstore.online"
     },
     {
@@ -449,9 +405,7 @@
       "iconBg": "#f5f3ff",
       "description": "Manage restaurant pickup orders, waitlists, table seating and customer-facing queue updates.",
       "appUrl": "https://queueflow.proappstore.online",
-      "repo": "proappstore-online/queueflow",
       "type": "connected",
-      "developer": "ProAppStore creators",
       "websiteUrl": "https://about-queueflow.proappstore.online"
     },
     {
@@ -462,13 +416,10 @@
       "iconBg": "#f5f3ff",
       "description": "Manage tennis clubs, teams, fixtures and player availability with club-scoped administration.",
       "appUrl": "https://tennis-clubs.proappstore.online",
-      "repo": "proappstore-online/tennis-clubs",
-      "type": "connected",
-      "developer": "ProAppStore creators"
+      "type": "connected"
     },
     {
       "type": "connected",
-      "developer": "ProAppStore creators",
       "id": "tradies",
       "name": "Tradies",
       "category": "marketplace",
@@ -476,12 +427,10 @@
       "iconBg": "#eff6ff",
       "description": "Find local tradespeople, post jobs, compare private quotes and coordinate agreed work.",
       "about": "Tradies connects customers with local tradespeople. Browse public service profiles, publish a job or send a direct enquiry, then compare quotes and coordinate work in participant-only conversations.\n\nPayment is arranged directly between the participants. Tradies does not provide checkout, payment processing or escrow.",
-      "appUrl": "https://tradies.proappstore.online",
-      "repo": "proappstore-online/tradies"
+      "appUrl": "https://tradies.proappstore.online"
     },
     {
       "type": "connected",
-      "developer": "ProAppStore creators",
       "id": "stash",
       "name": "Stash",
       "category": "lifestyle",
@@ -489,12 +438,10 @@
       "iconBg": "#fef3c7",
       "description": "Share sealed, in-date packaged goods with neighbours. Browse, order and arrange nearby collection.",
       "about": "Stash helps neighbours share sealed, in-date packaged goods. Hosts choose whether their listings are discoverable inside an invite-only pocket, in the neighbourhood, or both. Buyers browse, order and arrange collection.\n\nPayment is arranged directly between host and buyer; Stash takes no payments. Exact host addresses are shown only to buyers with an active order.",
-      "appUrl": "https://stash.proappstore.online",
-      "repo": "proappstore-online/stash"
+      "appUrl": "https://stash.proappstore.online"
     },
     {
       "type": "connected",
-      "developer": "ProAppStore creators",
       "id": "leads",
       "name": "Leads",
       "category": "business",
@@ -502,31 +449,7 @@
       "iconBg": "#f5f3ff",
       "description": "Organize contacts, social profiles and lead lists in one workspace, with a lead reusable across multiple lists.",
       "about": "Leads brings contact details, websites and social profiles together in one lead-management workspace. Organize contacts into lists for different projects, roles or purposes, and reuse a lead across several lists.",
-      "appUrl": "https://leads.proappstore.online",
-      "repo": "proappstore-online/leads"
-    }
-  ],
-  "developers": [
-    {
-      "id": "proappstore",
-      "name": "Serge",
-      "github": "serge-ivo",
-      "bio": "Platform team. Building the infrastructure, SDK, and first-party apps for proappstore.online.",
-      "badges": [
-        "platform",
-        "founding-developer"
-      ],
-      "joinedAt": "2026-05-01"
-    },
-    {
-      "id": "carsads",
-      "name": "Carsads",
-      "github": "carsads-online",
-      "bio": "Car classifieds marketplace. Browse listings, post your car for sale, and connect with buyers.",
-      "badges": [
-        "founding-developer"
-      ],
-      "joinedAt": "2026-05-15"
+      "appUrl": "https://leads.proappstore.online"
     }
   ]
 }

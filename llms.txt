@@ -29,7 +29,6 @@
 - [Build with AI](https://proappstore.online/build-with-ai): Step-by-step guide to building a Pro app with Claude Code, Cursor, Codex, or any AI tool.
 - [Get Started](https://proappstore.online/get-started): Manual setup guide without AI.
 - [Guidelines](https://proappstore.online/guidelines): Tech stack, project structure, compliance checks.
-- [Developers](https://proappstore.online/developers): Browse registered developers and their apps.
 
 ## Platform
 

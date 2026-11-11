@@ -9,7 +9,8 @@
   <meta property="og:title" content="Dog Walking App — ProAppStore" />
   <meta property="og:description" content="Find and book dog walkers in your area. Track walks in real-time with GPS." />
   <meta property="og:url" content="https://proappstore.online/apps/dog-walking-app/" />
-  <meta property="og:image" content="https://dog-walking-app.proappstore.online/icon-512.png" />
+  <meta property="og:image" content="https://proappstore.online/icon-512.png" />
+  <meta name="twitter:image" content="https://proappstore.online/icon-512.png" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
@@ -25,30 +26,7 @@
   <link rel="stylesheet" href="/card-styles.css" />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://proappstore.online/apps/dog-walking-app/" />
-  <script type="application/ld+json">{
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://proappstore.online/"},
-          {"@type": "ListItem", "position": 2, "name": "Apps", "item": "https://proappstore.online/"},
-          {"@type": "ListItem", "position": 3, "name": "Dog Walking App"}
-        ]
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "Dog Walking App",
-        "description": "Find and book dog walkers in your area. Track walks in real-time with GPS.",
-        "applicationCategory": "lifestyle",
-        "operatingSystem": "Web",
-        "url": "https://dog-walking-app.proappstore.online",
-        "image": "https://dog-walking-app.proappstore.online/icon-512.png",
-        "offers": {"@type": "Offer", "price": "9", "priceCurrency": "USD"},
-        "isPartOf": {"@id": "https://proappstore.online/#website"}
-      }
-    ]
-  }</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://proappstore.online/"},{"@type":"ListItem","position":2,"name":"Apps","item":"https://proappstore.online/"},{"@type":"ListItem","position":3,"name":"Dog Walking App"}]},{"@type":"SoftwareApplication","name":"Dog Walking App","description":"Find and book dog walkers in your area. Track walks in real-time with GPS.","applicationCategory":"lifestyle","operatingSystem":"Web","url":"https://dog-walking-app.proappstore.online","image":"https://proappstore.online/icon-512.png","isAccessibleForFree":false,"isPartOf":{"@id":"https://proappstore.online/#website"},"potentialAction":{"@type":"SubscribeAction","target":"https://proappstore.online/pricing","object":{"@id":"https://proappstore.online/pricing#subscription"}}},{"@type":"Service","@id":"https://proappstore.online/pricing#subscription","url":"https://proappstore.online/pricing","serviceType":"Premium web app subscription","name":"ProAppStore Subscription","description":"Access all premium web apps on ProAppStore. Cloud databases, file storage, real-time collaboration, maps, AI, push notifications, and more.","provider":{"@type":"Organization","@id":"https://proappstore.online/#org","name":"ProAppStore","url":"https://proappstore.online/"},"offers":{"@type":"Offer","price":"5","priceCurrency":"USD","url":"https://proappstore.online/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"5","priceCurrency":"USD","unitText":"month","billingDuration":"P1M"}}}]}</script>
 </head>
 <body>
   <header>
@@ -68,7 +46,6 @@
         <a href="/about">About</a>
         <a href="/pricing">Pricing</a>
         <a href="https://docs.proappstore.online/">Docs</a>
-        <a href="/developers">Developers</a>
         <a href="/promoters">Promote</a>
         <a href="/services">Services</a>
         <a href="/app/">Console</a>
@@ -90,7 +67,7 @@
     <!-- Hero -->
     <div class="app-hero">
       <div class="app-hero-icon" data-id="dog-walking-app" style="background: #fef3c7;">
-        <img src="https://dog-walking-app.proappstore.online/apple-touch-icon.png" alt="" onerror="this.style.display='none'" />
+        <img src="https://proappstore.online/icon-512.png" alt="" onerror="this.style.display='none'" />
         <span class="app-hero-letter" aria-hidden="true">D</span>
       </div>
       <div>
@@ -98,11 +75,11 @@
         <p class="app-hero-tagline">Find and book dog walkers in your area. Track walks in real-time with GPS.</p>
         <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem;">
           <span class="tag">lifestyle</span>
-          <span style="font-size: 0.85rem; color: var(--muted);">by <a href="/developers/proappstore/" style="font-weight: 600;">Serge</a></span>
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap;">
-          <a href="https://dog-walking-app.proappstore.online" target="_blank" rel="noopener" class="btn-primary">Open app</a>
-          <a href="https://github.com/proappstore-online/dog-walking-app" target="_blank" rel="noopener" class="app-btn-secondary">View source</a>
+          <a href="https://dog-walking-app.proappstore.online" data-launch-link target="_blank" rel="noopener" class="btn-primary">Open app</a>
+          
+          <a href="/promoters?app=dog-walking-app#choose" class="app-btn-secondary">Help promote Dog Walking App</a>
         </div>
       </div>
     </div>
@@ -117,13 +94,10 @@
         <div class="label">Price</div>
         <div class="value">$5/mo subscription</div>
       </div>
-      <div class="app-meta-item">
-        <div class="label">Source</div>
-        <div class="value"><a href="https://github.com/proappstore-online/dog-walking-app" target="_blank" rel="noopener" class="source-link">GitHub</a></div>
-      </div>
+      
       <div class="app-meta-item">
         <div class="label">Subdomain</div>
-        <div class="value"><a href="https://dog-walking-app.proappstore.online" target="_blank" rel="noopener" style="font-size: 0.85rem; word-break: break-all;">dog-walking-app.proappstore.online</a></div>
+        <div class="value"><a href="https://dog-walking-app.proappstore.online" data-launch-link target="_blank" rel="noopener" style="font-size: 0.85rem; word-break: break-all;">dog-walking-app.proappstore.online</a></div>
       </div>
     </div>
 
@@ -145,7 +119,6 @@
       <p style="color: var(--muted); line-height: 1.7; margin-top: 0.75rem;">
         Dog Walking App is a Pro app on <a href="https://proappstore.online">ProAppStore</a>. It uses the
         <a href="https://docs.proappstore.online/">ProAppStore SDK</a> for authentication, real-time features, and data storage.
-        The source code is available on <a href="https://github.com/proappstore-online/dog-walking-app" target="_blank" rel="noopener">GitHub</a>.
       </p>
     </section>
 
@@ -160,23 +133,57 @@
       </div>
     </section>
 
-    <!-- Developer -->
-    <section class="app-section">
-      <h2>Developer</h2>
-      <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
-        <img src="https://github.com/serge-ivo.png?size=120" alt="Serge" style="width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--line);" onerror="this.style.display='none'" />
-        <div>
-          <a href="/developers/proappstore/" style="font-weight: 700; font-size: 1rem; color: var(--ink);">Serge</a>
-          <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.15rem;">Platform team. Building the infrastructure, SDK, and first-party apps for proappstore.online.</p>
+    <!-- Team (hydrated from the platform by team.js; nothing about the team is static) -->
+    <section class="app-section team-section" id="team" data-app-id="dog-walking-app" aria-labelledby="teamHeading" aria-busy="false">
+      <h2 id="teamHeading">Team behind this app</h2>
+      <noscript><p class="team-status">The team list and the request form need JavaScript.</p></noscript>
+      <p id="teamStatus" class="team-status" role="status" hidden></p>
+      <ul id="teamList" class="team-list" aria-label="Team members" hidden></ul>
+      <button type="button" id="teamRetry" class="app-btn-secondary" hidden>Try again</button>
+      <div id="teamJoin" class="team-join" hidden>
+        <button type="button" id="teamJoinToggle" class="app-btn-secondary" aria-expanded="false" aria-controls="teamJoinForm">Request to join</button>
+        <form id="teamJoinForm" class="team-form" novalidate hidden>
+          <p class="team-form-lead">Say a little about you. The owner reads requests in their ProAppStore inbox. A request does not make you a member.</p>
+          <label for="teamName">Name</label>
+          <input id="teamName" name="name" type="text" maxlength="100" autocomplete="name" required aria-describedby="teamNameErr" />
+          <p id="teamNameErr" class="team-error" hidden></p>
+          <label for="teamEmail">Email</label>
+          <input id="teamEmail" name="email" type="email" maxlength="254" autocomplete="email" required aria-describedby="teamEmailErr" />
+          <p id="teamEmailErr" class="team-error" hidden></p>
+          <label for="teamMessage">Message</label>
+          <textarea id="teamMessage" name="message" rows="4" maxlength="5000" required aria-describedby="teamMessageErr"></textarea>
+          <p id="teamMessageErr" class="team-error" hidden></p>
+          <div class="team-hp" aria-hidden="true">
+            <label for="teamWebsite">Leave this empty</label>
+            <input id="teamWebsite" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <button type="submit" id="teamSubmit" class="btn-primary">Send request</button>
+          <p id="teamFormStatus" class="team-status" role="status" aria-live="polite"></p>
+        </form>
+        <div id="teamSent" class="team-sent" tabindex="-1" hidden>
+          <h3>Request sent</h3>
+          <p id="teamSentText"></p>
         </div>
       </div>
+    </section>
+
+    <section class="app-section" id="contributors" data-app-id="dog-walking-app" aria-labelledby="contributorsHeading" aria-busy="true">
+      <h2 id="contributorsHeading">Promotion contributors</h2>
+      <p>Promotion / Marketing recognises confirmed referrals, separately from code contributions and <a href="#team">team membership</a>.</p>
+      <p>Share is among all promoters' confirmed referrals for this app and reporting period, including promoters who keep their profiles private. Public cards may not sum to 100%. Earlier users are not reconstructed.</p>
+      <noscript><p>Enable JavaScript to load public contributors.</p></noscript>
+      <p id="contributorsPeriod"></p>
+      <p id="contributorsStatus" class="team-status" role="status">Loading public contributors…</p>
+      <ul id="contributorsList" class="team-list" aria-label="Promotion contributors" hidden></ul>
+      <button id="contributorsRetry" type="button" class="app-btn-secondary" hidden>Try again</button>
+      <p><a href="/promoters?app=dog-walking-app#choose">Explore the promotion opportunity</a></p>
     </section>
 
     <!-- CTA -->
     <div class="cta-box" style="border-color: color-mix(in srgb, var(--accent) 30%, transparent); background: var(--accent-soft);">
       <h3 style="margin: 0 0 0.5rem; color: var(--ink);">Try Dog Walking App</h3>
       <p style="color: var(--muted); margin-bottom: 0.75rem;">Sign in with your ProAppStore account and start using Dog Walking App immediately.</p>
-      <a href="https://dog-walking-app.proappstore.online" target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none;">Open Dog Walking App</a>
+      <a href="https://dog-walking-app.proappstore.online" data-launch-link target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none;">Open Dog Walking App</a>
     </div>
   </main>
 
@@ -190,7 +197,6 @@
         <a href="/about">About</a>
         <a href="https://docs.proappstore.online/">Docs</a>
         <a href="https://docs.proappstore.online/ui/">UI Library</a>
-        <a href="/developers">Developers</a>
         <a href="/promoters">Promote</a>
         <a href="/services">Services</a>
         <a href="/capabilities">Capabilities</a>
@@ -206,5 +212,8 @@
   </footer>
 
   <script src="/theme.js" integrity="sha256-PsYPLIQlZkPHEV3pkzRdw50dwLPRT6jFHCfWWn2u3Zo="></script>
+  <script src="/team.js" integrity="sha256-ERXyHAVmqqvJ/drkhbNzmjN139OM308jY8sZ9hatUgU="></script>
+  <script src="/contributors.js" integrity="sha256-hfm+dIYF1DpMk0X4aRb6OTyG7fBk9ZY9owAzhff8ugM="></script>
+  <script src="/detail-page.js" integrity="sha256-4D8v2nC7sUiWUiTWSMB/Lug57D3C0EiTUSBD7ftddP8="></script>
 </body>
 </html>

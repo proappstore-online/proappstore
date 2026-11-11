@@ -113,7 +113,6 @@
 
       var socials = [];
       if (l.socialTwitter) socials.push({ label: "𝕏 / Twitter", href: "https://x.com/" + encodeURIComponent(l.socialTwitter), text: "@" + l.socialTwitter });
-      if (l.socialGithub) socials.push({ label: "GitHub", href: "https://github.com/" + encodeURIComponent(l.socialGithub), text: l.socialGithub });
       if (l.socialMastodon) socials.push({ label: "Mastodon", href: l.socialMastodon, text: l.socialMastodon.replace(/^https?:\/\//, "") });
       if (l.socialBluesky) socials.push({ label: "Bluesky", href: "https://bsky.app/profile/" + encodeURIComponent(l.socialBluesky), text: "@" + l.socialBluesky });
       if (socials.length) {

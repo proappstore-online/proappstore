@@ -58,14 +58,10 @@ function validateRegistry(items) {
     if (a.iconBg && !COLOR_RE.test(a.iconBg)) errors.push(`${a.id}: iconBg must be a #hex color, got ${JSON.stringify(a.iconBg)}`);
     if (a.category != null && !safeText(a.category, 80)) errors.push(`${a.id}: bad category ${JSON.stringify(a.category)}`);
     if (a.description != null && !safeText(a.description, 500)) errors.push(`${a.id}: description must be 1-500 chars without control chars`);
-    if (a.developer != null && !safeText(a.developer, 60)) errors.push(`${a.id}: bad developer ${JSON.stringify(a.developer)}`);
     if (a.proFeatures != null) {
       if (!Array.isArray(a.proFeatures)) errors.push(`${a.id}: proFeatures must be an array`);
       else if (a.proFeatures.length > 8) errors.push(`${a.id}: proFeatures > 8 items`);
       else for (const f of a.proFeatures) if (!safeText(f, 60)) errors.push(`${a.id}: bad proFeature ${JSON.stringify(f)}`);
-    }
-    if (a.repo != null && (typeof a.repo !== 'string' || a.repo.length > 100 || !/^[\w.-]+\/[\w.-]+$/.test(a.repo))) {
-      errors.push(`${a.id}: repo must be "owner/name", got ${JSON.stringify(a.repo)}`);
     }
     if (a.sitemapUrl != null) {
       try {
@@ -85,12 +81,8 @@ function validateRegistry(items) {
 }
 validateRegistry(apps);
 
-const developers = registry.developers || [];
-
 const indexTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'index.html'), 'utf8');
 const detailTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'app-detail.html'), 'utf8');
-const developersTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'developers.html'), 'utf8');
-const developerDetailTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'developer-detail.html'), 'utf8');
 const plan = subscriptionPlan(fs.readFileSync(path.join(ROOT, 'pricing.html'), 'utf8'));
 
 function esc(s) {
@@ -185,7 +177,7 @@ console.log(`Built ${apps.length} app cards`);
 // every other security header. <meta> CSP intentionally absent.
 const csp = [
   "default-src 'self'",
-  "img-src 'self' https://*.proappstore.online https://github.com https://avatars.githubusercontent.com data:",
+  "img-src 'self' https://*.proappstore.online data:",
   `script-src 'self' '${inlineScriptHash}'`,
   "style-src 'self' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
@@ -234,7 +226,6 @@ for (const app of apps) {
   const appHost = (() => {
     try { return new URL(app.appUrl).host; } catch { return app.appUrl; }
   })();
-  const repoUrl = app.repo ? `https://github.com/${app.repo}` : 'https://github.com/proappstore-online';
   // An app's marketing website lives on an about-<app>.proappstore.online host; anything else is refused.
   const websiteUrl = app.websiteUrl || null;
   if (websiteUrl && !/^https:\/\/about-[a-z0-9-]+\.proappstore\.online\/?$/.test(websiteUrl)) {
@@ -252,27 +243,17 @@ for (const app of apps) {
   const proFeaturesHtml = (app.proFeatures || [])
     .map((f) => `<div class="pro-feature-card"><span class="pro-feature-check">+</span> ${esc(f)}</div>`)
     .join('\n        ');
-  // Look up developer info from the developers array
-  const dev = developers.find(d => d.name === app.developer) || {};
-  const devGithub = dev.github || 'proappstore-online';
-  const devUrl = dev.id ? `/developers/${dev.id}/` : '/developers';
-  const devBio = dev.bio || '';
   let detail = detailTemplate
     .replaceAll('{{ID}}', esc(app.id))
     .replaceAll('{{NAME}}', esc(app.name))
     .replaceAll('{{DESCRIPTION}}', esc(app.description || ''))
     .replaceAll('{{CATEGORY}}', esc(app.category || ''))
-    .replaceAll('{{DEVELOPER}}', esc(app.developer || 'Unknown'))
-    .replaceAll('{{DEV_GITHUB}}', esc(devGithub))
-    .replaceAll('{{DEV_URL}}', esc(devUrl))
-    .replaceAll('{{DEV_BIO}}', esc(devBio))
     .replaceAll('{{ICON_BG}}', esc(app.iconBg || '#7c3aed'))
     .replaceAll('{{FIRST_LETTER}}', firstLetter)
     .replaceAll('{{APP_URL}}', esc(app.appUrl))
     .replaceAll('{{SOCIAL_IMAGE}}', esc(app.socialImageUrl || FALLBACK))
     .replaceAll('{{PLAN_PRICE_LABEL}}', esc(plan.label))
     .replaceAll('{{APP_HOST}}', esc(appHost))
-    .replaceAll('{{REPO_URL}}', esc(repoUrl))
     .replaceAll('{{WEBSITE_BUTTON_HTML}}', websiteButtonHtml)
     .replaceAll('{{WEBSITE_META_HTML}}', websiteMetaHtml)
     .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<div class="pro-feature-card">Premium features included</div>')
@@ -312,96 +293,6 @@ for (const app of apps) {
   fs.writeFileSync(path.join(dir, 'index.html'), detail);
 }
 console.log(`Built ${apps.length} app detail pages under apps/`);
-
-// --- Developer pages ---
-// Build a mapping from developer name -> apps
-const devAppMap = {};
-for (const dev of developers) {
-  devAppMap[dev.name] = apps.filter(a => a.developer === dev.name);
-}
-
-// Badge labels
-const badgeLabels = {
-  'platform': 'Platform',
-  'founding-developer': 'Founding Dev',
-};
-
-// Developer card for the grid
-const devCards = developers.map(dev => {
-  const appCount = (devAppMap[dev.name] || []).length;
-  const badgesHtml = (dev.badges || [])
-    .map(b => `<span class="dev-badge ${esc(b)}">${esc(badgeLabels[b] || b)}</span>`)
-    .join('');
-  return `        <a class="dev-card" href="/developers/${esc(dev.id)}/">
-          <img class="dev-avatar" src="https://github.com/${esc(dev.github)}.png?size=200" alt="${esc(dev.name)}" loading="lazy" />
-          <div class="dev-card-body">
-            <span class="dev-card-name">${esc(dev.name)}</span>
-            <span class="dev-card-bio">${esc(dev.bio || '')}</span>
-            <div class="dev-badges">${badgesHtml}</div>
-            <span class="dev-card-stats">${appCount} app${appCount === 1 ? '' : 's'}</span>
-          </div>
-        </a>`;
-}).join('\n');
-
-let developersHtml = developersTemplate
-  .replaceAll('{{DEVELOPERS_GRID}}', devCards);
-for (const [k, v] of Object.entries(sriHashes)) {
-  developersHtml = developersHtml.replaceAll(`{{SRI_${k}}}`, v);
-}
-fs.writeFileSync(path.join(OUT_DIR, 'developers.html'), developersHtml);
-console.log(`Built developers page (${developers.length} developers)`);
-
-// Per-developer detail pages at /developers/{id}/
-const devsDir = path.join(OUT_DIR, 'developers');
-fs.mkdirSync(devsDir, { recursive: true });
-for (const dev of developers) {
-  const dir = path.join(devsDir, dev.id);
-  fs.mkdirSync(dir, { recursive: true });
-  const devApps = devAppMap[dev.name] || [];
-  const appCount = devApps.length;
-  // Reuse the compact card markup from the main page
-  const devAppsHtml = devApps.map(app => {
-    const letter = esc((app.name || '?').trim().charAt(0).toUpperCase());
-    const desc = esc(app.description || '');
-    return `        <div class="app-card" data-id="${esc(app.id)}" data-category="${esc(app.category)}">
-          <a class="app-card-body" href="/apps/${esc(app.id)}/" aria-label="View ${esc(app.name)} details">
-            <div class="app-icon" data-letter="${letter}">
-              <img src="${esc(app.appUrl)}/icon-192.png" alt="" loading="lazy" />
-            </div>
-            <div class="app-body">
-              <span class="app-name">${esc(app.name)}</span>
-              <span class="app-category">${esc(app.category)}</span>
-              <span class="app-desc">${desc}</span>
-            </div>
-          </a>
-          <a href="${esc(app.appUrl)}" target="_blank" rel="noopener" class="app-cta" aria-label="Open ${esc(app.name)}">Open</a>
-        </div>`;
-  }).join('\n');
-
-  const badgesHtml = (dev.badges || [])
-    .map(b => `<span class="dev-badge ${esc(b)}">${esc(badgeLabels[b] || b)}</span>`)
-    .join('');
-
-  const joinedDate = dev.joinedAt
-    ? new Date(dev.joinedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
-    : '';
-
-  let detail = developerDetailTemplate
-    .replaceAll('{{ID}}', esc(dev.id))
-    .replaceAll('{{NAME}}', esc(dev.name))
-    .replaceAll('{{BIO}}', esc(dev.bio || ''))
-    .replaceAll('{{GITHUB}}', esc(dev.github))
-    .replaceAll('{{BADGES_HTML}}', badgesHtml)
-    .replaceAll('{{JOINED}}', esc(joinedDate))
-    .replaceAll('{{APP_COUNT}}', String(appCount))
-    .replaceAll('{{APP_COUNT_PLURAL}}', appCount === 1 ? '' : 's')
-    .replaceAll('{{DEV_APPS_GRID}}', devAppsHtml);
-  for (const [k, v] of Object.entries(sriHashes)) {
-    detail = detail.replaceAll(`{{SRI_${k}}}`, v);
-  }
-  fs.writeFileSync(path.join(dir, 'index.html'), detail);
-}
-console.log(`Built ${developers.length} developer detail pages under developers/`);
 
 fs.writeFileSync(
   path.join(OUT_DIR, 'manifest.json'),
@@ -486,7 +377,7 @@ const promoCtaHtml = promoCtas.map(([cls, label]) => promoterUrl
 ).join('\n        ');
 const promoStatusHtml = promoterUrl
   ? '<p class="promo-status" id="promoStatus">Choose an app below first if you already know which one you want to promote.</p>'
-  : '<p class="promo-status" id="promoStatus" role="status">Promoter sign-in is not open yet, so there is nothing to sign in to today. This page explains how promotion will work. Check back, or read about <a href="/developers">building an app</a> if you would rather contribute code.</p>';
+  : '<p class="promo-status" id="promoStatus" role="status">Promoter sign-in is not open yet, so there is nothing to sign in to today. This page explains how promotion will work. Check back, or read about <a href="/get-started">building an app</a> if you would rather contribute code.</p>';
 // Production always filters recruitment through the readiness API. Tests may
 // supply an isolated snapshot; unavailable/invalid discovery never lists all apps.
 let promoApps = apps;
@@ -532,12 +423,8 @@ const sitemapEntries = [
   `  <url><loc>https://proappstore.online/roadmap</loc><priority>0.7</priority></url>`,
   `  <url><loc>https://proappstore.online/privacy</loc><priority>0.5</priority></url>`,
   `  <url><loc>https://proappstore.online/terms</loc><priority>0.5</priority></url>`,
-  `  <url><loc>https://proappstore.online/developers</loc><priority>0.8</priority></url>`,
   `  <url><loc>https://proappstore.online/ideas</loc><priority>0.8</priority></url>`,
   `  <url><loc>https://proappstore.online/promoters</loc><priority>0.8</priority></url>`,
-  ...developers.map((dev) =>
-    `  <url><loc>https://proappstore.online/developers/${dev.id}/</loc><priority>0.7</priority></url>`,
-  ),
   ...apps.map((app) =>
     `  <url><loc>https://proappstore.online/apps/${app.id}/</loc><priority>0.9</priority></url>`,
   ),
@@ -548,7 +435,9 @@ ${sitemapEntries.join('\n')}
 </urlset>
 `;
 fs.writeFileSync(path.join(OUT_DIR, 'sitemap.xml'), sitemap);
-fs.writeFileSync(path.join(OUT_DIR, 'catalogue.json'), JSON.stringify({ apps }, null, 2) + '\n');
+// The storefront is anonymous: nothing that names who built an app is published, even if a stale registry carries it.
+const publicApps = apps.map(({ developer, repo, ...rest }) => rest);
+fs.writeFileSync(path.join(OUT_DIR, 'catalogue.json'), JSON.stringify({ apps: publicApps }, null, 2) + '\n');
 console.log(`Generated sitemap.xml (${sitemapEntries.length} URLs)`);
 
 // One Search Console Domain property and this submitted index cover approved
