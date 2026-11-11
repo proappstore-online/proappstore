@@ -373,8 +373,7 @@
       "description": "PAS-native CRM for companies, contacts, deals, projects, invoices, and time tracking.",
       "appUrl": "https://crm.proappstore.online",
       "hostedOn": "r2",
-      "type": "connected",
-      "creatorGithub": "serge-ivo"
+      "type": "connected"
     },
     {
       "id": "tradeport",

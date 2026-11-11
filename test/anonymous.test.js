@@ -24,7 +24,7 @@ test('developer fields in a registry never reach a generated public file', () =>
   fs.mkdirSync(out);
   try {
     const registry = {
-      apps: FIXTURE.apps.map((a) => ({ ...a, developer: 'Zed Quillfeather', repo: 'zedquillfeather/secret-repo' })),
+      apps: FIXTURE.apps.map((a) => ({ ...a, developer: 'Zed Quillfeather', repo: 'zedquillfeather/secret-repo', creatorGithub: 'zedquillfeather' })),
       developers: [{ id: 'zedq', name: 'Zed Quillfeather', github: 'zedquillfeather', bio: 'Bio about zedq the founder',
         badges: ['founding-developer'], joinedAt: '2026-05-01' }],
     };
@@ -43,7 +43,7 @@ test('developer fields in a registry never reach a generated public file', () =>
       for (const re of banned) assert.ok(!re.test(text), `${path.relative(out, f)} matches ${re}`);
     }
     for (const app of JSON.parse(fs.readFileSync(path.join(out, 'catalogue.json'), 'utf8')).apps) {
-      assert.ok(!('developer' in app) && !('repo' in app), `catalogue.json leaks developer/repo for ${app.id}`);
+      assert.ok(!('developer' in app) && !('repo' in app) && !('creatorGithub' in app), `catalogue.json leaks developer/repo/creatorGithub for ${app.id}`);
     }
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
 });
@@ -51,7 +51,7 @@ test('developer fields in a registry never reach a generated public file', () =>
 test('committed public files carry no developer names, avatars, profile links or source links', () => {
   const registry = JSON.parse(fs.readFileSync(path.join(ROOT, 'registry.json'), 'utf8'));
   assert.ok(!('developers' in registry), 'registry.json has a developers[] list');
-  for (const a of registry.apps) assert.ok(!('developer' in a) && !('repo' in a), `registry.json: ${a.id} has developer/repo`);
+  for (const a of registry.apps) assert.ok(!('developer' in a) && !('repo' in a) && !('creatorGithub' in a), `registry.json: ${a.id} has developer/repo/creatorGithub`);
   for (const gone of ['developers', 'developers.html', 'templates/developers.html', 'templates/developer-detail.html']) {
     assert.ok(!fs.existsSync(path.join(ROOT, gone)), `${gone} still exists`);
   }

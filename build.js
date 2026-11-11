@@ -436,7 +436,7 @@ ${sitemapEntries.join('\n')}
 `;
 fs.writeFileSync(path.join(OUT_DIR, 'sitemap.xml'), sitemap);
 // The storefront is anonymous: nothing that names who built an app is published, even if a stale registry carries it.
-const publicApps = apps.map(({ developer, repo, ...rest }) => rest);
+const publicApps = apps.map(({ developer, repo, creatorGithub, ...rest }) => rest);
 fs.writeFileSync(path.join(OUT_DIR, 'catalogue.json'), JSON.stringify({ apps: publicApps }, null, 2) + '\n');
 console.log(`Generated sitemap.xml (${sitemapEntries.length} URLs)`);
 

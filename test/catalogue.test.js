@@ -55,3 +55,10 @@ test('app sitemap discovery follows public readiness and canonical ownership', a
   });
   assert.deepEqual(result.registry.apps.map(a => [a.id, a.sitemapUrl]), [['primary', 'https://primary.proappstore.online/sitemap.xml'], ['custom', null], ['custom-primary', null]]);
 });
+
+test('the published registry names no one: developer, repo, creatorGithub and developers[] are stripped', async () => {
+  const named = { ...app('public'), developer: 'Zed Quillfeather', repo: 'zedq/secret', creatorGithub: 'zedq' };
+  const result = await reconcile({ developers: [{ id: 'zedq', github: 'zedq' }], apps: [named] }, inventory('public'), async () => response());
+  assert.ok(!('developers' in result.registry));
+  assert.deepEqual(Object.keys(result.registry.apps[0]).filter(k => ['developer', 'repo', 'creatorGithub'].includes(k)), []);
+});

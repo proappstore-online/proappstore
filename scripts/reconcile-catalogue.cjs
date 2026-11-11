@@ -60,7 +60,10 @@ async function reconcile(registry, inventory, get = fetch) {
   const approved = new Set(registry.apps.map(app => app.id));
   for (const app of inventory.apps) if (!approved.has(app.appId)) pending.push({ id: app.appId, reason: 'no approved catalogue copy; keep out of generated discovery' });
   if (!apps.length) throw new Error('No eligible apps; refusing empty catalogue deployment');
-  return { registry: { ...registry, apps }, report: { published: apps.map(app => app.id), excluded, pending }, pages };
+  // The storefront is anonymous: no field that names who built an app reaches the published registry.
+  const anonymous = apps.map(({ developer, repo, creatorGithub, ...rest }) => rest);
+  const { developers, ...publicRegistry } = registry;
+  return { registry: { ...publicRegistry, apps: anonymous }, report: { published: apps.map(app => app.id), excluded, pending }, pages };
 }
 
 if (require.main === module) (async () => {
