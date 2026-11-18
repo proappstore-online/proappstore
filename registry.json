@@ -467,6 +467,17 @@
         "Saved favourites",
         "Seller listing management"
       ]
+    },
+    {
+      "id": "hiring",
+      "name": "Hiring",
+      "category": "business",
+      "icon": "&#128188;",
+      "iconBg": "#7c3aed",
+      "description": "An early applicant tracking workspace for recruiters to manage candidates, requisitions, assignments and hiring stages across brands. Public candidate intake is not yet open.",
+      "appUrl": "https://hiring.proappstore.online",
+      "hostedOn": "r2",
+      "type": "connected"
     }
   ]
 }
