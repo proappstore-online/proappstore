@@ -114,7 +114,7 @@ header .container {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background-image: var(--logo-grad);
+  background: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -123,9 +123,10 @@ header .container {
   flex-shrink: 0;
 }
 
-.brand-mark svg {
-  width: 22px;
-  height: 22px;
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .brand-text {
@@ -134,9 +135,12 @@ header .container {
   line-height: 1.15;
 }
 
+.brand-name span { color: var(--accent); }
+
 .brand-name {
+  font-family: var(--font-body, Manrope, sans-serif);
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--ink-strong);
   letter-spacing: -0.01em;
 }
@@ -1629,7 +1633,7 @@ footer .container {
   /* Hide brand name on mobile — icon-only like a native app */
   .brand-text { display: none; }
   .brand-mark { width: 36px; height: 36px; border-radius: 10px; }
-  .brand-mark svg { width: 20px; height: 20px; }
+  .brand-mark img { width: 100%; height: 100%; }
   .brand { gap: 0; }
 
   .header-right { gap: 0.5rem; }

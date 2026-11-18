@@ -1,57 +1,14 @@
-# ProAppStore Brand Guidelines
+# ProAppStore brand
 
-## Identity
+Family release: **2026-11-18**. Canonical family source: `serge-ivo/stores-workspace/brand`; this repo vendors the complete PAS exports in `brand/assets/`.
 
-**Name**: ProAppStore (one word, PascalCase)
-**Tagline**: Premium web apps with superpowers.
-**URL**: proappstore.online
-**Free pair**: FreeAppStore (freeappstore.online)
+- Name: **ProAppStore**, one PascalCase word. Highlight **App** in violet.
+- Symbol: four offset rounded tiles, shared with FreeAppStore. No letter A/P, envelope or lightning icon.
+- Accent: `#7c3aed`; hover `#6d28d9`; dark-surface accent `#a78bfa`; light tint `#f5f3ff`.
+- Wordmark: Manrope 800. UI: Manrope; editorial headings: Fraunces.
+- Header: local `favicon.svg` plus accessible wordmark; symbol-only controls need the complete name as their accessible label.
+- `icon-192.png` and `icon-512.png` are opaque maskable exports. `og-image.png` is the 1200×630 platform share card.
+- Theme behavior and neutral surfaces follow the shared DESIGN-SYSTEM.md contract.
+- Individual apps retain their own branding. The catalogue, Console, Dashboard and platform docs share this PAS identity.
 
-## Logo
-
-Text wordmark: "Pro[App]Store" — "App" in accent purple.
-
-```
-Pro[App]Store    — accent purple (#7c3aed)
-```
-
-- Always one word, PascalCase
-- Never "Pro App Store" (three words)
-
-Favicon: Purple gradient "A" on rounded rect (512x512, rx=96, Manrope 800).
-
-## Colors
-
-| Token | Light | Dark | Usage |
-|-------|-------|------|-------|
-| `--accent` | `#7c3aed` | `#a78bfa` | Primary actions, links |
-| `--accent-soft` | `#f5f3ff` | `#1e1533` | Accent backgrounds |
-| `--ink` | `#1a1a1a` | `#f0f0f0` | Body text |
-| `--muted` | `#6b6b6b` | `#888888` | Secondary text |
-| `--surface` | `#ffffff` | `#1a1a1a` | Card backgrounds |
-| `--bg` | `#fafaf9` | `#0f0f0f` | Page background |
-| `--border` | `#e5e5e5` | `#2a2a2a` | Borders |
-
-## Typography
-
-- **Body**: System font stack (-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif)
-- **Logo**: Weight 800, letter-spacing -0.02em
-- **Headings**: Weight 700-800
-
-## Dark Mode
-
-`prefers-color-scheme: dark` — automatic, no toggle.
-
-## Differentiation from Free
-
-- Purple accent (vs blue for FreeAppStore)
-- "Pro" prefix signals premium features
-- Same layout patterns but richer feature cards (badges, subscription info)
-- Same privacy commitment — no tracking
-
-## Rules
-
-- ZERO analytics, tracking, or third-party scripts
-- Pro features are about capability, not surveillance
-- All pro app code is private (not MIT like free tier)
-- Subscription pricing is platform-level; apps do not set separate prices
+Copy the canonical exports; do not redraw letters or regenerate a symbol from a system font. Vendored `brand.json` records the family version. Platform product policy, analytics and pricing belong in their current product documents, not this visual guide.
