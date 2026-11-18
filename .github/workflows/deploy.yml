@@ -47,9 +47,11 @@ jobs:
         run: node scripts/sync-ideas.cjs
 
       - name: Test storefront
-        run: npm test
+        run: |
+          mkdir -p marketing/dist
+          npm test
         env:
-          PAS_MARKETING_TEST_TMPDIR: ${{ runner.temp }}
+          PAS_MARKETING_TEST_TMPDIR: ${{ github.workspace }}/marketing/dist
 
       - name: Mobile browser suite (synthetic fixtures)
         # Same gate as browser.yml: a failing browser suite blocks deployment.

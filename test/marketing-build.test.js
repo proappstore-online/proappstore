@@ -7,7 +7,7 @@ const { tmpdir } = require('node:os');
 const { join, resolve } = require('node:path');
 
 // Astro renames prerender assets from the checkout into the build output.
-// Container CI uses runner.temp on that same mounted volume, rather than /tmp.
+// Container CI uses scratch output beneath marketing/dist on the checkout volume.
 const tempRoot = process.env.PAS_MARKETING_TEST_TMPDIR || tmpdir();
 const root = resolve(__dirname, '..');
 const fixture = join(root, 'marketing/fixtures/sample.json');
