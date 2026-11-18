@@ -500,6 +500,17 @@
       "appUrl": "https://gcp-spending.proappstore.online",
       "hostedOn": "r2",
       "type": "connected"
+    },
+    {
+      "id": "mallguide",
+      "name": "Mallguide",
+      "category": "lifestyle",
+      "icon": "&#128205;",
+      "iconBg": "#7c3aed",
+      "description": "Explore mall and street guides, browse stores and brands, and save favourites. Find shops by mall and floor.",
+      "appUrl": "https://mallguide.proappstore.online",
+      "hostedOn": "r2",
+      "type": "connected"
     }
   ]
 }
