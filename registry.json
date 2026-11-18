@@ -478,6 +478,17 @@
       "appUrl": "https://hiring.proappstore.online",
       "hostedOn": "r2",
       "type": "connected"
+    },
+    {
+      "id": "cv",
+      "name": "CV",
+      "category": "productivity",
+      "icon": "&#128196;",
+      "iconBg": "#7c3aed",
+      "description": "Owner preview of a career-document workspace for organizing career history, tailored resumes, cover letters, writing playbooks and reusable application answers. Account data features currently require owner or team access.",
+      "appUrl": "https://cv.proappstore.online",
+      "hostedOn": "r2",
+      "type": "connected"
     }
   ]
 }
