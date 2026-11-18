@@ -17,6 +17,28 @@ test('a transient service failure aborts the build instead of deleting approved 
   await assert.rejects(reconcile({ apps: [app('public')] }, { apps: [] }), /refusing a destructive rebuild/);
 });
 
+test('an explicitly approved workspace listing preserves noindex and never advertises its app sitemap', async () => {
+  for (const get of [
+    async () => response(200, '<meta name="robots" content="noindex,nofollow">'),
+    async () => new Response('<html>Workspace</html>', { headers: { 'content-type': 'text/html', 'X-Robots-Tag': 'none' } }),
+  ]) {
+    const result = await reconcile({ apps: [{ ...app('workspace'), allowNoindexListing: true }] }, inventory('workspace'), get);
+    assert.deepEqual(result.report.published, ['workspace']);
+    assert.equal(result.registry.apps[0].sitemapUrl, null);
+    assert.equal(result.report.excluded.length, 0);
+  }
+});
+
+test('workspace listing approval cannot override visibility, missing routes, or come from app metadata', async () => {
+  const entries = ['private', 'retired', 'unapproved'].map(id => ({ ...app(id), allowNoindexListing: id === 'unapproved' ? 'true' : true }));
+  const live = inventory('public', 'retired', 'unapproved');
+  live.apps.find(a => a.appId === 'unapproved').allowNoindexListing = true;
+  const result = await reconcile({ apps: [app('public'), ...entries] }, live, async url =>
+    response(url.includes('retired') ? 404 : 200, url.includes('unapproved') ? '<meta name="robots" content="noindex">' : '<html>App</html>'));
+  assert.deepEqual(result.report.published, ['public']);
+  assert.deepEqual(result.report.excluded.map(a => a.reason), ['not in public inventory', 'launch HTTP 404', 'explicit noindex']);
+});
+
 test('robots none is an index exclusion in supported meta and header contexts', async () => {
   for (const excludedResponse of [
     () => response(200, '<meta name="robots" content="none">'),

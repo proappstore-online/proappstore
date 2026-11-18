@@ -3,7 +3,7 @@
 `registry.json` contains approved listing copy, not the provisioning inventory.
 Production builds reconcile it with the current public API inventory and live
 launch pages. Only approved entries still public, returning HTML successfully,
-and allowing indexing enter the homepage, detail pages, sitemap and
+and allowing indexing (or explicitly approved for a separate workspace listing) enter the homepage, detail pages, sitemap and
 `catalogue.json`. A new API row alone never publishes an internal tool or fixture.
 
 Four reviewed real apps now have catalogue copy: TradePort, Bookkeeper, QueueFlow
@@ -13,7 +13,7 @@ the old Codex smoke app is a test fixture. Those stale entries are no longer lis
 
 Deployment runs on source changes, manual dispatch and hourly. It removes obsolete
 generated detail directories and publishes the reconciled public registry. A
-404/410 or explicit noindex omits a listing; an API outage, timeout or temporary
+404/410 or unapproved noindex omits a listing; an API outage, timeout or temporary
 launch error aborts deployment rather than silently removing healthy apps.
 `catalogue-report.json` distinguishes excluded entries from API records awaiting
 approved listing copy. Complete and review that copy before adding those entries
@@ -43,7 +43,7 @@ memberships, addresses, contact records or workspaces.
 
 Other provisioned rows stay pending when they are fixtures, archived or
 unpublished products, unfinished templates, or lack a confirmed public launch.
-Examples include the Lango Learn course shell, the private Hiring recruiter
+Examples at that review included the Lango Learn course shell, the Hiring recruiter
 workflow, and the AusTax frontend prototype. App provisioning and an HTTP 200
 shell alone do not approve a public listing. The remaining classification is
 tracked in platform issue #474.
@@ -54,7 +54,7 @@ description; they cannot replace product copy in the catalogue or shared SEO fee
 `sitemap-index.xml` includes the existing storefront sitemap plus each reconciled
 app's `/sitemap.xml`. An app that declares a different primary canonical keeps its
 store listing but its secondary-host sitemap is omitted. Private, unavailable and
-noindex entries already fail reconciliation. Submit the index through the verified
+noindex workspaces never contribute an app sitemap. Submit the index through the verified
 `proappstore.online` Domain property: Google cross-site submission requires ownership
 of every included host. The generated index accepts only the approved PAS launch
 host's sitemap, never an arbitrary custom domain. Existing child submissions can
@@ -64,3 +64,17 @@ Chess Clubs keeps its PAS launch listing, while its public front door is
 `https://chessclubs.online/` (as documented in the app README). Its PAS sitemap
 child is explicitly held with `sitemapUrl: null`; submit the custom-domain map
 under its own verified property. Club workspace/member routes are not included.
+
+## Owner-approved workspace listings
+
+On 18 November 2026 the owner requested fixing publication and publishing Hiring.
+Its approved catalogue description advertises the early recruiter workspace and
+states that public candidate intake is closed. The signed-in app shell retains
+its intentional `noindex` restriction; the marketing/legal draft and intake gates
+are not changed by listing the product.
+
+The curated entry sets `allowNoindexListing: true` to approve this separate public
+listing. Only a literal `true` in the reviewed registry opts in; app/API metadata
+cannot grant it. Public-inventory membership and a healthy HTML launch page remain
+required. A noindex workspace never contributes its app sitemap, even with this
+approval. Unapproved noindex apps remain excluded.

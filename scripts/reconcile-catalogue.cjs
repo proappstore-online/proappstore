@@ -49,10 +49,13 @@ async function reconcile(registry, inventory, get = fetch) {
     const noindex = excludesIndexing(header) || [...html.matchAll(/<meta\b[^>]*>/gi)].some(([tag]) =>
       /name\s*=\s*["'](?:robots|googlebot)["']/i.test(tag) &&
       excludesIndexing(tag.match(/\bcontent\s*=\s*["']([^"']*)["']/i)?.[1] || ''));
-    if (noindex) { excluded.push({ id: app.id, reason: 'explicit noindex' }); continue; }
+    // A signed-in workspace can stay out of search while its owner explicitly
+    // approves a separate public catalogue card. Only the curated registry may
+    // opt in; this never overrides the public-inventory or healthy-route gates.
+    if (noindex && app.allowNoindexListing !== true) { excluded.push({ id: app.id, reason: 'explicit noindex' }); continue; }
     const live = byId.get(app.id);
     const tagline = usableTagline(live.tagline);
-    const sitemapUrl = app.sitemapUrl !== null && hasPrimaryCanonical(html, url) ? new URL('/sitemap.xml', url).href : null;
+    const sitemapUrl = !noindex && app.sitemapUrl !== null && hasPrimaryCanonical(html, url) ? new URL('/sitemap.xml', url).href : null;
     apps.push({ ...app, ...(tagline ? { description: tagline } : {}),
       ...((app.socialImageUrl || live.iconUrl) ? { socialImageUrl: app.socialImageUrl || live.iconUrl } : {}), sitemapUrl });
     pages.set(app.id, html);
@@ -76,5 +79,6 @@ if (require.main === module) (async () => {
   fs.writeFileSync(process.argv[out + 1], JSON.stringify(result.registry, null, 2) + '\n');
   fs.writeFileSync(path.join(ROOT, 'catalogue-report.json'), JSON.stringify(result.report, null, 2) + '\n');
   console.log(`Catalogue: ${result.registry.apps.length} approved healthy apps, ${result.report.excluded.length} excluded, ${result.report.pending.length} awaiting listing copy`);
+  console.log(`Published app ids: ${result.report.published.join(', ')}`);
 })().catch(error => { console.error(error.message); process.exitCode = 1; });
 module.exports = { reconcile };

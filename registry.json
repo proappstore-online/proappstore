@@ -471,6 +471,7 @@
     {
       "id": "hiring",
       "name": "Hiring",
+      "allowNoindexListing": true,
       "category": "business",
       "icon": "&#128188;",
       "iconBg": "#7c3aed",
