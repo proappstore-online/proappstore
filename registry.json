@@ -533,6 +533,17 @@
       "appUrl": "https://ski.proappstore.online",
       "hostedOn": "r2",
       "type": "connected"
+    },
+    {
+      "id": "spending",
+      "name": "Spending",
+      "category": "business",
+      "icon": "&#128202;",
+      "iconBg": "#7c3aed",
+      "description": "Track cloud-provider costs and recurring subscriptions in one place, with monthly budgets, spending trends and projections. Connect your own provider accounts.",
+      "appUrl": "https://spending.proappstore.online",
+      "hostedOn": "r2",
+      "type": "connected"
     }
   ]
 }
