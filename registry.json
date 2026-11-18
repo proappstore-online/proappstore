@@ -489,6 +489,17 @@
       "appUrl": "https://cv.proappstore.online",
       "hostedOn": "r2",
       "type": "connected"
+    },
+    {
+      "id": "gcp-spending",
+      "name": "GCP Spending",
+      "category": "business",
+      "icon": "&#9729;",
+      "iconBg": "#7c3aed",
+      "description": "A read-only dashboard for Google Cloud projects, billing, resources and cost signals. Explore spending from your BigQuery billing export and compare budgets with actual costs.",
+      "appUrl": "https://gcp-spending.proappstore.online",
+      "hostedOn": "r2",
+      "type": "connected"
     }
   ]
 }
