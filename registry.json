@@ -511,6 +511,17 @@
       "appUrl": "https://mallguide.proappstore.online",
       "hostedOn": "r2",
       "type": "connected"
+    },
+    {
+      "id": "run",
+      "name": "Run",
+      "category": "sports",
+      "icon": "&#127939;",
+      "iconBg": "#7c3aed",
+      "description": "Record runs while the app is visible, review routes, pace and splits, and export GPX. Device recording works locally; private account backup is currently an owner/team preview.",
+      "appUrl": "https://run.proappstore.online",
+      "hostedOn": "r2",
+      "type": "connected"
     }
   ]
 }
