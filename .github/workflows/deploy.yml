@@ -21,7 +21,11 @@ permissions:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    # Match package-lock.json; browsers and OS libraries are already installed.
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
     steps:
       - uses: actions/checkout@v7
 
@@ -42,9 +46,6 @@ jobs:
 
       - name: Test storefront
         run: npm test
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
 
       - name: Mobile browser suite (synthetic fixtures)
         # Same gate as browser.yml: a failing browser suite blocks deployment.
