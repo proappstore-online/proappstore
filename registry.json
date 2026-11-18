@@ -522,6 +522,17 @@
       "appUrl": "https://run.proappstore.online",
       "hostedOn": "r2",
       "type": "connected"
+    },
+    {
+      "id": "ski",
+      "name": "Ski",
+      "category": "sports",
+      "icon": "&#9975;",
+      "iconBg": "#7c3aed",
+      "description": "Explore mapped ski trails, record rides while the app is visible, and coordinate private groups with chat and opt-in location sharing. Download resort trails and export GPX.",
+      "appUrl": "https://ski.proappstore.online",
+      "hostedOn": "r2",
+      "type": "connected"
     }
   ]
 }
