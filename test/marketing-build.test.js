@@ -6,6 +6,9 @@ const { mkdtempSync, readFileSync, writeFileSync, rmSync, symlinkSync } = requir
 const { tmpdir } = require('node:os');
 const { join, resolve } = require('node:path');
 
+// Astro renames prerender assets from the checkout into the build output.
+// Container CI uses runner.temp on that same mounted volume, rather than /tmp.
+const tempRoot = process.env.PAS_MARKETING_TEST_TMPDIR || tmpdir();
 const root = resolve(__dirname, '..');
 const fixture = join(root, 'marketing/fixtures/sample.json');
 const assets = join(root, 'marketing/fixtures/sample/assets');
@@ -17,7 +20,7 @@ function build(snapshot, out, extra = []) {
 }
 
 test('Astro builds a complete, revisioned static marketing site from approved content', () => {
-  const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-test-'));
+  const temp = mkdtempSync(join(tempRoot, 'pas-marketing-test-'));
   try {
     const out = join(temp, 'site');
     const result = build(fixture, out);
@@ -46,7 +49,7 @@ test('Astro builds a complete, revisioned static marketing site from approved co
 });
 
 test('preview is noindex and absent from the sitemap', () => {
-  const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-preview-'));
+  const temp = mkdtempSync(join(tempRoot, 'pas-marketing-preview-'));
   try {
     const out = join(temp, 'site');
     const result = build(fixture, out, ['--preview']);
@@ -59,7 +62,7 @@ test('preview is noindex and absent from the sitemap', () => {
 });
 
 test('public preview uses scoped assets and never links to the fixture app', () => {
-  const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-public-preview-'));
+  const temp = mkdtempSync(join(tempRoot, 'pas-marketing-public-preview-'));
   try {
     const out = join(temp, 'site');
     const result = build(fixture, out, ['--preview', '--preview-base', '/preview/sample-app/']);
@@ -80,7 +83,7 @@ test('public preview uses scoped assets and never links to the fixture app', () 
 });
 
 test('listed app concepts build as isolated noindex previews with disabled app links', () => {
-  const temp = mkdtempSync(join(tmpdir(), 'pas-listed-previews-'));
+  const temp = mkdtempSync(join(tempRoot, 'pas-listed-previews-'));
   try {
     for (const id of ['kanban', 'micro']) {
       const result = spawnSync(process.execPath, [join(root, 'marketing/build.mjs'),
@@ -100,7 +103,7 @@ test('listed app concepts build as isolated noindex previews with disabled app l
 });
 
 test('incomplete content and unsafe asset paths cannot build an artifact', () => {
-  const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-invalid-'));
+  const temp = mkdtempSync(join(tempRoot, 'pas-marketing-invalid-'));
   try {
     const invalid = JSON.parse(readFileSync(fixture, 'utf8'));
     invalid.benefits = [];
@@ -127,7 +130,7 @@ test('incomplete content and unsafe asset paths cannot build an artifact', () =>
 });
 
 test('owner-authored text cannot inject HTML or a JSON-LD script', () => {
-  const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-escape-'));
+  const temp = mkdtempSync(join(tempRoot, 'pas-marketing-escape-'));
   try {
     const snapshot = join(temp, 'input.json');
     const content = JSON.parse(readFileSync(fixture, 'utf8'));
@@ -147,7 +150,7 @@ test('owner-authored text cannot inject HTML or a JSON-LD script', () => {
 });
 
 test('Astro escapes owner copy once in metadata and image attributes', () => {
-  const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-entities-'));
+  const temp = mkdtempSync(join(tempRoot, 'pas-marketing-entities-'));
   try {
     const snapshot = join(temp, 'input.json');
     const content = JSON.parse(readFileSync(fixture, 'utf8'));
@@ -167,7 +170,7 @@ test('Astro escapes owner copy once in metadata and image attributes', () => {
 });
 
 test('output cannot erase its input snapshot, including through a symlink', () => {
-  const temp = mkdtempSync(join(tmpdir(), 'pas-marketing-output-'));
+  const temp = mkdtempSync(join(tempRoot, 'pas-marketing-output-'));
   try {
     const snapshot = join(temp, 'input.json');
     writeFileSync(snapshot, readFileSync(fixture));

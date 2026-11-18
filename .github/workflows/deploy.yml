@@ -48,6 +48,8 @@ jobs:
 
       - name: Test storefront
         run: npm test
+        env:
+          PAS_MARKETING_TEST_TMPDIR: ${{ runner.temp }}
 
       - name: Mobile browser suite (synthetic fixtures)
         # Same gate as browser.yml: a failing browser suite blocks deployment.
