@@ -459,17 +459,14 @@
       "iconBg": "#ede9fe",
       "description": "Buy and sell local furniture, electronics, tools and everyday goods. Save favourites, send private enquiries, and mark items sold.",
       "appUrl": "https://classifieds.proappstore.online",
-      "repo": "proappstore-online/classifieds",
       "hostedOn": "r2",
       "type": "connected",
-      "developer": "ProAppStore",
       "proFeatures": [
         "Photo listings",
         "Private seller conversations",
         "Saved favourites",
         "Seller listing management"
-      ],
-      "creatorGithub": "serge-ivo"
+      ]
     }
   ]
 }
