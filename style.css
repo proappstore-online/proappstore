@@ -2276,7 +2276,6 @@ pre[class*="language-"] {
   line-height: 1.6;
   margin: -1rem 0 2rem;
 }
-.app-detail .cta-box .btn-primary { display: inline-block; margin-top: 0.5rem; text-decoration: none; }
 /* Author display rules would otherwise beat the UA [hidden] rule (rows and retry buttons awaiting data). */
 .app-detail [hidden] { display: none !important; }
 

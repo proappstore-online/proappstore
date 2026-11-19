@@ -47,10 +47,10 @@ test('propagation modifies only explicit launch links belonging to this app', ()
   assert.equal(doc.unrelated.href, 'https://github.com/example/source');
 });
 
-test('template marks exactly three canonical launch links and loads the script with SRI', () => {
+test('template marks exactly two canonical launch links and loads the script with SRI', () => {
   const html = fs.readFileSync(require.resolve('../templates/app-detail.html'), 'utf8');
-  assert.equal((html.match(/data-launch-link/g) || []).length, 3);
-  assert.equal((html.match(/href="\{\{APP_URL\}\}" data-launch-link/g) || []).length, 3);
+  assert.equal((html.match(/data-launch-link/g) || []).length, 2);
+  assert.equal((html.match(/href="\{\{APP_URL\}\}" data-launch-link/g) || []).length, 2);
   assert.match(html, /src="\/detail-page.js" integrity="\{\{SRI_DETAIL_PAGE_JS\}\}"/);
 });
 
