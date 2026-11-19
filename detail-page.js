@@ -108,12 +108,25 @@
         show("screenshotsSection");
       }
 
-      if (l.websiteUrl) { $("websiteLink").href = l.websiteUrl; $("websiteLink").textContent = l.websiteUrl.replace(/^https?:\/\//, ""); show("websiteRow"); }
-      if (l.supportUrl) { $("supportLink").href = l.supportUrl; $("supportLink").textContent = l.supportUrl.replace(/^https?:\/\//, ""); show("supportRow"); }
+      // Only https and mailto leave this page; anything else in a listing is ignored.
+      var safe = function (u) { return typeof u === "string" && /^(https:\/\/|mailto:)/.test(u); };
+      var info = false;
+      // The website is linked at build time (about-<app> hosts only), never from the listing.
+      if (safe(l.supportUrl)) { $("supportLink").href = l.supportUrl; $("supportLink").textContent = l.supportUrl.replace(/^(https:\/\/|mailto:)/, ""); show("supportRow"); info = true; }
+
+      if (l.permissions && l.permissions.length) {
+        var perms = $("permissionsList");
+        l.permissions.forEach(function (p) {
+          var li = document.createElement("li");
+          li.textContent = p.reason ? p.name + ": " + p.reason : p.name;
+          perms.appendChild(li);
+        });
+        show("permissionsSection");
+      }
 
       var socials = [];
       if (l.socialTwitter) socials.push({ label: "𝕏 / Twitter", href: "https://x.com/" + encodeURIComponent(l.socialTwitter), text: "@" + l.socialTwitter });
-      if (l.socialMastodon) socials.push({ label: "Mastodon", href: l.socialMastodon, text: l.socialMastodon.replace(/^https?:\/\//, "") });
+      if (safe(l.socialMastodon)) socials.push({ label: "Mastodon", href: l.socialMastodon, text: l.socialMastodon.replace(/^https?:\/\//, "") });
       if (l.socialBluesky) socials.push({ label: "Bluesky", href: "https://bsky.app/profile/" + encodeURIComponent(l.socialBluesky), text: "@" + l.socialBluesky });
       if (socials.length) {
         var box = $("socialLinks");
@@ -124,11 +137,12 @@
           a.setAttribute("title", s.label);
           box.appendChild(a);
         });
-        show("socialRow");
+        show("socialRow"); info = true;
       }
 
-      if (l.privacyPolicyUrl) { $("privacyLink").href = l.privacyPolicyUrl; show("privacyRow"); }
-      if (l.termsUrl) { $("termsLink").href = l.termsUrl; show("termsRow"); }
+      if (safe(l.privacyPolicyUrl)) { $("privacyLink").href = l.privacyPolicyUrl; show("privacyRow"); info = true; }
+      if (safe(l.termsUrl)) { $("termsLink").href = l.termsUrl; show("termsRow"); info = true; }
+      if (info) show("infoSection");
     })
     .catch(function () { /* leave server-rendered fallback in place */ });
 })();

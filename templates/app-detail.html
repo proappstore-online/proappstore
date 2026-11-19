@@ -59,72 +59,80 @@
     </div>
   </header>
 
-  <main class="container">
+  <main class="container app-detail">
     <p class="breadcrumb"><a href="/">Apps</a> <span aria-hidden="true">&rsaquo;</span> {{NAME}}</p>
 
     <!-- Hero -->
     <div class="app-hero">
-      <div class="app-hero-icon" data-id="{{ID}}" style="background: {{ICON_BG}};">
-        <img src="{{SOCIAL_IMAGE}}" alt="" onerror="this.style.display='none'" />
+      <div class="app-hero-icon" id="detailIcon" data-id="{{ID}}" style="background: {{ICON_BG}};">
+        <img id="detailIconImg" src="{{SOCIAL_IMAGE}}" alt="" onerror="this.style.display='none'" />
         <span class="app-hero-letter" aria-hidden="true">{{FIRST_LETTER}}</span>
       </div>
       <div>
         <h1>{{NAME}}</h1>
-        <p class="app-hero-tagline">{{DESCRIPTION}}</p>
-        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem;">
-          <span class="tag">{{CATEGORY}}</span>
+        <p class="app-hero-tagline" id="detailTagline">{{DESCRIPTION}}</p>
+        <div class="app-hero-row">
+          <span class="tag" id="detailCategory">{{CATEGORY}}</span>
+          <span class="tag">Free</span>
         </div>
-        <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap;">
+        <div class="app-hero-row app-hero-actions">
           <a href="{{APP_URL}}" data-launch-link target="_blank" rel="noopener" class="btn-primary">Open app</a>
           {{WEBSITE_BUTTON_HTML}}
-          <a href="/promoters?app={{ID}}#choose" class="app-btn-secondary">Help promote {{NAME}}</a>
         </div>
       </div>
     </div>
 
-    <!-- App meta -->
+    <!-- Facts. Apps are free to users; an app may charge its own plans or per transaction. -->
     <div class="app-meta">
       <div class="app-meta-item">
-        <div class="label">Platform</div>
-        <div class="value">Web (any device)</div>
+        <div class="label">Price</div>
+        <div class="value">Free</div>
       </div>
       <div class="app-meta-item">
-        <div class="label">Price</div>
-        <div class="value">{{PLAN_PRICE_LABEL}}</div>
+        <div class="label">Sign-in</div>
+        <div class="value">ProAppStore account</div>
       </div>
       {{WEBSITE_META_HTML}}
-      <div class="app-meta-item">
-        <div class="label">Subdomain</div>
-        <div class="value"><a href="{{APP_URL}}" data-launch-link target="_blank" rel="noopener" style="font-size: 0.85rem; word-break: break-all;">{{APP_HOST}}</a></div>
-      </div>
     </div>
+    <p class="app-price-note">{{NAME}} is free to open and use. Any paid plans or transaction fees are set by the app, not by ProAppStore.</p>
 
-    <!-- Pro features -->
-    <section class="app-section">
-      <h2>What you get</h2>
-      <div class="pro-features-grid">{{PRO_FEATURES_HTML}}</div>
+    <!-- Screenshots (from the creator's listing; hidden until detail-page.js has some) -->
+    <section class="app-section" id="screenshotsSection" hidden>
+      <h2>Screenshots</h2>
+      <div class="screenshots-rail" id="screenshotsRail"></div>
     </section>
+
+    {{FEATURES_SECTION_HTML}}
 
     <!-- About -->
     <section class="app-section">
       <h2>About</h2>
-      {{ABOUT_HTML}}
-      <p style="color: var(--muted); line-height: 1.7; margin-top: 0.75rem;">
-        {{NAME}} is a Pro app on <a href="https://proappstore.online">ProAppStore</a>. It uses the
-        <a href="https://docs.proappstore.online/">ProAppStore SDK</a> for authentication, real-time features, and data storage.
-      </p>
-    </section>
-
-    <!-- Built with -->
-    <section class="app-section">
-      <h2>Built with</h2>
-      <div class="tech-list">
-        <div class="tech-item"><strong>ProAppStore SDK</strong><p>Auth, database, real-time rooms, storage</p></div>
-        <div class="tech-item"><strong>React + Vite</strong><p>Modern frontend toolchain</p></div>
-        <div class="tech-item"><strong>Cloudflare R2</strong><p>Edge hosting via the proappstore-host Worker</p></div>
-        <div class="tech-item"><strong>TypeScript</strong><p>Type-safe throughout</p></div>
+      <div class="detail-long" id="detailLongDescription">
+{{ABOUT_HTML}}
       </div>
     </section>
+
+    <section class="app-section" id="permissionsSection" hidden>
+      <h2>Permissions</h2>
+      <ul class="pro-features-list" id="permissionsList"></ul>
+    </section>
+
+    <section class="app-section" id="infoSection" hidden>
+      <h2>Support and policies</h2>
+      <dl class="detail-info-grid">
+        <div class="detail-info-row" id="supportRow" hidden><dt>Support</dt><dd><a id="supportLink" target="_blank" rel="noopener"></a></dd></div>
+        <div class="detail-info-row" id="socialRow" hidden><dt>Social</dt><dd class="detail-social" id="socialLinks"></dd></div>
+        <div class="detail-info-row" id="privacyRow" hidden><dt>Privacy</dt><dd><a id="privacyLink" target="_blank" rel="noopener">Privacy policy</a></dd></div>
+        <div class="detail-info-row" id="termsRow" hidden><dt>Terms</dt><dd><a id="termsLink" target="_blank" rel="noopener">Terms of use</a></dd></div>
+      </dl>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <h3>Try {{NAME}}</h3>
+      <p>Free with a ProAppStore account. Sign in and start using {{NAME}} right away.</p>
+      <a href="{{APP_URL}}" data-launch-link target="_blank" rel="noopener" class="btn-primary">Open {{NAME}}</a>
+    </div>
 
     <!-- Team (hydrated from the platform by team.js; nothing about the team is static) -->
     <section class="app-section team-section" id="team" data-app-id="{{ID}}" aria-labelledby="teamHeading" aria-busy="false">
@@ -169,15 +177,8 @@
       <p id="contributorsStatus" class="team-status" role="status">Loading public contributors…</p>
       <ul id="contributorsList" class="team-list" aria-label="Promotion contributors" hidden></ul>
       <button id="contributorsRetry" type="button" class="app-btn-secondary" hidden>Try again</button>
-      <p><a href="/promoters?app={{ID}}#choose">Explore the promotion opportunity</a></p>
+      <p><a href="/promoters?app={{ID}}#choose" class="app-btn-secondary">Help promote {{NAME}}</a></p>
     </section>
-
-    <!-- CTA -->
-    <div class="cta-box" style="border-color: color-mix(in srgb, var(--accent) 30%, transparent); background: var(--accent-soft);">
-      <h3 style="margin: 0 0 0.5rem; color: var(--ink);">Try {{NAME}}</h3>
-      <p style="color: var(--muted); margin-bottom: 0.75rem;">Sign in with your ProAppStore account and start using {{NAME}} immediately.</p>
-      <a href="{{APP_URL}}" data-launch-link target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none;">Open {{NAME}}</a>
-    </div>
   </main>
 
   <footer>
@@ -204,6 +205,7 @@
     </div>
   </footer>
 
+  <script type="application/json" id="page-data">{"id":"{{ID}}"}</script>
   <script src="/theme.js" integrity="{{SRI_THEME_JS}}"></script>
   <script src="/team.js" integrity="{{SRI_TEAM_JS}}"></script>
   <script src="/contributors.js" integrity="{{SRI_CONTRIBUTORS_JS}}"></script>

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { FALLBACK, ownedUrl } = require('./scripts/listing-images.cjs');
-const { subscriptionPlan, jsonLd } = require('./scripts/subscription-plan.cjs');
+const { jsonLd } = require('./scripts/subscription-plan.cjs');
 const ROOT = __dirname;
 const REGISTRY_PATH = process.env.REGISTRY_PATH || path.join(ROOT, 'registry.json');
 const OUT_DIR = process.env.OUT_DIR || ROOT;
@@ -88,7 +88,6 @@ validateRegistry(apps);
 
 const indexTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'index.html'), 'utf8');
 const detailTemplate = fs.readFileSync(path.join(ROOT, 'templates', 'app-detail.html'), 'utf8');
-const plan = subscriptionPlan(fs.readFileSync(path.join(ROOT, 'pricing.html'), 'utf8'));
 
 function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -228,9 +227,6 @@ for (const app of apps) {
   const dir = path.join(appsDir, app.publicSlug || app.id);
   fs.mkdirSync(dir, { recursive: true });
   const firstLetter = (app.name || '?').trim().charAt(0).toUpperCase().replace(/[\\']/g, '\\$&');
-  const appHost = (() => {
-    try { return new URL(app.appUrl).host; } catch { return app.appUrl; }
-  })();
   // An app's marketing website lives on an about-<app>.proappstore.online host; anything else is refused.
   const websiteUrl = app.websiteUrl || null;
   if (websiteUrl && !/^https:\/\/about-[a-z0-9-]+\.proappstore\.online\/?$/.test(websiteUrl)) {
@@ -242,12 +238,15 @@ for (const app of apps) {
   const websiteMetaHtml = websiteUrl
     ? `<div class="app-meta-item">
         <div class="label">Website</div>
-        <div class="value"><a href="${esc(websiteUrl)}" target="_blank" rel="noopener" style="font-size: 0.85rem; word-break: break-all;">${esc(new URL(websiteUrl).host)}</a></div>
+        <div class="value"><a href="${esc(websiteUrl)}" target="_blank" rel="noopener">${esc(new URL(websiteUrl).host)}</a></div>
       </div>`
     : '';
-  const proFeaturesHtml = (app.proFeatures || [])
-    .map((f) => `<div class="pro-feature-card"><span class="pro-feature-check">+</span> ${esc(f)}</div>`)
-    .join('\n        ');
+  const featuresSectionHtml = (app.proFeatures || []).length
+    ? `<section class="app-section">
+      <h2>Features</h2>
+      <ul class="pro-features-list">${app.proFeatures.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>
+    </section>`
+    : '';
   let detail = detailTemplate
     .replaceAll('{{ID}}', esc(app.id))
     .replaceAll('{{SLUG}}', esc(app.publicSlug || app.id))
@@ -258,14 +257,12 @@ for (const app of apps) {
     .replaceAll('{{FIRST_LETTER}}', firstLetter)
     .replaceAll('{{APP_URL}}', esc(app.appUrl))
     .replaceAll('{{SOCIAL_IMAGE}}', esc(app.socialImageUrl || FALLBACK))
-    .replaceAll('{{PLAN_PRICE_LABEL}}', esc(plan.label))
-    .replaceAll('{{APP_HOST}}', esc(appHost))
     .replaceAll('{{WEBSITE_BUTTON_HTML}}', websiteButtonHtml)
     .replaceAll('{{WEBSITE_META_HTML}}', websiteMetaHtml)
-    .replaceAll('{{PRO_FEATURES_HTML}}', proFeaturesHtml || '<div class="pro-feature-card">Premium features included</div>')
+    .replaceAll('{{FEATURES_SECTION_HTML}}', featuresSectionHtml)
     .replaceAll('{{ABOUT_HTML}}', (app.about || app.description || '')
       .split('\n\n')
-      .map(p => `      <p style="color: var(--muted); line-height: 1.7; margin-top: 0.75rem;">${esc(p.trim())}</p>`)
+      .map(p => `        <p>${esc(p.trim())}</p>`)
       .join('\n'));
   for (const [k, v] of Object.entries(sriHashes)) {
     detail = detail.replaceAll(`{{SRI_${k}}}`, v);
@@ -285,15 +282,11 @@ for (const app of apps) {
         '@type': 'SoftwareApplication', name: app.name, description: app.description || '',
         applicationCategory: app.category || '', operatingSystem: 'Web', url: app.appUrl,
         ...(websiteUrl ? { sameAs: [websiteUrl] } : {}),
-        image: app.socialImageUrl || FALLBACK, isAccessibleForFree: false,
+        image: app.socialImageUrl || FALLBACK, isAccessibleForFree: true,
         isPartOf: { '@id': 'https://proappstore.online/#website' },
-        potentialAction: {
-          '@type': 'SubscribeAction', target: plan.service.url,
-          object: { '@id': plan.service['@id'] },
-        },
+        // Free to users. An app's own plans or transaction fees are not platform offers.
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       },
-      // The recurring shared Service owns its offer; there is no individual app purchase.
-      plan.service,
     ],
   }));
   fs.writeFileSync(path.join(dir, 'index.html'), detail);

@@ -5,14 +5,14 @@ test.beforeEach(async ({ context }) => {
   await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, route => route.abort());
 });
 
-test('landing referral reaches all three canonical launch links and no unrelated links', async ({ page }) => {
+test('landing referral reaches both canonical launch links and no unrelated links', async ({ page }) => {
   await page.goto(SITE + '/apps/synthetic-one/?ref=testcode');
   const links = page.locator('a[data-launch-link]');
-  await expect(links).toHaveCount(3);
+  await expect(links).toHaveCount(2);
   for (const link of await links.all()) {
     await expect(link).toHaveAttribute('href', 'https://synthetic-one.proappstore.online/?ref=testcode');
   }
-  for (const href of await page.locator('a:not([data-launch-link])').evaluateAll(els => els.filter(el => !el.getAttribute('href').startsWith('#')).map(el => el.href))) {
+  for (const href of await page.locator('a[href]:not([data-launch-link])').evaluateAll(els => els.filter(el => !el.getAttribute('href').startsWith('#')).map(el => el.href))) {
     expect(new URL(href).searchParams.has('ref')).toBe(false);
   }
   await page.goto(SITE + '/apps/synthetic-two/');
