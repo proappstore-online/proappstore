@@ -257,6 +257,7 @@ for (const app of apps) {
     .replaceAll('{{FIRST_LETTER}}', firstLetter)
     .replaceAll('{{APP_URL}}', esc(app.appUrl))
     .replaceAll('{{SOCIAL_IMAGE}}', esc(app.socialImageUrl || FALLBACK))
+    .replaceAll('{{APP_HOST}}', esc(new URL(app.appUrl).host))
     .replaceAll('{{WEBSITE_BUTTON_HTML}}', websiteButtonHtml)
     .replaceAll('{{WEBSITE_META_HTML}}', websiteMetaHtml)
     .replaceAll('{{FEATURES_SECTION_HTML}}', featuresSectionHtml)
