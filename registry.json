@@ -17,8 +17,7 @@
         "Availability toggle",
         "Shareable room links",
         "Real-time presence (WebSocket rooms)"
-      ],
-      "websiteUrl": "https://about-meet.proappstore.online"
+      ]
     },
     {
       "id": "meetup",
@@ -117,8 +116,7 @@
         "Shareable invite links for teams",
         "Status, ETA, requirements, acceptance criteria per card",
         "Board filters: assignee, status, text search"
-      ],
-      "websiteUrl": "https://about-kanban.proappstore.online"
+      ]
     },
     {
       "id": "timetrack",
@@ -394,8 +392,7 @@
       "iconBg": "#f5f3ff",
       "description": "Import financial records, review transactions and export reconciled bookkeeping records with source provenance.",
       "appUrl": "https://bookkeeper.proappstore.online",
-      "type": "connected",
-      "websiteUrl": "https://about-bookkeeper.proappstore.online"
+      "type": "connected"
     },
     {
       "id": "queueflow",
@@ -405,8 +402,7 @@
       "iconBg": "#f5f3ff",
       "description": "Manage restaurant pickup orders, waitlists, table seating and customer-facing queue updates.",
       "appUrl": "https://queueflow.proappstore.online",
-      "type": "connected",
-      "websiteUrl": "https://about-queueflow.proappstore.online"
+      "type": "connected"
     },
     {
       "id": "tennis-clubs",

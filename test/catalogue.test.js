@@ -68,6 +68,17 @@ test('placeholder owner copy cannot replace an approved catalogue description', 
   assert.equal(realCopy.registry.apps[0].description, 'Organize your community events.');
 });
 
+test('the app website comes from the public inventory, not from a typed registry value', async () => {
+  const live = { apps: [
+    { appId: 'withsite', websiteUrl: 'https://about-withsite.proappstore.online' },
+    { appId: 'unpublished', websiteUrl: null },
+    { appId: 'foreign', websiteUrl: 'https://about-other.proappstore.online' },
+  ] };
+  const typed = { ...app('unpublished'), websiteUrl: 'https://about-unpublished.proappstore.online' };
+  const result = await reconcile({ apps: [app('withsite'), typed, app('foreign')] }, live, async () => response());
+  assert.deepEqual(result.registry.apps.map(a => a.websiteUrl), ['https://about-withsite.proappstore.online', undefined, undefined]);
+});
+
 test('app sitemap discovery follows public readiness and canonical ownership', async () => {
   const result = await reconcile({ apps: [...['primary', 'custom', 'hidden', 'empty'].map(app), { ...app('custom-primary'), sitemapUrl: null }] }, inventory('primary', 'custom', 'hidden', 'empty', 'custom-primary'), async url => {
     if (url.includes('empty')) return response(404);

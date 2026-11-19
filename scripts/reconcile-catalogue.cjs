@@ -56,8 +56,13 @@ async function reconcile(registry, inventory, get = fetch) {
     const live = byId.get(app.id);
     const tagline = usableTagline(live.tagline);
     const sitemapUrl = !noindex && app.sitemapUrl !== null && hasPrimaryCanonical(html, url) ? new URL('/sitemap.xml', url).href : null;
-    apps.push({ ...app, ...(tagline ? { description: tagline } : {}),
-      ...((app.socialImageUrl || live.iconUrl) ? { socialImageUrl: app.socialImageUrl || live.iconUrl } : {}), sitemapUrl });
+    // The website comes from the platform's deploy state, never from a hand-typed
+    // registry value: an unpublished about-<id> site leaves the page on the next build.
+    const { websiteUrl: _typed, ...entry } = app;
+    const websiteUrl = live.websiteUrl === `https://about-${app.id}.proappstore.online` ? live.websiteUrl : null;
+    apps.push({ ...entry, ...(tagline ? { description: tagline } : {}),
+      ...((app.socialImageUrl || live.iconUrl) ? { socialImageUrl: app.socialImageUrl || live.iconUrl } : {}),
+      ...(websiteUrl ? { websiteUrl } : {}), sitemapUrl });
     pages.set(app.id, html);
   }
   const approved = new Set(registry.apps.map(app => app.id));
