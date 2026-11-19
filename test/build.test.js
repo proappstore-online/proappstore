@@ -445,7 +445,8 @@ test('app detail pages link the app website only when websiteUrl is set, and ref
     assert.match(withSite, /href="https:\/\/about-withsite\.proappstore\.online"[^>]*>Website<\/a>/);
     assert.match(withSite, /"sameAs":\["https:\/\/about-withsite\.proappstore\.online"\]/);
     const noSite = fs.readFileSync(path.join(tmp, 'apps', 'nosite', 'index.html'), 'utf8');
-    assert.doesNotMatch(noSite, /about-nosite|>Website</);
+    assert.doesNotMatch(noSite, /about-nosite/);
+    assert.match(noSite, /id="websiteButton"[^>]* hidden>Website</);
     assert.doesNotMatch(noSite, /\{\{WEBSITE_/);
     registry.apps[0].websiteUrl = 'https://evil.example';
     fs.writeFileSync(fixture, JSON.stringify(registry));

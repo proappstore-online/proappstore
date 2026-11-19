@@ -234,13 +234,17 @@ for (const app of apps) {
   }
   const websiteButtonHtml = websiteUrl
     ? `<a href="${esc(websiteUrl)}" target="_blank" rel="noopener" class="app-btn-secondary">Website</a>`
-    : '';
+    // No registered site: detail-page.js fills this from the creator's listing, if it names one.
+    : '<a id="websiteButton" target="_blank" rel="noopener" class="app-btn-secondary" hidden>Website</a>';
   const websiteMetaHtml = websiteUrl
     ? `<div class="app-meta-item">
         <div class="label">Website</div>
         <div class="value"><a href="${esc(websiteUrl)}" target="_blank" rel="noopener">${esc(new URL(websiteUrl).host)}</a></div>
       </div>`
-    : '';
+    : `<div class="app-meta-item" id="websiteRow" hidden>
+        <div class="label">Website</div>
+        <div class="value"><a id="websiteLink" target="_blank" rel="noopener"></a></div>
+      </div>`;
   const featuresSectionHtml = (app.proFeatures || []).length
     ? `<section class="app-section">
       <h2>Features</h2>

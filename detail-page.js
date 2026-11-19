@@ -80,20 +80,24 @@
       }
       if (l.category) setText("detailCategory", l.category);
 
-      // Icon — override the build-time placeholder if a real URL is set.
-      // We don't write inline style here — splashColor lands on a CSS variable
-      // so the rule in style.css can apply it. CSP style-src 'self' is fine.
-      if (l.iconUrl) {
-        var icon = $("detailIcon");
-        if (icon && l.splashColor) icon.style.setProperty("--icon-bg", l.splashColor);
-        var img = $("detailIconImg");
-        if (img) {
-          img.onerror = null;
-          img.src = l.iconUrl;
-        }
-      } else if (l.splashColor) {
-        var icon2 = $("detailIcon");
-        if (icon2) icon2.style.setProperty("--icon-bg", l.splashColor);
+      // Icon: the page's CSP only loads images from proappstore.online hosts, so an icon
+      // anywhere else would replace the build-time image with a broken one.
+      var icon = $("detailIcon");
+      if (icon && l.splashColor) icon.style.setProperty("--icon-bg", l.splashColor);
+      var img = $("detailIconImg");
+      if (img && typeof l.iconUrl === "string" && /^https:\/\/([a-z0-9-]+\.)?proappstore\.online\//.test(l.iconUrl)) {
+        img.src = l.iconUrl;
+      }
+
+      // A verified custom domain is the app's real address: launch there and show it.
+      var appOrigin = "https://" + APP_ID + ".proappstore.online";
+      if (typeof l.customDomain === "string" && /^([a-z0-9-]+\.)+[a-z]{2,}$/.test(l.customDomain)) {
+        appOrigin = "https://" + l.customDomain;
+        document.querySelectorAll("a[data-launch-link]").forEach(function (link) {
+          var ref = new URL(link.href).searchParams.get("ref");
+          link.href = ref ? appendRef(appOrigin + "/", ref) : appOrigin;
+          if (link.id === "appLink") link.textContent = l.customDomain;
+        });
       }
 
       if (l.screenshots && l.screenshots.length) {
@@ -111,7 +115,12 @@
       // Only https and mailto leave this page; anything else in a listing is ignored.
       var safe = function (u) { return typeof u === "string" && /^(https:\/\/|mailto:)/.test(u); };
       var info = false;
-      // The website is linked at build time (about-<app> hosts only), never from the listing.
+      // The creator's own website, unless the build already linked a registered one or it is the app itself.
+      var site = $("websiteButton");
+      if (site && safe(l.websiteUrl) && l.websiteUrl.indexOf("https://") === 0 && new URL(l.websiteUrl).origin !== appOrigin) {
+        site.href = l.websiteUrl; site.hidden = false;
+        $("websiteLink").href = l.websiteUrl; $("websiteLink").textContent = new URL(l.websiteUrl).host; show("websiteRow");
+      }
       if (safe(l.supportUrl)) { $("supportLink").href = l.supportUrl; $("supportLink").textContent = l.supportUrl.replace(/^(https:\/\/|mailto:)/, ""); show("supportRow"); info = true; }
 
       if (l.permissions && l.permissions.length) {
