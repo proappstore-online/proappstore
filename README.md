@@ -10,6 +10,9 @@ npm run test:browser   # mobile Chromium + WebKit (npx playwright install chromi
 npm run build          # offline build from registry.json
 ```
 
+Brand assets served by this site are described in [`BRAND.md`](BRAND.md), which points to the
+ProAppStore brand guide in the platform repo.
+
 ## The storefront is anonymous
 
 No public page or public data file says who built an app: no developer names, avatars, GitHub

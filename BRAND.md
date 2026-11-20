@@ -1,14 +1,17 @@
 # ProAppStore brand
 
-Family release: **2026-11-18**. Canonical family source: `serge-ivo/stores-workspace/brand`; this repo vendors the complete PAS exports in `brand/assets/`.
+The ProAppStore brand guide lives in the platform repo:
+<https://github.com/proappstore-online/platform/blob/main/brand/BRAND.md>. Identity, usage rules and the
+update procedure are documented there, not here.
 
-- Name: **ProAppStore**, one PascalCase word. Highlight **App** in violet.
-- Symbol: four offset rounded tiles, shared with FreeAppStore. No letter A/P, envelope or lightning icon.
-- Accent: `#7c3aed`; hover `#6d28d9`; dark-surface accent `#a78bfa`; light tint `#f5f3ff`.
-- Wordmark: Manrope 800. UI: Manrope; editorial headings: Fraunces.
-- Header: local `favicon.svg` plus accessible wordmark; symbol-only controls need the complete name as their accessible label.
-- `icon-192.png` and `icon-512.png` are opaque maskable exports. `og-image.png` is the 1200×630 platform share card.
-- Theme behavior and neutral surfaces follow the shared DESIGN-SYSTEM.md contract.
-- Individual apps retain their own branding. The catalogue, Console, Dashboard and platform docs share this PAS identity.
+## What this repo carries
 
-Copy the canonical exports; do not redraw letters or regenerate a symbol from a system font. Vendored `brand.json` records the family version. Platform product policy, analytics and pricing belong in their current product documents, not this visual guide.
+Kit version **2026-11-18**. Files are copied byte-for-byte from the kit; do not redraw or re-encode them.
+
+- **Served from the repo root** (8 files): `favicon.svg`, `favicon-16x16.png` (kit `icon-16.png`),
+  `favicon-32x32.png` (kit `icon-32.png`), `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`,
+  `og-image.png`, `brand.json`.
+- **Full export** (17 files), vendored in [`brand/assets/`](brand/assets/).
+- **Cache parameter:** pages, templates and `manifest.json` reference the served files with
+  `?v=2026-11-18`. Bump it in every reference when the kit version changes; replacing a file at the
+  same URL does not refresh browser caches.
