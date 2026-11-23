@@ -29,6 +29,18 @@ node scripts/reconcile-catalogue.cjs --out .catalogue-build.json
 REGISTRY_PATH=.catalogue-build.json npm run build
 ```
 
+## Fields
+
+- `socialImageUrl`: validated image used for social cards and storefront tiles. Always present
+  (store logo when the app has none).
+- `iconUrl`: the app's own square icon (creator upload, or manifest icon of at least 512 px with
+  purpose `any`). Absent when the app has none. Clients then draw `icon` (an emoji, possibly an
+  HTML entity) on `iconBg`.
+- `heroImageUrl`: the app's own `og:image` when it is a distinct, validated image. Absent otherwise.
+
+All three must be on the app's launch origin, the store origin, or the app's own public-upload
+path on the API; `build.js` refuses a registry that names any other host.
+
 The Pages detail route checks the compiled `catalogue.json` before serving a
 static listing. This prevents cached copies of withdrawn/fixture/private detail
 pages surviving a catalogue rebuild. Missing entries return 404 with no-store

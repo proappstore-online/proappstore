@@ -232,6 +232,18 @@ test('validator rejects wrong-host appUrl', () => {
   }
 });
 
+test('validator rejects a foreign iconUrl', () => {
+  const { ok, stderr, tmp } = runBuildExpectFail([
+    { ...VALID_APP, iconUrl: 'https://evil.example/x.png' },
+  ]);
+  try {
+    assert.equal(ok, false);
+    assert.match(stderr, /iconUrl must use the approved launch or store origin/);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
 test('validator rejects bad iconBg', () => {
   const { ok, stderr, tmp } = runBuildExpectFail([
     { ...VALID_APP, iconBg: 'url(javascript:alert(1))' },

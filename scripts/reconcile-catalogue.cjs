@@ -62,6 +62,8 @@ async function reconcile(registry, inventory, get = fetch) {
     const websiteUrl = live.websiteUrl === `https://about-${app.id}.proappstore.online` ? live.websiteUrl : null;
     apps.push({ ...entry, ...(tagline ? { description: tagline } : {}),
       ...((app.socialImageUrl || live.iconUrl) ? { socialImageUrl: app.socialImageUrl || live.iconUrl } : {}),
+      // Transient: enrichListingImages validates it as the iconUrl candidate and drops it from the entry.
+      ...(live.iconUrl ? { listingIconUrl: live.iconUrl } : {}),
       ...(websiteUrl ? { websiteUrl } : {}), sitemapUrl });
     pages.set(app.id, html);
   }

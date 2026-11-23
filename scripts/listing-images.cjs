@@ -35,8 +35,9 @@ async function enrichListingImages(registry, pages, get = fetch) {
     return images.get(url);
   }
   const apps = [];
-  for (const app of registry.apps) {
+  for (const { listingIconUrl, iconUrl: _icon, heroImageUrl: _hero, ...app } of registry.apps) {
     const candidates = [];
+    const iconCandidates = [listingIconUrl && ownedUrl(listingIconUrl, app.appUrl, app.appUrl, app.id)];
     if (app.socialImageUrl) {
       const explicit = ownedUrl(app.socialImageUrl, app.appUrl, app.appUrl, app.id);
       if (explicit) candidates.push(explicit);
@@ -56,6 +57,15 @@ async function enrichListingImages(registry, pages, get = fetch) {
             const image = ownedUrl(icon.src, manifestUrl, app.appUrl, app.id);
             if (image) candidates.push(image);
           }
+          // A native tile needs a full-bleed square: maskable-only icons carry safe-zone padding.
+          for (const icon of icons) {
+            const square = String(icon.sizes || '').split(/\s+/).some(size => {
+              const match = size.match(/^(\d+)x(\d+)$/i);
+              return match && match[1] === match[2] && Number(match[1]) >= 512;
+            });
+            const purpose = typeof icon.purpose === 'string' ? icon.purpose.toLowerCase().split(/\s+/) : null;
+            if (square && (!purpose || purpose.includes('any'))) iconCandidates.push(ownedUrl(icon.src, manifestUrl, app.appUrl, app.id));
+          }
         }
       } catch { /* A missing manifest must not turn into a guessed root icon path. */ }
     }
@@ -64,7 +74,16 @@ async function enrichListingImages(registry, pages, get = fetch) {
       if (await validImage(candidate)) { socialImageUrl = candidate; break; }
     }
     if (!socialImageUrl) throw new Error(`${app.id}: no valid owned listing image; refusing broken metadata upload`);
-    apps.push({ ...app, socialImageUrl });
+    // The app's own icon, never the store fallback: an absent iconUrl tells a client to draw the emoji.
+    let iconUrl = null;
+    for (const candidate of new Set(iconCandidates.filter(Boolean))) {
+      if (await validImage(candidate)) { iconUrl = candidate; break; }
+    }
+    const ogImage = [...html.matchAll(/<meta\b[^>]*>/gi)].map(match => attributes(match[0]))
+      .find(attrs => attrs.property?.toLowerCase() === 'og:image')?.content;
+    let heroImageUrl = ogImage && ownedUrl(ogImage, app.appUrl, app.appUrl, app.id);
+    if (heroImageUrl && (heroImageUrl === iconUrl || heroImageUrl === socialImageUrl || !(await validImage(heroImageUrl)))) heroImageUrl = null;
+    apps.push({ ...app, ...(iconUrl ? { iconUrl } : {}), socialImageUrl, ...(heroImageUrl ? { heroImageUrl } : {}) });
   }
   return { ...registry, apps };
 }

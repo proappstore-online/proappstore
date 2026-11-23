@@ -78,6 +78,11 @@ function validateRegistry(items) {
         a.socialImageUrl !== ownedUrl(a.socialImageUrl, a.appUrl, a.appUrl, a.id))) {
       errors.push(`${a.id}: socialImageUrl must use the approved launch or store origin`);
     }
+    for (const field of ['iconUrl', 'heroImageUrl']) {
+      if (a[field] != null && (typeof a[field] !== 'string' || a[field] !== ownedUrl(a[field], a.appUrl, a.appUrl, a.id))) {
+        errors.push(`${a.id}: ${field} must use the approved launch or store origin`);
+      }
+    }
   }
   if (errors.length) {
     console.error('Registry validation failed:\n  - ' + errors.join('\n  - '));
