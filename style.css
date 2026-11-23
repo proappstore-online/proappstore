@@ -1948,6 +1948,7 @@ footer .container {
 }
 
 .detail-long {
+  overflow-wrap: anywhere;
   font-size: 0.95rem;
   line-height: 1.6;
   color: var(--ink);
@@ -2166,12 +2167,14 @@ pre[class*="language-"] {
 }
 
 .app-hero-tagline {
+  overflow-wrap: anywhere; /* creator-supplied: a long unbroken word must not widen the page */
   font-size: 1.05rem;
   color: var(--muted);
   line-height: 1.5;
 }
 
 .app-hero-icon {
+  background: var(--icon-bg, var(--accent-soft));
   width: 80px;
   height: 80px;
   border-radius: 1.25rem;
@@ -2700,3 +2703,53 @@ pre[class*="language-"] {
 .team-sent p { color: var(--muted); line-height: 1.6; }
 .contributor-card { padding: 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); overflow-wrap: anywhere; min-width: 0; }
 .contributor-card p { margin-top: 0.4rem; }
+
+/* ─── Static pages (moved out of inline style=, which the CSP blocks) ─── */
+/* /capabilities */
+.cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; margin: 1.5rem 0 3rem; }
+.cap-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; background: var(--panel); transition: border-color 0.15s; }
+.cap-card:hover { border-color: var(--accent); }
+.cap-card h4 { font-size: 1rem; font-weight: 700; color: var(--ink-strong); margin-bottom: 0.25rem; }
+.cap-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.45; margin-bottom: 0.75rem; }
+.cap-card .browsers { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.cap-card .b { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; }
+.cap-card .b .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-y { background: #22c55e; }
+.dot-p { background: #eab308; }
+.dot-n { background: #ef4444; }
+.cap-card .use { font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-top: 0.5rem; }
+.legend { display: flex; gap: 1.5rem; margin-bottom: 2rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+.legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.section-intro { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.5rem; }
+.category-icon { font-size: 1.25rem; margin-right: 0.5rem; }
+.cap-browsers { color: var(--ink); font-weight: 600; }
+.cap-card.cap-card-accent { border-color: var(--accent); }
+
+/* /about */
+.store-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+.store-compare > div { padding: 1.25rem; border: 1px solid var(--line); border-radius: 0.75rem; }
+.store-compare > .is-pro { border-color: var(--accent); }
+.store-compare h3 { margin: 0 0 0.35rem; }
+.store-compare > .is-pro h3 { color: var(--accent); }
+.store-compare ul { font-size: 0.85rem; color: var(--muted); margin: 0; padding-left: 1.25rem; }
+.store-compare p { margin: 0.75rem 0 0; }
+.store-compare p a { font-size: 0.85rem; font-weight: 600; }
+
+/* /pricing, /services, /privacy-template */
+.hero-btn-sm { display: inline-block; margin-top: 1.25rem; font-size: 0.85rem; }
+.hero-btn-sm-flat { display: inline-block; font-size: 0.85rem; }
+.hero-btn-md { display: inline-block; font-size: 0.9rem; }
+.hero-btn-top { display: inline-block; margin-top: 1.25rem; font-size: 1rem; }
+.tier.tier-wide { flex: 2; }
+.tier .blurb.blurb-lg { font-size: 0.95rem; line-height: 1.7; }
+.example-note { color: var(--muted); font-size: 0.8rem; }
+.text-center { text-align: center; }
+.mt-1-5 { margin-top: 1.5rem; }
+.mt-2 { margin-top: 2rem; }
+.mb-1 { margin-bottom: 1rem; }
+.ml-half { margin-left: 0.5rem; }
+.muted-note { color: var(--muted); font-size: 0.9rem; }
+.template-src { white-space: pre-wrap; background: var(--paper-deep, #f7f7f7); border: 1px solid var(--line, rgba(0,0,0,0.08)); border-radius: 0.75rem; padding: 1rem; font-size: 0.85rem; line-height: 1.45; overflow-x: auto; }
+
+/* /roadmap */
+.roadmap-note { margin-top: 2rem; font-size: 0.88rem; color: var(--muted); }

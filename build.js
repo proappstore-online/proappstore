@@ -104,7 +104,8 @@ function esc(s) {
 // slipping past validation never reaches an HTML style attribute.
 function escapeAttrCss(s) { return String(s).replace(/[^a-z0-9_-]/gi, '_'); }
 const cardIconBackgrounds = apps
-  .map(a => `.app-card[data-id="${escapeAttrCss(a.id)}"] .app-icon { background: ${a.iconBg || '#7c3aed'}; }`)
+  .map(a => `.app-card[data-id="${escapeAttrCss(a.id)}"] .app-icon { background: ${a.iconBg || '#7c3aed'}; }
+.app-hero-icon[data-id="${escapeAttrCss(a.id)}"] { --icon-bg: ${a.iconBg || '#7c3aed'}; }`)
   .join('\n');
 
 const cards = apps.map((app) => {
@@ -143,16 +144,14 @@ const featuresHtml = platformFeatures
   .map(([title, body]) => `        <div class="feature-card"><strong>${esc(title)}</strong><p>${esc(body)}</p></div>`)
   .join('\n');
 
-// SHA-256 of the inline no-flash theme bootstrap so the index CSP can
-// whitelist it without 'unsafe-inline'. Detail pages keep 'unsafe-inline'
-// because they have a second inline <script> with per-app template data
-// (an external-script + JSON-island refactor is a follow-up).
-const inlineScriptMatch = indexTemplate.match(/<head>[\s\S]*?<script>([\s\S]*?)<\/script>/);
-if (!inlineScriptMatch) {
-  console.error('Could not locate the inline bootstrap <script> for CSP hashing');
-  process.exit(1);
-}
-const inlineScriptHash = 'sha256-' + crypto.createHash('sha256').update(inlineScriptMatch[1]).digest('base64');
+// script-src allows exactly the inline scripts the site serves: every bare <script>
+// in the hand-written pages and the page templates (type="application/…" data
+// islands do not execute and need no hash). Hashed, never 'unsafe-inline'.
+const htmlSources = [ROOT, path.join(ROOT, 'templates')].flatMap(dir =>
+  fs.readdirSync(dir).filter(f => f.endsWith('.html')).map(f => path.join(dir, f)));
+const inlineScriptHashes = [...new Set(htmlSources.flatMap(file =>
+  [...fs.readFileSync(file, 'utf8').matchAll(/<script>([\s\S]*?)<\/script>/g)]
+    .map(m => 'sha256-' + crypto.createHash('sha256').update(m[1]).digest('base64'))))].sort();
 
 // SRI hashes for local scripts (CDN/repo tamper defense).
 function sriHash(filename) {
@@ -173,7 +172,6 @@ const sriHashes = {
 };
 
 let html = indexTemplate
-  .replaceAll('{{INLINE_SCRIPT_HASH}}', inlineScriptHash)
   .replaceAll('{{APPS_GRID}}', cards)
   .replaceAll('{{FEATURES}}', featuresHtml);
 for (const [k, v] of Object.entries(sriHashes)) {
@@ -189,10 +187,10 @@ console.log(`Built ${apps.length} app cards`);
 const csp = [
   "default-src 'self'",
   "img-src 'self' https://*.proappstore.online data:",
-  `script-src 'self' '${inlineScriptHash}'`,
+  `script-src 'self' ${inlineScriptHashes.map(h => `'${h}'`).join(' ')} https://static.cloudflareinsights.com`,
   "style-src 'self' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "connect-src 'self' https://*.proappstore.online https://api.proappstore.online",
+  "connect-src 'self' https://*.proappstore.online https://api.proappstore.online https://cloudflareinsights.com",
   "frame-src https://*.proappstore.online",
   "frame-ancestors 'none'",
   "base-uri 'self'",
@@ -264,7 +262,6 @@ for (const app of apps) {
     .replaceAll('{{NAME}}', esc(app.name))
     .replaceAll('{{DESCRIPTION}}', esc(app.description || ''))
     .replaceAll('{{CATEGORY}}', esc(app.category || ''))
-    .replaceAll('{{ICON_BG}}', esc(app.iconBg || '#7c3aed'))
     .replaceAll('{{FIRST_LETTER}}', firstLetter)
     .replaceAll('{{APP_URL}}', esc(app.appUrl))
     .replaceAll('{{SOCIAL_IMAGE}}', esc(app.socialImageUrl || FALLBACK))

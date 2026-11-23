@@ -39,12 +39,12 @@
     </div>
 
     <div class="page-content">
-      <p style="margin-bottom: 1rem;">
-        <a href="/privacy-template.md" download class="hero-btn" style="display:inline-block;font-size:0.85rem;">Download privacy-template.md</a>
-        <button id="copyBtn" type="button" class="hero-btn" style="display:inline-block;margin-left:0.5rem;font-size:0.85rem;">Copy to clipboard</button>
+      <p class="mb-1">
+        <a href="/privacy-template.md" download class="hero-btn hero-btn-sm-flat">Download privacy-template.md</a>
+        <button id="copyBtn" type="button" class="hero-btn hero-btn-sm-flat ml-half">Copy to clipboard</button>
       </p>
 
-      <p style="color: var(--muted); font-size: 0.9rem;">
+      <p class="muted-note">
         Most Pro apps don't need their own privacy policy — the platform's
         <a href="/privacy">privacy policy</a> already covers sign-in, billing,
         storage, usage analytics, and account deletion. You only need to add
@@ -55,7 +55,7 @@
       </p>
 
       <h2>The template</h2>
-      <pre id="templateSrc" style="white-space: pre-wrap; background: var(--paper-deep, #f7f7f7); border: 1px solid var(--line, rgba(0,0,0,0.08)); border-radius: 0.75rem; padding: 1rem; font-size: 0.85rem; line-height: 1.45; overflow-x: auto;"># Privacy Policy — {{APP_NAME}}
+      <pre id="templateSrc" class="template-src"># Privacy Policy — {{APP_NAME}}
 
 _Last updated: {{DATE}}_
 
@@ -123,7 +123,7 @@ Questions about platform-wide privacy: [open an issue on
 GitHub](https://github.com/proappstore-online/platform/issues).
 </pre>
 
-      <h2 style="margin-top: 2rem;">Don't have anything app-specific to disclose?</h2>
+      <h2 class="mt-2">Don't have anything app-specific to disclose?</h2>
       <p>
         Then you can point <code>privacyPolicyUrl</code> in your listing
         straight at <a href="/privacy"><code>https://proappstore.online/privacy</code></a>.

@@ -60,6 +60,14 @@
   function setText(id, v) { var el = $(id); if (el && v != null && v !== "") el.textContent = v; }
   function show(id) { var el = $(id); if (el) el.hidden = false; }
 
+  // An icon that fails to load hides, leaving the letter tile (no inline onerror: the CSP blocks it).
+  var iconImg = $("detailIconImg");
+  if (iconImg) {
+    iconImg.addEventListener("error", function () { iconImg.style.display = "none"; });
+    iconImg.addEventListener("load", function () { iconImg.style.display = ""; });
+    if (iconImg.complete && !iconImg.naturalWidth) iconImg.style.display = "none";
+  }
+
   function renderMarkdownLite(md) {
     // Tiny safe renderer: paragraphs + bold/italic/links. No raw HTML.
     var esc = function (s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); };

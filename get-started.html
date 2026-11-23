@@ -66,7 +66,7 @@
       </div>
       <div class="terminal-body" id="term"></div>
       <div class="replay-wrap">
-        <button class="replay-btn" onclick="runDemo()">Replay</button>
+        <button class="replay-btn" type="button">Replay</button>
       </div>
     </div>
 
@@ -288,6 +288,7 @@
       }
     }
     runDemo();
+    document.querySelector('.replay-btn').addEventListener('click', runDemo);
 
     document.getElementById('term').addEventListener('click', (e) => {
       const line = e.target.closest('.copyable');

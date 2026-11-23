@@ -17,6 +17,10 @@ fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out, { recursive: true });
 require('../../scripts/build-candidate.cjs').build(out, name);
 
+// Serve pages under the production CSP from the built _headers, so a page whose inline
+// script or style the policy blocks fails the browser suite (issue #24).
+// upgrade-insecure-requests is dropped: WebKit would upgrade this plain-http test server to https.
+const csp = fs.readFileSync(path.join(out, '_headers'), 'utf8').match(/^  Content-Security-Policy: (.+)$/m)[1].replace('upgrade-insecure-requests; ', '');
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.xml': 'application/xml', '.txt': 'text/plain' };
 function resolve(urlPath) {
   const rel = decodeURIComponent(urlPath).replace(/^\/+/, '');
@@ -32,6 +36,6 @@ function resolve(urlPath) {
 http.createServer((req, res) => {
   const file = resolve(new URL(req.url, 'http://x').pathname === '/' ? '/index.html' : new URL(req.url, 'http://x').pathname);
   if (!file) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
-  res.writeHead(200, { 'content-type': TYPES[path.extname(file)] || 'application/octet-stream', 'cache-control': 'no-store' });
+  res.writeHead(200, { 'content-type': TYPES[path.extname(file)] || 'application/octet-stream', 'cache-control': 'no-store', 'content-security-policy': csp });
   fs.createReadStream(file).pipe(res);
 }).listen(Number(portArg), '127.0.0.1', () => console.log(`serving ${name} on http://127.0.0.1:${portArg}`));

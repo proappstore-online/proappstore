@@ -46,3 +46,12 @@ test('query/hash survive propagation and marked hostile or cross-app targets sta
   await expect(page.getByRole('link', { name: 'other app', exact: true })).toHaveAttribute('href', 'https://synthetic-two.proappstore.online/');
   await expect(page.getByRole('link', { name: 'social', exact: true })).toHaveAttribute('href', 'https://x.com/synthetic');
 });
+
+test('a long unbroken listing tagline does not widen the page on a 360px phone', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 780 });
+  await page.route('https://api.proappstore.online/v1/storefront/apps/**', route =>
+    route.fulfill({ json: { tagline: 'x'.repeat(80), longDescription: 'y'.repeat(200) } }));
+  await page.goto(SITE + '/apps/synthetic-one/');
+  await expect(page.locator('#detailTagline')).toHaveText('x'.repeat(80));
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
+});
