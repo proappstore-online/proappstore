@@ -2480,7 +2480,7 @@ pre[class*="language-"] {
 .terminal-body-compact { min-height: auto; padding: 1rem 1.25rem; }
 .terminal-line { white-space: pre; overflow-x: auto; }
 .terminal-line .prompt { color: #a6e3a1; }
-.terminal-line .cmd { color: #cdd6f4; }
+.terminal-line .cmd, .terminal-line .typed { color: #cdd6f4; }
 .terminal-line .output { color: #6c7086; }
 .terminal-line .success { color: #a6e3a1; }
 .terminal-line .url { color: #89b4fa; }
