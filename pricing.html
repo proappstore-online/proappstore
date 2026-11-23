@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Pricing — ProAppStore</title>
-  <meta name="description" content="FreeAppStore is free forever. ProAppStore is $5/month for all Pro apps. Simple, transparent, fair." />
+  <meta name="description" content="FreeAppStore is free forever. ProAppStore is free during the trial, with no subscription needed." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Pricing — ProAppStore" />
-  <meta property="og:description" content="Free forever or $5/month for every Pro app. Simple, transparent." />
+  <meta property="og:description" content="FreeAppStore is free forever. ProAppStore is free during the trial." />
   <meta property="og:url" content="https://proappstore.online/pricing" />
   <meta property="og:image" content="https://proappstore.online/og-image.png?v=2026-11-18" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -21,28 +21,6 @@
           {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://proappstore.online/"},
           {"@type": "ListItem", "position": 2, "name": "Pricing"}
         ]
-      },
-      {
-        "@type": "Service",
-        "@id": "https://proappstore.online/pricing#subscription",
-        "url": "https://proappstore.online/pricing",
-        "serviceType": "Premium web app subscription",
-        "name": "ProAppStore Subscription",
-        "description": "Access all premium web apps on ProAppStore. Cloud databases, file storage, real-time collaboration, maps, AI, push notifications, and more.",
-        "provider": {"@type": "Organization", "@id": "https://proappstore.online/#org", "name": "ProAppStore", "url": "https://proappstore.online/"},
-        "offers": {
-          "@type": "Offer",
-          "price": "5",
-          "priceCurrency": "USD",
-          "url": "https://proappstore.online/pricing",
-          "priceSpecification": {
-            "@type": "UnitPriceSpecification",
-            "price": "5",
-            "priceCurrency": "USD",
-            "unitText": "month",
-            "billingDuration": "P1M"
-          }
-        }
       }
     ]
   }</script>
@@ -88,7 +66,7 @@
   <main class="container">
     <div class="page-header">
       <h1>Pricing</h1>
-      <p>Simple and transparent. Free apps are free forever. Pro apps are $5/month for everything.</p>
+      <p>Free during the trial. No subscription needed.</p>
     </div>
 
     <div class="page-content">
@@ -97,81 +75,39 @@
 
       <div class="tier-grid">
         <div class="tier free">
-          <h3>Free</h3>
+          <h3>FreeAppStore</h3>
           <div class="price">$0 <small>forever</small></div>
           <div class="blurb">Great apps that save data on your device. No account needed.</div>
           <ul>
             <li>24+ apps, completely free</li>
             <li>No sign-up required</li>
             <li>Works offline</li>
-            <li>Install on your home screen</li>
-            <li>Data saved on your device</li>
             <li>Open source</li>
           </ul>
           <a href="https://freeappstore.online" class="hero-btn" style="display:inline-block;margin-top:1.25rem;font-size:0.85rem">Browse free apps</a>
         </div>
         <div class="tier pro">
-          <h3>Pro</h3>
-          <div class="price">$5 <small>/month</small></div>
-          <div class="blurb">Cloud-powered apps with databases, file storage, and collaboration. Everything included.</div>
+          <h3>ProAppStore</h3>
+          <div class="price">$0 <small>during the trial</small></div>
+          <div class="blurb">Cloud-powered apps with databases, file storage, and collaboration. No subscription needed.</div>
           <ul>
-            <li>Everything in Free, plus:</li>
-            <li>All Pro apps included</li>
-            <li>Cancel anytime</li>
+            <li>Every Pro app is free to use</li>
+            <li>Cloud data, real-time, maps, and more</li>
           </ul>
           <a href="/" class="hero-btn" style="display:inline-block;margin-top:1.25rem;font-size:0.85rem">Browse Pro apps</a>
         </div>
       </div>
 
-      <h2>Included in $5/mo — everything</h2>
-      <p>One subscription unlocks every platform API. No per-feature charges, no usage tiers, no surprises.</p>
-      <ul class="pro-features-list">
-        <li>Auth (GitHub, Google, Apple, Email SSO)</li>
-        <li>Per-app SQL Database (D1)</li>
-        <li>File Storage (R2, 50 MB/file)</li>
-        <li>Real-time Rooms (WebSocket, uncapped)</li>
-        <li>Push Notifications (Web Push, peer-to-peer)</li>
-        <li>SMS (Twilio-backed)</li>
-        <li>Server-side AI (Workers AI — text, chat, embeddings)</li>
-        <li>Maps + Geocoding + Routing (OpenStreetMap)</li>
-        <li>Per-user KV (10 MB/user)</li>
-        <li>Shared Counters</li>
-        <li>API Proxy (secret-injecting)</li>
-        <li>Roles &amp; Permissions (owner, member, moderator, editor, viewer + custom)</li>
-        <li>License Keys</li>
-        <li>Stripe Subscriptions + Billing Portal</li>
-      </ul>
-
       <h2>Frequently asked questions</h2>
 
-      <h3>What do I get for $5/month?</h3>
-      <p>Access to every Pro app on the platform. One subscription, all apps. No per-app charges, ever.</p>
+      <h3>Do I need to pay for ProAppStore?</h3>
+      <p>No. ProAppStore is free during the trial. There is no subscription.</p>
 
-      <h3>Can I cancel?</h3>
-      <p>Yes, anytime. You keep access until the end of your billing period. No cancellation fees.</p>
-
-      <h3>What happens to my data if I cancel?</h3>
-      <p>Your data stays in your account. If you resubscribe later, everything is still there.</p>
+      <h3>Will it stay free?</h3>
+      <p>Apps may offer paid plans later. Nothing is charged today, and an app's price will be shown on its page before you pay.</p>
 
       <h3>Do I need an account for the free apps?</h3>
       <p>No. Free apps on <a href="https://freeappstore.online">FreeAppStore</a> work without any account. Data is saved locally on your device.</p>
-
-      <h3>What payment methods do you accept?</h3>
-      <p>Credit and debit cards via Stripe. We support all major card networks worldwide.</p>
-
-      <h3>Is there a free trial?</h3>
-      <p>Not yet, but we're considering it. The free apps on FreeAppStore give you a good feel for the platform.</p>
-
-      <h2>Why does Pro cost money?</h2>
-      <p>Running cloud infrastructure costs real money. Every Pro app gets its own database, file storage, and real-time servers. These cost us per-user, per-month. The $5 subscription covers those costs and funds platform development.</p>
-      <p>We don't run ads. We don't sell data. We don't have investors pushing for growth-at-all-costs. The subscription is the business model.</p>
-
-      <h2>For developers</h2>
-      <ul>
-        <li><strong>Don't gate features behind payments.</strong> Every feature is included with the platform subscription. There's nothing to upgrade to inside your app.</li>
-        <li><strong>Don't show in-app upgrade prompts.</strong> The platform handles subscription and billing centrally.</li>
-        <li><strong>Build useful apps.</strong> The current priority is growing a strong Pro catalogue.</li>
-      </ul>
 
       <p><a href="https://docs.proappstore.online/">Read the developer docs</a> for the SDK, hosting, and publishing flow.</p>
     </div>

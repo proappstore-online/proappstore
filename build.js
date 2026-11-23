@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { FALLBACK, ownedUrl } = require('./scripts/listing-images.cjs');
-const { jsonLd } = require('./scripts/subscription-plan.cjs');
+// JSON for an inline <script>: escape characters that could end the tag or break parsing.
+const jsonLd = value => JSON.stringify(value).replace(/[<>&\u2028\u2029]/g, char =>
+  `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`);
 const ROOT = __dirname;
 const REGISTRY_PATH = process.env.REGISTRY_PATH || path.join(ROOT, 'registry.json');
 const OUT_DIR = process.env.OUT_DIR || ROOT;
@@ -133,7 +135,7 @@ const platformFeatures = [
   ['Maps + Geocoding + Routing', 'Geocode addresses, driving directions, embed maps. OpenStreetMap powered, no Google keys.'],
   ['Push Notifications', 'Web Push via VAPID. Subscribe users, send targeted or broadcast pushes.'],
   ['SMS', 'Twilio-backed text messages. Send reminders, confirmations, broadcasts. Creator-only.'],
-  ['Server-side AI', 'Workers AI text generation, chat, and embeddings. Two model tiers, included in subscription.'],
+  ['Server-side AI', 'Workers AI text generation, chat, and embeddings. Two model tiers, free during the trial.'],
   ['ProShell + Hooks', 'Platform auth gate + subscription wall. ProShell or hooks — you control the UI.'],
 ];
 

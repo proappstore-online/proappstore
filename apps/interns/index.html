@@ -11,8 +11,8 @@
   <meta property="og:url" content="https://proappstore.online/apps/interns/" />
   <meta property="og:image" content="https://proappstore.online/icon-512.png" />
   <meta name="twitter:image" content="https://proappstore.online/icon-512.png" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="icon" href="/favicon.svg?v=2026-11-18" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2026-11-18" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
@@ -21,22 +21,20 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=2026-11-18" />
   <link rel="stylesheet" href="/card-styles.css" />
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://proappstore.online/apps/interns/" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://proappstore.online/"},{"@type":"ListItem","position":2,"name":"Apps","item":"https://proappstore.online/"},{"@type":"ListItem","position":3,"name":"Interns"}]},{"@type":"SoftwareApplication","name":"Interns","description":"Internship management platform. Post positions, track applications, and manage cohorts.","applicationCategory":"business","operatingSystem":"Web","url":"https://interns.proappstore.online","image":"https://proappstore.online/icon-512.png","isAccessibleForFree":false,"isPartOf":{"@id":"https://proappstore.online/#website"},"potentialAction":{"@type":"SubscribeAction","target":"https://proappstore.online/pricing","object":{"@id":"https://proappstore.online/pricing#subscription"}}},{"@type":"Service","@id":"https://proappstore.online/pricing#subscription","url":"https://proappstore.online/pricing","serviceType":"Premium web app subscription","name":"ProAppStore Subscription","description":"Access all premium web apps on ProAppStore. Cloud databases, file storage, real-time collaboration, maps, AI, push notifications, and more.","provider":{"@type":"Organization","@id":"https://proappstore.online/#org","name":"ProAppStore","url":"https://proappstore.online/"},"offers":{"@type":"Offer","price":"5","priceCurrency":"USD","url":"https://proappstore.online/pricing","priceSpecification":{"@type":"UnitPriceSpecification","price":"5","priceCurrency":"USD","unitText":"month","billingDuration":"P1M"}}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://proappstore.online/"},{"@type":"ListItem","position":2,"name":"Apps","item":"https://proappstore.online/"},{"@type":"ListItem","position":3,"name":"Interns"}]},{"@type":"SoftwareApplication","name":"Interns","description":"Internship management platform. Post positions, track applications, and manage cohorts.","applicationCategory":"business","operatingSystem":"Web","url":"https://interns.proappstore.online","image":"https://proappstore.online/icon-512.png","isAccessibleForFree":true,"isPartOf":{"@id":"https://proappstore.online/#website"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}]}</script>
 </head>
 <body>
   <header>
     <div class="container">
       <a href="/" class="brand" aria-label="ProAppStore">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7"/><path d="M4 7l8 6 8-6"/><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2"/></svg>
-        </span>
+        <span class="brand-mark" aria-hidden="true"><img src="/favicon.svg?v=2026-11-18" width="40" height="40" alt="" /></span>
         <span class="brand-text">
-          <span class="brand-name">ProAppStore</span>
+          <span class="brand-name">Pro<span>App</span>Store</span>
           <span class="brand-tag">Premium Web Apps</span>
         </span>
       </a>
@@ -61,76 +59,82 @@
     </div>
   </header>
 
-  <main class="container">
+  <main class="container app-detail">
     <p class="breadcrumb"><a href="/">Apps</a> <span aria-hidden="true">&rsaquo;</span> Interns</p>
 
     <!-- Hero -->
     <div class="app-hero">
-      <div class="app-hero-icon" data-id="interns" style="background: #f5f3ff;">
-        <img src="https://proappstore.online/icon-512.png" alt="" onerror="this.style.display='none'" />
+      <div class="app-hero-icon" id="detailIcon" data-id="interns" style="background: #f5f3ff;">
+        <img id="detailIconImg" src="https://proappstore.online/icon-512.png" alt="" onerror="this.style.display='none'" />
         <span class="app-hero-letter" aria-hidden="true">I</span>
       </div>
       <div>
         <h1>Interns</h1>
-        <p class="app-hero-tagline">Internship management platform. Post positions, track applications, and manage cohorts.</p>
-        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem;">
-          <span class="tag">business</span>
+        <p class="app-hero-tagline" id="detailTagline">Internship management platform. Post positions, track applications, and manage cohorts.</p>
+        <div class="app-hero-row">
+          <span class="tag" id="detailCategory">business</span>
+          <span class="tag">Free</span>
         </div>
-        <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap;">
+        <div class="app-hero-row app-hero-actions">
           <a href="https://interns.proappstore.online" data-launch-link target="_blank" rel="noopener" class="btn-primary">Open app</a>
-          
-          <a href="/promoters?app=interns#choose" class="app-btn-secondary">Help promote Interns</a>
+          <a id="websiteButton" target="_blank" rel="noopener" class="app-btn-secondary" hidden>Website</a>
         </div>
       </div>
     </div>
 
-    <!-- App meta -->
+    <!-- Facts. Apps are free to users; an app may charge its own plans or per transaction. -->
     <div class="app-meta">
       <div class="app-meta-item">
-        <div class="label">Platform</div>
-        <div class="value">Web (any device)</div>
-      </div>
-      <div class="app-meta-item">
         <div class="label">Price</div>
-        <div class="value">$5/mo subscription</div>
+        <div class="value">Free</div>
       </div>
-      
       <div class="app-meta-item">
-        <div class="label">Subdomain</div>
-        <div class="value"><a href="https://interns.proappstore.online" data-launch-link target="_blank" rel="noopener" style="font-size: 0.85rem; word-break: break-all;">interns.proappstore.online</a></div>
+        <div class="label">Sign-in</div>
+        <div class="value">ProAppStore account</div>
+      </div>
+      <div class="app-meta-item">
+        <div class="label">App</div>
+        <div class="value"><a id="appLink" href="https://interns.proappstore.online" data-launch-link target="_blank" rel="noopener">interns.proappstore.online</a></div>
+      </div>
+      <div class="app-meta-item" id="websiteRow" hidden>
+        <div class="label">Website</div>
+        <div class="value"><a id="websiteLink" target="_blank" rel="noopener"></a></div>
       </div>
     </div>
+    <p class="app-price-note">Interns is free to open and use. Any paid plans or transaction fees are set by the app, not by ProAppStore.</p>
 
-    <!-- Pro features -->
+    <!-- Screenshots (from the creator's listing; hidden until detail-page.js has some) -->
+    <section class="app-section" id="screenshotsSection" hidden>
+      <h2>Screenshots</h2>
+      <div class="screenshots-rail" id="screenshotsRail"></div>
+    </section>
+
     <section class="app-section">
-      <h2>What you get</h2>
-      <div class="pro-features-grid"><div class="pro-feature-card"><span class="pro-feature-check">+</span> Post internship positions</div>
-        <div class="pro-feature-card"><span class="pro-feature-check">+</span> Application tracking and review</div>
-        <div class="pro-feature-card"><span class="pro-feature-check">+</span> Cohort management dashboard</div>
-        <div class="pro-feature-card"><span class="pro-feature-check">+</span> Intern progress tracking</div>
-        <div class="pro-feature-card"><span class="pro-feature-check">+</span> Mentor-intern matching</div>
-        <div class="pro-feature-card"><span class="pro-feature-check">+</span> Certificate generation</div></div>
+      <h2>Features</h2>
+      <ul class="pro-features-list"><li>Post internship positions</li><li>Application tracking and review</li><li>Cohort management dashboard</li><li>Intern progress tracking</li><li>Mentor-intern matching</li><li>Certificate generation</li></ul>
     </section>
 
     <!-- About -->
     <section class="app-section">
       <h2>About</h2>
-            <p style="color: var(--muted); line-height: 1.7; margin-top: 0.75rem;">Internship management platform. Post positions, track applications, and manage cohorts.</p>
-      <p style="color: var(--muted); line-height: 1.7; margin-top: 0.75rem;">
-        Interns is a Pro app on <a href="https://proappstore.online">ProAppStore</a>. It uses the
-        <a href="https://docs.proappstore.online/">ProAppStore SDK</a> for authentication, real-time features, and data storage.
-      </p>
+      <div class="detail-long" id="detailLongDescription">
+        <p>Internship management platform. Post positions, track applications, and manage cohorts.</p>
+      </div>
     </section>
 
-    <!-- Built with -->
-    <section class="app-section">
-      <h2>Built with</h2>
-      <div class="tech-list">
-        <div class="tech-item"><strong>ProAppStore SDK</strong><p>Auth, database, real-time rooms, storage</p></div>
-        <div class="tech-item"><strong>React + Vite</strong><p>Modern frontend toolchain</p></div>
-        <div class="tech-item"><strong>Cloudflare R2</strong><p>Edge hosting via the proappstore-host Worker</p></div>
-        <div class="tech-item"><strong>TypeScript</strong><p>Type-safe throughout</p></div>
-      </div>
+    <section class="app-section" id="permissionsSection" hidden>
+      <h2>Permissions</h2>
+      <ul class="pro-features-list" id="permissionsList"></ul>
+    </section>
+
+    <section class="app-section" id="infoSection" hidden>
+      <h2>Support and policies</h2>
+      <dl class="detail-info-grid">
+        <div class="detail-info-row" id="supportRow" hidden><dt>Support</dt><dd><a id="supportLink" target="_blank" rel="noopener"></a></dd></div>
+        <div class="detail-info-row" id="socialRow" hidden><dt>Social</dt><dd class="detail-social" id="socialLinks"></dd></div>
+        <div class="detail-info-row" id="privacyRow" hidden><dt>Privacy</dt><dd><a id="privacyLink" target="_blank" rel="noopener">Privacy policy</a></dd></div>
+        <div class="detail-info-row" id="termsRow" hidden><dt>Terms</dt><dd><a id="termsLink" target="_blank" rel="noopener">Terms of use</a></dd></div>
+      </dl>
     </section>
 
     <!-- Team (hydrated from the platform by team.js; nothing about the team is static) -->
@@ -176,21 +180,14 @@
       <p id="contributorsStatus" class="team-status" role="status">Loading public contributors…</p>
       <ul id="contributorsList" class="team-list" aria-label="Promotion contributors" hidden></ul>
       <button id="contributorsRetry" type="button" class="app-btn-secondary" hidden>Try again</button>
-      <p><a href="/promoters?app=interns#choose">Explore the promotion opportunity</a></p>
+      <p><a href="/promoters?app=interns#choose" class="app-btn-secondary">Help promote Interns</a></p>
     </section>
-
-    <!-- CTA -->
-    <div class="cta-box" style="border-color: color-mix(in srgb, var(--accent) 30%, transparent); background: var(--accent-soft);">
-      <h3 style="margin: 0 0 0.5rem; color: var(--ink);">Try Interns</h3>
-      <p style="color: var(--muted); margin-bottom: 0.75rem;">Sign in with your ProAppStore account and start using Interns immediately.</p>
-      <a href="https://interns.proappstore.online" data-launch-link target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none;">Open Interns</a>
-    </div>
   </main>
 
   <footer>
     <div class="container">
       <div class="footer-left">
-        <a href="/" class="logo">Pro <span>Apps</span></a>
+        <a href="/" class="logo" aria-label="ProAppStore">Pro<span>App</span>Store</a>
         <p>Premium apps for serious creators.</p>
       </div>
       <div class="footer-links">
@@ -211,9 +208,10 @@
     </div>
   </footer>
 
+  <script type="application/json" id="page-data">{"id":"interns"}</script>
   <script src="/theme.js" integrity="sha256-PsYPLIQlZkPHEV3pkzRdw50dwLPRT6jFHCfWWn2u3Zo="></script>
   <script src="/team.js" integrity="sha256-ERXyHAVmqqvJ/drkhbNzmjN139OM308jY8sZ9hatUgU="></script>
   <script src="/contributors.js" integrity="sha256-hfm+dIYF1DpMk0X4aRb6OTyG7fBk9ZY9owAzhff8ugM="></script>
-  <script src="/detail-page.js" integrity="sha256-4D8v2nC7sUiWUiTWSMB/Lug57D3C0EiTUSBD7ftddP8="></script>
+  <script src="/detail-page.js" integrity="sha256-cTj5iR72DlzbIyImOVoXlpw+dLg5Kwn3Cu+S0eg5gwQ="></script>
 </body>
 </html>

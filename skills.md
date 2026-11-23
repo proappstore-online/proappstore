@@ -151,7 +151,7 @@ await app.notifications.notifyUser('gh:123', {   // peer-to-peer (no creator che
 await app.sms.send('+15551234567', 'Your reservation is confirmed!')
 await app.sms.broadcast(['+15551234567', '+15559876543'], 'Meetup in 30 min!')
 
-// AI (Workers AI — server-side LLM + embeddings, included in subscription)
+// AI (Workers AI — server-side LLM + embeddings, free during the trial)
 const { text } = await app.ai.generate('Write a haiku about yoga')
 const { text } = await app.ai.generate('Summarize...', { model: 'smart' })  // 'fast' or 'smart'
 const { text } = await app.ai.chat([
@@ -332,7 +332,7 @@ import {
 <SubscriptionStatus app={app} />
 
 // Upgrade prompt card
-<UpgradeCard app={app} title="Go Pro" priceLabel="$5/month" features={['Cloud sync', 'AI', 'Support']} />
+<UpgradeCard app={app} title="Go Pro" priceLabel="Free during the trial" features={['Cloud sync', 'AI', 'Support']} />
 
 // Billing portal button
 <BillingButton app={app} variant="secondary" />
@@ -732,7 +732,7 @@ my-app/
 1. **One SDK import.** Use `@proappstore/sdk` — it includes all platform features.
 2. **ProShell or SDK components.** Use `<ProShell>` or individual `@proappstore/sdk/ui` components for auth/subscription UI. If an app needs primary navigation, use `renderTopbar` or `hideTopbar`; do not stack a second navbar below the default shell. No custom sign-in buttons.
 3. **No inline secrets.** Use `app.proxy.fetch()` for third-party APIs — it injects keys server-side.
-4. **No in-app payments.** Monetization is through the platform subscription only. Don't gate features behind separate payments.
+4. **No in-app payments for now.** ProAppStore is free during the trial and no subscription is needed. Paid plans set by apps may come later.
 5. **Mobile-first.** Test at 375px width. Touch targets ≥ 44px. No horizontal scroll.
 6. **Styling: Tailwind 4 utilities on PAS tokens** (ADR-011), in this order: (1) components for anything that repeats (`@proappstore/sdk/ui`, or app-local components); (2) Tailwind utilities on token colours (`text-ink bg-panel border-line`) written in the component's `className`; (3) `web/src/index.css` holds only `@import "tailwindcss"`, `@source`, the token blocks, `@theme` and `@layer base`/`@layer components` — no unlayered rules, no feature classes, no hex outside the token blocks. Your palette lives in the **values** of the tokens (`--accent: #d86f4d`); migrating to this model changes how tokens are used, never what they are set to.
 
@@ -765,7 +765,7 @@ my-app/
 - **Do NOT import `@freeappstore/sdk` directly.** `@proappstore/sdk` includes everything.
 - **Do NOT build custom auth logic.** Use SDK components/hooks (`ProShell`, `ProfileMenu`, `SignInButton`, `useProAuth`). Custom app navigation is fine when it reuses SDK account controls.
 - **Do NOT add tracking.** No GA, no pixels, no third-party analytics.
-- **Do NOT gate features behind payments.** Platform subscription covers everything.
+- **Do NOT gate features behind payments.** ProAppStore is free during the trial.
 
 ---
 
