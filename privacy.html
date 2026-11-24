@@ -89,6 +89,15 @@
         <li><strong>Usage reporting</strong> — Coarse usage counts (session-minutes, API calls per app per day) help operate the platform and may support creator reporting. See below.</li>
       </ul>
 
+      <h2 id="phone-app">ProAppStore phone app (Android and iPhone)</h2>
+      <p>The ProAppStore phone app lets the PAS apps you choose receive data from your phone while those apps are closed. It collects nothing for an app until you turn that app on in the phone app.</p>
+      <p><strong>When you connect the phone app</strong> we store your PAS account (you sign in with Google or GitHub in your browser, as on the web), your phone's maker and model as a device label (for example "Google Pixel 8"), and a hash of a random connection key that only your phone keeps. The connection expires after 90 days unless you reconnect.</p>
+      <p><strong>Location.</strong> For each app you turn on, ProAppStore collects your phone's precise location during a sharing session you start in the phone app, including while your phone is locked and ProAppStore and that app are closed. A session ends when you tap Stop, after 30 minutes without moving, or after 12 hours. These apps can receive it today: Ski (records your ski routes), Run (records your runs and walks) and Rideshare (shows dispatch and your rider where you are while you drive). The phone app shows each app's own explanation before you turn it on.</p>
+      <p><strong>Who receives it.</strong> Location goes to ProAppStore and only to the apps you turned on, for your account. An app shares it further only as its explanation says (for example, Rideshare shows a driver's position to their rider). We never sell it or use it for advertising.</p>
+      <p><strong>How long we keep it.</strong> Location on our servers: 7 days, then deleted. Anything an app saved from it (for example a run you saved) stays in that app until you delete it there.</p>
+      <p><strong>On your phone.</strong> The phone app keeps a 30-day history of what it shared and when, so you can see it. That history never leaves the phone, is excluded from backups, and is deleted by Clear sharing history or Disconnect this phone.</p>
+      <p><strong>Your controls.</strong> Stop sharing for one app or for all of them (also from the notification); turn an app off; Clear sharing history; and Disconnect this phone, which deletes the phone's queued data and our copies of its location. You can also withdraw location permission in your phone's settings. All transfers use HTTPS.</p>
+
       <h2 id="google-data">Google Calendar and Meet Connections</h2>
       <p>Some Pro apps offer an optional Google Calendar and Meet connection, for example to show meeting attendance. When you connect your Google account, ProAppStore requests read-only access to your calendar list, calendar events, and Google Meet spaces and conference records, alongside your Google account ID and email address.</p>
       <ul>
@@ -99,7 +108,7 @@
       <p>ProAppStore's use and transfer of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including its Limited Use requirements. Google user data is used to provide the connected features you authorize, and is not sold, used for advertising, or used to train generalized AI or machine-learning models.</p>
 
       <h2 id="usage-analytics">Usage Analytics</h2>
-      <p>ProAppStore is a single subscription that unlocks every Pro app. We keep coarse per-app usage counts so the platform can operate, debug capacity, and support creator-facing reporting without tracking detailed behavior.</p>
+      <p>We keep coarse per-app usage counts so the platform can operate, debug capacity, and support creator-facing reporting without tracking detailed behavior.</p>
       <p>What we record, while you're signed in and a Pro app is the focused tab:</p>
       <ul>
         <li>A heartbeat every 60 seconds from <code>@proappstore/sdk</code>, bumping a counter on (app, your user id, day in UTC).</li>
@@ -119,13 +128,18 @@
         <li><strong>Stripe</strong> receives the payout amount, not the underlying usage data, when the monthly payout runs.</li>
         <li><strong>No one else.</strong> We don't sell, share, or use usage data for advertising.</li>
       </ul>
-      <p>Usage heartbeats stop when you sign out. To request deletion of existing usage data, contact us as described under Data Deletion. Free apps are also available where applicable on <a href="https://freeappstore.online">FreeAppStore</a>.</p>
+      <p>Usage heartbeats stop when you sign out. To request deletion of existing usage data, contact us as described under <a href="#data-deletion">Delete your ProAppStore account</a>. Free apps are also available where applicable on <a href="https://freeappstore.online">FreeAppStore</a>.</p>
 
       <h2>Data Storage</h2>
       <p>Platform data is stored on Cloudflare's global network (D1 databases, R2 storage, KV). Data is encrypted at rest by Cloudflare. We use Stripe for payment processing and GitHub or Google for sign-in. Optional Google connections share the selected records with the app you authorize as described above.</p>
 
-      <h2 id="data-deletion">Data Deletion</h2>
-      <p>To request deletion of your platform account or stored platform data, email <a href="mailto:serge.the.dev@gmail.com">serge.the.dev@gmail.com</a>. The current <a href="https://dashboard.proappstore.online">Dashboard</a> clear-data action clears its own app KV data and signs you out; it does not delete your platform account, other apps' records, uploaded files, or subscription records. For data retained by a particular app or organization, contact its operator. Disconnecting Google stops future connector access as described above, but does not automatically erase previously saved records.</p>
+      <h2 id="data-deletion">Delete your ProAppStore account</h2>
+      <p>You can ask us to delete your ProAppStore account and its data at any time.</p>
+      <ol>
+        <li><strong>On your phone (optional, immediate):</strong> in the ProAppStore app, open Settings &rarr; Disconnect this phone. This deletes the phone's connection and our copies of its location straight away.</li>
+        <li><strong>Ask us to delete your account:</strong> email <a href="mailto:serge.the.dev@gmail.com?subject=Delete%20my%20ProAppStore%20account">serge.the.dev@gmail.com</a> from the address on your Google or GitHub account, with the subject "Delete my ProAppStore account". If your sign-in has no email, include the name shown in the phone app's Settings.</li>
+      </ol>
+      <p>We confirm your request and complete the deletion within 30 days. We delete your account and sign-in identity, the data PAS apps store for you on the platform (app data, files, settings), your phone connections and their data, and your usage counts. We keep the payment and tax records that the law requires, which are held by Stripe. Data an app keeps outside the platform is deleted by that app; each app's own "Delete my account" removes your data in that app only.</p>
 
       <h2>Cookies</h2>
       <p>We use a single session cookie for authentication. No tracking cookies, no analytics cookies, no third-party cookies.</p>
