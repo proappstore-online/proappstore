@@ -541,6 +541,25 @@
       "appUrl": "https://spending.proappstore.online",
       "hostedOn": "r2",
       "type": "connected"
+    },
+    {
+      "id": "rideshare",
+      "name": "Rideshare",
+      "category": "travel",
+      "icon": "&#8599;",
+      "iconBg": "#e6f2ec",
+      "description": "Book a ride now, reserve one for later, or set up a recurring routine. Pick your pickup on the map, compare live quotes, and follow your driver on the road route.",
+      "appUrl": "https://rideshare.proappstore.online",
+      "hostedOn": "r2",
+      "type": "connected",
+      "proFeatures": [
+        "Ride now, later, or on a routine",
+        "Pickup pinned on a map from your location",
+        "Live fare quotes per ride type",
+        "Driver app with road routing and navigation",
+        "Live trip tracking and safety tools",
+        "Receipts, refunds and ops console"
+      ]
     }
   ]
 }
